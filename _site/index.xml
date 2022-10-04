@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>MyYearInData</title>
+<link>MyYearindata.com/index.html</link>
+<atom:link href="MyYearindata.com/index.xml" rel="self" type="application/rss+xml"/>
+<description>Exploration and analysis of Technical topics in the world of data</description>
+<generator>quarto-1.0.36</generator>
+<lastBuildDate>Thu, 22 Sep 2022 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>Back to the Data</title>
+  <dc:creator>Scott Bell</dc:creator>
+  <link>MyYearindata.com/posts/welcome/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Welcome back to a long overdue blog rebuild. I’ve attempted to rebuild this blog 3 times so far in the last 3 years. So finally I have finished it (if you’re reading this).</p>
+<p>A lot has happened in the last few years but first I want to just get on with writing code and analysing data.</p>
+<p>If you’re not familar yet, I run a (sometimes daily) Databricks Tips, tricks and hacks twitter account. That is followed by quite a few databricks people. I would recommend following it or signing up the even less frequent newsletter :)</p>
+
+
+
+ ]]></description>
+  <category>news</category>
+  <guid>MyYearindata.com/posts/welcome/index.html</guid>
+  <pubDate>Thu, 22 Sep 2022 23:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

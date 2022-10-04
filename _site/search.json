@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This blog is run by Scott Bell who is currently a Databricks SME at Avanade. His background is Data Engineering, Architecture and Data Science.\nI write a few other places, the DailyDatabricks Twitter and my codementor blog\nThe Aim of this blog is to capture knowledge on technical subjects while also allowing for interesting and often pointless data exploration.\nIt’s supposed to be fun, that is all!"
+  },
+  {
+    "objectID": "about.html#education",
+    "href": "about.html#education",
+    "title": "About",
+    "section": "Education",
+    "text": "Education\nUniversity of Lincoln Masters of Computing Science | Sep 2015- June 2016\nUniversity of Lincoln Batchlors of Computer Science | Sep 2012 - June 2015"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nSep 23, 2022\n\n\nScott Bell\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Back to the Data",
+    "section": "",
+    "text": "A lot has happened in the last few years but first I want to just get on with writing code and analysing data.\nIf you’re not familar yet, I run a (sometimes daily) Databricks Tips, tricks and hacks twitter account. That is followed by quite a few databricks people. I would recommend following it or signing up the even less frequent newsletter :)"
+  }
+]
