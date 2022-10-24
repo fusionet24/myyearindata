@@ -12,17 +12,68 @@
 <generator>quarto-1.0.36</generator>
 <lastBuildDate>Sun, 23 Oct 2022 23:00:00 GMT</lastBuildDate>
 <item>
-  <title></title>
+  <title>Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities</title>
   <dc:creator>Scott Bell</dc:creator>
-  <link>MyYearindata.com/</link>
-  <description></description>
+  <link>MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Recently, I encountered an issue where we had to copy data from one Azure SQL database to another using Azure Data Factory (ADF) V2. The entire process was dynamic using parameters to select a table to be copied to the target database. A simple enough problem, right?</p>
+<p>Well no, firstly the table definition existed in the target DB, which given that it was a direct copy of the data shouldn’t pose a problem. However, <strong>the table definition contained</strong> <a href="https://learn.microsoft.com/en-us/sql/relational-databases/tables/specify-computed-columns-in-a-table?view=sql-server-ver16">calculated columns</a> <strong>to capture the date of ingestion</strong>.</p>
+</section>
+<section id="problem" class="level2">
+<h2 class="anchored" data-anchor-id="problem">Problem</h2>
+<blockquote class="blockquote">
+<p>So now the problem becomes, <strong>“How do I exclude columns from an ADF Copy Activity based upon their metadata properties?”</strong></p>
+</blockquote>
+<p>The first thing that comes to mind is <a href="https://learn.microsoft.com/en-us/azure/data-factory/connector-azure-sql-database?tabs=data-factory#getmetadata-activity-properties">GET Metadata activity in ADF</a>. Sadly that doesn’t have sufficient detail about the column definitions.</p>
+<p>The next thought was the <a href="https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-columns-transact-sql?view=sql-server-ver16">stored procedure sp_columns</a> which returns metadata about columns and is a tool I’d imagine almost all data engineers use in the their SQL development workflow. So that’s what I did, using the (relatively) new <a href="https://learn.microsoft.com/en-us/azure/data-factory/transform-data-using-script">script activity</a> in ADF.</p>
+</section>
+<section id="solution" class="level2">
+<h2 class="anchored" data-anchor-id="solution">Solution</h2>
+<p>The pipeline used to achieve this can be found here for reference. (note linked services and datasets etc are omitted)</p>
+<p>The pipeline has 3 main components:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/adf-pipeline-archotecture.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">ADF Pipeline Architecture</figcaption><p></p>
+</figure>
+</div>
+<ol type="1">
+<li>The Script Activity which takes the pipeline parameter and concats sp_columns with it to retrieve table metadata like <code>@concat('sp_columns ',pipeline().parameters.param_table)</code></li>
+</ol>
+<p>The resulting output is json that has the following structure</p>
+<p><strong>Note :</strong>the other metadata here so this approach may have merits for other column property driven processes you need in ADF.</p>
+<p>For our uses we should focus on the <strong>COLUMN_DEF</strong> property which should this be a computed column then <strong>would contain an expression and not be null!</strong></p>
+<ol start="2" type="1">
+<li>For each entry in resultsSets[0].rows we need to iterate through them and find every column where no column_def exists which will allow us to only include the relevant columns. For this purpose we have created a pipeline variable called <em>selected_columns</em> of type array. We pass that into the items property to iterate <code>@activity('Get Column Metadata').output.resultSets[0].rows</code></li>
+</ol>
+<p>Inside the for each we have an If statement that checks the above condition <code>@equals(item().COLUMN_DEF, null)</code> and returns true when column def is null. Which then uses the <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-append-variable-activity">append variable activity</a> to <strong>add the column to our selected_columns array</strong></p>
+<p><img src="MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/adf-for-each-activity-detail.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>Finally, we that in our copy activity to build a dynamic select query by converting the array to a , separated string with the <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-expression-language-functions">join() function</a>. Our ADF expression looks like <code>@concat('select ', join(variables('selected_columns'),','), ' from ', pipeline().parameters.param_table)</code></li>
+</ol>
+<p><img src="MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/adf-copy-activity-query.png" class="img-fluid"></p>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<script src="https://gist.github.com/fusionet24/9de7963439d117c96a82c34054277a37.js"></script>
+
+
+</section>
+
+ ]]></description>
   <category>azure</category>
   <category>adf</category>
   <category>data factory</category>
   <category>sql</category>
-  <guid>MyYearindata.com/</guid>
+  <guid>MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html</guid>
   <pubDate>Sun, 23 Oct 2022 23:00:00 GMT</pubDate>
-  <media:content url="MyYearindata.com/posts/deploying-azure-static-web-app-based-quarto-blog - Copy/adf-pipeline-archotecture.png" medium="image" type="image/png"/>
+  <media:content url="MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/adf-pipeline-archotecture.png" medium="image" type="image/png" height="68" width="144"/>
 </item>
 <item>
   <title>Back to the Data</title>

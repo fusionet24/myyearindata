@@ -1,0 +1,90 @@
+---
+title: "Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities "
+author: "Scott Bell"
+date: "2022-10-24"
+draft: false
+categories: 
+  - azure
+  - adf
+  - data factory
+  - sql
+---
+
+## Introduction
+
+Recently, I encountered an issue where we had to copy data from one Azure SQL database to another using Azure Data Factory (ADF) V2. The entire process was dynamic using parameters to select a table to be copied to the target database. A simple enough problem, right?
+
+Well no, firstly the table definition existed in the target DB, which given that it was a direct copy of the data shouldn't pose a problem. However, **the table definition contained** [calculated columns](https://learn.microsoft.com/en-us/sql/relational-databases/tables/specify-computed-columns-in-a-table?view=sql-server-ver16) **to capture the date of ingestion**.
+
+## Problem
+
+> So now the problem becomes, **"How do I exclude columns from an ADF Copy Activity based upon their metadata properties?"**
+
+The first thing that comes to mind is [GET Metadata activity in ADF](https://learn.microsoft.com/en-us/azure/data-factory/connector-azure-sql-database?tabs=data-factory#getmetadata-activity-properties). Sadly that doesn't have sufficient detail about the column definitions.
+
+The next thought was the [stored procedure sp_columns](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-columns-transact-sql?view=sql-server-ver16) which returns metadata about columns and is a tool I'd imagine almost all data engineers use in the their SQL development workflow. So that's what I did, using the (relatively) new [script activity](https://learn.microsoft.com/en-us/azure/data-factory/transform-data-using-script) in ADF.
+
+## Solution
+
+The pipeline used to achieve this can be found here for reference. (note linked services and datasets etc are omitted)
+
+The pipeline has 3 main components:
+
+![ADF Pipeline Architecture](adf-pipeline-archotecture.png){fig-align="center"}
+
+1.  The Script Activity which takes the pipeline parameter and concats sp_columns with it to retrieve table metadata like `@concat('sp_columns ',pipeline().parameters.param_table)`
+
+The resulting output is json that has the following structure
+
+```{=json}
+{
+    "resultSetCount": 1,
+    "recordsAffected": 0,
+    "resultSets": [
+        {
+            "rowCount": <INT>,
+            "rows": [
+                {
+                    "TABLE_QUALIFIER": <DATABASE>,
+                    "TABLE_OWNER": <SCHEMA>,
+                    "TABLE_NAME": <TABLE_NAME>,
+                    "COLUMN_NAME": <COLUMN_NAME>,
+                    "DATA_TYPE": 4,
+                    "TYPE_NAME": "int",
+                    "PRECISION": 10,
+                    "LENGTH": 4,
+                    "SCALE": 0,
+                    "RADIX": 10,
+                    "NULLABLE": 0,
+                    "REMARKS": null,
+                    "COLUMN_DEF": null,
+                    "SQL_DATA_TYPE": 4,
+                    "SQL_DATETIME_SUB": null,
+                    "CHAR_OCTET_LENGTH": null,
+                    "ORDINAL_POSITION": 1,
+                    "IS_NULLABLE": "NO",
+                    "SS_DATA_TYPE": 56
+                },
+                {<continued for every column. ...>} }
+    ]
+}
+```
+**Note :**the other metadata here so this approach may have merits for other column property driven processes you need in ADF.
+
+For our uses we should focus on the **COLUMN_DEF** property which should this be a computed column then **would contain an expression and not be null!**
+
+2.  For each entry in resultsSets\[0\].rows we need to iterate through them and find every column where no column_def exists which will allow us to only include the relevant columns. For this purpose we have created a pipeline variable called *selected_columns* of type array. We pass that into the items property to iterate `@activity('Get Column Metadata').output.resultSets[0].rows`
+
+Inside the for each we have an If statement that checks the above condition `@equals(item().COLUMN_DEF, null)` and returns true when column def is null. Which then uses the [append variable activity](https://learn.microsoft.com/en-us/azure/data-factory/control-flow-append-variable-activity) to **add the column to our selected_columns array**
+
+![](adf-for-each-activity-detail.png)
+
+3. Finally, we that in our copy activity to build a dynamic select query by converting the array to a , separated string with the [join() function](https://learn.microsoft.com/en-us/azure/data-factory/control-flow-expression-language-functions). Our ADF expression looks like `@concat('select ', join(variables('selected_columns'),','), ' from ', pipeline().parameters.param_table)`
+
+![](adf-copy-activity-query.png)
+
+## Code
+
+```{=html}
+<script src="https://gist.github.com/fusionet24/9de7963439d117c96a82c34054277a37.js"></script>
+```
