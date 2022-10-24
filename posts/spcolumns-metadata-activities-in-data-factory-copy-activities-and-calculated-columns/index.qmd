@@ -26,7 +26,7 @@ The next thought was the [stored procedure sp_columns](https://learn.microsoft.c
 
 ## Solution
 
-The pipeline used to achieve this can be found here for reference. (note linked services and datasets etc are omitted)
+The pipeline used to achieve this can be found at the bottom of this post for reference. (note linked services and datasets etc are omitted)
 
 The pipeline has 3 main components:
 
@@ -36,7 +36,7 @@ The pipeline has 3 main components:
 
 The resulting output is json that has the following structure
 
-```{=json}
+``` json
 {
     "resultSetCount": 1,
     "recordsAffected": 0,
@@ -69,6 +69,7 @@ The resulting output is json that has the following structure
     ]
 }
 ```
+
 **Note :**the other metadata here so this approach may have merits for other column property driven processes you need in ADF.
 
 For our uses we should focus on the **COLUMN_DEF** property which should this be a computed column then **would contain an expression and not be null!**
@@ -79,7 +80,7 @@ Inside the for each we have an If statement that checks the above condition `@eq
 
 ![](adf-for-each-activity-detail.png)
 
-3. Finally, we that in our copy activity to build a dynamic select query by converting the array to a , separated string with the [join() function](https://learn.microsoft.com/en-us/azure/data-factory/control-flow-expression-language-functions). Our ADF expression looks like `@concat('select ', join(variables('selected_columns'),','), ' from ', pipeline().parameters.param_table)`
+3.  Finally, we that in our copy activity to build a dynamic select query by converting the array to a , separated string with the [join() function](https://learn.microsoft.com/en-us/azure/data-factory/control-flow-expression-language-functions). Our ADF expression looks like `@concat('select ', join(variables('selected_columns'),','), ' from ', pipeline().parameters.param_table)`
 
 ![](adf-copy-activity-query.png)
 

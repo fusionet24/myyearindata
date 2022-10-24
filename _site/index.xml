@@ -35,7 +35,7 @@
 </section>
 <section id="solution" class="level2">
 <h2 class="anchored" data-anchor-id="solution">Solution</h2>
-<p>The pipeline used to achieve this can be found here for reference. (note linked services and datasets etc are omitted)</p>
+<p>The pipeline used to achieve this can be found at the bottom of this post for reference. (note linked services and datasets etc are omitted)</p>
 <p>The pipeline has 3 main components:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -47,6 +47,37 @@
 <li>The Script Activity which takes the pipeline parameter and concats sp_columns with it to retrieve table metadata like <code>@concat('sp_columns ',pipeline().parameters.param_table)</code></li>
 </ol>
 <p>The resulting output is json that has the following structure</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><span class="fu" style="color: #4758AB;">{</span></span>
+<span id="cb1-2">    <span class="dt" style="color: #AD0000;">"resultSetCount"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">1</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-3">    <span class="dt" style="color: #AD0000;">"recordsAffected"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">0</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-4">    <span class="dt" style="color: #AD0000;">"resultSets"</span><span class="fu" style="color: #4758AB;">:</span> <span class="ot" style="color: #003B4F;">[</span></span>
+<span id="cb1-5">        <span class="fu" style="color: #4758AB;">{</span></span>
+<span id="cb1-6">            <span class="dt" style="color: #AD0000;">"rowCount"</span><span class="fu" style="color: #4758AB;">:</span> <span class="er" style="color: #AD0000;">&lt;INT&gt;</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-7">            <span class="dt" style="color: #AD0000;">"rows"</span><span class="fu" style="color: #4758AB;">:</span> <span class="ot" style="color: #003B4F;">[</span></span>
+<span id="cb1-8">                <span class="fu" style="color: #4758AB;">{</span></span>
+<span id="cb1-9">                    <span class="dt" style="color: #AD0000;">"TABLE_QUALIFIER"</span><span class="fu" style="color: #4758AB;">:</span> <span class="er" style="color: #AD0000;">&lt;DATABASE&gt;</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-10">                    <span class="dt" style="color: #AD0000;">"TABLE_OWNER"</span><span class="fu" style="color: #4758AB;">:</span> <span class="er" style="color: #AD0000;">&lt;SCHEMA&gt;</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-11">                    <span class="dt" style="color: #AD0000;">"TABLE_NAME"</span><span class="fu" style="color: #4758AB;">:</span> <span class="er" style="color: #AD0000;">&lt;TABLE_NAME&gt;</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-12">                    <span class="dt" style="color: #AD0000;">"COLUMN_NAME"</span><span class="fu" style="color: #4758AB;">:</span> <span class="er" style="color: #AD0000;">&lt;COLUMN_NAME&gt;</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-13">                    <span class="dt" style="color: #AD0000;">"DATA_TYPE"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">4</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-14">                    <span class="dt" style="color: #AD0000;">"TYPE_NAME"</span><span class="fu" style="color: #4758AB;">:</span> <span class="st" style="color: #20794D;">"int"</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-15">                    <span class="dt" style="color: #AD0000;">"PRECISION"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">10</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-16">                    <span class="dt" style="color: #AD0000;">"LENGTH"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">4</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-17">                    <span class="dt" style="color: #AD0000;">"SCALE"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">0</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-18">                    <span class="dt" style="color: #AD0000;">"RADIX"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">10</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-19">                    <span class="dt" style="color: #AD0000;">"NULLABLE"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">0</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-20">                    <span class="dt" style="color: #AD0000;">"REMARKS"</span><span class="fu" style="color: #4758AB;">:</span> <span class="kw" style="color: #003B4F;">null</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-21">                    <span class="dt" style="color: #AD0000;">"COLUMN_DEF"</span><span class="fu" style="color: #4758AB;">:</span> <span class="kw" style="color: #003B4F;">null</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-22">                    <span class="dt" style="color: #AD0000;">"SQL_DATA_TYPE"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">4</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-23">                    <span class="dt" style="color: #AD0000;">"SQL_DATETIME_SUB"</span><span class="fu" style="color: #4758AB;">:</span> <span class="kw" style="color: #003B4F;">null</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-24">                    <span class="dt" style="color: #AD0000;">"CHAR_OCTET_LENGTH"</span><span class="fu" style="color: #4758AB;">:</span> <span class="kw" style="color: #003B4F;">null</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-25">                    <span class="dt" style="color: #AD0000;">"ORDINAL_POSITION"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">1</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-26">                    <span class="dt" style="color: #AD0000;">"IS_NULLABLE"</span><span class="fu" style="color: #4758AB;">:</span> <span class="st" style="color: #20794D;">"NO"</span><span class="fu" style="color: #4758AB;">,</span></span>
+<span id="cb1-27">                    <span class="dt" style="color: #AD0000;">"SS_DATA_TYPE"</span><span class="fu" style="color: #4758AB;">:</span> <span class="dv" style="color: #AD0000;">56</span></span>
+<span id="cb1-28">                <span class="fu" style="color: #4758AB;">}</span><span class="ot" style="color: #003B4F;">,</span></span>
+<span id="cb1-29">                <span class="fu" style="color: #4758AB;">{</span><span class="er" style="color: #AD0000;">&lt;continued</span> <span class="er" style="color: #AD0000;">for</span> <span class="er" style="color: #AD0000;">every</span> <span class="er" style="color: #AD0000;">column.</span> <span class="er" style="color: #AD0000;">...&gt;</span><span class="fu" style="color: #4758AB;">}</span> <span class="er" style="color: #AD0000;">}</span></span>
+<span id="cb1-30">    <span class="ot" style="color: #003B4F;">]</span></span>
+<span id="cb1-31"><span class="fu" style="color: #4758AB;">}</span></span></code></pre></div>
 <p><strong>Note :</strong>the other metadata here so this approach may have merits for other column property driven processes you need in ADF.</p>
 <p>For our uses we should focus on the <strong>COLUMN_DEF</strong> property which should this be a computed column then <strong>would contain an expression and not be null!</strong></p>
 <ol start="2" type="1">
