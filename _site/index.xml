@@ -10,7 +10,20 @@
 <atom:link href="MyYearindata.com/index.xml" rel="self" type="application/rss+xml"/>
 <description>Exploration and analysis of Technical topics in the world of data</description>
 <generator>quarto-1.0.36</generator>
-<lastBuildDate>Thu, 22 Sep 2022 23:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 23 Oct 2022 23:00:00 GMT</lastBuildDate>
+<item>
+  <title></title>
+  <dc:creator>Scott Bell</dc:creator>
+  <link>MyYearindata.com/</link>
+  <description></description>
+  <category>azure</category>
+  <category>adf</category>
+  <category>data factory</category>
+  <category>sql</category>
+  <guid>MyYearindata.com/</guid>
+  <pubDate>Sun, 23 Oct 2022 23:00:00 GMT</pubDate>
+  <media:content url="MyYearindata.com/posts/deploying-azure-static-web-app-based-quarto-blog - Copy/adf-pipeline-archotecture.png" medium="image" type="image/png"/>
+</item>
 <item>
   <title>Back to the Data</title>
   <dc:creator>Scott Bell</dc:creator>

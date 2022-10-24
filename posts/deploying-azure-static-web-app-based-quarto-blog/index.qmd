@@ -1,0 +1,26 @@
+---
+title: "How to deploy Quarto Blog to Azure Static Web Apps"
+author: "Scott Bell"
+date: "2022-10-07"
+draft: true
+categories: 
+  - azure
+  - quarto 
+  - github 
+---
+
+## The Setup
+
+Building this blog has been quite fun. I knew when I built my new blog I didn't want to use wordpress or any other blog CMS. I wanted it to be in markdown and in code. This isn't a pedantic point, it allows me to execute real code in blog posts, building really cohesive content and supporting the weird and wonderful ideas I have.
+
+I choose [Quarto](https://quarto.org/) to achieve this. I have used RMarkdown (Quarto's predecessor) quite a bit and planned to use it to write a book someday.
+
+> Quarto^®^ is an open-source scientific and technical publishing system built on [Pandoc](https://pandoc.org/)
+
+So with this choice selected, I knew I needed to host the static output somewhere. The Quarto page has some good guides on using popular frameworks like Netify or Github Pages but I wanted to use Azure.
+
+[With Azure accounts you get a free **Static Web App**](https://azure.microsoft.com/en-us/pricing/details/app-service/static/)with 100GBs of free Bandwidth! So with this in mind I figured that I could deploy here and run a relatively free website.
+
+## Important concepts
+
+Quarto renders your website projects via your QMD documents. You can easily setup Quarto by following the docs (or my preferred opinion)

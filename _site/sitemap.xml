@@ -2,14 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>MyYearindata.com/about.html</loc>
-    <lastmod>2022-10-04T22:08:20.562Z</lastmod>
+    <lastmod>2022-10-24T15:01:13.580Z</lastmod>
   </url>
   <url>
     <loc>MyYearindata.com/index.html</loc>
-    <lastmod>2022-10-04T22:08:23.033Z</lastmod>
+    <lastmod>2022-10-24T15:04:34.926Z</lastmod>
+  </url>
+  <url>
+    <loc>MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html</loc>
+    <lastmod>2022-10-24T15:02:01.909Z</lastmod>
   </url>
   <url>
     <loc>MyYearindata.com/posts/welcome/index.html</loc>
-    <lastmod>2022-10-04T22:08:29.793Z</lastmod>
+    <lastmod>2022-10-24T15:02:10.038Z</lastmod>
+  </url>
+  <url>
+    <loc>MyYearindata.com/talks.html</loc>
+    <lastmod>2022-10-24T15:02:18.055Z</lastmod>
   </url>
 </urlset>

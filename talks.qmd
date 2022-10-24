@@ -1,0 +1,26 @@
+---
+title: "Talks"
+image: presentation.jpg
+about:
+  template: marquee
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/fusionet24
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/scottjamesbell
+    - icon: github
+      text: Github
+      href: https://github.com/fusionet24
+---
+
+Scott has talked at several different events and venues during my career. From regular internal knowledge share sessions to talks at the big industry events. Below is an extract of talks that I feel are valuable to share. As with everything, I'm always learning and growing so not ever session is shared here. Only the ones that I feel represent a good overview of current topics.
+
+### Azure & Power Platform
+
+### Databricks
+
+### R
+
+### Misc

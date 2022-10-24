@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Scott Bell">
-<meta name="dcterms.date" content="2022-10-07">
+<meta name="dcterms.date" content="2022-10-24">
 
-<title>MyYearInData - How to deploy Quarto Blog to Azure Static Web Apps</title>
+<title>MyYearInData - Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,11 +108,12 @@ ul.task-list{list-style: none;}
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">How to deploy Quarto Blog to Azure Static Web Apps</h1>
+      <h1 class="title">Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">azure</div>
-                <div class="quarto-category">quarto</div>
-                <div class="quarto-category">github</div>
+                <div class="quarto-category">adf</div>
+                <div class="quarto-category">data factory</div>
+                <div class="quarto-category">sql</div>
               </div>
                   </div>
   </div>
@@ -130,7 +131,7 @@ ul.task-list{list-style: none;}
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 7, 2022</p>
+        <p class="date">October 24, 2022</p>
       </div>
     </div>
       
@@ -147,19 +148,48 @@ ul.task-list{list-style: none;}
 
 
 
-<section id="the-setup" class="level2">
-<h2 class="anchored" data-anchor-id="the-setup">The Setup</h2>
-<p>Building this blog has been quite fun. I knew when I built my new blog I didn’t want to use wordpress or any other blog CMS. I wanted it to be in markdown and in code. This isn’t a pedantic point, it allows me to execute real code in blog posts, building really cohesive content and supporting the weird and wonderful ideas I have.</p>
-<p>I choose <a href="https://quarto.org/">Quarto</a> to achieve this. I have used RMarkdown (Quarto’s predecessor) quite a bit and planned to use it to write a book someday.</p>
-<blockquote class="blockquote">
-<p>Quarto<sup>®</sup> is an open-source scientific and technical publishing system built on <a href="https://pandoc.org/">Pandoc</a></p>
-</blockquote>
-<p>So with this choice selected, I knew I needed to host the static output somewhere. The Quarto page has some good guides on using popular frameworks like Netify or Github Pages but I wanted to use Azure.</p>
-<p><a href="https://azure.microsoft.com/en-us/pricing/details/app-service/static/">With Azure accounts you get a free <strong>Static Web App</strong></a>with 100GBs of free Bandwidth! So with this in mind I figured that I could deploy here and run a relatively free website.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Recently, I encountered an issue where we had to copy data from one Azure SQL database to another using Azure Data Factory (ADF) V2. The entire process was dynamic using parameters to select a table to be copied to the target database. A simple enough problem, right?</p>
+<p>Well no, firstly the table definition existed in the target DB, which given that it was a direct copy of the data shouldn’t pose a problem. However, <strong>the table definition contained</strong> <a href="https://learn.microsoft.com/en-us/sql/relational-databases/tables/specify-computed-columns-in-a-table?view=sql-server-ver16">calculated columns</a> <strong>to capture the date of ingestion</strong>.</p>
 </section>
-<section id="important-concepts" class="level2">
-<h2 class="anchored" data-anchor-id="important-concepts">Important concepts</h2>
-<p>Quarto renders your website projects via your QMD documents. You can easily setup Quarto by following the docs (or my preferred opinion)</p>
+<section id="problem" class="level2">
+<h2 class="anchored" data-anchor-id="problem">Problem</h2>
+<blockquote class="blockquote">
+<p>So now the problem becomes, <strong>“How do I exclude columns from an ADF Copy Activity based upon their metadata properties?”</strong></p>
+</blockquote>
+<p>The first thing that comes to mind is <a href="https://learn.microsoft.com/en-us/azure/data-factory/connector-azure-sql-database?tabs=data-factory#getmetadata-activity-properties">GET Metadata activity in ADF</a>. Sadly that doesn’t have sufficient detail about the column definitions.</p>
+<p>The next thought was the <a href="https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-columns-transact-sql?view=sql-server-ver16">stored procedure sp_columns</a> which returns metadata about columns and is a tool I’d imagine almost all data engineers use in the their SQL development workflow. So that’s what I did, using the (relatively) new <a href="https://learn.microsoft.com/en-us/azure/data-factory/transform-data-using-script">script activity</a> in ADF.</p>
+</section>
+<section id="solution" class="level2">
+<h2 class="anchored" data-anchor-id="solution">Solution</h2>
+<p>The pipeline used to achieve this can be found here for reference. (note linked services and datasets etc are omitted)</p>
+<p>The pipeline has 3 main components:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="adf-pipeline-archotecture.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">ADF Pipeline Architecture</figcaption><p></p>
+</figure>
+</div>
+<ol type="1">
+<li>The Script Activity which takes the pipeline parameter and concats sp_columns with it to retrieve table metadata like <code>@concat('sp_columns ',pipeline().parameters.param_table)</code></li>
+</ol>
+<p>The resulting output is json that has the following structure</p>
+<p><strong>Note :</strong>the other metadata here so this approach may have merits for other column property driven processes you need in ADF.</p>
+<p>For our uses we should focus on the <strong>COLUMN_DEF</strong> property which should this be a computed column then <strong>would contain an expression and not be null!</strong></p>
+<ol start="2" type="1">
+<li>For each entry in resultsSets[0].rows we need to iterate through them and find every column where no column_def exists which will allow us to only include the relevant columns. For this purpose we have created a pipeline variable called <em>selected_columns</em> of type array. We pass that into the items property to iterate <code>@activity('Get Column Metadata').output.resultSets[0].rows</code></li>
+</ol>
+<p>Inside the for each we have an If statement that checks the above condition <code>@equals(item().COLUMN_DEF, null)</code> and returns true when column def is null. Which then uses the <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-append-variable-activity">append variable activity</a> to <strong>add the column to our selected_columns array</strong></p>
+<p><img src="adf-for-each-activity-detail.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>Finally, we that in our copy activity to build a dynamic select query by converting the array to a , separated string with the <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-expression-language-functions">join() function</a>. Our ADF expression looks like <code>@concat('select ', join(variables('selected_columns'),','), ' from ', pipeline().parameters.param_table)</code></li>
+</ol>
+<p><img src="adf-copy-activity-query.png" class="img-fluid"></p>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<script src="https://gist.github.com/fusionet24/9de7963439d117c96a82c34054277a37.js"></script>
 
 
 </section>

@@ -1,0 +1,38 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: solana
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/fusionet24
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/scottjamesbell
+    - icon: github
+      text: Github
+      href: https://github.com/fusionet24
+---
+
+This blog is run by Scott Bell who is currently a Databricks SME at Avanade. His background is Data Engineering, Architecture and Data Science.
+
+I write a few other places, the [DailyDatabricks Twitter](http://twitter.com/dailydatabricks) and my [codementor blog](https://www.codementor.io/@fusionet24/create-your-own-magic-commands-in-databricks-1w8y1pdpqe)
+
+The Aim of this blog is to capture knowledge on technical subjects while also allowing for interesting and often pointless data exploration.
+
+**It's supposed to be fun, that is all!**
+
+## Work
+
+Avanade
+
+Altius
+
+Capita ESS
+
+\## Education
+
+University of Lincoln Masters of Computing Science \|
+
+University of Lincoln Bachelors of Computer Science \|

@@ -7,18 +7,46 @@
     "text": "This blog is run by Scott Bell who is currently a Databricks SME at Avanade. His background is Data Engineering, Architecture and Data Science.\nI write a few other places, the DailyDatabricks Twitter and my codementor blog\nThe Aim of this blog is to capture knowledge on technical subjects while also allowing for interesting and often pointless data exploration.\nIt’s supposed to be fun, that is all!"
   },
   {
-    "objectID": "about.html#education",
-    "href": "about.html#education",
+    "objectID": "about.html#work",
+    "href": "about.html#work",
     "title": "About",
-    "section": "Education",
-    "text": "Education\nUniversity of Lincoln Masters of Computing Science | Sep 2015- June 2016\nUniversity of Lincoln Batchlors of Computer Science | Sep 2012 - June 2015"
+    "section": "Work",
+    "text": "Work\nAvanade\nAltius\nCapita ESS\n## Education\nUniversity of Lincoln Masters of Computing Science |\nUniversity of Lincoln Bachelors of Computer Science |"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Blog",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nSep 23, 2022\n\n\nScott Bell\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nazure\n\n\nadf\n\n\ndata factory\n\n\nsql\n\n\n\n\n\n\n\n\n\n\n\nOct 24, 2022\n\n\nScott Bell\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nSep 23, 2022\n\n\nScott Bell\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html",
+    "href": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html",
+    "title": "Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities",
+    "section": "",
+    "text": "Recently, I encountered an issue where we had to copy data from one Azure SQL database to another using Azure Data Factory (ADF) V2. The entire process was dynamic using parameters to select a table to be copied to the target database. A simple enough problem, right?\nWell no, firstly the table definition existed in the target DB, which given that it was a direct copy of the data shouldn’t pose a problem. However, the table definition contained calculated columns to capture the date of ingestion."
+  },
+  {
+    "objectID": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html#problem",
+    "href": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html#problem",
+    "title": "Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities",
+    "section": "Problem",
+    "text": "Problem\n\nSo now the problem becomes, “How do I exclude columns from an ADF Copy Activity based upon their metadata properties?”\n\nThe first thing that comes to mind is GET Metadata activity in ADF. Sadly that doesn’t have sufficient detail about the column definitions.\nThe next thought was the stored procedure sp_columns which returns metadata about columns and is a tool I’d imagine almost all data engineers use in the their SQL development workflow. So that’s what I did, using the (relatively) new script activity in ADF."
+  },
+  {
+    "objectID": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html#solution",
+    "href": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html#solution",
+    "title": "Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities",
+    "section": "Solution",
+    "text": "Solution\nThe pipeline used to achieve this can be found here for reference. (note linked services and datasets etc are omitted)\nThe pipeline has 3 main components:\n\n\n\nADF Pipeline Architecture\n\n\n\nThe Script Activity which takes the pipeline parameter and concats sp_columns with it to retrieve table metadata like @concat('sp_columns ',pipeline().parameters.param_table)\n\nThe resulting output is json that has the following structure\nNote :the other metadata here so this approach may have merits for other column property driven processes you need in ADF.\nFor our uses we should focus on the COLUMN_DEF property which should this be a computed column then would contain an expression and not be null!\n\nFor each entry in resultsSets[0].rows we need to iterate through them and find every column where no column_def exists which will allow us to only include the relevant columns. For this purpose we have created a pipeline variable called selected_columns of type array. We pass that into the items property to iterate @activity('Get Column Metadata').output.resultSets[0].rows\n\nInside the for each we have an If statement that checks the above condition @equals(item().COLUMN_DEF, null) and returns true when column def is null. Which then uses the append variable activity to add the column to our selected_columns array\n\n\nFinally, we that in our copy activity to build a dynamic select query by converting the array to a , separated string with the join() function. Our ADF expression looks like @concat('select ', join(variables('selected_columns'),','), ' from ', pipeline().parameters.param_table)"
+  },
+  {
+    "objectID": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html#code",
+    "href": "posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html#code",
+    "title": "Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities",
+    "section": "Code",
+    "text": "Code"
   },
   {
     "objectID": "posts/welcome/index.html",
@@ -26,5 +54,12 @@
     "title": "Back to the Data",
     "section": "",
     "text": "A lot has happened in the last few years but first I want to just get on with writing code and analysing data.\nIf you’re not familar yet, I run a (sometimes daily) Databricks Tips, tricks and hacks twitter account. That is followed by quite a few databricks people. I would recommend following it or signing up the even less frequent newsletter :)"
+  },
+  {
+    "objectID": "talks.html",
+    "href": "talks.html",
+    "title": "Talks",
+    "section": "",
+    "text": "Azure & Power Platform\n\n\nDatabricks\n\n\nR\n\n\nMisc"
   }
 ]
