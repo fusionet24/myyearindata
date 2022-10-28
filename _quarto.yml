@@ -5,6 +5,8 @@ website:
   title: "MyYearInData"
   site-url: "MyYearindata.com"
   description: "Exploration and analysis of Technical topics in the world of data"
+  twitter-card:
+    creator: "@fusionet24"
   navbar:
     right:
       - about.qmd

@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>MyYearindata.com/about.html</loc>
-    <lastmod>2022-10-24T15:43:29.649Z</lastmod>
+    <lastmod>2022-10-28T00:49:53.811Z</lastmod>
   </url>
   <url>
     <loc>MyYearindata.com/index.html</loc>
-    <lastmod>2022-10-24T15:43:36.329Z</lastmod>
+    <lastmod>2022-10-28T00:49:57.016Z</lastmod>
+  </url>
+  <url>
+    <loc>MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/index.html</loc>
+    <lastmod>2022-10-28T00:50:02.272Z</lastmod>
   </url>
   <url>
     <loc>MyYearindata.com/posts/spcolumns-metadata-activities-in-data-factory-copy-activities-and-calculated-columns/index.html</loc>
-    <lastmod>2022-10-24T15:43:52.821Z</lastmod>
+    <lastmod>2022-10-28T00:50:07.659Z</lastmod>
   </url>
   <url>
     <loc>MyYearindata.com/posts/welcome/index.html</loc>
-    <lastmod>2022-10-24T15:43:57.475Z</lastmod>
+    <lastmod>2022-10-28T00:50:10.115Z</lastmod>
   </url>
   <url>
     <loc>MyYearindata.com/talks.html</loc>
-    <lastmod>2022-10-24T15:44:02.156Z</lastmod>
+    <lastmod>2022-10-28T00:53:03.141Z</lastmod>
   </url>
 </urlset>

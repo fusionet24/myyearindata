@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Harlow Malloc">
-<meta name="dcterms.date" content="2022-10-04">
+<meta name="author" content="Scott Bell">
+<meta name="dcterms.date" content="2022-10-29">
 
-<title>MyYearInData - Post With Code</title>
+<title>MyYearInData - Handling UK Bank Holidays in Azure Data Factory &amp; Synapse</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -121,11 +121,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta name="twitter:title" content="MyYearInData - Post With Code">
-<meta name="twitter:description" content="This is a post with executable code.">
-<meta name="twitter:image" content="MyYearindata.com/posts\post-with-code\image.jpg">
+<meta name="twitter:title" content="MyYearInData - Handling UK Bank Holidays in Azure Data Factory &amp; Synapse">
+<meta name="twitter:description" content="Sometimes you have processes that you don’t need to run in certain scenarios. The past year I’ve been working with market trading data.">
 <meta name="twitter:creator" content="@fusionet24">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -176,11 +175,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Post With Code</h1>
+      <h1 class="title">Handling UK Bank Holidays in Azure Data Factory &amp; Synapse</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">news</div>
-                <div class="quarto-category">code</div>
-                <div class="quarto-category">analysis</div>
+                <div class="quarto-category">azure</div>
+                <div class="quarto-category">adf</div>
+                <div class="quarto-category">data factory</div>
+                <div class="quarto-category">api</div>
+                <div class="quarto-category">Synapse</div>
               </div>
                   </div>
   </div>
@@ -191,14 +192,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Harlow Malloc </p>
+               <p>Scott Bell </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 4, 2022</p>
+        <p class="date">October 29, 2022</p>
       </div>
     </div>
       
@@ -215,15 +216,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p>This is a post with executable code.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Sometimes you have processes that you don’t need to run in certain scenarios. The past year I’ve been working with market trading data. Trading in exchanges happens every weekday but they don’t happen on weekends or national holidays as they’re usually closed.</p>
+<p>This posses a problem to usual ADF trigger patterns where you can <a href="https://learn.microsoft.com/en-us/azure/data-factory/how-to-create-schedule-trigger?tabs=data-factory">schedule quite complex trigger</a>scenarios such as the 1st Sunday of every month. However, no concept of national holidays exist, so we need to handle this after the trigger point.</p>
+</section>
+<section id="problem" class="level2">
+<h2 class="anchored" data-anchor-id="problem">Problem</h2>
+<p>So lets restate the problem within the context of ADF. We need to trigger our process everyday, then <strong>we must validate whether this date is a UK Bank Holiday</strong> and run the business logic.</p>
+</section>
+<section id="solution" class="level2">
+<h2 class="anchored" data-anchor-id="solution">Solution</h2>
+<section id="government-api" class="level3">
+<h3 class="anchored" data-anchor-id="government-api">Government API</h3>
+<p>The UK government have started to build a <a href="https://www.api.gov.uk/#uk-public-sector-apis">useful catalog of APIs</a> for consumption, one of which <a href="https://www.gov.uk/bank-holidays.json">contains all public holidays</a>. The api returns the following json data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="st">'https://www.gov.uk/bank-holidays.json'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The schema can be broken down into having two key pieces of information:</p>
+<ol type="1">
+<li>The applicable country with the values <strong>england-and-wales</strong>, <strong>scotland</strong> &amp; <strong>northern-ireland</strong> at the root level.</li>
+<li>An array of <strong>Events</strong> that contains several properties such as <strong>Title</strong> (the Holiday’s Name) and <strong>Date</strong></li>
+</ol>
+</section>
+<section id="adf-pipeline" class="level3">
+<h3 class="anchored">ADF Pipeline</h3>
+<p>So our goal is to select the appropriate region for our data and then to filter the dates to validate our input date doesn’t match any of the ones listed in the above API.</p>
+<p>Our final pipeline will look like this consisting of 3 activities and parameterised so it can be reused as a child pipeline in wider orchestration flows. The code for this is re-produced at the bottom.</p>
+<p><img src="images/paste-A1FC2AE6.png" class="img-fluid"></p>
+<p>First we need to setup our pipeline with the <strong>parameters</strong> and <strong>variables</strong>.</p>
+<p>We need to configure a parameter to accept a date input which could be from a parent process or trigger. We have called this <strong>date</strong><img src="images/paste-9AFC4B75.png" class="img-fluid"></p>
+<p>Next we need a variable called <strong>BankHoliday</strong> to store the outcome of the question Is It a Bank Holiday for this date?</p>
+<p><img src="images/paste-C372187F.png" class="img-fluid"></p>
+<ol type="1">
+<li><p>A <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-web-activity">web activity</a> which calls the <a href="https://www.gov.uk/bank-holidays.json"><em>https://www.gov.uk/bank-holidays.json</em></a>endpoint. It is configured like so <img src="images/paste-5AD2F23F.png" class="img-fluid"></p>
+<p>The output of this should look like<img src="images/paste-9C5CE0F1.png" class="img-fluid"></p></li>
+<li><p>The <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-filter-activity">Filter Activity</a> allows use to iterate through that events array and find matching items.</p>
+<p><img src="images/paste-A81B4DAB.png" class="img-fluid"></p>
+<p>We must first define our items. <strong>I’ve manually selected the england-and-wales events</strong> but this <em>could easily be made to be dynamic</em> and extended to other regions on demand. The ADF expression for Items is</p>
+<p><code>{.adf expression .adf}  @activity('Get Bank Holidays').output['england-and-wales']['events']</code></p>
+<p>The conditions we will use to filter these selected items is</p>
+<p><code>{.adf expression .adf} @contains(item().date, formatDateTime(pipeline().parameters.date,'yyyy-MM-dd'))</code></p>
+<p>We check that the item contains the parameter date. We reformat the input date to ensure there are no inconsistencies in the comparison. e.g.&nbsp;yyyy-mm-DD != mm-yyyy-dd</p>
+<p>Which outputs the following structure:</p>
+<ul>
+<li><p>ItemsCount - The Number of items we searched to try and find a match</p></li>
+<li><p>FilteredItemsCount - The Number of Matches we found for said date</p></li>
+<li><p>Value - An Array of Matches for Said Date</p></li>
+</ul>
+<p>An example of our code when we don’t find a match using the date of 2021-07-07.</p>
+<p><img src="images/paste-2E3E8869.png" class="img-fluid"></p>
+<p>An example of a successful match using the date of 2021-04-05 which is Easter Monday in the UK!</p>
+<p><img src="images/paste-C7DA67B7.png" class="img-fluid"></p>
+<p>You will notice that FilteredItemsCount has incremented which is the property we will use in the next activity.</p></li>
+<li><p>So now we have found our matches or not, now <strong>we need to set our variable to answer the question</strong>! We will use a <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-set-variable-activity">set variable activity</a>. Our logic should be pretty simple, <strong>does the FilteredItemCount = 1</strong></p>
+<p><img src="images/paste-BC254285.png" class="img-fluid"></p>
+<p>The ADF expression looks like</p>
+<p><code>{.adf expression .adf} @equals(activity('Search Bank Holidays').output.FilteredItemsCount,1)</code></p>
+<h2 id="conclusion" class="anchored" data-anchor-id="adf-pipeline">Conclusion</h2>
+<p>Now you have a Azure Data Factory pipeline that can calculate whether a given day is a United Kingdom Bank Holiday Or Regional Bank Holiday (Wales, Scotland or Northern Ireland).</p></li>
+</ol>
+</section>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<script src="https://gist.github.com/fusionet24/d809cd620dca3080806e11407ced0429.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

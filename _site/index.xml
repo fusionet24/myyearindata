@@ -10,7 +10,93 @@
 <atom:link href="MyYearindata.com/index.xml" rel="self" type="application/rss+xml"/>
 <description>Exploration and analysis of Technical topics in the world of data</description>
 <generator>quarto-1.0.36</generator>
-<lastBuildDate>Sun, 23 Oct 2022 23:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 28 Oct 2022 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>Handling UK Bank Holidays in Azure Data Factory & Synapse</title>
+  <dc:creator>Scott Bell</dc:creator>
+  <link>MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Sometimes you have processes that you don’t need to run in certain scenarios. The past year I’ve been working with market trading data. Trading in exchanges happens every weekday but they don’t happen on weekends or national holidays as they’re usually closed.</p>
+<p>This posses a problem to usual ADF trigger patterns where you can <a href="https://learn.microsoft.com/en-us/azure/data-factory/how-to-create-schedule-trigger?tabs=data-factory">schedule quite complex trigger</a>scenarios such as the 1st Sunday of every month. However, no concept of national holidays exist, so we need to handle this after the trigger point.</p>
+</section>
+<section id="problem" class="level2">
+<h2 class="anchored" data-anchor-id="problem">Problem</h2>
+<p>So lets restate the problem within the context of ADF. We need to trigger our process everyday, then <strong>we must validate whether this date is a UK Bank Holiday</strong> and run the business logic.</p>
+</section>
+<section id="solution" class="level2">
+<h2 class="anchored" data-anchor-id="solution">Solution</h2>
+<section id="government-api" class="level3">
+<h3 class="anchored" data-anchor-id="government-api">Government API</h3>
+<p>The UK government have started to build a <a href="https://www.api.gov.uk/#uk-public-sector-apis">useful catalog of APIs</a> for consumption, one of which <a href="https://www.gov.uk/bank-holidays.json">contains all public holidays</a>. The api returns the following json data.</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;">curl</span> <span class="st" style="color: #20794D;">'https://www.gov.uk/bank-holidays.json'</span></span></code></pre></div>
+<p>The schema can be broken down into having two key pieces of information:</p>
+<ol type="1">
+<li>The applicable country with the values <strong>england-and-wales</strong>, <strong>scotland</strong> &amp; <strong>northern-ireland</strong> at the root level.</li>
+<li>An array of <strong>Events</strong> that contains several properties such as <strong>Title</strong> (the Holiday’s Name) and <strong>Date</strong></li>
+</ol>
+</section>
+<section id="adf-pipeline" class="level3">
+<h3 class="anchored">ADF Pipeline</h3>
+<p>So our goal is to select the appropriate region for our data and then to filter the dates to validate our input date doesn’t match any of the ones listed in the above API.</p>
+<p>Our final pipeline will look like this consisting of 3 activities and parameterised so it can be reused as a child pipeline in wider orchestration flows. The code for this is re-produced at the bottom.</p>
+<p><img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-A1FC2AE6.png" class="img-fluid"></p>
+<p>First we need to setup our pipeline with the <strong>parameters</strong> and <strong>variables</strong>.</p>
+<p>We need to configure a parameter to accept a date input which could be from a parent process or trigger. We have called this <strong>date</strong><img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-9AFC4B75.png" class="img-fluid"></p>
+<p>Next we need a variable called <strong>BankHoliday</strong> to store the outcome of the question Is It a Bank Holiday for this date?</p>
+<p><img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-C372187F.png" class="img-fluid"></p>
+<ol type="1">
+<li><p>A <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-web-activity">web activity</a> which calls the <a href="https://www.gov.uk/bank-holidays.json"><em>https://www.gov.uk/bank-holidays.json</em></a>endpoint. It is configured like so <img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-5AD2F23F.png" class="img-fluid"></p>
+<p>The output of this should look like<img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-9C5CE0F1.png" class="img-fluid"></p></li>
+<li><p>The <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-filter-activity">Filter Activity</a> allows use to iterate through that events array and find matching items.</p>
+<p><img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-A81B4DAB.png" class="img-fluid"></p>
+<p>We must first define our items. <strong>I’ve manually selected the england-and-wales events</strong> but this <em>could easily be made to be dynamic</em> and extended to other regions on demand. The ADF expression for Items is</p>
+<p><code>{.adf expression .adf}  @activity('Get Bank Holidays').output['england-and-wales']['events']</code></p>
+<p>The conditions we will use to filter these selected items is</p>
+<p><code>{.adf expression .adf} @contains(item().date, formatDateTime(pipeline().parameters.date,'yyyy-MM-dd'))</code></p>
+<p>We check that the item contains the parameter date. We reformat the input date to ensure there are no inconsistencies in the comparison. e.g.&nbsp;yyyy-mm-DD != mm-yyyy-dd</p>
+<p>Which outputs the following structure:</p>
+<ul>
+<li><p>ItemsCount - The Number of items we searched to try and find a match</p></li>
+<li><p>FilteredItemsCount - The Number of Matches we found for said date</p></li>
+<li><p>Value - An Array of Matches for Said Date</p></li>
+</ul>
+<p>An example of our code when we don’t find a match using the date of 2021-07-07.</p>
+<p><img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-2E3E8869.png" class="img-fluid"></p>
+<p>An example of a successful match using the date of 2021-04-05 which is Easter Monday in the UK!</p>
+<p><img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-C7DA67B7.png" class="img-fluid"></p>
+<p>You will notice that FilteredItemsCount has incremented which is the property we will use in the next activity.</p></li>
+<li><p>So now we have found our matches or not, now <strong>we need to set our variable to answer the question</strong>! We will use a <a href="https://learn.microsoft.com/en-us/azure/data-factory/control-flow-set-variable-activity">set variable activity</a>. Our logic should be pretty simple, <strong>does the FilteredItemCount = 1</strong></p>
+<p><img src="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-BC254285.png" class="img-fluid"></p>
+<p>The ADF expression looks like</p>
+<p><code>{.adf expression .adf} @equals(activity('Search Bank Holidays').output.FilteredItemsCount,1)</code></p>
+<h2 id="conclusion" class="anchored" data-anchor-id="adf-pipeline">Conclusion</h2>
+<p>Now you have a Azure Data Factory pipeline that can calculate whether a given day is a United Kingdom Bank Holiday Or Regional Bank Holiday (Wales, Scotland or Northern Ireland).</p></li>
+</ol>
+</section>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<script src="https://gist.github.com/fusionet24/d809cd620dca3080806e11407ced0429.js"></script>
+
+
+</section>
+
+ ]]></description>
+  <category>azure</category>
+  <category>adf</category>
+  <category>data factory</category>
+  <category>api</category>
+  <category>Synapse</category>
+  <guid>MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/index.html</guid>
+  <pubDate>Fri, 28 Oct 2022 23:00:00 GMT</pubDate>
+  <media:content url="MyYearindata.com/posts/handling-uk-bank-holidays-in-adf-pipelines/images/paste-A1FC2AE6.png" medium="image" type="image/png" height="31" width="144"/>
+</item>
 <item>
   <title>Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities</title>
   <dc:creator>Scott Bell</dc:creator>
