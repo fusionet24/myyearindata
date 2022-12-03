@@ -1,0 +1,18 @@
+name: R Installation
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install R
+        run: sudo apt-get install -y r-base
+      - name: Install Quarto
+        run: R -e 'install.packages("Quarto")'
+      - name: Run Quarto render
+        run: R -e 'render_quarto()'
+        env:
+          INTERMEDIATE_FOLDER: ${{ env.GITHUB_WORKSPACE }}/intermediat
