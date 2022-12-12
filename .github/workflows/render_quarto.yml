@@ -11,7 +11,7 @@ on:
       - main
 
 jobs:
-  install_deb:
+  install_quarto:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,14 +19,33 @@ jobs:
       run: sudo apt-get install gdebi-core
     - name: Download the deb file
       run: sudo curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb 
-    - name: LS
-      run: ls
     - name: Install the deb file
       run: sudo apt-get install -y ./quarto-linux-amd64.deb
     - name: Verify Install
       run: /usr/local/bin/quarto check
     - name: render site
-      run: quarto render 
+      run: quarto render
+    - name: LS
+      run: ls
+  deploy_to_azure_static_webapp:
+    needs: install_quarto
+    if: success() && github.event.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    name: Deploy to Azure App Service
+    steps:
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_SEA_08F1C9003 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          action: "upload"
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: "/_site/" # App source code path         
+          output_location: "public" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######  
+      
   Install_R: 
     runs-on: ubuntu-latest
     steps:
