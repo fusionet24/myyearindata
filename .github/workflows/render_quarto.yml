@@ -15,14 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Create the build directory
-      run: mkdir -p build
-    - name: Download the deb file
-      run: sudo curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb -O build/quarto-linux-amd64.deb
-    - name: LS
-      run: ls
     - name: Install GDebi first
       run: sudo apt-get install gdebi-core
+    - name: Download the deb file
+      run: sudo curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb 
+    - name: LS
+      run: ls
     - name: Install the deb file
       run: sudo apt-get install quarto-linux-amd64.deb
     - name: Verify Install
