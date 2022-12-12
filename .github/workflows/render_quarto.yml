@@ -29,7 +29,7 @@ jobs:
       run: ls
   deploy_to_azure_static_webapp:
     needs: install_quarto
-    if: success() && github.event.ref == 'refs/heads/main'
+    if: success() #&& github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     name: Deploy to Azure App Service
     steps:
