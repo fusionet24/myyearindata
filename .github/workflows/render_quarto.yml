@@ -33,7 +33,7 @@ jobs:
       - name: Install R
         run: sudo apt-get install -y r-base
       - name: Install Quarto
-        run: R -e 'install.packages("Quarto", lib = "${{ env.GITHUB_WORKSPACE }}/quarto")'
+        run: R -e 'install.packages("Quarto", lib = "${{ env.GITHUB_WORKSPACE }}")'
       - name: Run Quarto render
         run: R -e 'render_quarto()'
         env:
