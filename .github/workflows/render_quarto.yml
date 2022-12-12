@@ -25,6 +25,8 @@ jobs:
       run: sudo apt-get install -y ./quarto-linux-amd64.deb
     - name: Verify Install
       run: /usr/local/bin/quarto check
+    - name: render site
+      run: quarto render 
   Install_R: 
     runs-on: ubuntu-latest
     steps:
