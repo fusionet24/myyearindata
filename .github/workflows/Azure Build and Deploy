@@ -6,12 +6,23 @@ on:
       - main
       - feature/new_ci_cd
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [closed]
     branches:
       - main
-      - feature/new_ci_cd
 
 jobs:
+  install_deb:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download the deb file
+      run: sudo curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+    - name: Install GDebi first
+      run: sudo apt-get install gdebi-core
+    - name: Install the deb file
+      run: sudo apt-get install quarto-linux-amd64.deb
+    - name: Verify Install
+      run: /usr/local/bin/quarto check
   build:
     runs-on: ubuntu-latest
     steps:
