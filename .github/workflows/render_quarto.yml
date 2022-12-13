@@ -36,7 +36,7 @@ jobs:
   
   deploy_to_azure_static_webapp:
     needs: render_site
-    if: success() #&& github.event.ref == 'refs/heads/main'
+    if: success() && github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     name: Deploy to Azure App Service
     steps:
@@ -63,9 +63,3 @@ jobs:
         uses: actions/checkout@v2
       - name: Install R
         run: sudo apt-get install -y r-base
-      - name: Install Quarto
-        run: R -e 'install.packages("Quarto", lib = "${{ env.GITHUB_WORKSPACE }}")'
-      - name: Run Quarto render
-        run: R -e 'render_quarto()'
-        env:
-          INTERMEDIATE_FOLDER: ${{ env.GITHUB_WORKSPACE }}/intermediat
