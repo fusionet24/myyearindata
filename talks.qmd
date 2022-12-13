@@ -17,10 +17,19 @@ about:
 
 Scott has talked at several different events and venues during my career. From regular internal knowledge share sessions to talks at the big industry events. Below is an extract of talks that I feel are valuable to share. As with everything, I'm always learning and growing so not ever session is shared here. Only the ones that I feel represent a good overview of current topics.
 
-### Azure & Power Platform
+## Azure & Power Platform
 
-### Databricks
+#### COSMOS 101
+Learn everything you need to know to get started with Cosmos DB in between 20-45 minutes.
+- What is Cosmos?
+- What are the various APIS?
+- What is partitioning?
+- What are consitency models?
 
-### R
+## Databricks
 
-### Misc
+## R
+
+## Misc
+
+## Databricks
