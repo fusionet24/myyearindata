@@ -1,0 +1,98 @@
+---
+title: "How to install and render quarto project with Github Workflows"
+author: "Scott Bell"
+date: "2022-12-16"
+draft: false
+categories: 
+  - azure
+  - quarto 
+  - github 
+---
+
+## Introduction
+
+This is part 2 of a 3 part series on how this blog is build and managed automatically. This post is a standalone for anyone who wants to install and render a Quarto project on Github using workflows.
+
+So far in our adventure, I've explained how you set up Azure Static Web Apps and the wider set up of Quarto for websites.
+
+## Benefits of Quarto on Github?
+
+By using Github to render your Quarto documents, you can achieve full CI/CD, which allows you to collaborate and push your documents to their various destinations. You don't need to have Quarto installed locally to make changes and everything is guaranteed to be repeatable.
+
+You will no longer need to store the any rendered documents in your repository either. Which is especially great when you build a website as it renders a \_site folder.
+
+## Installing Quarto via the command line
+
+The official Posit site (whom created) Quarto website discusses [how you can download quarto and install it on Linux using a .deb file.](https://docs.posit.co/resources/install-quarto/) We will use this to install Posit onto our Machine within Github Workflows.
+
+1.  First we will need to set up our job. This involves the checking out of the code (so we can use it to render our site).
+
+2.  Then we will install the Gdebi dependency as reference on the Posit documentation.
+
+3.  Now we will download the latest quarto linux .deb file using CURL.
+
+4.  After this we can install the .deb file on the github machine. Using -y argument means we will agree to any prompts sent to us from instalation
+
+``` yaml
+jobs:
+  render_site:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install GDebi first
+      run: sudo apt-get install gdebi-core
+    - name: Download the deb file
+      run: sudo curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb 
+    - name: Install the deb file
+      run: sudo apt-get install -y ./quarto-linux-amd64.deb
+```
+
+5.  Now we have successfully downloaded and install Quarto, we can run a check to validate everything is installed correctly.
+
+``` yaml
+    - name: Verify Install
+      run: /usr/local/bin/quarto check
+```
+
+6.  Everything has gone well! Now we can render our documents. We can either render all documents or provide a specific name. Should you wish to render with advanced configuration please [read here](https://quarto.org/docs/projects/code-execution.html#overview)
+
+``` yaml
+    - name: render site
+      run: quarto render
+```
+
+7.  We can now upload our file as an artfact from our github workflow for later consumption in other workflows (e.g upload to web or local file storage etc) or should you wish you can download a full zip manually. Below shows you how to upload a \_site directory for a rendered website, you can adjust as you require.
+
+``` yaml
+
+    - name: Upload _site directory for deploy job
+      uses: actions/upload-artifact@v1
+      with:
+          name: site_deployment
+          path: _site
+          
+```
+
+The full YAML is provided at the bottom.
+
+### Optional
+
+Do you need to install R into your github action? Well you can with this code below
+
+``` yaml
+  Install_R: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install R
+        run: sudo apt-get install -y r-base
+```
+
+**Learn how to deploy to azure static web apps in part 3**
+
+# Full Code
+
+``` html
+<script src="https://gist.github.com/fusionet24/d370d550740d66d435fb8ba93350dedd.js"></script>
+```
