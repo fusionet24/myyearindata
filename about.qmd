@@ -13,6 +13,12 @@ about:
     - icon: github
       text: Github
       href: https://github.com/fusionet24
+    - icon: envelope-at
+      text: Email Me
+      href: hi@scottajamesbell.com
+    - icon: Mastodon
+      text: Mastodon
+      href: https://techhub.social/@fusionet24
 ---
 
 This blog is run by Scott Bell who is currently a Databricks SME at Avanade. His background is Data Engineering, Architecture and Data Science.
