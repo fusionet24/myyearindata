@@ -17,6 +17,9 @@ website:
         href: https://github.com/fusionet24
       - icon: twitter
         href: https://twitter.com/fusionet24
+      - icon: Mastodon
+        text: Mastodon
+        href: https://techhub.social/@fusionet24
       - icon: rss
         href: index.xml
 
