@@ -1,7 +1,7 @@
 ---
 title: "How to deploy Quarto Blog to Azure Static Web Apps"
 author: "Scott Bell"
-date: "2022-10-07"
+date: "2022-12-28"
 draft: true
 categories: 
   - azure
@@ -17,9 +17,23 @@ I choose [Quarto](https://quarto.org/) to achieve this. I have used RMarkdown (Q
 
 > Quarto^®^ is an open-source scientific and technical publishing system built on [Pandoc](https://pandoc.org/)
 
+: One of the main benefits of using Quarto is that it allows you to create documents that are fully reproducible. This means that someone else can take your document and re-run the code to get the same results, ensuring the transparency and integrity of your work.
+
 So with this choice selected, I knew I needed to host the static output somewhere. The Quarto page has some good guides on using popular frameworks like Netify or Github Pages but I wanted to use Azure.
 
+**Azure Static Web Apps** is a fully managed service that makes it easy to deploy and host static web applications. It offers several benefits, including easy deployment using continuous integration and deployment pipelines, global availability, advanced security features, scalability, and low cost. These features make it a valuable tool for anyone looking to build and host a blog or other static web application.
+
 [With Azure accounts you get a free **Static Web App**](https://azure.microsoft.com/en-us/pricing/details/app-service/static/) with 100GBs of free Bandwidth! So with this in mind I figured that I could deploy here and run a relatively free website.
+
+In addition to the benefits of using Azure Static Web Apps, using **GitHub** as a source control system for your blog posts has several advantages.
+
+1.  Version control: With GitHub, you can easily track changes to your blog posts and revert back to previous versions if needed. This is especially useful if you accidentally delete or modify a post, or if you want to see how a post has evolved over time.
+
+2.  Collaboration: GitHub makes it easy for multiple people to work on the same blog. You can invite other contributors to your repository, and GitHub will track their changes and allow you to review and merge them into your main branch.
+
+3.  Backup: Using GitHub as a source control system means that your blog posts are automatically backed up in a remote repository. This provides an additional layer of protection in case something goes wrong with your local copy of the blog.
+
+4.  Community: By hosting your blog on GitHub, you can benefit from the larger developer community. Other users can fork your repository, suggest changes, or even contribute to your blog directly.
 
 ## Important concepts
 
@@ -27,8 +41,8 @@ Quarto renders your website projects via your QMD documents. You can easily setu
 
 ## Azure Setup
 
-## Github Setup
+![](images/image-1397966711.png)
 
-### Repo
+## ![](images/image-1524747583.png)Github Setup
 
-### Actions
+### Repo Structure
