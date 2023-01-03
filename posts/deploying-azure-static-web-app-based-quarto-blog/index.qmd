@@ -1,6 +1,7 @@
 ---
 title: "How to deploy Quarto Blog to Azure Static Web Apps"
 author: "Scott Bell"
+description: "Learn about Quarto and how to configure your Free Azure Static Web App to deploy a blog"
 date: "2022-12-28"
 draft: False
 categories: 
