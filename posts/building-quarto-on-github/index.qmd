@@ -1,7 +1,7 @@
 ---
 title: "How to install and render quarto project with Github Workflows"
 author: "Scott Bell"
-date: "2022-12-18"
+date: "2023-01-03"
 draft: false
 categories: 
   - azure
@@ -93,6 +93,6 @@ Do you need to install R into your github action? Well you can with this code be
 
 # Full Code
 
-``` {=html}
+```{=html}
 <script src="https://gist.github.com/fusionet24/d370d550740d66d435fb8ba93350dedd.js"></script>
 ```
