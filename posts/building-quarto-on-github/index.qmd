@@ -1,6 +1,7 @@
 ---
 title: "How to install and render quarto projects with Github Workflows"
 author: "Scott Bell"
+description: "Learn how to install and render Quarto documents using Github Actions and Workflows"
 date: "2023-01-03"
 draft: false
 categories: 
