@@ -1,0 +1,27 @@
+---
+title: "2022: My Year In Data Review"
+author: "Scott Bell"
+description: "An exploration of my personal data in 2022 through various smart devices, sentiment capturing and interesting data viz! Lets explore from a data driven context whether 2022 was a successful year for me or not. "
+date: "2023-01-09"
+draft: True
+categories: 
+  - review
+  - r 
+  - data
+  - personal
+  - year-in-review
+---
+
+# Introduction
+
+## Emotional and qualitative metrics
+
+# Data
+
+# Tooling
+
+R
+
+# Year In Review
+
+# Visualisation
