@@ -1,0 +1,39 @@
+---
+title: " Essential Non-Technical Tools for Data Consultants"
+author: "Scott Bell"
+description: "Essential Non-Technical Tools for technolgy Consultants that I'm currently using to help with my workflow "
+date: "2023-01-03"
+draft: false
+categories: 
+  - azure
+  - quarto 
+  - github 
+---
+
+## Introduction
+
+As a consultant, you know the importance of having the right tools in your arsenal to help you navigate the challenges of constantly changing job. While development tools like databricks and VScode are indispensable, there are other non-technical tools that can help you optimise your workflow by staying organized, collaborate with clients, and better understand their needs. In this blog post, we'll explore five essential non-technical tools that I currently use to take the pain out of my work.
+
+### Note taking
+
+Taking good notes is hard, taking them while your familiarizing yourself within a team, client or domain feels nigh impossible often. A lot of what I do nowadays is writing and designing things so that it enables others to go away and build them. Trapping that knowledge up in my head doesn't benefit my wider team and to be honest it's a little lazy.
+
+When you're an senior team member, you're often in a lot of meetings about a lot of things with a lot of different stakeholders. That causes problems, namely **context switching** and that comes at a cost. Previously, I've used tools like Microsoft OneNote to take notes, it's integrates with Office, it syncs across devices and it's usually protected by your companies data protection policies. It's pretty good but it doesn't quite fit my workflow.
+
+For the last year or so I've been using a tool called StashPad for most of my noting taking. It gives you a nice little
+
+### Goodbooks
+
+### Greenshot
+
+Screenshots are an incredibly useful way to capture and share information quickly. Whether you're demonstrating a bug, sharing a design concept, or providing feedback on a document.This is where Greenshot comes in.Greenshot is a lightweight, open-source screenshot tool that allows you to easily capture your screen or a specific area and **annotate**, **highlight**, or **obfuscate** parts of the image.
+
+What sets Greenshot apart from other screenshot tools is its simplicity and ease of use. With a few clicks, you can capture the perfect screenshot, annotate it to add context, and share it with your team. Its customizability also allows you to tailor the tool to your specific needs, making it a valuable addition to your toolkit.
+
+### ZoomIt
+
+Presentations and remote meetings are an inevitable part of any consultant's day-to-day work. While screen sharing and video conferencing platforms like Zoom and Microsoft Teams have made it easier to share content and collaborate remotely, sometimes you need a little extra help to highlight specific details or draw attention to a particular point. This is where ZoomIt comes in.
+
+ZoomIt is a screen zoom and annotation tool developed by Microsoft's Sysinternals team. It allows you to quickly zoom in on specific areas of your screen, draw on the screen using a virtual pen, or add text annotations. These features make it ideal for live presentations, remote meetings, or even recorded video content.
+
+The beauty of ZoomIt lies in its simplicity and unobtrusive nature. It runs in the background, waiting to be activated by customizable hotkeys. When you need to focus on a specific part of your screen or draw attention to a particular detail, ZoomIt is there to help.
