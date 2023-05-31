@@ -1,0 +1,61 @@
+---
+title: " Copying Schemas between SQL Databases"
+author: "Scott Bell"
+description: "Do you want to know how to copy Schemas between SQL Databases? What is the best way to copy data and their table definitions between SQL Databases "
+date: "2023-01-03"
+draft: false
+categories: 
+  - azure
+  - quarto 
+  - github 
+---
+
+## Introduction
+
+Yesterday, I got asked a question in passing about an approach to copying a schema's objects (including the data within those objects) to another database in Azure. This question was one that was sufficiently small enough that I could answer in a blog post in one evening but also just complex enough that I thought maybe there's a better way. So if you're looking to solve this problem then he's an evaluation of the options available to you. If you're an database/azure expert and I've missed one of the options please do share
+
+So to avoid this developing into Brain Crack please read this blog post and give me your thoughts
+
+### Expanding the Problem Statement
+
+What we are trying to achieve:
+
+-   Copy Database Objects (Tables, Views, Stored Procs) between Databases (being on the same server sql server shouldn't matter).
+
+-   Copy the database objects to an existing database (so cloning a database and deleting everything else is likely not the answer)
+
+-   The objects will be scoped on a schema by schema basis. So an entire schema will be moved but this process should be repeatable to a N schemas.
+
+-   The database will have an undefined number of objects (so doing this manually table by table is not going to scale)
+
+-   Some reconcilaltion Logging is probably a good idea.
+
+## Options
+
+
+### Bacpac
+
+Bacpac is a portable format for SQL Server databases that allows you to export a database's schema and data into a single file. This file can then be imported into another SQL Server instance or an Azure SQL Database, effectively copying the schema and its associated data. However, Bacpac is designed for exporting and importing entire databases, not on a schema-by-schema basis.
+
+Given this limitation, Bacpac may not be the ideal choice in this scenario, as it does not allow for selective schema copying. Additionally, Bacpac does not support importing to an existing database, and it may not be the most efficient solution for copying multiple schemas, as it requires a separate export and import process for each schema. Lastly, while Bacpac does offer some logging capabilities, it may not provide the level of detail desired for reconciliation purposes.
+
+### DataPAC
+
+DataPAC is a package format that contains a database's schema and data in a compressed, portable format. It is specifically designed for transferring data between databases and can be used with SQL Server and Azure SQL Database. DataPAC allows you to selectively export and import specific schemas, making it a suitable choice for copying multiple schemas between databases.
+
+However, DataPAC may not be the best choice in this scenario because it does not support importing to an existing database. Additionally, it may not be as efficient as other options when copying a large number of objects, as it requires manual intervention for each object. Furthermore, DataPAC's logging capabilities may not provide the desired level of reconciliation detail.
+
+### Redgate SQL (Data) Compare
+
+Redgate SQL (Data) Compare is a powerful tool for comparing and synchronizing SQL Server and Azure SQL Database schemas and data. It allows you to selectively copy specific schemas and their associated objects between databases, making it a suitable choice for copying multiple schemas. Additionally, Redgate SQL Compare can import data into an existing database, which aligns with the requirements of this scenario.
+
+However, Redgate SQL (Data) Compare may not be the most cost-effective solution, as it requires a paid license. Furthermore, the tool may be overkill for simple schema copying tasks, especially if you don't need its advanced comparison and synchronization features. That said, it does offer robust logging capabilities, which can be beneficial for reconciliation purposes.
+
+### Metadata Driven Azure Data Factory Approach
+
+Azure Data Factory (ADF) is a cloud-based data integration service that enables you to create, schedule, and manage data workflows. With a metadata-driven approach, you can dynamically generate ADF pipelines to copy schemas and their associated objects between databases. This approach is suitable for copying multiple schemas to an existing database, as it is highly scalable and can accommodate an undefined number of objects.
+
+However, implementing a metadata-driven ADF approach may require more development effort compared to the other options, as it necessitates creating custom logic and understanding ADF concepts. Additionally, while ADF does provide logging capabilities, you may need to configure custom logging to achieve the desired level of reconciliation detail. Despite these drawbacks, the metadata-driven ADF approach offers a flexible and scalable solution for copying schemas between databases.
+
+
+

@@ -1,0 +1,62 @@
+---
+title: "Getting Started using Large Language Models like ChatGPT"
+author: "Scott Bell"
+date: "2023-04-28"
+draft: false
+categories: 
+  - LLMs
+  - Azure OpenAI
+  - ChatGPT
+  - OpenAI
+  - HuggingFace
+  - Large Langauge Models
+  - AI
+---
+
+## Introduction
+
+So like many of you, I've fallen down a rabbit hole. Late last year over on twitter I started to see these amazing and complex solutions being built by something call ChatGPT. So for those of you unaware, I have a background in Machine Learning, however my entire education and real world experience I didn't focus on Language models, they didn't interest me. I didn't see the value compared to say Supervised Learning (XGBoost & SVMs 😃). Anyway, these flashy demos got me a little obsessed and several significant failed side projects later and one successful side hustle (£5 a day FTW!). I've gathered a bunch of thoughts on LLMs, so I'm embarking on a journey to write blog posts about those experiences!
+
+Large Language Models (LLMs) like ChatGPT have revolutionized the way we interact with machines, making them more human-like and capable of understanding complex text. These models offer a vast array of applications, from improving productivity to exploring creative applications. In this series of blog posts, my goal is to show you how you can leverage them in different ways, give some tips you might not know and show the dangers of LLMs.
+
+This initial post will talk briefly cover prompt design, employing personas, correcting and enhancing your work, handling hallucinations, and priming techniques.
+
+Here's a nice video on how LLMs work
+
+## Mastering Prompt Design
+
+A well-designed prompt is essential for getting the most out of your LLM. As you go from beginner to I can make ChatGPT do exactlly what I need in the tone/style/format I require. You will learn that promp design is probably the single most important part of leveraging these LLMs (I've a whole post on this coming soon).
+
+Here's the common sense summary of tips:
+
+-   Keep your instructions clear, concise, and specific.
+
+-   If you require a particular format or structure, make sure to mention it in the
+    prompt. Sometimes this **isn't enough, give an example** of the structure/tone/format you want
+
+-   You can also experiment with incremental (step-by-step) instructions and
+    questions vs a giant wall of text.
+
+    Now people have developed clever patterns to prompting these interfaces. I'll discuss two of these below.
+
+### Priming Techniques
+
+Have you tried giving instructions with examples of what you want, while giving instructions to the LLM? It starts to feels a like a wall of awkward text and can easily get confusing for you and the model.
+
+A pattern I've adopted and have seen others use to get around this is what I'm going to call the **Acknowledge Priming Pattern.**
+
+It's a simple enough pattern, you feed your model some context and you ask it to not respond, try to reason or otherwise. You ask it to respond with just the words read/understand/acknowledge.
+
+![](acknowledge%20priming%20pattern.png)
+This helps with separating the commands from the context. It however, doesn't guarantee you a better response or answer. It may in fact reduce the generative quality of your response but that is a story for another day (when we start looking at Malicous Prompt Injection and Security of LLMs).
+
+### Adopting a Persona
+
+## 
+Correcting and Enhancing Your Work
+
+## 
+Handling LLM Hallucinations
+
+## 
+
