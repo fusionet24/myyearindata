@@ -2,16 +2,12 @@
 title: " Essential Non-Technical Tools for Data Consultants"
 author: "Scott Bell"
 description: "Essential Non-Technical Tools for technolgy Consultants that I'm currently using to help with my workflow "
-date: "2023-02-18"
-draft: false
+date: "2023-01-03"
+draft: true
 categories: 
-  - stashpad
-  - goodnotes
-  - iPad
-  - Notes
-  - Non Tech
-  - Greenshot
-  - Zoomit
+  - azure
+  - quarto 
+  - github 
 ---
 
 ## Introduction

@@ -1,0 +1,258 @@
+---
+title: " Copying Schemas between SQL Databases"
+author: "Scott Bell"
+description: "Do you want to know how to copy Schemas between SQL Databases? What is the best way to copy data and their table definitions between SQL Databases "
+date: "2023-04-17"
+draft: false
+categories: 
+  - azure
+  - quarto 
+  - github 
+---
+
+## Introduction
+
+Recently, I got asked a question in passing about an approach to copying a schema's objects (including the data within those objects) to another database in Azure. This question was one that was sufficiently small enough that I could answer in a blog post in one evening but also just complex enough that I thought maybe there's a better way. So if you're looking to solve this problem then he's an evaluation of the options available to you. If you're an database/azure expert and I've missed one of the options please do share
+
+So to avoid this developing into Brain Crack please read this blog post and give me your thoughts
+
+### Expanding the Problem Statement
+
+What we are trying to achieve:
+
+-   Copy Database Objects (Tables, Views, Stored Procs) between Databases (being on the same server sql server shouldn't matter).
+
+-   Copy the database objects to an existing database (so cloning a database and deleting everything else is likely not the answer)
+
+-   The objects will be scoped on a schema by schema basis. So an entire schema will be moved but this process should be repeatable to a N schemas.
+
+-   The database will have an undefined number of objects (so doing this manually table by table is not going to scale)
+
+-   Some reconcilaltion Logging is probably a good idea.
+
+## Options
+
+
+### Bacpac
+
+Bacpac is a portable format for SQL Server databases that allows you to export a database's schema and data into a single file. This file can then be imported into another SQL Server instance or an Azure SQL Database, effectively copying the schema and its associated data. However, Bacpac is designed for exporting and importing entire databases, not on a schema-by-schema basis.
+
+Given this limitation, Bacpac may not be the ideal choice in this scenario, as it does not allow for selective schema copying. Additionally, Bacpac does not support importing to an existing database.
+
+### DataPAC
+
+DataPAC is a package format that contains a database's schema and data in a compressed, portable format. It is specifically designed for transferring data between databases and can be used with SQL Server and Azure SQL Database. DataPAC allows you to selectively export and import specific schemas, making it a suitable choice for copying multiple schemas between databases.
+
+However, DataPAC may not be the best choice in this scenario because it may not be as efficient as other options when copying a large number of objects, as it requires manual intervention for each object. Furthermore, DataPAC's logging capabilities may not provide the desired level of reconciliation detail.
+
+### Redgate SQL (Data) Compare
+
+Redgate SQL (Data) Compare is a powerful tool for comparing and synchronizing SQL Server and Azure SQL Database schemas and data. It allows you to selectively copy specific schemas and their associated objects between databases, making it a suitable choice for copying multiple schemas. Additionally, Redgate SQL Compare can import data into an existing database, which aligns with the requirements of this scenario.
+
+However, Redgate SQL (Data) Compare is not allowed in this scenario.
+
+### Metadata Driven Azure Data Factory Approach
+
+Azure Data Factory (ADF) is a cloud-based data integration service that enables you to create, schedule, and manage data workflows. With a metadata-driven approach, you can dynamically generate ADF pipelines to copy schemas and their associated objects between databases. This approach is suitable for copying multiple schemas to an existing database, as it is highly scalable and can accommodate an undefined number of objects.
+
+However, implementing a metadata-driven ADF approach may require more development effort compared to the other options, as it necessitates creating custom logic and understanding ADF concepts. Additionally, while ADF does provide logging capabilities, you may need to configure custom logging to achieve the desired level of reconciliation detail. Despite these drawbacks, the metadata-driven ADF approach offers a flexible and scalable solution for copying schemas between databases.
+
+
+
+## Building a Data Factory Pipeline to Copy Metdata 
+
+So given the above limitations. We are forced to choose ADF in this scenario and below documents how this will be achieved.
+
+
+### Goals
+
+We have two key goals of which the solutions will have to be different.
+1. Copy all Database Objects with data in them (i.e. Tables)
+2. Copy all Database Objects which are not the above (e.g. Stored Procs, Views)
+
+### Pipeline
+
+This guide will walk you through creating an Azure Data Factory pipeline named "Copy Schema Objects". This pipeline will have two parameters: `source_schema` and `target_schema`.
+
+| Parameter Name | Type | Description |
+| --- | --- | --- |
+| sourceSchema | String | The name of the source schema where the data and objects are being copied from. |
+| targetSchema | String | The name of the target schema where the data and objects are being copied to. |
+
+
+1. **Create the Pipeline:**
+
+    Create a new pipeline and name it "Copy Schema Objects". Add two parameters to this pipeline: `source_schema` and `target_schema`.
+
+2. **Add a Lookup Activity to Retrieve Tables:**
+
+    Add a Lookup activity to the pipeline. This activity retrieves all tables from the source schema. Configure the Lookup activity to use a SQL query that retrieves table names from the specified schema. For Azure SQL Database, the T-SQL query may look like this:
+
+    ```sql
+    SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '@{pipeline().parameters.source_schema}' AND TABLE_TYPE = 'BASE TABLE'
+    ```
+
+3. **Add a ForEach Activity for Copying Tables:**
+
+To copy tables in ADF between two SQL sources, is a pretty trival thing in most scenarios. All we need todo is get a list of all tables within the source schema which we achieved in step 2.
+
+    Add a ForEach activity to the pipeline. This activity iterates over each item in the result set from the Lookup activity and performs a copy operation for each table.
+
+    Inside the ForEach activity, add a Copy activity. Configure the Copy activity to copy data from the source table to the target table. Use `@{item().TABLE_NAME}` to refer to the current table name in the ForEach loop. Make sure the source and target datasets in the Copy activity are configured correctly to point to the source and target databases, respectively.
+
+4. **Add a Lookup Activity to Retrieve Non-table Objects:**
+
+    Add another Lookup activity to the pipeline to retrieve each object that isn't a user table and script out its definition. You might use a SQL query similar to this one:
+
+    ```sql
+    SELECT OBJECT_NAME(OBJECT_ID) as ObjectName, OBJECT_DEFINITION(OBJECT_ID) as ObjectDefinition 
+    FROM sys.objects 
+    WHERE schema_id = SCHEMA_ID('@{pipeline().parameters.source_schema}') 
+    AND type NOT IN ('U', 'S')
+    ```
+
+    This query retrieves the names and definitions of all objects in the source schema that are not user tables or system tables.
+
+5. **Add a ForEach Activity for Creating Non-table Objects:**
+
+    Add another ForEach activity to the pipeline. This activity iterates over each item in the result set from the second Lookup activity and creates each object in the target database.
+
+    Inside this ForEach activity, add an Execute Pipeline activity that invokes a child pipeline. This child pipeline should take two parameters: `object_name` and `object_definition`, and it should contain a Stored Procedure activity that executes the object definition script in the target database.
+
+    You'll need to create this child pipeline separately, and the Stored Procedure activity should use a stored procedure that can execute arbitrary SQL scripts. Pass `@{item().ObjectDefinition}` as the script to execute.
+
+
+### Full Pipeline below
+
+
+``` json
+
+{
+    "name": "CopySchemaObjects",
+    "properties": {
+        "activities": [
+            {
+                "name": "LookupSourceTables",
+                "type": "Lookup",
+                "linkedServiceName": {
+                    "referenceName": "AzureSqlSource",
+                    "type": "LinkedServiceReference"
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "SqlSource",
+                        "sqlReaderQuery": "SELECT '[' + TABLE_SCHEMA + '].[' + TABLE_NAME + ']' AS TableName\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '@{pipeline().parameters.sourceSchema}'"
+                    },
+                    "dataset": {
+                        "referenceName": "SQLDataset",
+                        "type": "DataSetReference"
+                    }
+                },
+                "outputs": [
+                    {
+                        "name": "sourceTables"
+                    }
+                ]
+            },
+            {
+                "name": "ForEachTable",
+                "type": "ForEach",
+                "typeProperties": {
+                    "items": {
+                        "value": "@activity('LookupSourceTables').output.value",
+                        "type": "Expression"
+                    },
+                    "activities": [
+                        {
+                            "name": "CopyTable",
+                            "type": "Copy",
+                            "typeProperties": {
+                                "source": {
+                                    "type": "SqlSource",
+                                    "sqlReaderQuery": "SELECT * FROM @{item().TableName}"
+                                },
+                                "sink": {
+                                    "type": "SqlSink",
+                                    "tableName": {
+                                        "value": "@concat(pipeline().parameters.targetSchema, '.', replace(item().TableName, '[', '').replace(']', ''))",
+                                        "type": "Expression"
+                                    }
+                                },
+                                "sourceDataSet": {
+                                    "referenceName": "SQLDataset",
+                                    "type": "DataSetReference"
+                                },
+                                "destinationDataSet": {
+                                    "referenceName": "SQLDataset",
+                                    "type": "DataSetReference"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "LookupNonTableObjects",
+                "type": "Lookup",
+                "linkedServiceName": {
+                    "referenceName": "AzureSqlSource",
+                    "type": "LinkedServiceReference"
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "SqlSource",
+                        "sqlReaderQuery": "SELECT OBJECT_SCHEMA_NAME(o.object_id) + '.' + o.name AS ObjectName, sm.definition AS ObjectDefinition\nFROM sys.objects o\nJOIN sys.sql_modules sm ON o.object_id = sm.object_id\nWHERE o.type NOT IN ('U', 'S') AND OBJECT_SCHEMA_NAME(o.object_id) = '@{pipeline().parameters.sourceSchema}'"
+                    },
+                    "dataset": {
+                        "referenceName": "SQLDataset",
+                        "type": "DataSetReference"
+                    }
+                },
+                "outputs": [
+                    {
+                        "name": "nonTableObjects"
+                    }
+                ]
+            },
+            {
+            "name": "ForEachNonTableObject",
+                "type": "ForEach",
+                "typeProperties": {
+                    "items": {
+                        "value": "@activity('LookupNonTableObjects').output.value",
+                        "type": "Expression"
+                    },
+                    "activities": [
+                        {
+                            "name": "CreateNonTableObject",
+                            "type": "ExecuteSQL",
+                            "linkedServiceName": {
+                                "referenceName": "AzureSqlSource",
+                                "type": "LinkedServiceReference"
+                            },
+                            "typeProperties": {
+                                "sqlScript": {
+                                    "value": "@concat(replace(replace(item().ObjectDefinition, 'CREATE ', 'CREATE OR ALTER '), item().ObjectName, concat(pipeline().parameters.targetSchema, '.', replace(item().ObjectName, '[', '').replace(']', ''))))",
+                                    "type": "Expression"
+                                },
+                                "dataset": {
+                                    "referenceName": "SQLDataset",
+                                    "type": "DataSetReference"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "parameters": {
+            "sourceSchema": {
+                "type": "String"
+            },
+            "targetSchema": {
+                "type": "String"
+            }
+        }
+    }
+}
+```
