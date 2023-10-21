@@ -14,7 +14,7 @@ categories:
 
 Recently, I got asked a question in passing about an approach to copying a schema's objects (including the data within those objects) to another database in Azure. This question was one that was sufficiently small enough that I could answer in a blog post in one evening but also just complex enough that I thought maybe there's a better way. So if you're looking to solve this problem then he's an evaluation of the options available to you. If you're an database/azure expert and I've missed one of the options please do share
 
-So to avoid this developing into Brain Crack please read this blog post and give me your thoughts
+So to avoid this developing into [Brain Crack](https://www.youtube.com/watch?v=0sHCQWjTrJ8) please read this blog post and give me your thoughts.
 
 ### Expanding the Problem Statement
 
@@ -29,6 +29,8 @@ What we are trying to achieve:
 -   The database will have an undefined number of objects (so doing this manually table by table is not going to scale)
 
 -   Some reconcilaltion Logging is probably a good idea.
+
+- No 3rd party vendors, *Microsoft* Only Solutions
 
 ## Options
 
@@ -49,14 +51,13 @@ However, DataPAC may not be the best choice in this scenario because it may not 
 
 Redgate SQL (Data) Compare is a powerful tool for comparing and synchronizing SQL Server and Azure SQL Database schemas and data. It allows you to selectively copy specific schemas and their associated objects between databases, making it a suitable choice for copying multiple schemas. Additionally, Redgate SQL Compare can import data into an existing database, which aligns with the requirements of this scenario.
 
-However, Redgate SQL (Data) Compare is not allowed in this scenario.
+However, Redgate SQL (Data) Compare is not allowed in this scenario as it's a 3rd party tool.
 
 ### Metadata Driven Azure Data Factory Approach
 
 Azure Data Factory (ADF) is a cloud-based data integration service that enables you to create, schedule, and manage data workflows. With a metadata-driven approach, you can dynamically generate ADF pipelines to copy schemas and their associated objects between databases. This approach is suitable for copying multiple schemas to an existing database, as it is highly scalable and can accommodate an undefined number of objects.
 
 However, implementing a metadata-driven ADF approach may require more development effort compared to the other options, as it necessitates creating custom logic and understanding ADF concepts. Additionally, while ADF does provide logging capabilities, you may need to configure custom logging to achieve the desired level of reconciliation detail. Despite these drawbacks, the metadata-driven ADF approach offers a flexible and scalable solution for copying schemas between databases.
-
 
 
 ## Building a Data Factory Pipeline to Copy Metdata 
