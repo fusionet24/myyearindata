@@ -1,0 +1,149 @@
+---
+title: " How to Enable Users to Upload and Read User Files in Databricks using DBFS File Store and Widgets
+author: "Scott Bell"
+description: "Are you using File Store on Databricks, do you want users to be able to upload files and trigger notebooks with their user data with minimal effort? "
+date: "2023-10-22"
+draft: true
+categories: 
+  - databricks
+  - patterns
+  - filestore
+---
+::: {.callout-tip}
+## Multipart Blog Series on User Driven File Upload Patterns on Databricks
+
+[Overview of Patterns]()
+
+[DBFS File Store Driven File Uploads]
+
+[Unity Catalog Volume File Uploads]()
+
+[RShiny Webapp Uploads]()
+
+[RShiny Webapp Uploads]()
+
+
+[Comparsion of Patterns]()
+
+:::
+****
+
+Welcome to a comprehensive guide on how to allow users to upload their own files and seamlessly integrate them into your Databricks notebook for processing. With Databricks, integrating user files posses some challenges, and in this post, we'll delve into the process using DBFS File Store.
+
+### Why Use Databricks File Store?
+
+Databricks File System (DBFS) is a distributed file system installed on Azure Blob Storage or S3, depending on your cloud provider. DBFS makes it simple to store data and integrate it with Databricks and Spark. Using the DBFS File Store in the Databricks UI, you can easily upload files without needing to worry about the underlying storage details.
+
+::: {.callout-important}
+## DBFS Locations not recommended by Databricks for Unity Catalog enabled workspaces
+The pattern of directly using DBFS paths, especially when integrating with the Unity Catalog in Databricks, is discouraged. While DBFS offers a layer over distributed storage solutions like Azure Blob Storage or S3, using direct DBFS paths in conjunction with the Unity Catalog can introduce complexities and hinder optimal data management. The Unity Catalog provides an integrated environment for managing structured data in Databricks, offering a seamless bridge between different data storage solutions. When DBFS paths are used directly, it can interfere with the capabilities of the Unity Catalog to manage, organize, and search for data. Instead, it's advised to use the Unity Catalog's native integrations for a more streamlined, efficient, and manageable data experience. For a deeper understanding, refer to the official Databricks documentation on [DBFS Root](https://docs.databricks.com/en/dbfs/dbfs-root.html), [Unity Catalog](https://docs.databricks.com/en/dbfs/unity-catalog.html), and [File Store](https://docs.databricks.com/en/dbfs/filestore.html).
+:::
+
+So you've decided you need to use DBFS filestore for your usecase. Then the following including the code will allow you to show a user how to upload files and generically implement a helper notebook to consume files. All the user has todo is *upload their file* and *copy and paste a single file path*.
+
+
+### Developer Implementation:
+1. **Integrate the File in the Notebook using a Widget**:
+   Widgets in Databricks allow for a more interactive and dynamic way to gather inputs. In this case, we'll use a text widget to input our file URL.
+   
+   ```python
+   dbutils.widgets.text('fileURL','<PASTE YOUR VALUE HERE>')
+   fileURL = dbutils.widgets.get('fileURL')
+   ```
+   `<PASTE YOUR VALUE HERE>`lets the user know where to to input their file URL.
+
+4. **Extract the File Format**:
+   Extracting the file format is essential to let Spark know how to read the file correctly.
+   
+   ```python
+   fileFormat = fileURL.split('.')[-1]
+   ```
+
+5. **Reading the Uploaded File into a DataFrame**:
+   Using Spark, you can now read the file using the derived format and the provided URL.
+   
+   ```python
+   user_uploaded_dataframe = spark.read.format(fileFormat).load(fileURL)
+   ```
+
+6. **Suggested Additional Checks**:
+   You might want to include some checks to ensure the file URL is valid, and the file format is supported by Spark. Here’s a simple example:
+   
+   ```python
+   if fileURL == '<PASTE YOUR VALUE HERE>' or not fileFormat in ["csv", "parquet", "json"]:
+       raise ValueError("Invalid file URL or unsupported file format!")
+   ```
+
+### Users Step-by-Step Process:
+
+**Uploading the File to DBFS via UI**:
+![](images/user-menu-ui.png)
+   - Navigate to the Databricks workspace.
+   1. On a given notebook, click on the context menu and file **(1)**.
+   2. Click Upload to DBFS
+   ![](images/UserUIUpload.png)
+   3. You will notice this is being uploaded to the DBFS FileStore 
+   4. This is the folder you will be uploading it too, by default it is named after the user logged in
+   5. Drop or upload your user files here
+   6. Click Next
+   ![](images/copyfile-details.png)
+   **Depending on whether you're using Spark Dataframes **(7)** or a local file API library **(8)** (e.g. Pandas) you need to instruct the user to choose the appropriate one to get their file URL.
+   9. This will contain the file path you want to copy out for your uploaded file.
+   10. This will copy the file path in 9 quickly
+   ![](images/pasteNotebookURL.png)
+   11. This is the widget you want to use
+   12. Paste the value here to load the data
+
+### Making this generic?
+Turning your file-upload notebook into a generic notebook enhances its reusability and modularity. By doing this, you can encapsulate the file-upload logic in one place and then invoke it wherever needed, ensuring consistency and saving time.
+
+Some consdierations while making this generic:
+
+- You could include file locations to store files for this invocation/usecase.
+- You could include code to return the uploaded file string back into your calling notebook
+- You could copy your data over to your normal data store.
+
+#### Invoking the Generic Notebook:
+
+1. **Using `%run` Magic Command**:
+   The `%run` magic command is useful when you want to invoke a notebook inline within another notebook.
+
+   ```python
+   %run "/path_to_generic_notebook"
+   ```
+
+
+
+2. **Using `dbutils.notebook.run`**:
+   `dbutils.notebook.run` allows for more dynamic notebook invocation and is especially useful when you have complex workflows or need to capture the output of the invoked notebook.
+
+   ```python
+   result = dbutils.notebook.run(
+       "/path_to_generic_notebook", 
+       timeout_seconds=0, 
+       arguments={}
+   )
+   ```
+
+   Here, `result` captures the output of the notebook, if any. The `arguments` parameter is used to pass the file path or any other parameters to the generic notebook.
+
+### Wrapping Up
+
+With just a few lines of code, you've transformed your static Databricks notebook into an interactive tool that can process user-uploaded files. This approach not only makes your analyses and processing tasks more versatile but also enhances the user experience by allowing for on-the-fly data integration. Whether you're building a data transformation pipeline or conducting exploratory data analysis, integrating user files can open up a plethora of opportunities for dynamic data processing.
+
+Full Notebook code below:
+```python
+
+# Databricks notebook source
+dbutils.widgets.text('fileURL','<PASTE YOUR VALUE HERE>')
+
+# COMMAND ----------
+
+fileURL = dbutils.widgets.get('fileURL') # Get the Widget Value with your File URL
+fileFormat = fileURL.split('.')[-1] # take the last value after . to get the format
+## You May want to put some checks here such as fileRUL != '<PASTE YOUR VALUE HERE>', it has a valid format for SPARK to read etc. I will omit that as its upto you
+user_uploaded_dataframe = spark.read.format(fileFormat).load(fileURL)
+
+
+
+```

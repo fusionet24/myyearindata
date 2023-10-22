@@ -16,7 +16,7 @@ categories:
 
 [Part 2](https://www.myyearindata.com/posts/building-quarto-on-github/)
 
-Part 3 (Coming Soon)
+[Part 3] (https://www.myyearindata.com/posts/deploying-to-azure-static-web-apps/)
 
 :::
 ## The Setup
