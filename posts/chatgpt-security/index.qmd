@@ -41,13 +41,21 @@ The UK’s Cybersecurity agency,  the National Cyber Security Centre (NCSC), has
 
 The previously mentioned risks are not theoretical, as we have seen real-life attacks using prompt injections. 
 
+### Microsoft Bing Leaks
 - Microsoft's new version of the Bing search engine, which LLMs powered, was found to be vulnerable to a prompt injection. A Stanford student, Kevin Liu, bypassed the initial safety checks present within the LLM by prompting Bing to “ignore previous instructions.” This “jailbreak” caused Bing to ignore the instructions of the previous session and the commands put in by the Microsoft team. It also revealed the initial set of prompts entered by Microsoft that govern the behavior of the LLM when interacting with users. A few examples of these prompts were: 
 Consider Bing Chat whose codename is Sydney,
 Sydney is the chat mode of Microsoft Bing search.
 Sydney identifies as “Bing Search,” not an assistant and so on 
 Microsoft also confirmed the authenticity of the initial prompt revealed by Liu and commented that they are continuously improving their internal controls to deal with such attacks.
+
+### Social Engineering via LLMs
 Cristiano Giardina, an entrepreneur, demonstrated how LLMs could be manipulated via indirect prompt injections where the prompt is hidden within an external website. By strategically placing malicious prompts in a third-party site like YouTube or Google Docs or even within a plug-in, attackers can bypass security checks that might be present for direct attacks and increase their chances of executing them. 
-These are just a few attacks where LLMs are vulnerable to prompt injections. We can expect these to increase as organizations rush to adopt and embed LLM capabilities within their enterprise applications. 
+
+### Chevorlet of Charlottesville
+The Chevolet branch in Charlottesville implemented a Chat GPT Powered Model to assist users on its site, some users discovered this and it became a competition on twitter to make it do the weirdest things. Some examples include having the Sales Assistant produce Python scripts and went as far as offering a car for $1.
+
+
+These are just a few attacks where LLMs are vulnerable to prompt injections. We can expect these to increase as organizations rush to adopt and embed LLM capabilities within their  applications. 
 
 ## How to Protect Against Prompt Injection Attacks 
 Prompt injections can be tricky to defend against, as unlike other attacks like SQL injections or Cross-Site Scripting (XSS) attacks, there is no specific syntax to filter out. The attack is embedded within the natural language prompt sent to the LLM. However, there are several ways to mitigate the effectiveness of these attacks, such as: 
@@ -55,5 +63,6 @@ Implement input validation that detects malicious commands and prompts, such as 
 Implement output sanitization that ensures that sensitive information is filtered or sanitized before being displayed to the user. This will prevent the LLM from being misused to extract sensitive information by an attacker. 
 Regularly train the LLM on new attack techniques and use cases where prompt injections will occur. This will improve the LLM's resilience against such attacks. 
 Implement logging mechanisms that alert internal teams if malicious commands are being sent to the LLM. This will help the teams be proactively notified if an attacker attempts to manipulate the LLM. 
-The Way Forward 
+
+## The Way Forward 
 GenAI and LLMs are here to stay, and attacks like prompt injections will only increase in sophistication over time. Organizations need to threat model LLMs against these attacks and implement the appropriate mitigations to prevent their internal applications from falling victim to them. The rate of GenAI adoption is outpacing awareness of its risks, and organizations need to upskill and learn these threat vectors before adopting them at scale. 

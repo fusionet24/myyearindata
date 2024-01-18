@@ -15,11 +15,11 @@ categories:
 
 ## Introduction
 
-So like many of you, I've fallen down a rabbit hole. Late last year over on twitter I started to see these amazing and complex solutions being built by something call ChatGPT. So for those of you unaware, I have a background in Machine Learning, however my entire education and real world experience I didn't focus on Language models, they didn't interest me. I didn't see the value compared to say Supervised Learning (XGBoost & SVMs 😃). Anyway, these flashy demos got me a little obsessed and several significant failed side projects later and one successful side hustle (£5 a day FTW!). I've gathered a bunch of thoughts on LLMs, so I'm embarking on a journey to write blog posts about those experiences!
+So like many of you, I've fallen down a rabbit hole. Late last year over on twitter I started to see these amazing and complex solutions being built by something call ChatGPT. So for those of you unaware, I have a background in Machine Learning, however during my entire education and real world experience I didn't focus on Language models, they didn't interest me. I didn't see the value compared to say Supervised Learning (XGBoost & SVMs 😃). Anyway, these flashy demos got me a little obsessed and several significant failed side projects later and one successful side hustle (£5 a day FTW!). I've gathered a bunch of thoughts on LLMs, so I'm embarking on a journey to write blog posts about those experiences!
 
 Large Language Models (LLMs) like ChatGPT have revolutionized the way we interact with machines, making them more human-like and capable of understanding complex text. These models offer a vast array of applications, from improving productivity to exploring creative applications. In this series of blog posts, my goal is to show you how you can leverage them in different ways, give some tips you might not know and show the dangers of LLMs.
 
-This initial post will talk briefly cover prompt design, employing personas, correcting and enhancing your work, handling hallucinations, and priming techniques.
+This initial post will talk briefly cover jargon prompt design, employing personas, correcting and enhancing your work, handling hallucinations, and priming techniques.
 
 Here's a nice video on how LLMs work
 
