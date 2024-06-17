@@ -1,3 +1,4 @@
+---
 title: "Performance Monitoring for Copy Activities in Azure Data Factory"
 author: "Scott Bell"
 date: "2023-06-18"
@@ -14,7 +15,7 @@ categories:
 
 ## Introduction
 
-In azure data orchstration, ensuring the efficient transfer of data between systems is crucial. This is where Azure Data Factory (ADF) and Azure Synapse Analytics shine. Recently, I had to perform analysis on a misbehaving copy activity in ADF. I figured I'd provide  my query here as a form of my repeated attemps at D-R-Y 
+In Azure data orchstration, ensuring the efficient transfer of data between systems is crucial. This is where Azure Data Factory (ADF) and Azure Synapse Analytics shine. Recently, I had to perform analysis on a misbehaving copy activity in ADF. I figured I'd provide  my query here as a form of my repeated attemps at D-R-Y 
 
 For this example the pipeline is named **Copy My Data**, leverages a self-hosted integration runtime to demostrate addtional filtering in the query
 
@@ -54,7 +55,11 @@ ADFActivityRun
 //| where sql_query == "select * from dbo.Adventureworks_sales" // choose a table that has timed out
 //| where EffectiveIntegrationRuntime == "MY-Self_hosted-IR" // Target a sepecfic IR
 ```
-(output.png){fig-align="center"}
+
+#### Output
+
+![](images/output.png){fig-align="center"}
+
 #### Key Steps in the Query
 
 1. **Filter by Time Range**: We filter the logs to the last 30 days.
@@ -95,7 +100,10 @@ To further enhance our monitoring, we can summarize key metrics. This allows us 
 | order by PipelineName
 ```
 
-(summarise.png){fig-align="center"}
+#### Example
+
+![](images/summarise.png){fig-align="center"}
+
 
 #### Key Summary Metrics
 
