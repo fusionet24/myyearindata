@@ -6,13 +6,13 @@ date: "2023-04-17"
 draft: false
 categories: 
   - azure
-  - quarto 
-  - github 
+  - sql 
+  - database
 ---
 
 ## Introduction
 
-Recently, I got asked a question in passing about an approach to copying a schema's objects (including the data within those objects) to another database in Azure. This question was one that was sufficiently small enough that I could answer in a blog post in one evening but also just complex enough that I thought maybe there's a better way. So if you're looking to solve this problem then he's an evaluation of the options available to you. If you're an database/azure expert and I've missed one of the options please do share
+Recently, I got asked a question in passing about an approach to copying a schema's objects (including the data within those objects) to another database in Azure. This question was one that was sufficiently small enough that I could answer in a blog post in one evening but also just complex enough that I thought maybe there's a better way. So if you're looking to solve this problem then here's an evaluation of the options available to you. If you're an database/azure expert and I've missed one of the options please do share
 
 So to avoid this developing into Brain Crack please read this blog post and give me your thoughts
 
