@@ -104,6 +104,18 @@ Next we need a variable called **BankHoliday** to store the outcome of the quest
 
     Now you have a Azure Data Factory pipeline that can calculate whether a given day is a United Kingdom Bank Holiday Or Regional Bank Holiday (Wales, Scotland or Northern Ireland).
 
+::: {.callout-tip}
+## Update Slides and Talk
+This Talk was presented at data toboggan cool runnings 2024
+
+[Slides](https://fusionet24.github.io/Talks/2024/ADF-Synapse-Pipeline-Bank-Holiday.html#/title-slide)
+
+:::
+```{=html}
+<iframe class="slide-deck" src="https://fusionet24.github.io/Talks/2024/ADF-Synapse-Pipeline-Bank-Holiday.html#/title-slide" width="800" height="400">></iframe>
+```
+
+
 ## Code
 
 ```{=html}
