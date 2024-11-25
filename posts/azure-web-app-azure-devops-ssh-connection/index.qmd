@@ -1,0 +1,193 @@
+---
+title: "Creating an SSH Connection in Azure DevOps Pipelines to Azure App Service"
+author: "Scott Bell"
+description: "Open an SSH Connection during an Azure Devops Pipeline deployment to Azure App Services for Advanced Configurations"
+date: "2024-10-25"
+draft: false
+categories: 
+  - azure
+  - Azure DevOps
+  - CI/CD
+  - Azure Web Apps
+  - quarto 
+  - github 
+  - Docker
+---
+
+# Creating an SSH Connection in Azure DevOps Pipelines
+
+Let’s talk about a scenario many of us face: you’re deploying an **Azure Web App** in **Azure DevOps**, and you realize you need a bit more control. Maybe you want to move some files around post deployment, do some quick hacks, tweak a configuration, or even peek at a few logs. That’s where SSH comes in.  
+
+Setting up an **SSH connection in Azure DevOps pipelines** unlocks a ton of possibilities. In this post, I’ll walk you through how to set it up, why it’s useful, and a practical way you can use it.
+
+## The Problem: Limited Control in Automated Deployments  
+
+Azure Web Apps are fantastic for deploying applications without worrying about infrastructure. But what if you need to access the app directly? Maybe you want to:  
+
+- Copy files from one part of your app to another.
+- Run quick maintenance scripts.
+- Debug by inspecting logs or outputs directly from the app environment.  
+
+Doing this manually or outside the pipeline isn’t ideal. Instead, integrating SSH access into your **Azure DevOps deployment pipeline** gives you the flexibility to handle these tasks efficiently.
+
+## The Solution: SSH in Azure DevOps Pipelines  
+
+::: {.callout-warning appearance="simple" collapse="false"}
+
+### Assumptions
+You need to know some basics to get the most out of this post.
+
+1. What an [Azure web app](https://learn.microsoft.com/en-us/azure/app-service/) is
+2. What the [AZ CLI](https://learn.microsoft.com/en-us/cli/azure/) is 
+3. What [SSH](https://www.cloudflare.com/en-gb/learning/access-management/what-is-ssh/) is
+
+:::
+
+### What is a Remote Connection?
+
+In Azure Web Apps, a **remote connection** lets you securely connect to your app’s underlying environment. Locally, this might mean running a command like `az webapp create-remote-connection` and then connecting via SSH.  
+
+In an **Azure DevOps pipeline**, we can automate this process so it happens seamlessly during deployment. This setup enables you to interact directly with the app service environment for specific tasks—without needing to step out of your CI/CD workflow.  
+
+### Step-by-Step: Setting Up SSH in Your Pipeline  
+
+Here’s how I approached it:  
+
+#### 1. Create a Remote Connection  
+
+Use Azure CLI to spin up a remote connection. This essentially creates a secure channel between your pipeline and the Azure Web App.
+
+::: {.callout-note collapse="false"}
+## Specifying the Port and Default Credentials  
+
+When creating an SSH connection via `az webapp create-remote-connection`, it’s important to **manually specify the port** (e.g., `-p 55200`) to avoid one being randomly assigned. A fixed port ensures consistency, especially in automated pipelines.  
+
+By default:  
+- The **username** is `root`.  
+- If you’re running a Docker container, the **password** is usually `Docker!`.  
+
+These defaults make it quick to connect, but ensure you change or secure these credentials in production environments to enhance security.
+:::
+#### 2. Open an SSH Session and Execute Commands  
+
+Once the connection is established, use `ssh` commands to perform tasks directly on the app environment.  
+
+::: {.callout-note collapse="false"}
+## What Does `nohup` and `> connection.log 2>&1 &` Mean?
+
+- **`nohup`**: This stands for “no hang up,” and it allows a command to keep running even after the shell that started it has been exited or detached. In this case, it ensures the remote connection keeps running after the task step ends.
+
+- **`> connection.log 2>&1 &`**:  
+  - `>` sends the standard output of the command to the file `connection.log`.
+  - `2>&1` redirects any errors (stderr) to the same file as standard output.
+  - `&` puts the entire process into the background, so it doesn’t block the pipeline.  
+
+Here’s the trick: Azure DevOps tasks can’t release the shell once you start a remote connection—doing so would terminate your SSH ability. Running it with `nohup` and in the background is essential to keep the connection alive while the pipeline continues.
+
+Additionally, the Azure remote connection often needs a bit of time to initialize, which is why we include a `sleep 60`. Without this, you might attempt to SSH before the connection is ready, resulting in errors.  
+:::
+
+```yaml
+jobs:
+  - job: CreateRemoteConnectionAndCopyFiles
+    displayName: 'Create Remote Connection and Execute Commands in Azure DevOps'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      # Step 1: Create the remote connection in the background using nohup
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: <YourAzureServiceConnection>
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+              nohup az webapp create-remote-connection --subscription <YoursubscriptionId> --resource-group <YourresourceGroupName> -n <YourAppName> -s <Your_SlotName_If_Required> -p 55200 > connection.log 2>&1 &
+              sleep 60  # Wait for connection to establish
+
+      # Step 2: Open an SSH session and copy files
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription:  <YourAzureServiceConnection>
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            sshpass -p "DOCKER1!" ssh -o StrictHostKeyChecking=no root@127.0.0.1 -p 55200 << EOF
+      ### Do your SSH STUFF HERE
+            EOF
+```
+
+::: {.callout-tip collapse="true"} 
+## Sample Template: Copying Files inside of Docker
+
+Here’s how this pipeline works in action:
+	1.	Step 1: Establish a remote connection. This runs in the background using the Azure CLI and keeps the connection alive so we can SSH in.
+	2.	Step 2: Use SSH to copy files from sourcePath to destinationPath. This could mean moving files from a staging directory to a production location within your app. I needed to move PhpMyAdmin after deployment in certain environments from devops.
+
+
+Here’s the full YAML pipeline snippet as a template:
+
+```yaml
+parameters:
+  - name: subscriptionId
+    type: string
+  - name: resourceGroupName
+    type: string
+  - name: appName
+    type: string
+  - name: slot
+    type: string
+  - name: sshUser
+    type: string
+  - name: sshPassword
+    type: string
+  - name: sourcePath
+    type: string
+  - name: destinationPath
+    type: string
+  - name: azureSubscription
+    type: string
+
+jobs:
+  - job: CreateRemoteConnectionAndCopyFiles
+    displayName: 'Create Remote Connection and Execute Commands in Azure DevOps'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      # Step 1: Create the remote connection in the background using nohup
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: '${{ parameters.azureSubscription }}'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+              echo "Starting remote connection in the background..."
+              nohup az webapp create-remote-connection --subscription ${{ parameters.subscriptionId }} --resource-group ${{ parameters.resourceGroupName }} -n ${{ parameters.appName }} -s ${{ parameters.slot }} -p 55200 > connection.log 2>&1 &
+              sleep 60  # Wait for connection to establish
+
+      # Step 2: Open an SSH session and copy files
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: '${{ parameters.azureSubscription }}'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            echo "Opening SSH session to execute the copy command in Azure DevOps..."
+            sshpass -p "${{ parameters.sshPassword }}" ssh -o StrictHostKeyChecking=no ${{ parameters.sshUser }}@127.0.0.1 -p 55200 << EOF
+            cp -R ${{ parameters.sourcePath }} ${{ parameters.destinationPath }}
+            EOF
+```
+
+
+
+By embedding this in your Azure DevOps pipeline, you can handle file transfers automatically as part of your deployment process.
+
+:::
+
+# Wrapping Up
+
+Adding SSH functionality to your Azure DevOps deployment pipeline can make your life much easier. Whether you’re moving files, debugging logs, or tweaking configurations, SSH gives you the flexibility to handle tasks that would otherwise require extra deployments or manual intervention.
+
+So, next time you’re deploying an Azure Web App, try incorporating an SSH connection—it might just save you a lot of headaches.
+
+Got any questions or want to share how you’re using SSH in your pipelines? I’d love to hear from you!
+
