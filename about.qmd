@@ -21,7 +21,7 @@ about:
       href: https://techhub.social/@fusionet24
 ---
 
-This blog is run by Scott Bell who is currently a Principal Consultant at RapidData LTD and a Contractor for [Advancing Analytics](https://www.advancinganalytics.co.uk/). Previously he was the UK&I Databricks SME at Avanade. His background is Data Engineering, Architecture and Data Science.
+This blog is run by Scott Bell who is currently a Principal Consultant at RapidData LTD and a Contractor. Previously he was the UK&I Databricks SME at Avanade. His background is Data Engineering, Architecture and Data Science.
 
 ![](certs.png){fig-align="center"}
 
