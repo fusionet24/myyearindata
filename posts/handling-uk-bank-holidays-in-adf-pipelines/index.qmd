@@ -109,12 +109,14 @@ Next we need a variable called **BankHoliday** to store the outcome of the quest
 This Talk was presented at data toboggan cool runnings 2024
 
 [Slides](https://fusionet24.github.io/Talks/2024/ADF-Synapse-Pipeline-Bank-Holiday.html#/title-slide)
-
+[Video](https://www.youtube.com/watch?v=tU-TqXW_6rs)
 :::
 ```{=html}
 <iframe class="slide-deck" src="https://fusionet24.github.io/Talks/2024/ADF-Synapse-Pipeline-Bank-Holiday.html#/title-slide" width="800" height="400">></iframe>
 ```
-
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tU-TqXW_6rs?si=lEpDKvosJ2aak5bp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
 
 ## Code
 
