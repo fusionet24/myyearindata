@@ -61,7 +61,7 @@ If you’re working with the [FabricPS-PBIP](https://github.com/microsoft/Analys
 
 In FabricPS-PBIP, they have a [write log function](https://github.com/microsoft/Analysis-Services/blob/77dc1865cd5fa1253d60dcbe7940c33c955b11e8/pbidevmode/fabricps-pbip/FabricPS-PBIP.psm1#L41-L50) which calls the default colour value of -1 (below).
 
-```
+```powershell
 function Write-Log{
     param
     (
