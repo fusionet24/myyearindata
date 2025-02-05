@@ -1,0 +1,88 @@
+---
+title: "Fixing the Write-Host Invalid Color Error in PowerShell"
+author: "Scott Bell"
+date: "2025-02-03"
+draft: false
+categories: 
+  - Azure DevOps
+  - PowerShell
+  - FabricPBIP
+  - Fabric
+  - Error
+---
+
+## Introduction
+
+We’ve all encountered those quirky errors that crop up like this **Write-Host** color error in PowerShell.  If you’ve seen an error that looks something like:
+
+```powershell
+Write-Host: Cannot process the color because -1 is not a valid color. (Parameter 'value')
+Actual value was -1.
+```
+
+This post documents what worked for me to fix it. In this walkthrough, I’ll restate the problem, show you the (thankfully simple) fix, and share why it happens in the first place.
+
+---
+
+## The Problem
+
+**Let’s restate the problem** in a bit more detail. When running certain PowerShell scripts in Azure DevOps—specifically scripts that leverage the [Fabric PBIP deployment module](https://github.com/microsoft/Analysis-Services/tree/master/pbidevmode/fabricps-pbip) or related resources—the pipeline logs may throw an error about an invalid color. The culprit is a Foreground color of **-1**, which isn’t valid in the PowerShell color enumeration.
+
+Why does this matter? Because Azure DevOps has its own logging and theming commands that sometimes override or conflict with script-based color settings. When you try to **Write-Host** with an invalid color, DevOps (or PowerShell) will say, “Nope! That’s not in my list of recognized color values.”
+
+## The Goal
+
+**The goal is to** ensure that your scripts continue running without choking on color-related errors. Even if you don’t particularly care about the text color in your DevOps logs, you do care about your pipeline not failing.
+
+---
+
+## The Quick Fix
+
+### Use a Valid Foreground Color
+
+The simplest fix is to set the console’s foreground color to a valid value before this the problematic code is called. —**Black**, **DarkBlue**, **DarkGreen**, **DarkCyan**, **DarkRed**, **DarkMagenta**, **DarkYellow**, **Gray**, **DarkGray**, **Blue**, **Green**, **Cyan**, **Red**, **Magenta**, **Yellow**, or **White**. For example, setting it to **White** is a safe bet:
+
+```powershell
+[System.Console]::ForegroundColor = "White"
+```
+
+That’s it. This ensures your script no longer tries to use **-1** (an invalid color) in any subsequent **Write-Host** commands. Now you have a pipeline that can continue without throwing that dreaded error.
+
+
+## Where This Fits in Azure DevOps Logging
+
+If you’re curious about how Azure DevOps manages logging colors and styles, check out the official Microsoft docs on [logging commands for Azure Pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash). 
+
+---
+
+## Example: Fabric PBIP Deployment
+
+If you’re working with the [FabricPS-PBIP](https://github.com/microsoft/Analysis-Services/tree/master/pbidevmode/fabricps-pbip) module—or any script that includes internal logging functions—it might be calling `Write-Host` behind the scenes. 
+
+In FabricPS-PBIP, they have a [write log function](https://github.com/microsoft/Analysis-Services/blob/77dc1865cd5fa1253d60dcbe7940c33c955b11e8/pbidevmode/fabricps-pbip/FabricPS-PBIP.psm1#L41-L50) which calls the default colour value of -1 (below).
+
+```
+function Write-Log{
+    param
+    (
+        $message
+        ,
+        $foregroundColor = [System.Console]::ForegroundColor
+    )
+
+
+    Write-Host "[$([datetime]::Now.ToString("s"))] $message" -ForegroundColor $foregroundColor
+}
+```
+
+You’ll notice that once you explicitly set before interacting with the fabric module e.g.
+
+```powershell
+[System.Console]::ForegroundColor = "White"
+```
+
+the module’s internal `write-log` function shouldn’t throw any more color errors.
+
+## Conclusion
+
+In the grand scheme of things, a color setting might not seem like a big deal—**but** it can totally derail your pipeline if it’s set to an invalid value. Fortunately, the fix is easy: **just pick a valid color**.
