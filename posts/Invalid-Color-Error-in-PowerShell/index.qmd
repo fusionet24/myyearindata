@@ -26,7 +26,7 @@ This post documents what worked for me to fix it. In this walkthrough, I’ll re
 
 ## The Problem
 
-**Let’s restate the problem** in a bit more detail. When running certain PowerShell scripts in Azure DevOps—specifically scripts that leverage the [Fabric PBIP deployment module](https://github.com/microsoft/Analysis-Services/tree/master/pbidevmode/fabricps-pbip) or related resources—the pipeline logs may throw an error about an invalid color. The culprit is a Foreground color of **-1**, which isn’t valid in the PowerShell color enumeration.
+**Let’s restate the problem** in a bit more detail. When running certain PowerShell scripts in Azure DevOps— In my case specifically the [Fabric PBIP Powershell Deployment module](https://github.com/microsoft/Analysis-Services/tree/master/pbidevmode/fabricps-pbip) or related resources—the pipeline logs may throw an error about an invalid color. The culprit is a Foreground color of **-1**, which isn’t valid in the PowerShell color enumeration.
 
 Why does this matter? Because Azure DevOps has its own logging and theming commands that sometimes override or conflict with script-based color settings. When you try to **Write-Host** with an invalid color, DevOps (or PowerShell) will say, “Nope! That’s not in my list of recognized color values.”
 
