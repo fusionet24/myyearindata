@@ -16,7 +16,7 @@ categories:
   - Technology
 ---
 
-Ever read something online and wondered, "Was this written by a human or AI?" It's a fair question these days, [AI slop](https://en.wikipedia.org/wiki/AI_slop) is everywehre. As I've leaned more into using AI to help with my writing, I realized I needed a clear system to stay transparent with my readers. It’s not about passing off AI work as my own; it’s about leveraging these incredible tools to bring better in-depth content faster.
+Ever read something online and wondered, "Was this written by a human or AI?" It's a fair question these days, [AI slop](https://en.wikipedia.org/wiki/AI_slop) is everywhere. As I've leaned more into using AI to help with my writing, I realized I needed a clear system to stay transparent with my readers. It’s not about passing off AI work as my own; it’s about leveraging these incredible tools to bring better in-depth content faster.
 
 To do that, I've developed a workflow and labels you'll see on my posts: **AI Generated**, **AI Assisted**, and **AI Reviewed**. This post is a quick FAQ to explain what they mean and how I create content now.
 
@@ -73,7 +73,8 @@ I'll go back and forth with the model, refining the outline until I'm happy with
 With a solid structure in place, I do two things simultaneously. First, I use NotebookLM's audio feature to talk through content using my plan/structure.
 
 ::: {.callout-tip collapse="true"}
-#NotebookLM Audio Overview
+
+# NotebookLM Audio Overview
 **NotebookLM Audio Overview** is a feature where the tool generates an audio discussion based on your sources and notes. Listening to an AI-generated conversation about my topic helps me validate my understanding and sometimes sparks new ideas. It's like having a quick chat with a knowledgeable colleague to see if my argument holds up.
 :::
 
