@@ -43,7 +43,7 @@ There's lot of context I'm missing here I know. The Data Warehouse architecture 
 
 :::
 
-The more recent trend was building solution or platform accelerators. These tools focus on enabling data engineers and scientists to do their best work by abstracting away boilerplate code. The idea is sound: let engineers focus on the business context and problem-solving, not rewriting the same data-loading script for the hundredth time. This is often achieved through [Configuration-as-Code](https://configu.com/blog/what-is-configuration-as-code-cac-and-5-tips-for-success/) (CaC), where you define your pipelines in a structured format like YAML or JSON.
+The more recent trend was building solution or platform accelerators. These tools focus on enabling data engineers and scientists to do their best work by abstracting away boilerplate code. The idea is sound: let engineers focus on the business context and problem-solving, not rewriting the same data-loading script for the hundredth time. This is often achieved through [Configuration-as-Code](https://configu.com/blog/what-is-configuration-as-code-cac-and-5-tips-for-success/) (CaC), where you define your pipelines in a structured format like YAML, JSON or SQL Tables.
 
 ## The Accelerator Anti-Pattern: A Cautionary Tale
 
