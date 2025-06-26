@@ -38,7 +38,7 @@ To understand where we're going, we need to look at where we've been. Many data 
 ::: {.callout-warning appearance="simple"}
 ##
 
-There's lot of context I'm missing here I know. The Data Warehouse architecture battles, Vendor Wars, Hadoop, Sqoop, Azure Data Lake Analytics. Early Orchstrators such as SSIS, ADFv1 and more. It doesn't add value to the point I'm making, so I'm simpifying the timeline.
+There's lot of context I'm missing here I know. The Data Warehouse architecture battles, Vendor Wars, Hadoop, Sqoop, Azure Data Lake Analytics. Early Orchstrators such as SSIS, ADFv1 and more. It doesn't add value to the point I'm making, so I'm simplifying the timeline.
 
 :::
 
