@@ -34,15 +34,14 @@ This isn't just a topic for a conference talk. I have been using ChatGPT since i
 
 To understand where we're going, we need to look at where we've been. Many data teams started with deeply coupled, procedural platforms. Think of massive SQL stored procedures that contained all the business logic for an entire company. They were *(often, not always)* difficult to test, maintain, and scale.
 
+Then, we moved to cloud data platforms like Databricks. This shift introduced notebooks and encouraged teams to build reusable functions and, eventually proper internal frameworks. It was a certainly an improvement for **most**.
+
 ::: {.callout-warning appearance="simple"}
 ##
 
 There's lot of context I'm missing here I know. The Data Warehouse architecture battles, Vendor Wars, Hadoop, Sqoop, Azure Data Lake Analytics. Early Orchstrators such as SSIS, ADFv1 and more. It doesn't add value to the point I'm making, so I'm simplifying the timeline.
 
 :::
-
-
-Then, we moved to cloud data platforms like Databricks. This shift introduced notebooks and encouraged teams to build reusable functions and, eventually proper internal frameworks. It was a certainly an improvement for **most**.
 
 The more recent trend was building solution or platform accelerators. These tools focus on enabling data engineers and scientists to do their best work by abstracting away boilerplate code. The idea is sound: let engineers focus on the business context and problem-solving, not rewriting the same data-loading script for the hundredth time. This is often achieved through [Configuration-as-Code](https://configu.com/blog/what-is-configuration-as-code-cac-and-5-tips-for-success/) (CaC), where you define your pipelines in a structured format like YAML or JSON.
 
