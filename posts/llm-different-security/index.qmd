@@ -9,7 +9,6 @@ categories:
   - quarto 
   - github 
 ---
-
 ::: {.callout-tip collapse="false"}
 ## SQL Bits
 

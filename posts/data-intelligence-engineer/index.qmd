@@ -74,6 +74,9 @@ Here's how [Beck explains it](https://tidyfirst.substack.com/p/augmented-coding-
 
 The **"vibe coder" is the bad engineer**, made worse by a powerful tool they don't understand. The **"augmented coder" is the good engineer**, made more productive by that same tool. They use it to generate code but apply the same rigorous standards for quality, testing, and maintainability as if they had written it by hand. My personal challenges with the "SLOP" that LLMs can produce don't stop me from using them; it just forces me to be an augmented coder.
 
+![](images/galaxybrain.png){fig-align="center"}
+
+
 Of course, this transition isn't without friction. As [Birgitta Böckeler, a Distinguished Engineer at Thoughtworks, points out, we have to accept that we will take on technical debt while we learn how to best apply these new tools](https://newsletter.pragmaticengineer.com/p/two-years-of-using-ai?utm_source=substack&utm_medium=email). It's an unavoidable part of innovation.
 
 ## The Path Forward, is it the Data Intelligence Engineer?
