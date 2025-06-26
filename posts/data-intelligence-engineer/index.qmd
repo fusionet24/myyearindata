@@ -15,7 +15,7 @@ categories:
 ::: {.callout-note collapse="false"}
 ## SQL Bits
 
-Disclosure: I work with Simon's Company [Advancing Analytics](https://www.advancinganalytics.co.uk/) building both Data Platforms and some cutting edge Generative AI Solutions.  I've called that work Architecting Intelligent Data Solutions for years but you can call it what you want.
+Disclosure: I work with Simon's Company [Advancing Analytics](https://www.advancinganalytics.co.uk/) building both Data Platforms and cutting edge Generative AI Solutions.  I've called that work Architecting Intelligent Data Solutions for years but you can call it what you want.
 
 None of what I have written here has been discussed or vetted by them. These are my opinions that I wanted to share.
 :::
