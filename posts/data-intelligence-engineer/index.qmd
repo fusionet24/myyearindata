@@ -29,7 +29,7 @@ This was generated with the help of AI based on my research and input. See my po
 At **SQLBITS 2025**, the contrast between my session and Simon's could not have been more stark. I presented ["Danger In Dialogue: The Security Risks in LLMs"](https://fusionet24.github.io/Talks/sql-bits-danger-in-diaglogue.html), where I focused on how people are not taking the security part of this new technology seriously enough. [Simon](https://www.youtube.com/advancinganalytics), on the other hand, gave a talk all about [Automating Engineering with AI](https://www.youtube.com/watch?v=tV_hmSp5-g8). To which he received lots of criticism from the data engineering community.  On the surface, our messages seem opposed. But we both agree on the core point: you have to get ahead of the game. Because other people already are.
 
 ::: {.callout-note collapse="true"}
-## Simon's response Video to the criticism
+## Simon's response video to the criticism
 
 {{< video https://www.youtube.com/watch?v=tV_hmSp5-g8 >}}
 
