@@ -1,0 +1,35 @@
+---
+title: "Why LLM Security Isn't Business as Usual"
+author: "Scott Bell"
+description: "LLM Security poses new risks and new challenges to an already chaotic security landscape "
+date: "2025-06-15"
+draft: false
+categories: 
+  - azure
+  - quarto 
+  - github 
+---
+
+::: {.callout-tip collapse="false"}
+## SQL Bits
+
+I'm talking about LLM Security at SQLBITS 2025 and this blog post is supporting content for that talk.
+:::
+
+::: {.callout-note appearance="simple"}
+This was generated with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd)
+:::
+
+## Introduction
+Cybersecurity is evolving, and large language models (LLMs) are reshaping the risks. In 2023, a social-media user talked a Chevrolet dealership’s chatbot into agreeing to sell a 2024 Chevy Tahoe for one dollar with carefully crafted prompts. By tricking the bot to be agreeable and ending with the phrase “no takesies-backsies,” the user turned a simple conversation into a costly commitment. The incident highlights the new reality that language itself can be an attack surface and the models “helpfulness” can be misused. 
+ 
+### The Price of a Breach
+
+A $1 car might be a funny joke or a win for the customer, the financial reality for businesses facing security failures is anything but amusing. The 2024 IBM Cost of a Data Breach Report claimed the global average cost of a breach has reached an all-time high of $4.88 million, a significant 10% jump from the previous year. This figure is not hypothetical; it is derived from the analysis of real-world incidents impacting over 600 organizations. For organizations in highly regulated sectors like finance, the cost is even more severe, averaging over $6.08 million per breach.
+
+The scale of the problem is underscored by the 2024 Verizon Data Breach Investigations Report (DBIR), which analyzed over 30,000 security incidents and confirmed a record-breaking 10,626 data breaches. These reports paint a clear picture: cyberattacks are becoming both more frequent and more expensive.
+ 
+The primary driver of these escalating costs is the persistent vulnerability of the "human element." The Verizon DBIR consistently finds that human error, such as falling for scams or misusing privileges, is a component in 68% of all breaches.5 Now, artificial intelligence is acting as a powerful accelerant on this fire. AI tools are being used to supercharge classic attack methods, particularly social engineering and phishing.7 Malicious actors are leveraging AI to craft more persuasive phishing emails, create realistic voice clones for vishing attacks, and automate massive credential harvesting campaigns. The impact is stark: one report noted a 703% increase in credential phishing attacks in the latter half of 2024, directly attributable to the use of AI tools.7
+
+This has led to a dramatic rise in AI-related security incidents, which surged from 27% in 2023 to 40% in 2024.8 A separate survey found that a staggering 74% of organizations reported experiencing an AI-related security breach in 2024.9 This creates a dangerous paradox. Businesses are adopting AI at a breakneck pace, yet IBM's research reveals that only 24% of these generative AI initiatives are being properly secured.2 We are building technological skyscrapers on foundations of sand, creating a new, qualitative shift in the threat landscape. The risk is no longer confined to technical exploits against code; it now involves the sophisticated manipulation of a system's logic through its most fundamental interface: language. This has merged two previously distinct domains, technical and human-factor security, into a single complex battlefield where the dialogue itself is the primary attack surface.
+
