@@ -65,7 +65,7 @@ When this happens, you lose on all fronts. Good engineers lose their ability to 
 
 ## From Brain Rot to Augmented Coding
 
-This brings us to AI engineering and thinking. When I hear objections about AI causing "brain rot," citing studies like "Your Brain on ChatGPT," I see the same pattern. *Btw that papers [FAQ](https://www.brainonllm.com/faq) specifically says not todo that!* The problem isn't the tool; it's how you use it. You would be a fool to not use every tool at your disposal to better achieve outcomes. The key is to be the master of the tool, not the other way around.
+This brings us to AI engineering and thinking. When I hear objections about AI causing "brain rot," citing studies like "Your Brain on ChatGPT," I see the same pattern. *Btw that papers [FAQ](https://www.brainonllm.com/faq) specifically says not to do that!* The problem isn't the tool; it's how you use it. You would be a fool to not use every tool at your disposal to better achieve outcomes. The key is to be the master of the tool, not the other way around.
 
 Kent Beck, the influential software engineer and a creator of Extreme Programming, perfectly captures this distinction. He draws a line between the "vibe coder" and the "augmented coder." This directly mirrors Simon's point about "Vibe Engineering" creating messes that will need to be cleaned up later.
 
