@@ -20,7 +20,7 @@ This was generated with the help of AI based on my research. See my post on [AI 
 :::
 
 ## Introduction
-Cybersecurity is evolving, and large language models (LLMs) are reshaping the risks. In 2023, a social-media user talked a Chevrolet dealership’s chatbot into agreeing to sell a 2024 Chevy Tahoe for one dollar with carefully crafted prompts. By tricking the bot to be agreeable and ending with the phrase “no takesies-backsies,” the user turned a simple conversation into a costly commitment. The incident highlights the new reality that language itself can be an attack surface and the models “helpfulness” can be misused. 
+Cybersecurity is evolving, and large language models (LLMs) are reshaping the risks. In 2023, a social-media user talked a Chevrolet dealership’s chatbot into agreeing to sell a Chevy Tahoe for one dollar with carefully crafted prompts. By tricking the bot to be agreeable and ending with the phrase “no takesies-backsies,” the user turned a simple conversation into a costly commitment. The incident highlights the new reality that language itself can be an attack surface and the models “helpfulness” can be misused. 
  
 ### The Price of a Breach
 
