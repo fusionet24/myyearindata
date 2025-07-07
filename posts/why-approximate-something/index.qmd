@@ -83,6 +83,6 @@ This history is a warning. When you propose a rule-based system, you force a con
 
 # Engineer for Clarity
 
-The fascination with AI is understandable, but it must not lead us to abandon sound engineering principles. When we design a system, we must consider all possible outcomes. Too often, we fall into the trap of "solutionising"—jumping to a solution for a problem that hasn't been well defined. This is precisely what happens when we default to "let's use AI" without first asking if a deterministic approach is better.
+The fascination with AI is understandable, but it must not lead us to abandon sound engineering principles. When we design a system, we must consider all possible outcomes. Too often, we fall into the trap of "solutionising". The jumping to a solution for a problem that hasn't been well defined. This is precisely what happens when we default to "let's use AI" without first asking if a deterministic approach is better.
 
 As problem solvers, our job is to select the right tool for the task.
