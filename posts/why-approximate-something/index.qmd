@@ -10,38 +10,79 @@ categories:
   - Commonplaces
   - Patterns
 ---
+
 ::: {.callout-note appearance="simple"}
 This was generated with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd)
 :::
 
-So incase you didn't know I attended SQLBITS 2025 last month and presented a talk entitled Danger In Dialogue: The Security Risks of Large Language Models. 
+Have you ever been in a meeting where a tricky business problem comes up, and someone inevitably says, "Let's just throw some AI at it"? It seems **Generative AI and the prolifation of LLM tools like ChatGPT has only accelerated this**.We often default to complex, probabilistic models when a simpler, deterministic solution not only exists but is superior. The rush to apply AI can sometimes obscure a fundamental engineering principles like [KISS](https://en.wikipedia.org/wiki/KISS_principle).
 
-::: {.callout-tip appearance="simple" collapse="true"}
-## Danger In Dialogue: The Security Risks of Large Language Models
+### (Re)Framing the Problem
 
-**Video Coming Soon**
+I like to frame most problems I encounter that require intelligence from AI to fuzzy Matching as Clasical Machine Learning: Supervised Learning Problems first! This is **why my mantra of "If you can clearly define (and codify) the solution to a problem then why have an algorithmn try to approximate the solution?"** Something I picked up when I self-taught machine learning to myself (a long long time ago now) but I believe this still applies to the Gen AI and Agentic frezy we are currently in.
 
+#### What do I mean by that?
 
-```{=html }
-<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-<iframe src="https://fusionet24.github.io/Talks/sql-bits-danger-in-diaglogue.html" 
-        style="width: 100%; height: 500px; border: none; max-width: 800px;"></iframe>
-</div>
+Choosing a Artifical Intelligence model is a powerful abstraction to solve a problem, but it is still an act of defining constraints on a problem. When a business process's logic is clear, stable, and knowable, building that logic directly with a rule-based system is not an old-fashioned choice... Don't get lost searching for a probabilistic approximation in a learning alogirthmn e.g. g(x) when you can define the perfect target function e.g. f(x) that solves the job.
+
+# A bit of theory
+
+## The Quest for the Target Function, f(x)
+
+For a practical discussion, we first need an engineering definition of machine learning. [Tom Mitchell's Book](https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf) (a favourite book of mine in Machine Learning) provides a clear definition for a well-posed learning problem: "A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E".
+
+This frames learning (or *in our case of Gen AI agentic solutionising*) as a measurable, goal-oriented process, not a vague pursuit of "intelligence." For example, in building a spam filter:
+
+```         
+Task (T): Classifying emails as spam or not spam.
+
+Experience (E): A database of emails you have labeled.
+
+Performance (P): The percentage of emails the program correctly classifies.   
 ```
 
+At its core, supervised learning *(and Agentic Solutions)* are a problem of function approximation.
+
+We assume there is some ideal, unknown Target function which we can call f(x), that perfectly maps a set of inputs (e.g. the features of an email) to the correct output (e.g. spam or not spam).
+
+The entire goal of the learning algorithm is to use the training data (E) to find a hypothesis, **let's call it g(x), that is the best possible approximation of the true target function f(x)**
+
+::: {.callout-tip appearance="simple" collapse="true"}
+## Searching for g(x) in the Hypothesis Space
+
+The learning algorithm doesn't search for g(x) in a vacuum. It operates within a predefined hypothesis space, denoted as H. This space contains all possible functions the algorithm can consider. Your choice of algorithm defines this space. If you choose linear regression, your hypothesis space
+
+H contains all possible straight lines. If you choose a decision tree, H contains all possible tree structures.
+
+Imagine a 2D plot with red and blue data points. A linear classifier's hypothesis space contains every possible straight line you could draw to separate the points. A more flexible model, like a Support Vector Machine with a polynomial kernel, has a hypothesis space containing all possible curved lines. A poorly chosen, overly complex model has a hypothesis space that allows for a jagged, winding line that perfectly separates all the training points but fails to generalize to new data. This visually represents the search for g(x) within a specific H.
+
+Because these hypothesis spaces are often infinitely large, an algorithm needs a way to constrain its search. Inductive bias plays this role: it is the set of assumptions an algorithm uses to generalize beyond the training data.
+
+[https://ai.stackexchange.com/questions/16746/what-is-the-difference-between-a-learning-algorithm-and-a-hypothesis](Learning%20Algoritmn%20vs%20Hypothesis)
+
+[https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff](Bias-Variance%20tradeoff)
 :::
 
+This brings us to my central point. The entire process of searching for g(x) rests on the idea that the true function f(x) is unknown. But what if it isn't?
+
+For many business problems, the logic is perfectly knowable. It exists in regulatory documents, internal procedure documentation, or the minds of domain experts. In these cases, you don't need to find a probabilistic approximation of f(x). You can build f(x) directly and deterministically through something like a rule-based system. AI could assist you in converting that into such a system but it shouldn't be the system as it's [stochastic](https://en.wikipedia.org/wiki/Stochastic_parrot) thus non-deterministic.
+
+ 
+> "We often default to AI when simpler solutions exist. If you can define the target function perfectly through rules-based logic, why approximate it with machine learning? When you can codify clear rules and achieve near-perfect accuracy, a deterministic approach beats probabilistic AI every time. Sometimes f(x) is better than training g(x) to approximate it." - *A recent comment I made to David Morton on [his post about AI Agents](https://www.linkedin.com/pulse/right-tool-job-david-morton-ztzkc/?trackingId=5emS3%2BUaStuTjMFped%2FFig%3D%3D )*
 
 
-It's the 3rd SQLBITS I've spoken at and the 4th i've attended.  I've not been that active this year on the conference/group/talk circuit. I've just been busy, deflated and working on AI side projects. 
+A rule-based system explicitly codifies the target function using a series of "if-then" statements. It produces a certain and transparent output. This transparency is not a minor feature; it is a non-negotiable business requirement in some fields.
 
-I love getting to see friends, old and current collegues along with seeing people talk about stuff. I mean I do a lot of reading in my life and I do just love seeing passionate people talk about stuff that matters them and me!
+# The Skeptic's Corner
 
-I wanted to post this note to say, I've actually written maybe 30 blog posts over the last two years that never made the cut to go live. I really need to get better at hitting publish and maybe not holding myself to the same standard as those who's blogs I read a lot. Only by doing more of this, can I achieve those standards. Nearly doing them is a poor attempt at avoiding feedback.
+Advocating for rule-based systems requires realism. Codifying business logic is not a new idea; disciplines like Business Process Automation (BPA) and Business Process Reengineering (BPR) have existed for decades. Their history shows [mixed results](https://www.inteqgroup.com/blog/why-do-business-process-reengineering-initiatives-fail), with some studies reporting failure rates as [high as 70%](https://www.irmbrjournal.com/papers/1378389650.pdf).
 
-You will see a slow drip feed of posts over the next few days. For now I'd like to highlight two recent posts:
+These failures are rarely technical. They are almost always organizational. Initiatives fail because of poor strategic alignment, staff resistance to change, or an inability to get stakeholders to agree on the business process. **The challenge isn't just coding f(x); it's getting the organization to agree on a single, clear definition of f(x).**
 
-[I don't want my career to DIE. The Data Intelligence Engineer or the difference between Vibe Coding and Augmented Coding.](../data-intelligence-engineer/index.qmd)
+This history is a warning. When you propose a rule-based system, you force a conversation about process clarity. If you get pushback that "the rules are too complicated to write down," that is not a signal to use AI. It is a signal that the organization doesn't fully understand its own process. So trend carefully with or without AI.
 
+# Engineer for Clarity
 
-[Creating a SQLBits trailer with VEO3: Lessons Learnt]()
+The fascination with AI is understandable, but it must not lead us to abandon sound engineering principles. When we design a system, we must consider all possible outcomes. Too often, we fall into the trap of "solutionising"—jumping to a solution for a problem that hasn't been well defined. This is precisely what happens when we default to "let's use AI" without first asking if a deterministic approach is better.
+
+As problem solvers, our job is to select the right tool for the task.
