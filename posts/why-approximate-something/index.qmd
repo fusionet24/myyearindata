@@ -19,7 +19,7 @@ Have you ever been in a meeting where a tricky business problem comes up, and so
 
 ### (Re)Framing the Problem
 
-I like to frame most problems I encounter that require intelligence from AI to fuzzy Matching as Clasical Machine Learning: Supervised Learning Problems first! This is **why my mantra of "If you can clearly define (and codify) the solution to a problem then why have an algorithmn try to approximate the solution?"** Something I picked up when I self-taught machine learning to myself (a long long time ago now) but I believe this still applies to the Gen AI and Agentic frezy we are currently in.
+I like to frame most problems I encounter that require intelligence from AI to fuzzy Matching as Classical Machine Learning: Supervised Learning Problems first! This is **why my mantra of "If you can clearly define (and codify) the solution to a problem then why have an algorithmn try to approximate the solution?"** Something I picked up when I self-taught machine learning to myself (a long long time ago now) but I believe this still applies to the Gen AI and Agentic frezy we are currently in.
 
 #### What do I mean by that?
 
