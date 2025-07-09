@@ -1,0 +1,43 @@
+---
+title: "SQLBITS 2025"
+author: "Scott Bell"
+description: ""
+date: "2025-07-07"
+draft: true
+categories: 
+  - meta
+  - personal 
+  - conference 
+  - -sqlbits
+---
+
+::: {.callout-note appearance="simple"}
+This was generated with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd)
+:::
+
+So incase you didn't know I attended SQLBITS 2025 last month and presented a talk entitled Danger In Dialogue: The Security Risks of Large Language Models.
+
+::: {.callout-tip appearance="simple" collapse="true"}
+## Danger In Dialogue: The Security Risks of Large Language Models
+
+**Video Coming Soon**
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+<iframe src="https://fusionet24.github.io/Talks/sql-bits-danger-in-diaglogue.html" 
+        style="width: 100%; height: 500px; border: none; max-width: 800px;"></iframe>
+</div>
+```
+:::
+
+It's the 3rd SQLBITS I've spoken at and the 4th i've attended. I've not been that active this year on the conference/group/talk circuit. I've just been busy, deflated and working on AI side projects.
+
+I love getting to see friends, old and current colleagues along with seeing people talk about stuff. I mean I do a lot of reading in my life and I do just love seeing passionate people talk about stuff that matters them and me!
+
+I wanted to post this note to say, I've actually written maybe 30 blog posts over the last two years that never made the cut to go live. I really need to get better at hitting publish and maybe not holding myself to the same standard as those who's blogs I read a lot. Only by doing more of this, can I achieve those standards. Nearly doing them is a poor attempt at avoiding feedback.
+
+You will see a slow drip feed of posts over the next few days. For now I'd like to highlight two recent posts:
+
+[I don't want my career to DIE. The Data Intelligence Engineer or the difference between Vibe Coding and Augmented Coding.](../data-intelligence-engineer/index.qmd)
+
+[Creating a SQLBits trailer with VEO3: Lessons Learnt]()
