@@ -15,7 +15,7 @@ categories:
 This was generated with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd)
 :::
 
-Have you ever been in a meeting where a tricky business problem comes up, and someone inevitably says, "Let's just throw some AI at it"? It seems **Generative AI and the prolifation of LLM tools like ChatGPT has only accelerated this**.We often default to complex, probabilistic models when a simpler, deterministic solution not only exists but is superior. The rush to apply AI can sometimes obscure a fundamental engineering principles like [KISS](https://en.wikipedia.org/wiki/KISS_principle).
+Have you ever been in a meeting where a tricky business problem comes up, and someone inevitably says, "Let's just throw some AI at it"? It seems **Generative AI and the proliferation of LLM tools like ChatGPT has only accelerated this**.We often default to complex, probabilistic models when a simpler, deterministic solution not only exists but is superior. The rush to apply AI can sometimes obscure a fundamental engineering principles like [KISS](https://en.wikipedia.org/wiki/KISS_principle).
 
 ### (Re)Framing the Problem
 
