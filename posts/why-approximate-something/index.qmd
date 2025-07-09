@@ -23,7 +23,7 @@ I like to frame most problems I encounter that require intelligence from AI to f
 
 #### What do I mean by that?
 
-Choosing a Artifical Intelligence model is a powerful abstraction to solve a problem, but it is still an act of defining constraints on a problem. When a business process's logic is clear, stable, and knowable, building that logic directly with a rule-based system is not an old-fashioned choice... Don't get lost searching for a probabilistic approximation in a learning alogirthmn e.g. g(x) when you can define the perfect target function e.g. f(x) that solves the job.
+Choosing an Artificial Intelligence model is a powerful abstraction to solve a problem, but it is still an act of defining constraints on a problem. When a business process's logic is clear, stable, and knowable, building that logic directly with a rule-based system is not an old-fashioned choice... Don't get lost searching for a probabilistic approximation in a learning algorithm e.g. g(x) when you can define the perfect target function e.g. f(x) that solves the job.
 
 # A bit of theory
 
