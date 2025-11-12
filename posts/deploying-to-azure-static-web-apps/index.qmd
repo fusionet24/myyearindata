@@ -9,38 +9,36 @@ categories:
   - quarto 
   - github 
 ---
-::: {.callout-tip}
+
+::: callout-tip
 ## Multipart Blog Series on Quarto
 
 [Part 1](https://www.myyearindata.com/posts/deploying-azure-static-web-app-based-quarto-blog/)
 
 [Part 2](https://www.myyearindata.com/posts/building-quarto-on-github/)
-
-
 :::
-
 
 ## Introduction
 
-This is [part 3 of a 3 part series](https://www.myyearindata.com/#category=quarto) on how this blog is built and managed automatically. 
+This is [part 3 of a 3 part series](https://www.myyearindata.com/#category=quarto) on how this blog is built and managed automatically.
 
 So far in our adventure, I've explained how you set up Azure Static Web Apps and the wider set-up of Quarto on Github.
 
 ##Creating an Azure Static Web App
 
-First, you're going to need to provision an Azure Static Web App instance.  The [Microsoft Docs](https://learn.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript&pivots=github) are really good for this so follow those insrtuctions. 
-
+First, you're going to need to provision an Azure Static Web App instance. The [Microsoft Docs](https://learn.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript&pivots=github) are really good for this so follow those insrtuctions.
 
 ## Prerequisite Step: Render Quarto Markdown Website
-- This step is not included in the provided workflow, but it is mentioned as a prerequisite. It involves rendering the Quarto Markdown website in the root directory. The details of how this step is accomplished is the outcome of [Part 2](https://www.myyearindata.com/posts/building-quarto-on-github/)
+
+-   This step is not included in the provided workflow, but it is mentioned as a prerequisite. It involves rendering the Quarto Markdown website in the root directory. The details of how this step is accomplished is the outcome of [Part 2](https://www.myyearindata.com/posts/building-quarto-on-github/)
 
 ## Deployment Workflow
-To acheive the deployment we are going to use a collection of github actions in a workflow which are explained in this section. Addtionally, we will only use the action to run on the main branch so that we can use feature branching (mentioned in part 1).
 
+To acheive the deployment we are going to use a collection of github actions in a workflow which are explained in this section. Addtionally, we will only use the action to run on the main branch so that we can use feature branching (mentioned in part 1).
 
 The Azure Static Web action is referenced below and it's offical docs are [here](https://github.com/Azure/static-web-apps-deploy)
 
-```json
+``` json
   deploy_to_azure_static_webapp:
     needs: render_site
     if: success() && github.event.ref == 'refs/heads/main'
@@ -63,36 +61,34 @@ The Azure Static Web action is referenced below and it's offical docs are [here]
           output_location: "public" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######  
       
-
 ```
 
 ### Deployment Step: Deploy to Azure Static Web Apps
-- `needs: render_site`: This line indicates that this step depends on the successful completion of the `render_site` step (the prerequisite step we mentioned earlier). In other words, the deployment step will only run if the rendering step is successful.
-- `if: success() && github.event.ref == 'refs/heads/main'`: This line specifies the condition under which the deployment step will be executed. It checks whether the previous step (rendering) was successful and if the event reference (`github.event.ref`) is set to `refs/heads/main`, which typically represents the main branch of the repository.
-- `runs-on: ubuntu-latest`: This line specifies that the deployment step will run on an Ubuntu-based environment.
-- `name: Deploy to Azure App Service`: This line provides a name for this step, which will be displayed in the workflow logs.
-- `steps`: This keyword marks the start of the list of individual steps to be executed for the deployment.
+
+-   `needs: render_site`: This line indicates that this step depends on the successful completion of the `render_site` step (the prerequisite step we mentioned earlier). In other words, the deployment step will only run if the rendering step is successful.
+-   `if: success() && github.event.ref == 'refs/heads/main'`: This line specifies the condition under which the deployment step will be executed. It checks whether the previous step (rendering) was successful and if the event reference (`github.event.ref`) is set to `refs/heads/main`, which typically represents the main branch of the repository.
+-   `runs-on: ubuntu-latest`: This line specifies that the deployment step will run on an Ubuntu-based environment.
+-   `name: Deploy to Azure App Service`: This line provides a name for this step, which will be displayed in the workflow logs.
+-   `steps`: This keyword marks the start of the list of individual steps to be executed for the deployment.
 
 ## Download Artifact Step
-- `- uses: actions/download-artifact@v2`: This line indicates the usage of the `download-artifact` action, specifically version 2. This action allows the workflow to download an artifact that was produced in a previous step. In this case, the artifact is named `site_deployment`.
+
+-   `- uses: actions/download-artifact@v2`: This line indicates the usage of the `download-artifact` action, specifically version 2. This action allows the workflow to download an artifact that was produced in a previous step. In this case, the artifact is named `site_deployment`.
 
 ## Build and Deploy Step
-- `- name: Build And Deploy`: This line provides a name for this step.
-- `id: builddeploy`: This line assigns an identifier (`builddeploy`) to this step, which can be referenced later in the workflow.
-- `- uses: Azure/static-web-apps-deploy@v1`: This line specifies the usage of the `static-web-apps-deploy` action provided by the Azure GitHub Actions toolkit. Version 1 of this action is used in this case.
-- `with`: This keyword marks the start of the configuration options for the `static-web-apps-deploy` action.
-- `azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_SEA_08F1C9003 }}`: This line provides the API token for Azure Static Web Apps, which is stored as a secret in the GitHub repository. The token is referenced using the expression `$({{ secrets.<secret_name> }})`.
-- `repo_token: ${{ secrets.GITHUB_TOKEN }}`: This line provides the repository token, which is another secret provided by GitHub. It is used for GitHub integrations, such as PR comments.
-- `action: "upload"`: This line specifies the action to be performed by the `static-web-apps-deploy` action. In this case, it is set to "upload" to upload the website to Azure Static Web Apps.
-- `app_location: "/"`: This line specifies the path to the app source code in the repository. In this case, it is set to the root directory ("/").
-- `output_location: "public"`: This line specifies the directory where the built app content is located.
 
-
+-   `- name: Build And Deploy`: This line provides a name for this step.
+-   `id: builddeploy`: This line assigns an identifier (`builddeploy`) to this step, which can be referenced later in the workflow.
+-   `- uses: Azure/static-web-apps-deploy@v1`: This line specifies the usage of the `static-web-apps-deploy` action provided by the Azure GitHub Actions toolkit. Version 1 of this action is used in this case.
+-   `with`: This keyword marks the start of the configuration options for the `static-web-apps-deploy` action.
+-   `azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_SEA_08F1C9003 }}`: This line provides the API token for Azure Static Web Apps, which is stored as a secret in the GitHub repository. The token is referenced using the expression `$({{ secrets.<secret_name> }})`.
+-   `repo_token: ${{ secrets.GITHUB_TOKEN }}`: This line provides the repository token, which is another secret provided by GitHub. It is used for GitHub integrations, such as PR comments.
+-   `action: "upload"`: This line specifies the action to be performed by the `static-web-apps-deploy` action. In this case, it is set to "upload" to upload the website to Azure Static Web Apps.
+-   `app_location: "/"`: This line specifies the path to the app source code in the repository. In this case, it is set to the root directory ("/").
+-   `output_location: "public"`: This line specifies the directory where the built app content is located.
 
 # Full Code for all 3 phases
 
 ```{=html}
 <script src="https://gist.github.com/fusionet24/d370d550740d66d435fb8ba93350dedd.js"></script>
 ```
-
-

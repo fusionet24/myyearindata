@@ -20,11 +20,8 @@ Scott has talked at several different events and venues during my career. From r
 ## Azure & Power Platform
 
 #### COSMOS 101
-Learn everything you need to know to get started with Cosmos DB in between 20-45 minutes.
-- What is Cosmos?
-- What are the various APIS?
-- What is partitioning?
-- What are consitency models?
+
+Learn everything you need to know to get started with Cosmos DB in between 20-45 minutes. - What is Cosmos? - What are the various APIS? - What is partitioning? - What are consitency models?
 
 ## Databricks
 
