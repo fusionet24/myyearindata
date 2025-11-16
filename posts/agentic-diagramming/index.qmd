@@ -1,0 +1,150 @@
+---
+title: "Agentic Diagramming"
+author: "Scott Bell"
+description: "Practical patterns for visualizing multi-agent systems without the spaghetti. Thoughts on how to diagram agentic systems ar present."
+date: "2025-11-12"
+draft: false
+categories:
+  - ai
+  - agents
+  - architecture
+  - diagrams
+  - agentic
+---
+
+::: {.callout-note appearance="simple"}
+This post was developed with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd).
+:::
+
+### Preamble
+If you've spent time building multi-agent systems ***(like I have these last few months)***, you've likely hit this wall. As the systems grow more complex and the interactions multiply, your system can become an incomprehensible spaghetti of boxes and arrows that helps no one.
+
+I talk to a lot of people about [agentic AI](../../#category=agentic ai) these days and I spend a lot of time thinking about doing it better. I keep failing to write more the whole the [purpose of this blog](../../about.qmd) So I figured I'd show you how I'm approaching visualizing agentic workflows to clarify rather than obscure.
+
+# Summary
+
+In this post, I explore the different ways of diagramming agentic systems from high-level overviews to detailed flows and persona-based designs. Whether you're explaining your AI architecture to stakeholders or refining how agents collaborate in production, having the right diagram style can make or break understanding. This post is a practical guide to the kinds of diagrams I use—and why.
+
+## When Diagrams Create Confusion
+
+Traditional software architecture diagrams weren't designed for agentic systems. We've inherited conventions from solving monolithic apps, microservices, and cloud architectures, but agents are a little different. They're autonomous, conversational, context-aware, and their interactions aren't just request-response patterns.
+
+They're more like collaborative conversations with state, memory, and decision-making distributed across multiple entities.
+
+So what happens? Teams either:
+
+1.  Don't diagram at all — relying on code and agentic graphics (like this [LangChain feature](https://docs.langchain.com/oss/python/langgraph/use-graph-api#visualize-your-graph))
+2.  Create "everything connected to everything" diagrams — massive node graphs that technically show all connections but provide zero insight into intent vs actual behavior
+
+I've debugged enough systems where the only documentation was a four year old Visio with unlabeled arrows to know we can do better than this.
+
+## What is an Agentic Diagram?
+
+Before we dive into techniques I'm using, let's define terms.
+
+An agentic diagram is a visual representation of autonomous agent interactions that shows at least one of the following:
+
+-   Agent identity and capability — what each agent can do
+-   Communication patterns — how agents talk to each other
+-   Decision points — where autonomy and choice happen
+-   State and context flow — what information moves between agents
+-   Oversight touchpoints — where people interact with the system (human-in-the-loop/command, etc.)
+
+It's not just a flowchart with "Agent A" and "Agent B" labels. It's a map of behavior, orchestration patterns, and emergent coordination.
+
+## The "Everything Connected to Everything" Anti-Pattern
+
+You've seen this diagram in many contexts before, not just Agentic AI. Maybe you've made it. I certainly have.
+
+![](images/commuicate.png)
+
+Every agent is a node. Every possible interaction is an arrow. The diagram is technically accurate—yes, Agent A can talk to Agent B—but it tells you nothing about:
+
+-   When do they communicate?
+-   Why do they communicate?
+-   What triggers the interaction?
+-   What happens when things go wrong?
+
+
+Okay maybe that example is a bit a hyperbolic but you hopefully get the point.
+
+## Layered Agentic Visualization
+
+Here's my approach (framework?) for creating agentic diagrams.
+
+What we are trying to commuicate is this
+
+![](images/Intelligent%20Agent%20Framework.svg)
+
+### Layer 1: Capability Map
+
+Start with a high-level overview that answers: "What agents exist, and what can they do?"
+
+Shout out to [Tori Tompkins](https://toritompkins.co.uk/) who showed a really good example of this too me recently.
+
+![](images/agentic-capability.png)
+
+This layer shows:
+
+-   Agent names and their core purpose
+-   Key capabilities
+-   General domains of responsibility
+-   External systems or APIs they interact with
+- Governance features
+
+
+
+### Layer 2: Component Architecture Map
+
+When working with established systems, it's sometimes better to map your agentic components onto existing architectural diagrams. For example, the Lambda Architecture is a classic in data engineering showing how batch, speed, and serving layers interact.
+
+![](images/agentic-dp.png)
+(Yes... I've been working on Agentic Data Platform concepts 👀)
+
+This layer helps:
+
+- Bridge agentic concepts with established system architectures
+- Show where agents operate within existing infrastructure
+- Clarify responsibilities and boundaries for each agent in context
+
+The goal here is not to overload the diagram, but to highlight agent touchpoints and responsibilities especially useful in multi-agent and swarm architectures.
+
+
+### Layer 3: Orchestration Flow
+
+Once you know what agents exist, show the primary workflow: "How do these agents coordinate to accomplish a goal?"
+![](images/orchstration-flow.png)
+
+This layer shows:
+
+-   A specific user scenario or task
+- Entry point for an Agentic Scenario
+-   The sequence of agent invocations
+-   Decision points (conditionals, routing logic)
+-   Where handoffs happen between agents
+-   Human-in-the-loop review or approval steps
+
+One diagram per major user journey. Don't try to cram every possible path into one flow. If you have three major workflows (e.g., "New User Onboarding", "Content Generation", "Error Recovery"), create three diagrams.
+
+### Layer 4: Communication 
+
+For each important agent interaction, document the protocol: "What data moves between these agents, and what do they expect from each other?"
+
+![](images/classic_sequence_uml_ai.png)
+
+This layer is a classic UML Sequence diagram. It can be built to show various levels of detail
+
+-    API integrations
+-   Expected response formats
+-   Error conditions and fallback behaviors
+-   Context or state that must be preserved
+-   Timeouts, retries, or reliability patterns
+
+This is where you get technical. But you're only diagramming the interactions that matter, not every theoretical path.
+
+
+## Engineer for Clarity
+
+This approach to agentic diagramming is really about a mindset of clarity over completeness, layers over god-views, and maintainability over perfection.
+
+We're in the early days of multi-agent systems. The patterns are still forming. The tools are still evolving. But one thing I'm confident about is teams that can articulate their agentic architectures  will be able to move faster, debug smarter, and handle the key governance challenges to come.
