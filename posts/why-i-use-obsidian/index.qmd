@@ -1,7 +1,8 @@
 ---
 title: "Why I Use Obsidian"
+description: "How I use Obsidian for daily scheduling, reflection roll-ups, and building a personal knowledge graph."
 author: "Scott Bell"
-date: "2025-11-01"
+date: "2026-01-11"
 draft: false
 categories:
   - obsidian
