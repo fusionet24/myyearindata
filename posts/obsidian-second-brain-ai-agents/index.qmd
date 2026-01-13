@@ -43,50 +43,7 @@ So I made the switch. Migrated my notes, rebuilt my workflows, learned a new sys
 
 But the difference became clear once I stopped trying to use Obsidian like Stashpad. I wasn't just taking notes anymore. I was building a knowledge system.
 
-## What Obsidian Actually Delivers (Not a Sales Pitch)
-
-Let's skip the marketing speak. Below you can see what I use, and more importantly, what actually works. If you're not interested you can skip that part...
-::: {.callout-note collapse="true" }
-
-### Daily Scheduling and Time Blocking
-
-I use Obsidian to structure my entire day. Every morning, I create a daily note with time blocks for focused work, meetings, and context switches. It's not magic. It's just having a single place where my schedule lives alongside my notes about what I'm working on.
-
-When I finish a meeting, I write notes directly into obsidian. When I need to remember what I was doing last Tuesday, I open that day's note. Simple, but effective.
-
-This requires discipline and focus. If you know me well enough I kinda suck at focus but obsidian does force my hand. The tool doesn't make you organized. It just gives you a canvas to be organized on.
-
-![Daily note with time blocking - YOUR SCREENSHOT HERE](images/daily-note-screenshot.png)
-
-### Reflection Roll-Ups (Daily → Weekly → Monthly → Yearly)
-
-This is where things get interesting. At the end of each day, I write a brief reflection. What got done, what didn't, what I learned. Every week, I review my daily notes and write a weekly summary. Monthly summaries roll up the weeks. Yearly (a new thing) reviews synthesize the months.
-
-The pattern recognition that emerges is useful. You start seeing which types of work drain you, where you're spending time versus where you said you wanted to spend time. The disconnect between intention and reality becomes stark.
-
-### The Knowledge Graph
-
-The knowledge graph is the most overhyped useful feature of Obsidian. Marketing materials show these beautiful interconnected webs of knowledge. In practice, most people's graphs look like a tangled mess with a few dense clusters and a lot of orphaned nodes.
-
-But when it works, it works. I'll be writing notes about a client architecture decision, link to a previous project with similar constraints, and suddenly remember a conversation from six months ago that's directly relevant. The graph doesn't think for you, but it does surface connections your brain might not make on its own.
-
-![Knowledge graph visualization - YOUR SCREENSHOT HERE](images/knowledge-graph-screenshot.png)
-
-### Excalidraw Integration
-
-I think in diagrams. Architecture sketches, data flow doodles, rough conceptual models. Excalidraw lets me draw directly in Obsidian, embed those drawings in notes, and iterate on technical ideas without switching tools.
-
-I'll sketch out an architecture during a call, refine it later, then augment the diagram with written notes about constraints and decisions. It's not about creating perfect diagrams. It's about externalizing thought.
-
-:::
-
-::: callout-note
-## What Obsidian Isn't
-
-It's not a project management tool. It's not a team collaboration platform. It's not going to organize your life automatically. It's a blank canvas with really good linking and search. Everything else is what you build on top of it.
-
-If you're looking for structure handed to you, look elsewhere. If you want the flexibility to build your own structure, this might work.
-:::
+I've been using Obsidian for about 28 months now, building a system around daily notes, reflection roll-ups, knowledge graphs, and diagram integration. If you're curious about the specific features I use and what actually works in practice, I've written a companion post: [Why I Use Obsidian](../why-i-use-obsidian/index.qmd).
 
 ## The Uncomfortable Question: Do Productivity Systems Actually Work?
 
