@@ -30,14 +30,21 @@ As a consultant running my own business, I'm always busy. Context switching is t
 
 Late 2023, I watched a video that made me reconsider everything.
 
+
+
+{{< video https://www.youtube.com/watch?v=DbsAQSIKQXk 
+    title='What is the CERN?' 
+>}}
+
+
 ## Some context from Stashpad to Obsidian
 In [2023, I wrote about Stashpad](../tools-for-consultants/index.qmd) as my note-taking tool of choice. It worked well. Quick capture, good organization, markdown support, timestamping for reviewing historical knowledge. For a year, it was exactly what I needed.
 
 But Stashpad was fundamentally a storage system for thoughts. A filing cabinet with good search. Useful, but passive.
 
-Then I came across [this video](https://www.youtube.com/watch?v=DbsAQSIKQXk) about Obsidian as a thinking environment. Not just notes, but a system for connecting ideas, building knowledge over time, and creating structure from chaos.
+Then I came across [that video](https://www.youtube.com/watch?v=DbsAQSIKQXk) about Obsidian as a thinking environment. Not just notes, but a system for connecting ideas, building knowledge over time, and creating structure from chaos.
 
-What resonated wasn't the feature list. It was the mental model shift. Stashpad stored information. Obsidian promised to help me think.
+What resonated wasn't the feature list. Stashpad stored information. Obsidian promised to help me think.
 
 So I made the switch. Migrated my notes, rebuilt my workflows, learned a new system from scratch. It wasn't instant. It wasn't easy. Some things were objectively worse for the first few weeks. Quick capture was slower. The learning curve was real.
 
@@ -45,21 +52,37 @@ But the difference became clear once I stopped trying to use Obsidian like Stash
 
 I've been using Obsidian for about 28 months now, building a system around daily notes, reflection roll-ups, knowledge graphs, and diagram integration. If you're curious about the specific features I use and what actually works in practice, I've written a companion post: [Why I Use Obsidian](../why-i-use-obsidian/index.qmd).
 
-## The Uncomfortable Question: Do Productivity Systems Actually Work?
+## Do Productivity Systems Actually Work?
 
-Here's where I need to be honest. I've used Obsidian seriously for about 14 months now. I've built elaborate systems. I've refined workflows. I've spent hours organizing my vault.
+Here's where I need to be honest. I've used Obsidian seriously for about 2 years now. I've built elaborate systems. I've refined workflows. I've spent hours organizing my vault.
 
-And I keep asking myself: Is this making me more productive, or does it just feel like I'm more productive?
+And I keep asking myself, Is this making me more productive, or does it just feel like I'm more productive?
 
 The energy redirection problem is real. Every hour spent building the perfect tagging system is an hour not spent doing actual work. Every morning spent organizing yesterday's notes is time not spent on today's priorities. The system itself becomes work.
 
-So does it actually work? My personal assessment after 14 months:
+So does it actually work? 
 
-**What works:** - Cognitive offloading is real. Getting information out of my head and into a searchable system creates genuine mental space. I'm not trying to remember everything anymore. I'm trusting the system to remember for me. - Context switching costs drop. When I move between projects, I can reload context quickly by reading yesterday's notes instead of spending 20 minutes trying to remember where I was. - Long-term pattern recognition matters. The weekly and monthly reviews force me to step back and see trends I'd miss in the day-to-day chaos.
+**What works:** 
 
-**What doesn't work:** - The time investment is significant. I spend 30-60 minutes per day on note-taking, organizing, and reviewing. That's real overhead. - The system is fragile. Miss a week and everything starts degrading. The value is in the habit, and habits are hard. - You can't build the perfect system upfront. I've rebuilt major parts of my vault three times. Each time I thought I had it figured out, I discovered new problems.
+- Cognitive offloading is real. Getting information out of my head and into a searchable system creates genuine mental space. I'm not trying to remember everything anymore. I'm trusting the system to remember for me. 
 
-**What I've learned:** - Build slowly. Don't try to create the perfect system on day one. Start with daily notes. Add features only when you need them. - Running a business with multiple side projects creates cognitive overload that's genuinely hard to manage without external support. For my context, this system is essential. For someone with a single focused job? Probably overkill.
+- Context switching costs drop. When I move between projects, I can reload context quickly by reading yesterday's notes instead of spending 20 minutes trying to remember where I was.
+
+- Long-term pattern recognition matters. The weekly and monthly reviews force me to step back and see trends I'd miss in the day-to-day chaos.
+
+**What doesn't work:** 
+
+- The time investment is significant. I spend 30-60 minutes per day on note-taking, organizing, and reviewing. That's real overhead. 
+
+- The system is fragile. Miss a week and everything starts degrading. The value is in the habit, and habits are hard. 
+
+- You can't build the perfect system upfront. I've rebuilt major parts of my vault three times. Each time I thought I had it figured out, I discovered new problems.
+
+**What I've learned:** 
+
+- Build slowly. Don't try to create the perfect system on day one. Start with daily notes. Add features only when you need them. 
+
+- Running a business with multiple side projects creates cognitive overload that's genuinely hard to manage without external support. For my context, this system is essential. For someone with a single focused job? Probably overkill.
 
 ::: callout-warning
 ## The Productivity System Trap
@@ -71,6 +94,10 @@ The goal isn't a beautiful vault. It's doing better work. If the system doesn't 
 
 And then I started adding AI agents into the mix. That changed everything.
 
+## But it turns out I might have been playing the long game
+
+
+
 ## When AI Agents Tip the Value Equation
 
 Here's where things get interesting. Obsidian as a second brain is useful. Obsidian with AI agents solving problems in your vault? That's transformative.
@@ -81,7 +108,7 @@ AI agents solve the ROI problem. They don't replace thinking. They handle the co
 
 I run a local AI server. More control over my data, no API costs for constant queries, and the ability to fine-tune models for my specific workflows. The tradeoff is setup complexity and needing decent hardware. For me, it's worth it.
 
-![Local AI server setup - YOUR SCREENSHOT HERE](images/local-ai-server.png)
+![Local AI server setup - Another post coming soon](images/local-ai-server.png)
 
 I've built four specialized agents, each solving a specific problem in my vault. Not one general-purpose AI trying to do everything. Four narrow, opinionated, boring agents doing repetitive tasks really well.
 
