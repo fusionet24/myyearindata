@@ -33,7 +33,6 @@ Late 2023, I watched a video that made me reconsider everything.
 
 
 {{< video https://www.youtube.com/watch?v=DbsAQSIKQXk 
-    title='Hack your brain' 
 >}}
 
 
@@ -126,8 +125,7 @@ The tradeoff? You need decent hardware (I'm running on a machine with a capable 
 
 This is a great starting video too
 
-{{< video https://www.youtube.com/watch?v=Wjrdr0NU4Sk 
-    title='host your ai locally' 
+{{< video https://www.youtube.com/watch?v=Wjrdr0NU4Sk  
 >}}
 
 
