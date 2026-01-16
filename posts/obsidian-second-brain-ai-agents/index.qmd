@@ -2,7 +2,7 @@
 title: "Building a Second Brain with Obsidian and AI Agents"
 subtitle: "When knowledge graphs meet agentic systems (and why productivity hacks might actually work this time)"
 author: "Scott Bell"
-date: "2025-01-16"
+date: "2026-01-16"
 draft: false
 categories:
   - ai
