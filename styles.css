@@ -6,13 +6,9 @@
     background: #0aaa50;
 }
 
-/* Make all text in title block white */
-.quarto-title-block .quarto-title-banner h1.title,
-.quarto-title-block .quarto-title-banner .quarto-categories,
-.quarto-title-block .quarto-title-banner .quarto-category,
-.quarto-title-block .quarto-title-meta,
-.quarto-title-block .quarto-title-meta-heading,
-.quarto-title-block .quarto-title-meta-contents,
-.quarto-title-block .quarto-title-meta-contents p {
+/* Make text inside the green title banner white */
+.quarto-title-banner h1.title,
+.quarto-title-banner .quarto-categories,
+.quarto-title-banner .quarto-category {
     color: white !important;
 }

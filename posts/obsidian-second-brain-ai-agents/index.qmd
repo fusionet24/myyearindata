@@ -2,8 +2,8 @@
 title: "Building a Second Brain with Obsidian and AI Agents"
 subtitle: "When knowledge graphs meet agentic systems (and why productivity hacks might actually work this time)"
 author: "Scott Bell"
-date: "2025-01-13"
-draft: true
+date: "2025-01-16"
+draft: false
 categories:
   - ai
   - agents
@@ -20,7 +20,7 @@ This content was co-authored with AI assistance. I provided the structure, ideas
 
 ## The Productivity Tool Graveyard
 
-Let's be honest if you're reading this, you've probably tried at least three note-taking systems in the last few years. The pattern is always the same. You see something new, you try it, then watch it slowly become another abandoned graveyard of good intentions.
+Let's be honest if you're reading this, you've probably tried at least three note taking systems in the last few years. The pattern is always the same. You see something new, you try it, then watch it slowly become another abandoned graveyard of good intentions.
 
 Notion. LogSeq. Bear. Apple Notes. OneNote. Back to pen and paper. Then back to digital because your handwriting is terrible (👀) and you can't search paper anyway.
 
@@ -33,7 +33,7 @@ Late 2023, I watched a video that made me reconsider everything.
 
 
 {{< video https://www.youtube.com/watch?v=DbsAQSIKQXk 
-    title='What is the CERN?' 
+    title='Hack your brain' 
 >}}
 
 
@@ -50,7 +50,7 @@ So I made the switch. Migrated my notes, rebuilt my workflows, learned a new sys
 
 But the difference became clear once I stopped trying to use Obsidian like Stashpad. I wasn't just taking notes anymore. I was building a knowledge system.
 
-I've been using Obsidian for about 28 months now, building a system around daily notes, reflection roll-ups, knowledge graphs, and diagram integration. If you're curious about the specific features I use and what actually works in practice, I've written a companion post: [Why I Use Obsidian](../why-i-use-obsidian/index.qmd).
+I've been using Obsidian for over 2 years now, building a system around daily notes, reflection roll-ups, knowledge graphs, and diagram integration. If you're curious about the specific features I use and what actually works in practice, I've written a companion post: [Why I Use Obsidian](../why-i-use-obsidian/index.qmd).
 
 ## Do Productivity Systems Actually Work?
 
@@ -97,10 +97,13 @@ And then I started adding AI agents into the mix. That changed everything.
 ## But it turns out I might have been playing the long game
 
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">AI agents built into cloud apps will always be sub-par compared to state of the art agents that you can use with Obsidian.<br><br>This is because your Obsidian data is in your control, in plain text formats that are ideal for LLMs to process.<br><br>You can choose to run any of the… <a href="https://t.co/pLwxg29m9w">pic.twitter.com/pLwxg29m9w</a></p>&mdash; kepano (@kepano) <a href="https://twitter.com/kepano/status/1969035924152738238?ref_src=twsrc%5Etfw">September 19, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+*The Creator of Obsidan*
 
 ## When AI Agents Tip the Value Equation
 
-Here's where things get interesting. Obsidian as a second brain is useful. Obsidian with AI agents solving problems in your vault? That's transformative.
+Here's where things get interesting. Obsidian as a second brain is useful. Obsidian with AI agents solving problems in your vault? That's empowering.
 
 The core problem with any knowledge management system is overhead. Building it takes time. Maintaining it takes time. Organizing it, tagging it, keeping it current, making sure you can find things later. All of that is necessary work, but it's not the work you're trying to do. It's meta-work.
 
@@ -112,14 +115,21 @@ I run a local AI server. More control over my data, no API costs for constant qu
 
 I've built four specialized agents, each solving a specific problem in my vault. Not one general-purpose AI trying to do everything. Four narrow, opinionated, boring agents doing repetitive tasks really well.
 
-This isn't sci-fi agentic AI hype. This is practical application of the patterns I've been [exploring in my work on agentic systems](../agentic-patterns-right-now-2025/index.qmd). The same ideas about memory systems, retrieval vs retention, and context management apply here. Personal knowledge management is fundamentally about external memory. AI agents just make that external memory system more usable.
+This is practical application of the patterns I've been [exploring in my work on agentic systems](../agentic-patterns-right-now-2025/index.qmd). The same ideas about memory systems, retrieval vs retention, and context management apply here. Personal knowledge management is fundamentally about external memory. AI agents just make that external memory system more usable.
 
-::: callout-tip
+::: {.callout-tip collapse="true"}
 ## Why Local AI?
 
 Running AI models locally gives you control over your data, no API costs for high-frequency queries, and the ability to customize models for your specific workflow. You can fine-tune on your own notes, experiment with prompts without worrying about costs, and keep sensitive client information on your own hardware.
 
-The tradeoff? You need decent hardware (I'm running on a machine with a capable GPU) and some technical setup. There's a learning curve. But for anyone already comfortable with Docker and basic ML concepts, it's manageable.
+The tradeoff? You need decent hardware (I'm running on a machine with a capable GPU) and some technical setup. There's a learning curve. But for anyone already comfortable with Docker and basic ML concepts, it's manageable. 
+
+This is a great starting video too
+
+{{< video https://www.youtube.com/watch?v=Wjrdr0NU4Sk 
+    title='host your ai locally' 
+>}}
+
 
 If local hosting isn't practical, you can use cloud APIs. The patterns are the same. You just trade control for convenience.
 :::
@@ -138,8 +148,6 @@ I give it research questions or topics I need to understand. "What are the curre
 
 The process is asynchronous. I queue up research tasks in the morning, and by afternoon there are draft notes waiting. I review them, verify the information, integrate what's useful, and discard what isn't.
 
-**Real use cases:** - Preparing for client conversations with new companies or industries - Technology evaluation and comparison - Blog post research (including this post, to be honest)
-
 **Honest assessment:** The quality varies. Sometimes it nails exactly what I needed. Sometimes it goes off on tangents or misses the point. I always verify the information before trusting it. But it saves hours of initial research grunt work. It's best for breadth, not depth. It gives me enough context to ask better questions and dig deeper where it matters.
 
 ### Agent 2: Linting and Metadata Agent
@@ -148,11 +156,7 @@ The process is asynchronous. I queue up research tasks in the morning, and by af
 
 This is the unglamorous agent. It scans for uncataloged notes (no tags, missing metadata, orphaned from the graph). It suggests tags based on content analysis. It identifies broken links. It flags notes I haven't touched in months that might be stale or outdated.
 
-I run it weekly. It generates a report of vault health issues, and I spend 30 minutes cleaning up. Without this agent, the vault would slowly decay into an unsearchable mess.
-
-**Real use cases:** - Preventing vault decay over time - Maintaining discoverability of older notes - Reducing cognitive debt from disorganized information
-
-**Honest assessment:** This is like having a librarian for your brain. Not exciting, but essential. It prevents the "I know I wrote about this somewhere but I can't find it" problem. The time investment pays off every time I search for something and actually find it quickly because the tags and structure are maintained.
+I run it weekly. It generates a report of vault health issues, fixes most auotmatically and I spend 30 minutes cleaning up anything else. Without this agent, the vault would slowly decay into an unsearchable mess.
 
 ### Agent 3: Goal Alignment Agent
 
@@ -162,20 +166,21 @@ This is the agent that makes me uncomfortable, which probably means it's working
 
 I have notes for yearly goals, quarterly priorities, monthly focuses, and weekly targets. This agent reads all of them, analyzes my recent daily notes to see what I've actually been working on, and generates daily reminders about alignment or misalignment.
 
-It's not subtle. "You said Q1 priority was growing the data platform practice, but you've spent the last three days on internal tooling." Sometimes I have good reasons for the mismatch. Often I don't.
+It's not subtle. "You said Q1 priority was growing your newsletter , but you've spent the last three days listening to podcasts." Sometimes I have good reasons for the mismatch. Often I don't.
 
-**Real use cases:** - Running a business with multiple side projects means it's easy to drift - Acts as an accountability partner - Helps with strategic time allocation
 
-**A real example:** In November, I had committed to writing two blog posts and preparing for a conference talk. My goal agent, after analyzing two weeks of daily notes, pointed out I'd written zero words on any post and hadn't opened my slide deck once. Instead, I'd gone deep on a client project that was interesting but not strategic.
+Sometimes it's uncomfortably accurate. It requires good goal documentation to be useful. If you don't write down what matters, it can't tell you when you're off track. And not everyone wants this level of tracking. If you're allergic to quantified self concepts, you'll hate this agent.
 
-I was annoyed. Then I adjusted. That's when the system works.
-
-**Honest assessment:** Sometimes it's uncomfortably accurate. It requires good goal documentation to be useful. If you don't write down what matters, it can't tell you when you're off track. And not everyone wants this level of tracking. If you're allergic to quantified self concepts, you'll hate this agent.
-
-::: callout-important
+::: callout-important 
 ## The Goal Alignment Feedback Loop
 
-**Week 1:** Agent tells me I'm off track. **Week 2:** I ignore it because I'm "busy." **Week 3:** Agent's report shows I've made zero progress on a Q1 priority. **Week 4:** I finally adjust.
+**Week 1:** Agent tells me I'm off track.
+
+**Week 2:** I ignore it because I'm "busy." 
+
+**Week 3:** Agent's report shows I've made zero progress on a Q1 priority. 
+
+**Week 4:** I finally adjust.
 
 The system works when you listen to it. If you ignore the signal, it's just noise.
 :::
@@ -186,90 +191,23 @@ The system works when you listen to it. If you ignore the signal, it's just nois
 
 This is the "search my brain" agent. Natural language queries that go beyond keyword matching. "What have I learned about agentic patterns over the last six months?" It retrieves relevant notes, synthesizes insights across multiple sources, and provides a coherent summary with references.
 
-It's not just search. It's context-aware retrieval. It understands that my note about a client meeting might be relevant to a technical question because of a connection I made in a different note.
+It's not just search. It's context-aware retrieval. It understands that my note about a meeting might be relevant to a technical question because of a connection I made in a different note.
 
-I also use it for content generation. Writing this post, I queried my vault for everything I've written about productivity, tools, and knowledge management. It pulled together fragments from dozens of notes across 14 months. That became the foundation for the personal stories and examples here.
+I also use it for content generation. Writing this post, I queried my vault for everything I've written about productivity, tools, and knowledge management. It pulled together fragments from dozens of notes.
 
-**Real use cases:** - "Find all my notes related to client X and summarize key decisions" - "What have I written about Azure deployment patterns?" - "Show me all unresolved questions I've tagged in the last month" - Using my own knowledge base as a foundation for new research and writing
 
-**Honest assessment:** This agent is only as good as the notes you've written. Garbage in, garbage out. If you don't write clear, well-structured notes, the retrieval won't be useful. But if you maintain decent notes, the experience of asking your own knowledge base questions and getting thoughtful answers is remarkable.
+This agent is only as good as the notes you've written. Garbage in, garbage out. If you don't write clear, well-structured notes, the retrieval won't be useful. But if you maintain decent notes, the experience of asking your own knowledge base questions and getting thoughtful answers is remarkable.
 
 As I wrote in my [agentic patterns post](../agentic-patterns-right-now-2025/index.qmd), the shift from retention to retrieval is fundamental. You don't need to remember everything. You need to be able to find and use what you've captured. This agent makes that practical.
-
-------------------------------------------------------------------------
-
-Four agents. Four distinct problems solved. None of them are sentient. None of them are magic. But together, they've turned Obsidian from a productivity system into a thinking partner.
-
-## Beyond the Hype: Personal Knowledge Management as an Agentic Pattern
+Personal Knowledge Management as an Agentic Pattern
 
 Both knowledge graphs and agentic AI have hype problems. Knowledge graphs were supposed to revolutionize how we think. Agentic AI is supposed to replace knowledge workers. Most of the hype is nonsense.
 
-But both deliver real utility when you actually do the work.
+But both deliver real utility to you **a human** when you actually do the work.
 
-Personal knowledge management plus AI agents is a genuinely practical use case for agentic systems. Not because it's flashy. Because it's bounded, constrained, and human-in-the-loop by design.
-
-**Why this works when other agentic hype doesn't:**
-
-1.  **Bounded domain.** This isn't an agent trying to do everything. It's agents working within a specific, limited context: your notes.
-
-2.  **High signal-to-noise ratio.** These are your notes. You wrote them. There's no garbage data to filter, no adversarial inputs to defend against. The agents are working with curated, high-quality information.
-
-3.  **Clear success metrics.** Can you find what you wrote? Can you use it to do better work? Can you make connections you wouldn't make otherwise? Success is obvious.
-
-4.  **Human-in-the-loop by design.** These agents don't make decisions. They surface information, suggest organization, point out misalignments. You still do the thinking.
-
-5.  **Fails gracefully.** If an agent makes a mistake, nothing breaks. Bad note organization doesn't crash production systems. You just fix the tags and move on.
-
-In my [agentic patterns post](../agentic-patterns-right-now-2025/index.qmd), I wrote about memory as a system design problem. How do you keep useful context across sessions? Personal knowledge management is fundamentally about external memory and retrieval. These agents solve the meta-cognitive problems: organization, alignment, synthesis.
-
-They're not autonomous agents running wild. They're specialized sub-agents doing narrow, predictable, repeatable tasks. Exactly the pattern that works in production systems.
-
-This is what makes PKM plus AI different from productivity theater. It's not about building a beautiful system. It's about building a system that reduces cognitive load so you can focus on the work that actually matters.
-
-::: callout-note
-## The Pattern That Matters
-
-Knowledge graphs + AI isn't about building a magical all-knowing system. It's about:
-
-1.  Externalizing your thinking
-2.  Using AI to maintain and query that external memory
-3.  Keeping yourself in the loop
-4.  Building slowly over time
-
-This is what "agentic PKM" actually means in practice. Not hype. Just engineering discipline applied to knowledge work.
-:::
-
-## When Second Brains + AI Make Sense (And When They Don't)
-
-Let's be clear about who this is for. I'm not selling you on this system. I'm telling you when it might be worth the investment.
-
-**This makes sense if:**
-
--   You're managing high cognitive load. Multiple projects, clients, or domains that you need to keep separate but accessible.
--   You context switch frequently. Moving between different types of work, different stakeholders, different mental models.
--   You do knowledge work professionally. Writing, designing, architecture, consulting, research. Work where building on past knowledge creates compounding value.
--   You're willing to invest time building the system. This isn't plug-and-play. It takes weeks to build useful structure and months to see real returns.
--   You're technical enough to set up local AI, or willing to learn. If Docker and Python don't scare you, you can do this. If they do, you'll need to use cloud APIs and accept less control.
-
-**This doesn't make sense if:**
-
--   Your work doesn't require much external memory. If you're doing the same work repeatedly with little variation, you don't need elaborate knowledge systems.
--   You prefer working in the moment without documentation. Some people think best by not looking back. That's valid. This system isn't for you.
--   You don't have time for system maintenance. If you can't commit to at least 30 minutes per day on notes and review, the system will degrade quickly.
--   You're looking for a magic productivity solution. This isn't magic. It's work. If you're hoping a tool will fix productivity problems that are really about focus or prioritization, this won't help.
-
-**The real benefit isn't productivity theater:**
-
-This isn't about feeling organized. It's not about building a beautiful vault to show off. It's about cognitive offloading that actually works. When your working memory is freed from remembering context, you can use it for thinking.
-
-Combining structured thinking (Obsidian) with computational assistance (AI agents) lets you build knowledge systems that genuinely augment how you work. Not replace. Augment.
-
-For me, running my own business with half a dozen side projects would be impossible without this system. Not because it makes me superhuman. It offloads just enough cognitive overhead that I can focus on the work that matters.
 
 **Looking forward:**
 
-This is still early days for agentic personal knowledge management. Tools will improve. Patterns will stabilize. We'll figure out what works and what's just hype.
+This is still early days for agentic/ai augmented personal knowledge management. This is no doubt not my last post on this topic.
 
-But the core idea is sound. Externalized thinking plus AI assistance is a genuine augmentation of human cognition. Build your system slowly. Iterate. Find what works for you.
-
-It's not a second brain. It's a thinking partner. And with AI agents handling the meta-work, it's finally worth the investment.
+It's not a second brain. It's a thinking partner. And with AI agents handling the meta-work, maybe it's finally been worth the investment.
