@@ -118,9 +118,6 @@ The core problem with any knowledge management system is overhead. Building it t
 
 AI agents solve the ROI problem. They don't replace thinking. They handle the cognitive janitorial work that makes the system sustainable.
 
-I run a local AI server. More control over my data, no API costs for constant queries, and the ability to fine-tune models for my specific workflows. The tradeoff is setup complexity and needing decent hardware. For me, it's worth it.
-
-![Local AI server setup - Another post coming soon](images/local-ai-server.png)
 
 I've built four specialized agents, each solving a specific problem in my vault. Not one general-purpose AI trying to do everything. Four narrow, opinionated, boring agents doing repetitive tasks really well.
 
@@ -128,6 +125,10 @@ This is practical application of the patterns I've been [exploring in my work on
 
 ::: {.callout-tip collapse="true"}
 ## Why Local AI?
+
+I run a local AI server.
+
+![Local AI server setup - Another post coming soon](images/local-ai-server.png)
 
 Running AI models locally gives you control over your data, no API costs for high-frequency queries, and the ability to customize models for your specific workflow. You can fine-tune on your own notes, experiment with prompts without worrying about costs, and keep sensitive client information on your own hardware.
 
