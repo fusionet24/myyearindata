@@ -11,6 +11,7 @@ categories:
   - Engineering 
   - prompt engineering
 ---
+
 ::: {.callout-note collapse="true"}
 ## Disclosure
 
@@ -23,19 +24,15 @@ None of what I have written here has been discussed or vetted by them. These are
 This was generated with the help of AI based on my research and input. See my post on [Transparency: AI Content Labels](../AI-Content-Labels/index.qmd)
 :::
 
-
 ## Are you more worried that AI will make your job obsolete, or that your teams will adopt it without thinking about the security risks?
 
-At **SQLBITS 2025**, the contrast between my session and Simon's could not have been more stark. I presented ["Danger In Dialogue: The Security Risks in LLMs"](https://fusionet24.github.io/Talks/sql-bits-danger-in-diaglogue.html), where I focused on how people are not taking the security part of this new technology seriously enough. [Simon](https://www.youtube.com/advancinganalytics), on the other hand, gave a talk all about [Automating Engineering with AI](https://www.youtube.com/watch?v=tV_hmSp5-g8). To which he received lots of criticism from the data engineering community.  On the surface, our messages seem opposed. But we both agree on the core point: you have to get ahead of the game. Because other people already are.
+At **SQLBITS 2025**, the contrast between my session and Simon's could not have been more stark. I presented ["Danger In Dialogue: The Security Risks in LLMs"](https://fusionet24.github.io/Talks/sql-bits-danger-in-diaglogue.html), where I focused on how people are not taking the security part of this new technology seriously enough. [Simon](https://www.youtube.com/advancinganalytics), on the other hand, gave a talk all about [Automating Engineering with AI](https://www.youtube.com/watch?v=tV_hmSp5-g8). To which he received lots of criticism from the data engineering community. On the surface, our messages seem opposed. But we both agree on the core point: you have to get ahead of the game. Because other people already are.
 
 ::: {.callout-note collapse="true"}
 ## Simon's response video to the criticism
 
 {{< video https://www.youtube.com/watch?v=tV_hmSp5-g8 >}}
-
-
 :::
-
 
 This isn't just a topic for a conference talk. I have been using ChatGPT since its first day. I've become a very adept [prompt engineer]() and see significant productivity gains in my personal and professional life from these models. AI augmentation of our daily workflows is the future, and its strengths in pattern recognition, code generation, and summarizing information are obvious. The real question is how we integrate it effectively.
 
@@ -46,10 +43,9 @@ To understand where we're going, we need to look at where we've been. Many data 
 Then, we moved to cloud data platforms like Databricks. This shift introduced notebooks and encouraged teams to build reusable functions and, eventually proper internal frameworks. It was a certainly an improvement for **most**.
 
 ::: {.callout-warning appearance="simple"}
-##
+## 
 
 There's lot of context I'm missing here I know. The Data Warehouse architecture battles, Vendor Wars, Hadoop, Sqoop, Azure Data Lake Analytics. Early Orchstrators such as SSIS, ADFv1 and more. It doesn't add value to the point I'm making, so I'm simplifying the timeline.
-
 :::
 
 The more recent trend was building solution or platform accelerators. These tools focus on enabling data engineers and scientists to do their best work by abstracting away boilerplate code. The idea is sound: let engineers focus on the business context and problem-solving, not rewriting the same data-loading script for the hundredth time. This is often achieved through [Configuration-as-Code](https://configu.com/blog/what-is-configuration-as-code-cac-and-5-tips-for-success/) (CaC), where you define your pipelines in a structured format like YAML, JSON or SQL Tables.
@@ -59,14 +55,12 @@ The more recent trend was building solution or platform accelerators. These tool
 There are good solution accelerators out there. [I've seen them](https://www.advancinganalytics.co.uk/hydr8). But I have also seen many terrible ones. The challenge appears when a well-intentioned framework follows the "everything is configuration" anti-pattern.
 
 ::: {.callout-warning collapse="true"}
-
 ## The Crappy DSL Anti-Pattern
 
 This occurs when a configuration-driven framework becomes so complex and prescriptive that it is no longer a simple configuration file. Instead, it becomes a new, poorly designed Domain Specific Language (DSL). Engineers don't write Python or SQL; they write a proprietary, limited version of it defined in YAML.
 
 I remember delivering a time critical project using one of the first data platform Solution Accelerator out there. It generated boilerplate notebooks for you using metadata and I spent more time (2 days) debugging the undocumented C# Blazor app than actually doing the work.
-
-::: 
+:::
 
 When this happens, you lose on all fronts. Good engineers lose their ability to work at speed because the framework fights them at every turn. They can no longer apply well-engineered solutions because they are stuck inside a rigid, inefficient box. Bad engineers lose their exposure to other architectural models, stunting their growth and preventing them from developing better skills.
 
@@ -83,7 +77,6 @@ Here's how [Beck explains it](https://tidyfirst.substack.com/p/augmented-coding-
 The **"vibe coder" is the bad engineer**, made worse by a powerful tool they don't understand. The **"augmented coder" is the good engineer**, made more productive by that same tool. They use it to generate code but apply the same rigorous standards for quality, testing, and maintainability as if they had written it by hand. My personal challenges with the "SLOP" that LLMs can produce don't stop me from using them; it just forces me to be an augmented coder.
 
 ![](images/galaxybrain.png){fig-align="center"}
-
 
 Of course, this transition isn't without friction. As [Birgitta Böckeler, a Distinguished Engineer at Thoughtworks, points out, we have to accept that we will take on technical debt while we learn how to best apply these new tools](https://newsletter.pragmaticengineer.com/p/two-years-of-using-ai?utm_source=substack&utm_medium=email). It's an unavoidable part of innovation.
 

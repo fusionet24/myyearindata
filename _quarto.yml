@@ -1,12 +1,19 @@
 project:
   type: website
+  resources:
+    - robots.txt
 
 website:
   title: "MyYearInData"
-  site-url: "MyYearindata.com"
-  description: "Exploration and analysis of Technical topics in the world of data"
+  site-url: "https://www.myyearindata.com"
+  description: "Data engineering, architecture, and AI insights from Scott Bell. Exploring governance, security, and the evolving landscape of intelligent systems."
+  open-graph:
+    locale: en_GB
+    site-name: MyYearInData
   twitter-card:
+    card-style: summary_large_image
     creator: "@fusionet24"
+    site: "@fusionet24"
   navbar:
     right:
       - about.qmd

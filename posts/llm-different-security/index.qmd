@@ -1,13 +1,14 @@
 ---
 title: "Why LLM Security Isn't Business as Usual"
 author: "Scott Bell"
-description: "LLM Security poses new risks and new challenges to an already chaotic security landscape "
+description: "Prompt injection, data breaches, and the new attack surface. Why traditional security practices fall short for LLM applications."
 date: "2025-06-15"
 draft: false
-categories: 
-  - azure
-  - quarto 
-  - github 
+categories:
+  - AI
+  - LLMs
+  - security
+  - GenAI
 ---
 ::: {.callout-tip collapse="false"}
 ## SQL Bits

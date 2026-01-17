@@ -1,6 +1,7 @@
 ---
 title: "Fixing the Write-Host Invalid Color Error in PowerShell"
 author: "Scott Bell"
+description: "Quick fix for the 'Cannot process the color because -1 is not a valid color' error in Azure DevOps pipelines and FabricPS-PBIP deployments."
 date: "2025-02-03"
 draft: false
 categories: 

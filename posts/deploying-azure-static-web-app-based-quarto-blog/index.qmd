@@ -1,13 +1,14 @@
 ---
-title: "How to deploy Quarto Blog to Azure Static Web Apps"
+title: "How to Deploy a Quarto Blog to Azure Static Web Apps"
 author: "Scott Bell"
-description: "Learn about Quarto and how to configure your Free Azure Static Web App to deploy a blog"
+description: "Step-by-step guide to hosting a free Quarto blog on Azure Static Web Apps with GitHub integration and custom domains."
 date: "2022-12-28"
-draft: False
-categories: 
+draft: false
+categories:
   - azure
-  - quarto 
-  - github 
+  - quarto
+  - github
+  - static-web-apps
 ---
 ::: {.callout-tip}
 ## Multipart Blog Series on Quarto

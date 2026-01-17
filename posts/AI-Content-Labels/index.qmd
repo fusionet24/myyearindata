@@ -1,6 +1,7 @@
 ---
 title: "AI Content Labels & Workflow"
 author: "Scott Bell"
+description: "A transparent labeling system for AI-generated, AI-assisted, and AI-reviewed content. Learn my workflow for blending human creativity with LLMs."
 date: "2025-06-01"
 draft: false
 categories: 
@@ -20,16 +21,13 @@ Ever read something online and wondered, "Was this written by a human or AI?" It
 
 To do that, I've developed a workflow and labels you'll see on my posts: **AI Generated**, **AI Assisted**, and **AI Reviewed**. This post is a quick FAQ to explain what they mean and how I create content now.
 
-::: {.callout-tip}
-
+::: callout-tip
 # My AI Content Labels
 
-
-* **AI Generated:** The core of the content, from structure to prose, was created by an AI model based on my detailed prompts and outlines. I've heavily edited and fact-checked it, but the initial draft was machine-made.
-* **AI Assisted:** I wrote this content, but I used AI for specific tasks like brainstorming, refining sentence structure, or generating summaries of research material. Think of it as a super-powered thesaurus and research assistant.
-* **AI Reviewed:** This is my own original work, but I've had an AI model review it for clarity, tone, and grammatical errors. It’s like having a final proofreader before hitting publish.
+-   **AI Generated:** The core of the content, from structure to prose, was created by an AI model based on my detailed prompts and outlines. I've heavily edited and fact-checked it, but the initial draft was machine-made.
+-   **AI Assisted:** I wrote this content, but I used AI for specific tasks like brainstorming, refining sentence structure, or generating summaries of research material. Think of it as a super-powered thesaurus and research assistant.
+-   **AI Reviewed:** This is my own original work, but I've had an AI model review it for clarity, tone, and grammatical errors. It’s like having a final proofreader before hitting publish.
 :::
-
 
 ## My Core Workflow
 
@@ -41,7 +39,8 @@ It all starts with a question or an idea. My first step is what I call "Deep Res
 
 ::: {.callout-tip collapse="true"}
 # What is Deep Research
-**Deep Research** is my process of using large language models (OpenAI's GPT series, Anthropic's Claude, and Google's Gemini) to search sources and the internet to build grounded responses with the latest information and context. 
+
+**Deep Research** is my process of using large language models (OpenAI's GPT series, Anthropic's Claude, and Google's Gemini) to search sources and the internet to build grounded responses with the latest information and context.
 :::
 
 I gather all these different sources—links, articles, AI-generated deep research summaries—and put them into a central place.
@@ -52,6 +51,7 @@ This is where the magic happens for me. I use Google's NotebookLM as my digital 
 
 ::: {.callout-tip collapse="true"}
 # What is Notebook LLM
+
 **NotebookLM** is a research and writing assistant from Google. You can upload your sources (PDFs, text files, Google Docs, website links), and it creates a private model grounded in that specific information. It helps you summarize, ask questions, and brainstorm ideas based *only* on the materials you've provided.
 :::
 
@@ -63,6 +63,7 @@ Once I have a good grasp of the material, I need a structure. I turn to an advan
 
 ::: {.callout-tip collapse="true"}
 # Advanced Reasoning and COT?
+
 **Advanced Reasoning with Chain of Thought (CoT)** involves prompting a powerful AI model (like GPT-4o or Gemini Pro) to "think step-by-step." Instead of just giving a final answer, it explains its reasoning process. This helps me iterate on the structure, consider different angles, and build a more logical and compelling narrative for the post.
 :::
 
@@ -73,8 +74,8 @@ I'll go back and forth with the model, refining the outline until I'm happy with
 With a solid structure in place, I do two things simultaneously. First, I use NotebookLM's audio feature to talk through content using my plan/structure.
 
 ::: {.callout-tip collapse="true"}
-
 # NotebookLM Audio Overview
+
 **NotebookLM Audio Overview** is a feature where the tool generates an audio discussion based on your sources and notes. Listening to an AI-generated conversation about my topic helps me validate my understanding and sometimes sparks new ideas. It's like having a quick chat with a knowledgeable colleague to see if my argument holds up.
 :::
 
@@ -90,6 +91,6 @@ I then use another advanced reasoning model to compare the two drafts, highlight
 
 So, what does this all mean?
 
-**The Good:** This workflow allows me to tackle more complex topics and produce higher-quality, better-researched content more efficiently. 
+**The Good:** This workflow allows me to tackle more complex topics and produce higher-quality, better-researched content more efficiently.
 
-**The Challenges:** It's not a perfect system. AI models can still "hallucinate" or generate plausible-sounding nonsense. That's why the human editing, grounding and fact-checking step is crucial. 
+**The Challenges:** It's not a perfect system. AI models can still "hallucinate" or generate plausible-sounding nonsense. That's why the human editing, grounding and fact-checking step is crucial.

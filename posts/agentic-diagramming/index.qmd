@@ -1,7 +1,7 @@
 ---
 title: "Agentic Diagramming"
 author: "Scott Bell"
-description: "Practical patterns for visualizing multi-agent systems without the spaghetti. Thoughts on how to diagram agentic systems ar present."
+description: "Practical patterns for visualizing multi-agent systems without the spaghetti. How to diagram agentic AI architectures that clarify rather than confuse."
 date: "2025-11-12"
 draft: false
 categories:

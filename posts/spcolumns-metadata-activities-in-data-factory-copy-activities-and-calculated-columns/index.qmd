@@ -1,6 +1,7 @@
 ---
-title: "Using Dynamic column metadata from sp_columns in ADF (to ignore calculated columns) while using copy activities "
+title: "Using sp_columns to Exclude Calculated Columns in ADF Copy Activities"
 author: "Scott Bell"
+description: "Dynamically filter out SQL calculated columns in Azure Data Factory using sp_columns metadata. A pattern for flexible, parameter-driven copy pipelines."
 date: "2022-10-24"
 draft: false
 categories: 

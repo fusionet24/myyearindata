@@ -1,5 +1,6 @@
 ---
-title: "About"
+title: "About Scott Bell"
+description: "Principal Data Consultant specializing in Azure, data engineering, and AI. Author of MyYearInData."
 image: profile.jpg
 about:
   template: solana
@@ -9,13 +10,13 @@ about:
       href: https://twitter.com/fusionet24
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com/scottjamesbell
+      href: https://www.linkedin.com/in/scottjamesbell
     - icon: github
       text: Github
       href: https://github.com/fusionet24
     - icon: envelope-at
       text: Email Me
-      href: hi@scottajamesbell.com
+      href: mailto:hi@scottajamesbell.com
     - icon: Mastodon
       text: Mastodon
       href: https://techhub.social/@fusionet24

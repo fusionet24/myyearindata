@@ -1,7 +1,7 @@
 ---
-title: "Why approximate something with AI that you can clearly define"
+title: "Why Approximate Something with AI That You Can Clearly Define?"
 author: "Scott Bell"
-description: ""
+description: "When rules beat models: why deterministic logic outperforms probabilistic AI for well-defined business problems. Know when f(x) beats training g(x)."
 date: "2025-06-20"
 draft: false
 categories:

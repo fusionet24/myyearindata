@@ -1,13 +1,15 @@
 ---
 title: "Deploying Quarto to Azure Static Web Apps"
 author: "Scott Bell"
-description: "Learn how to install and render Quarto documents using Github Actions and Workflows"
+description: "Complete the Quarto deployment pipeline: provision Azure Static Web Apps and connect GitHub Actions for automated publishing."
 date: "2023-03-18"
 draft: false
-categories: 
+categories:
   - azure
-  - quarto 
-  - github 
+  - quarto
+  - github
+  - static-web-apps
+  - ci-cd
 ---
 
 ::: callout-tip

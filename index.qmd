@@ -1,5 +1,6 @@
 ---
-title: "Blog"
+title: "MyYearInData Blog"
+description: "Data engineering, architecture, security, and AI insights. Practical perspectives on building intelligent data systems."
 listing:
   contents: posts
   sort: "date desc"
