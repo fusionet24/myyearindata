@@ -2,6 +2,7 @@ project:
   type: website
   resources:
     - robots.txt
+    - staticwebapp.config.json
 
 website:
   title: "MyYearInData"
