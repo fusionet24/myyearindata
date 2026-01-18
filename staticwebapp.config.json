@@ -1,5 +1,12 @@
 {
   "globalHeaders": {
     "Content-Security-Policy": "frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://platform.twitter.com;"
-  }
+  },
+  "routes": [
+    {
+      "route": "/s/AI-Obsidian",
+      "redirect": "/posts/obsidian-second-brain-ai-agents/",
+      "statusCode": 301
+    }
+  ]
 }

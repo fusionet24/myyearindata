@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel - Building a Second Brain with Obsidian and AI Agents</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Caveat:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .instructions {
+            color: #888;
+            font-size: 14px;
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        :root {
+            --brand-green: #0aaa50;
+            --brand-green-light: #0dcc60;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2027;
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1350px;
+            background: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle grid pattern background */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(10, 170, 80, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 170, 80, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        /* Header bar with branding */
+        .header-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--brand-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .site-name {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .slide-number {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        /* Swipe arrow indicator */
+        .swipe-indicator {
+            position: absolute;
+            bottom: 50px;
+            right: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Caveat', cursive;
+            font-size: 28px;
+        }
+
+        .swipe-indicator svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--brand-green);
+            animation: swipe 1.5s ease-in-out infinite;
+        }
+
+        @keyframes swipe {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 920px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 68px;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            color: var(--brand-green);
+        }
+
+        .subtext {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 32px;
+            font-weight: 400;
+            margin-top: 40px;
+        }
+
+        /* Doodly hand-drawn styles */
+        .doodle-text {
+            font-family: 'Caveat', cursive;
+            color: var(--brand-green);
+        }
+
+        .doodle-circle {
+            position: relative;
+            display: inline-block;
+        }
+
+        .doodle-circle::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -20px;
+            right: -20px;
+            bottom: -15px;
+            border: 4px solid var(--brand-green);
+            border-radius: 50% 45% 55% 48%;
+            transform: rotate(-2deg);
+            opacity: 0.9;
+        }
+
+        .doodle-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .doodle-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: -5px;
+            right: -5px;
+            height: 6px;
+            background: var(--brand-green);
+            border-radius: 3px;
+            transform: rotate(-1deg);
+        }
+
+        /* Doodly lightbulb SVG - sketchy whiteboard style */
+        .doodle-lightbulb {
+            position: absolute;
+            width: 110px;
+            height: 140px;
+        }
+
+        .doodle-lightbulb svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .doodle-lightbulb-glow {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(10, 170, 80, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-15px, -10px);
+        }
+
+        /* Doodly scribble decoration */
+        .doodle-scribble {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            opacity: 0.5;
+        }
+
+        /* Arrow doodle */
+        .doodle-arrow {
+            font-family: 'Caveat', cursive;
+            color: var(--brand-green);
+            font-size: 60px;
+        }
+
+        /* Tombstones for slide 2 */
+        .tombstones {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .tombstone {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tombstone span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 26px;
+            font-weight: 600;
+            text-decoration: line-through;
+            text-decoration-color: #ef4444;
+        }
+
+        .skull {
+            font-size: 28px;
+        }
+
+        /* Comparison boxes for slide 3 */
+        .comparison {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin: 40px 0;
+        }
+
+        .box {
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 320px;
+            text-align: center;
+        }
+
+        .box.active {
+            border-color: var(--brand-green);
+            background: rgba(10, 170, 80, 0.1);
+        }
+
+        .box h3 {
+            color: #fff;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .box p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+        }
+
+        .box .app-name {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 24px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .box.active .app-name {
+            color: var(--brand-green);
+        }
+
+        .arrow {
+            font-size: 70px;
+            color: var(--brand-green);
+        }
+
+        /* Icons row for slide 5 */
+        .icons-row {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+            margin: 45px 0;
+        }
+
+        .icon-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 65px;
+            background: var(--card-bg);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .icon-circle.brain {
+            border-color: var(--brand-green);
+            background: rgba(10, 170, 80, 0.15);
+        }
+
+        .plus {
+            font-size: 55px;
+            color: var(--brand-green);
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Agent cards for slide 6 */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 35px 0;
+            width: 100%;
+        }
+
+        .agent-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+        }
+
+        .agent-card .icon {
+            font-size: 44px;
+            margin-bottom: 12px;
+        }
+
+        .agent-card h4 {
+            color: #fff;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .agent-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
+            line-height: 1.4;
+        }
+
+        /* CTA slide styles */
+        .cta-section {
+            margin: 30px 0;
+        }
+
+        .cta-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px 40px;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .cta-link.primary {
+            background: var(--brand-green);
+            border-color: var(--brand-green);
+        }
+
+        .cta-link .icon {
+            font-size: 36px;
+        }
+
+        .cta-link .text {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .cta-link .url {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 22px;
+        }
+
+        .cta-link img.logo {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .powered-by {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 20px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .powered-by span {
+            color: var(--brand-green);
+            font-weight: 600;
+        }
+
+        /* Doodly data decoration - beaker/flask */
+        .doodle-data {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            opacity: 0.55;
+        }
+
+        .doodle-data svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sparkle decoration */
+        .sparkle {
+            position: absolute;
+            color: var(--brand-green);
+            font-size: 45px;
+            opacity: 0.5;
+        }
+
+        /* No swipe on last slide */
+        .no-swipe .swipe-indicator {
+            display: none;
+        }
+
+        /* Overhead items for slide 4 */
+        .overhead-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 50px 0;
+            text-align: left;
+        }
+
+        .overhead-item {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px 35px;
+        }
+
+        .overhead-item .icon {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .overhead-item .text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        /* Subtitle styling */
+        .subtitle {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 26px;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <p class="instructions">Open each slide in browser and screenshot. Each slide is 1080x1350px (LinkedIn/Instagram 4:5 ratio). The swipe arrows indicate "next slide" for carousel viewers.</p>
+
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide" id="slide1">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">1/7</span>
+        </div>
+
+        <!-- Doodly beaker/flask -->
+        <div class="doodle-data" style="top: 140px; left: 70px;">
+            <svg viewBox="0 0 50 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sketchy beaker -->
+                <path d="M18 5L18 22L8 55C7 58 9 62 13 62L37 62C41 62 43 58 42 55L32 22L32 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M15 5L35 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Liquid line -->
+                <path d="M12 45C15 43 20 46 25 44C30 42 35 45 38 43" stroke="#0aaa50" stroke-width="2" stroke-linecap="round"/>
+                <!-- Bubbles -->
+                <circle cx="20" cy="52" r="2" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+                <circle cx="30" cy="50" r="1.5" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+        <!-- Sparkles -->
+        <span class="sparkle" style="top: 200px; right: 100px;">&#10022;</span>
+        <span class="sparkle" style="bottom: 250px; left: 120px;">&#10022;</span>
+
+        <div class="content">
+            <h1>Building a<br><span class="highlight">Second Brain</span><br>with Obsidian and<br><span class="doodle-circle"><span class="highlight">AI Agents</span></span></h1>
+
+            <p class="subtext doodle-text" style="font-size: 38px;">When knowledge graphs meet agentic systems</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <div class="slide" id="slide2">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">2/7</span>
+        </div>
+
+        <span class="sparkle" style="top: 180px; right: 80px;">&#10022;</span>
+
+        <div class="content">
+            <h1>Your Note-Taking<br><span class="doodle-underline"><span class="highlight">App Graveyard</span></span></h1>
+
+            <div class="tombstones">
+                <div class="tombstone">
+                    <span>Notion</span>
+                    <span class="skull">&#9760;</span>
+                </div>
+                <div class="tombstone">
+                    <span>Evernote</span>
+                    <span class="skull">&#9760;</span>
+                </div>
+                <div class="tombstone">
+                    <span>OneNote</span>
+                    <span class="skull">&#9760;</span>
+                </div>
+                <div class="tombstone">
+                    <span>Bear</span>
+                    <span class="skull">&#9760;</span>
+                </div>
+                <div class="tombstone">
+                    <span>Apple Notes</span>
+                    <span class="skull">&#9760;</span>
+                </div>
+                <div class="tombstone">
+                    <span>Back to paper</span>
+                    <span class="skull">&#9760;</span>
+                </div>
+            </div>
+
+            <p class="subtext doodle-text" style="font-size: 42px;">Sound familiar? &#128064;</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: THE SHIFT -->
+    <div class="slide" id="slide3">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">3/7</span>
+        </div>
+
+        <div class="doodle-data" style="top: 140px; right: 80px;">
+            <svg viewBox="0 0 50 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sketchy test tube -->
+                <path d="M20 8L20 45C20 52 25 58 32 58C39 58 44 52 44 45L44 8" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M17 8L47 8" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M22 38C25 36 30 39 35 37C40 35 42 38 42 38" stroke="#0aaa50" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="28" cy="48" r="2" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+                <circle cx="36" cy="45" r="1.5" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="content">
+            <h2>The <span class="doodle-underline"><span class="highlight">shift</span></span> that changed everything</h2>
+
+            <div class="comparison">
+                <div class="box">
+                    <h3>STORAGE</h3>
+                    <p>Filing cabinet</p>
+                    <p class="app-name">Saved info</p>
+                </div>
+
+                <span class="doodle-arrow">&#10132;</span>
+
+                <div class="box active">
+                    <h3>THINKING</h3>
+                    <p>Knowledge system</p>
+                    <p class="app-name">Connects ideas</p>
+                </div>
+            </div>
+
+            <p class="subtext">The difference?<br><span class="doodle-text" style="font-size: 40px;">One helps you THINK.</span></p>
+
+            <p class="subtitle">Most note apps are digital filing cabinets.<br>Obsidian's linked notes create a <span class="highlight">knowledge graph</span><br>that surfaces connections you'd never find otherwise.</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: THE OVERHEAD PROBLEM (NEW) -->
+    <div class="slide" id="slide4">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">4/7</span>
+        </div>
+
+        <span class="sparkle" style="top: 180px; left: 90px;">&#10022;</span>
+        <span class="sparkle" style="bottom: 200px; right: 100px;">&#10022;</span>
+
+        <div class="content">
+            <h2>But there's a <span class="doodle-underline"><span class="highlight">catch</span></span>...</h2>
+
+            <h1 style="font-size: 52px; margin: 30px 0;">The overhead to maintain a<br>good knowledge system is<br><span class="doodle-circle"><span class="highlight">A LOT</span></span></h1>
+
+            <div class="overhead-list">
+                <div class="overhead-item">
+                    <span class="icon">&#9200;</span>
+                    <span class="text">30-60 mins daily on organizing</span>
+                </div>
+                <div class="overhead-item">
+                    <span class="icon">&#128218;</span>
+                    <span class="text">Tagging, linking, maintaining structure</span>
+                </div>
+                <div class="overhead-item">
+                    <span class="icon">&#128680;</span>
+                    <span class="text">Miss a week? Everything degrades</span>
+                </div>
+                <div class="overhead-item">
+                    <span class="icon">&#128561;</span>
+                    <span class="text">The meta-work becomes the work</span>
+                </div>
+            </div>
+
+            <p class="subtext doodle-text" style="font-size: 36px;">Until I found a solution...</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: AI AGENTS -->
+    <div class="slide" id="slide5">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">5/7</span>
+        </div>
+
+        <span class="sparkle" style="top: 200px; left: 100px;">&#10022;</span>
+        <span class="sparkle" style="top: 350px; right: 120px;">&#10022;</span>
+
+        <div class="content">
+            <h2>Then I added</h2>
+
+            <h1 style="margin: 25px 0;"><span class="doodle-circle"><span class="highlight">AI AGENTS</span></span></h1>
+
+            <div class="icons-row">
+                <div class="icon-circle brain">&#129504;</div>
+                <span class="plus">+</span>
+                <div class="icon-circle">&#129302;</div>
+            </div>
+
+            <h2 style="font-size: 40px; font-weight: 600; margin-top: 40px;">They handle the<br><span class="doodle-text" style="font-size: 52px;">"cognitive janitorial work"</span></h2>
+
+            <p class="subtext doodle-text" style="font-size: 36px;">The ROI problem? Solved. &#10003;</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: 4 AGENTS -->
+    <div class="slide" id="slide6">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">6/7</span>
+        </div>
+
+        <div class="doodle-data" style="top: 130px; left: 60px; transform: scale(0.8);">
+            <svg viewBox="0 0 50 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sketchy flask -->
+                <path d="M20 5L20 18L8 52C6 57 10 62 16 62L34 62C40 62 44 57 42 52L30 18L30 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M17 5L33 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M12 42C16 40 22 43 28 41C34 39 38 42 38 42" stroke="#0aaa50" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="22" cy="52" r="2" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="content">
+            <h2><span class="highlight">4 Agents</span> That Actually Work</h2>
+
+            <div class="agents-grid">
+                <div class="agent-card">
+                    <div class="icon">&#128269;</div>
+                    <h4>Research Agent</h4>
+                    <p>Deposits findings directly into my vault</p>
+                </div>
+
+                <div class="agent-card">
+                    <div class="icon">&#129529;</div>
+                    <h4>Linting Agent</h4>
+                    <p>Maintains vault hygiene automatically</p>
+                </div>
+
+                <div class="agent-card">
+                    <div class="icon">&#127919;</div>
+                    <h4>Goal Agent</h4>
+                    <p>"You said X was priority... but you've been doing Y"</p>
+                </div>
+
+                <div class="agent-card">
+                    <div class="icon">&#129504;</div>
+                    <h4>RAG Agent</h4>
+                    <p>"Search my brain" natural language queries</p>
+                </div>
+            </div>
+
+            <p class="subtext doodle-text" style="font-size: 34px;">Not sentient AIs. Specialized tools. &#128736;</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: CTA -->
+    <div class="slide no-swipe" id="slide7">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">7/7</span>
+        </div>
+
+        <div class="doodle-data" style="top: 130px; right: 70px;">
+            <svg viewBox="0 0 50 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sketchy beaker -->
+                <path d="M18 5L18 22L8 55C7 58 9 62 13 62L37 62C41 62 43 58 42 55L32 22L32 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M15 5L35 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M12 45C15 43 20 46 25 44C30 42 35 45 38 43" stroke="#0aaa50" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="20" cy="52" r="2" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+                <circle cx="30" cy="50" r="1.5" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+        <span class="sparkle" style="bottom: 280px; left: 100px;">&#10022;</span>
+
+        <div class="content">
+            <h2>It's not a second brain.</h2>
+            <h1 style="margin: 30px 0; font-size: 60px;">It's a<br><span class="doodle-circle"><span class="highlight">THINKING PARTNER</span></span></h1>
+
+            <div class="cta-section">
+                <div class="cta-link primary">
+                    <span class="icon">&#128221;</span>
+                    <div>
+                        <span class="text">Read the full breakdown</span>
+                        <br><span class="url">myyearindata.com</span>
+                    </div>
+                </div>
+
+                <div class="cta-link">
+                    <span class="icon">&#128101;</span>
+                    <div>
+                        <span class="text">Follow me on LinkedIn</span>
+                        <br><span class="url">Scott Bell</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 20px; margin-top: 10px;">
+                    <div class="cta-link" style="flex: 1; padding: 18px 20px;">
+                        <img src="https://dailydatabricks.tips/logo.jpg" alt="DailyDatabricks" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display: none;">&#9889;</span>
+                        <div>
+                            <span class="text" style="font-size: 20px;">DailyDatabricks.Tips</span>
+                        </div>
+                    </div>
+                    <div class="cta-link" style="flex: 1; padding: 18px 20px;">
+                        <img src="https://databricks.news/images/logo-white-icon.png" alt="Databricks News" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display: none;">&#128240;</span>
+                        <div>
+                            <span class="text" style="font-size: 20px;">Databricks.News</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="powered-by">Powered by <img src="https://rapiddata.dev/images/Logo.png" alt="RapidData" style="height: 24px; vertical-align: middle; margin-left: 8px;" onerror="this.outerHTML='<span>RapidData.Dev</span>'"></p>
+        </div>
+    </div>
+
+</body>
+</html>
