@@ -28,3 +28,6 @@ vignettes/*.pdf
 .Renviron
 /.quarto/
 _site
+posts/agentic-diagramming/.DS_Store
+.gitignore
+scripts/node_modules/
