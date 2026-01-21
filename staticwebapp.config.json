@@ -7,6 +7,11 @@
       "route": "/s/AI-Obsidian",
       "redirect": "/posts/obsidian-second-brain-ai-agents/",
       "statusCode": 301
+    },
+    {
+      "route": "/s/AIOps-Journey",
+      "redirect": "/posts/aiops-journey-what-is-it/",
+      "statusCode": 301
     }
   ]
 }
