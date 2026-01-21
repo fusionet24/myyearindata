@@ -49,6 +49,8 @@ The 30% succeeding with AI revenue aren't lucky. They've built the foundations t
 
 Let's cut through the terminology confusion and define what we're actually talking about.
 
+![](images/AIOPS-SMal.png)
+
 ### MLOps: The Foundation
 
 MLOps, or Machine Learning Operations, applies DevOps principles to traditional machine learning workflows. It covers the full lifecycle: data preparation, model training, validation, deployment, and monitoring. If you're building predictive models, recommendation systems, or classification algorithms, MLOps is your operational backbone.
@@ -111,10 +113,7 @@ Here's where it comes together. AIOps, as I define it:
 
 Think of it this way: MLOps, LLMOps, and GenAIOps each solve specific technical challenges. The governance disciplines provide essential foundations. AIOps asks the bigger questions: How do these capabilities fit into our overall technology strategy? How do we govern them consistently? How do we manage risk across the portfolio? How do we build organizational capability to operate AI at scale?
 
-<!-- TODO: Add Ops Universe diagram showing AIOps as superset -->
-
-<!-- ![](images/ops-universe.png) -->
-
+![](images/AIOPS.png)
 ## Why AIOps is Different
 
 If you've been operating traditional software systems, even complex ones, AI brings challenges that require a fundamental mindset shift.
