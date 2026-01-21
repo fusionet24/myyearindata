@@ -31,7 +31,7 @@ The gap between AI adoption and AI value is widening. A significant part of that
 
 [PwC's 29th Global CEO Survey](https://www.pwc.com/gx/en/issues/c-suite-insights/ceo-survey.html) puts hard numbers on why. While 30% of CEOs report increased revenue from AI in the last 12 months, the survey reveals critical gaps in AI foundations across most organisations:
 
-![](images/29th Global CEO Survey | PwC.png)
+![](images/PwC.png)
 
 *Source: [PwC 29th Global CEO Survey](https://www.pwc.com/gx/en/issues/c-suite-insights/ceo-survey.html)*
 
