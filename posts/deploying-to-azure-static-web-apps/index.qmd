@@ -4,6 +4,7 @@ author: "Scott Bell"
 description: "Complete the Quarto deployment pipeline: provision Azure Static Web Apps and connect GitHub Actions for automated publishing."
 date: "2023-03-18"
 draft: false
+ai-label: "No AI"
 categories:
   - azure
   - quarto

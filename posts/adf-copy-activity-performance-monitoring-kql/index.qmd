@@ -4,14 +4,14 @@ author: "Scott Bell"
 description: "Use KQL queries on ADFActivityRun logs to monitor copy activity performance, track row counts, and identify bottlenecks in Azure Data Factory pipelines."
 date: "2023-06-18"
 draft: false
-categories: 
+ai-label: "No AI"
+categories:
   - azure
   - adf
   - data factory
   - synapse
   - performance
   - monitoring
-
 ---
 
 ## Introduction

@@ -1,0 +1,12 @@
+{
+  "name": "myyearindata-scripts",
+  "version": "1.0.0",
+  "description": "Utility scripts for MyYearInData blog",
+  "scripts": {
+    "carousel-to-pdf": "node carousel-to-pdf.js"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^24.35.0"
+  }
+}

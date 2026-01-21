@@ -4,6 +4,7 @@ subtitle: "When knowledge graphs meet agentic systems (and why productivity hack
 author: "Scott Bell"
 date: "2026-01-16"
 draft: false
+ai-label: "AI Assisted"
 categories:
   - ai
   - agents
@@ -13,10 +14,6 @@ categories:
   - obsidian
   - llm
 ---
-
-::: {.callout-tip appearance="simple"}
-This content was co-authored with AI assistance. I provided the structure, ideas, and personal experience, while AI helped with organization and prose refinement. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd) for details on my workflow.
-:::
 
 ## The Productivity Tool Graveyard
 
@@ -117,7 +114,6 @@ Here's where things get interesting. Obsidian as a second brain is useful. Obsid
 The core problem with any knowledge management system is overhead. Building it takes time. Maintaining it takes time. Organizing it, tagging it, keeping it current, making sure you can find things later. All of that is necessary work, but it's not the work you're trying to do. It's meta-work.
 
 AI agents solve the ROI problem. They don't replace thinking. They handle the cognitive janitorial work that makes the system sustainable.
-
 
 I've built four specialized agents, each solving a specific problem in my vault. Not one general-purpose AI trying to do everything. Four narrow, opinionated, boring agents doing repetitive tasks really well.
 

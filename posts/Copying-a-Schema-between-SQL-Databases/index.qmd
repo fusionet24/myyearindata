@@ -4,6 +4,7 @@ author: "Scott Bell"
 description: "Compare Bacpac, DataPAC, Redgate, and Azure Data Factory approaches for copying SQL schema objects and data between databases."
 date: "2023-04-17"
 draft: false
+ai-label: "No AI"
 categories:
   - azure
   - sql

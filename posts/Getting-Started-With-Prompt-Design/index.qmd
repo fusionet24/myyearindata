@@ -4,10 +4,11 @@ author: "Scott Bell"
 description: "Essential Non-Technical Tools for technolgy Consultants that I'm currently using to help with my workflow "
 date: "2023-01-03"
 draft: true
-categories: 
+ai-label: "No AI"
+categories:
   - azure
-  - quarto 
-  - github 
+  - quarto
+  - github
 ---
 
 ## Introduction

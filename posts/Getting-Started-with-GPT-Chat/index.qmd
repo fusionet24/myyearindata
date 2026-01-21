@@ -3,7 +3,8 @@ title: "Getting Started using Large Language Models like ChatGPT"
 author: "Scott Bell"
 date: "2023-04-28"
 draft: true
-categories: 
+ai-label: "No AI"
+categories:
   - LLMs
   - Azure OpenAI
   - ChatGPT

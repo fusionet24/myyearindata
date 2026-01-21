@@ -4,6 +4,7 @@ author: "Scott Bell"
 description: "My go-to productivity stack: StashPad for notes, GoodNotes for diagrams, Greenshot for screenshots, and ZoomIt for presentations."
 date: "2023-02-18"
 draft: false
+ai-label: "No AI"
 categories:
   - productivity
   - tools

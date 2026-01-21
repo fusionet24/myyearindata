@@ -4,6 +4,7 @@ author: "Scott Bell"
 description: "Step-by-step guide to hosting a free Quarto blog on Azure Static Web Apps with GitHub integration and custom domains."
 date: "2022-12-28"
 draft: false
+ai-label: "No AI"
 categories:
   - azure
   - quarto

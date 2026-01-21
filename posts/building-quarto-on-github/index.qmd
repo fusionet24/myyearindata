@@ -4,6 +4,7 @@ author: "Scott Bell"
 description: "Automate Quarto builds with GitHub Actions: install Quarto on Ubuntu runners, render documents, and upload artifacts for CI/CD deployment."
 date: "2023-01-03"
 draft: false
+ai-label: "No AI"
 categories:
   - azure
   - quarto

@@ -1,0 +1,174 @@
+---
+title: "The AIOps Journey: What is it?"
+subtitle: "Understanding the Holistic Framework for AI Operations"
+author: "Scott Bell"
+description: "AIOps is the superset of MLOps, LLMOps, and GenAIOps. Learn why a holistic approach to AI operations is critical for your technology and business strategy."
+ai-label: "AI Assisted" 
+date: "2026-01-21"
+draft: false
+categories:
+  - ai
+  - aiops
+  - mlops
+  - llmops
+  - architecture
+  - strategy
+---
+
+If you've been paying attention to the AI space lately, you've probably noticed the alphabet soup of "Ops" terminology flying around: MLOps, LLMOps, GenAIOps, and now AIOps. Each comes with its own set of tools, practices, and problems... Having spent the few years talking about these and rolling out AI initiatives, I've seen firsthand how this fragmented landscape creates real challenges for teams trying to achieve **AI success**.
+
+So over the coming months we are going to start talking about these challenges, frameworks and approaches. Each one of those OPs aren't the solution, they're pieces of a larger puzzle. And getting that puzzle right is becoming table stakes for any organization serious about AI.
+
+## The Ops Landscape: Where We Are Today
+
+The AI space is moving at a pace that makes traditional software development look glacial. New tool, models and frameworks emerge monthly. Best practices from six months ago are already outdated. And yet, organizations are being pushed to adopt AI faster than ever.
+
+According to [McKinsey's State of AI 2025 report](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai), 88% of companies now use AI regularly in at least one function, up from 78% the previous year. That sounds like progress. But dig deeper and a troubling picture emerges: only 39% report meaningful EBIT impact at the enterprise level. Just one-third have begun scaling their AI programs beyond pilot projects.
+
+The gap between AI adoption and AI value is widening. A significant part of that gap comes down to strategy and productionisation.
+
+### The Foundations Gap
+
+[PwC's 29th Global CEO Survey](https://www.pwc.com/gx/en/issues/c-suite-insights/ceo-survey.html) puts hard numbers on why. While 30% of CEOs report increased revenue from AI in the last 12 months, the survey reveals critical gaps in AI foundations across most organisations:
+
+![](images/29th Global CEO Survey | PwC.png)
+
+*Source: [PwC 29th Global CEO Survey](https://www.pwc.com/gx/en/issues/c-suite-insights/ceo-survey.html)*
+
+The top four points that stand out:
+
+1.  **69% agree the culture of their organisation enables AI adoption** - Culture is foundational. Without leadership buy-in and a willingness to experiment, even the best technology investments stall.
+2.  **66% agree their technology environment enables AI integration** - Having the infrastructure to actually deploy and integrate AI is important. A third of organisations survey'd are still fighting this battle.
+3.  **Only 51% have a clearly defined roadmap for AI initiatives** - Without strategic direction, AI becomes a collection of disconnected experiments.
+4.  **Only 51% have formalised Responsible AI processes** - Governance gaps create compliance risk and erode trust.
+
+The 30% succeeding with AI revenue aren't lucky. They've built the foundations that we are going to discuss!
+
+
+## Defining the Ops Universe
+
+Let's cut through the terminology confusion and define what we're actually talking about.
+
+### MLOps: The Foundation
+
+MLOps, or Machine Learning Operations, applies DevOps principles to traditional machine learning workflows. It covers the full lifecycle: data preparation, model training, validation, deployment, and monitoring. If you're building predictive models, recommendation systems, or classification algorithms, MLOps is your operational backbone.
+
+The discipline is relatively mature. Tools like MLflow, Kubeflow, and various cloud-native platforms have established patterns for versioning data and models, automating retraining pipelines, and monitoring model drift. Most organizations with serious ML initiatives have some form of MLOps practice, even if it's informal.
+
+### LLMOps: The New Kid
+
+LLMOps emerged to address the unique challenges of large language models. Unlike traditional ML, LLM work focuses less on training from scratch and more on prompt engineering, fine-tuning, and managing the quirks of generative systems.
+
+As [Simon Willison](https://simonwillison.net/) has documented extensively in his practical LLM work, operating language models requires a different mindset. You're dealing with hallucinations, prompt injection risks, unpredictable token costs, and the challenge of evaluating outputs that don't have a single "right" answer. Tools like LangChain, Guardrails, and various observability platforms have emerged to address these specific needs but tools alone are not the answer.
+
+### GenAIOps: The Expanding Frontier
+
+GenAIOps extends beyond text-based LLMs to encompass the entire generative AI ecosystem: image generation, audio synthesis, video creation, and multimodal systems. It's the operational framework for any AI that creates rather than classifies.
+
+This space is still forming. The challenges here include managing GPU-intensive workloads, ensuring content safety across modalities, handling IP concerns, lineage, brand reputation and more.
+
+## The Other Components
+
+The Ops disciplines above don't exist in isolation. They intersect with and depend on broader organizational capabilities that have their own maturity journeys. AIOps must integrate with these existing practices, not replace them.
+
+### Data Governance
+
+AI is only as good as the data it's built on. Data governance provides the foundation for trustworthy AI by ensuring data quality, lineage, privacy, and appropriate use. Without it, you're building on sand.
+
+The challenge with AI is that data governance requirements intensify. Training data needs clear provenance. Personal data used in models triggers GDPR and similar regulations. Synthetic data generation raises new questions about ownership and bias propagation. And the sheer volume of data consumed by modern AI systems can overwhelm governance processes designed for traditional analytics.
+
+Organizations with mature data governance have a significant advantage in AI adoption. Those without it often discover the gap painfully when models underperform, regulators ask questions, or bias incidents surface.
+
+### DevSecOps
+
+DevSecOps embeds security into the software development lifecycle, shifting security left and making it everyone's responsibility. For AI systems, this foundation is essential but insufficient.
+
+Traditional DevSecOps addresses code vulnerabilities, dependency management, and deployment security. AI systems add new attack surfaces: model files that can contain malicious payloads, training pipelines that can be poisoned, and inference endpoints that can be manipulated. Your DevSecOps practice needs to extend to cover these AI-specific threats while maintaining the speed and automation that makes DevOps effective.
+
+The integration point is crucial. AI security shouldn't be a separate discipline. It should be an extension of your existing DevSecOps capabilities, using familiar tools and processes where possible while adding AI-specific controls where necessary.
+
+### Organisational Governance
+
+Beyond technical governance lies the question of how organizations make decisions about AI. Who approves new AI use cases? Who is accountable when things go wrong? How do you balance innovation speed with risk management?
+
+Organisational governance for AI includes establishing clear roles and responsibilities, decision rights frameworks, ethics review processes, and escalation paths. It's the human layer that sits above the technical controls. Many organizations struggle here because AI cuts across traditional boundaries. It's not purely IT's domain, nor purely the business's. Effective AI governance requires cross-functional structures that don't always map to existing org charts.
+
+The organizations succeeding with AI at scale have typically invested in this layer, creating AI councils, centres of excellence, or dedicated governance functions that can move at the pace AI demands while maintaining appropriate oversight.
+
+### Technological Governance
+
+Technological governance addresses the standards, architectures, and technical policies that guide how AI is built and operated. It answers questions like: Which models and frameworks are approved? What are our standards for model documentation? How do we ensure interoperability across AI initiatives?
+
+This is where enterprise architecture meets AI. Without technological governance, organizations end up with fragmented AI estates, incompatible tooling, duplicated effort, and technical debt that compounds over time. With it, they can build reusable capabilities, share learnings across teams, and maintain the flexibility to evolve as the technology landscape shifts.
+
+The key is balancing standardization with agility. Too rigid, and you can't keep pace with AI's rapid evolution. Too loose, and you lose the benefits of enterprise-scale coordination.
+
+## AIOps: The Superset
+
+Here's where it comes together. AIOps, as I define it:
+
+> AIOps is the holistic operational framework that encompasses MLOps, LLMOps, and GenAIOps while integrating with Data Governance, DevSecOps, and organisational and technological governance practices. It adds the cross-cutting concerns that none of them fully address on their own: strategy alignment, risk management, and enterprise integration.
+
+Think of it this way: MLOps, LLMOps, and GenAIOps each solve specific technical challenges. The governance disciplines provide essential foundations. AIOps asks the bigger questions: How do these capabilities fit into our overall technology strategy? How do we govern them consistently? How do we manage risk across the portfolio? How do we build organizational capability to operate AI at scale?
+
+<!-- TODO: Add Ops Universe diagram showing AIOps as superset -->
+
+<!-- ![](images/ops-universe.png) -->
+
+## Why AIOps is Different
+
+If you've been operating traditional software systems, even complex ones, AI brings challenges that require a fundamental mindset shift.
+
+**Non-determinism is the norm.** Traditional systems, when functioning correctly, produce predictable outputs for given inputs. AI systems, particularly generative ones, are probabilistic by design. The same input (e.g. prompt) can yield different responses. The same model can behave differently after retraining. This fundamentally changes how you approach testing, monitoring, and incident response.
+
+**The technology landscape moves faster than you can standardize.** By the time you've established a pattern for one model family, three new ones have emerged. Your operational practices need to be principles-based rather than tool-specific.
+
+**Risk profiles are different.** An AI system can fail in ways that are subtle, embarrassing, or harmful in ways traditional systems rarely do. A buggy calculation might produce wrong numbers. A hallucinating LLM might produce confidently wrong information that damages decisions or reputations. Telling Users to go F themselves was never a problem with Microsoft Excel.
+
+**The integration surface is enormous.** AI touches data pipelines, application layers, user interfaces, and increasingly, autonomous decision-making. The operational scope is inherently cross-functional.
+
+## AIOps as Business Strategy
+
+Here's what I've learned from working with teams on AI initiatives: the technical challenges, while real, are not the primary barrier to AI success. The barrier is strategic alignment, expectation setting and organizational capability.
+
+AIOps isn't just a technology practice. It's a business strategy enabler. It connects AI capabilities to business outcomes. It provides the governance and risk management frameworks that let organizations move fast without breaking things. It builds the operational muscle that turns AI experiments into AI value.
+
+The unmanaged, ungoverned AI tools employees adopt without IT oversight, often called "shadow AI", represent one of the biggest visibility and risk challenges for organizations today.
+
+When thinking about framework integration, consider how [MITRE ATLAS](https://atlas.mitre.org/) and [MITRE ATT&CK](https://attack.mitre.org/) work together. ATLAS addresses AI-specific threats. ATT&CK addresses traditional cyber threats. Your AIOps practice needs to integrate with your existing security operations, not exist as a separate silo. The same principle applies across governance, compliance, and operational domains.
+
+## The Pillars of AI Rollout
+
+Over the course of this blog series, we'll explore the foundational pillars that enable successful AI rollout and adoption. Here's a preview of what's to come:
+
+**Assessing the Landscape** - Before you can operate AI effectively, you need to understand the threat and opportunity landscape you're operating in. I found an interesting way to visualise this is around [four distinct threat quadrants](../aiops-journey-four-threat-quadrants/index.qmd). Each requires different mitigation strategies, and together they form a comprehensive view of your AI landscape.
+
+**Governance & Compliance** - Establishing policies, standards, and oversight mechanisms that enable innovation while managing risk. This includes regulatory compliance (AI Act, industry-specific requirements), ethical guidelines, and decision rights frameworks.
+
+**Model Management & Lifecycle** - Managing AI assets from development through deployment to retirement. This covers versioning, provenance, reproducibility, and the tooling that makes it all tractable at scale.
+
+**Security & Risk** - Protecting AI systems from threats and managing the risks they create. This integrates with existing security operations while addressing AI-specific attack surfaces.
+
+**Monitoring & Observability** - Understanding what your AI systems are doing in production. Beyond traditional metrics, this includes monitoring for drift, hallucinations, bias, and emergent behaviors.
+
+**Cost Management** - AI Financial Ops (FinOps) is going to be a key theme in 20206 and beyond. AI workloads, especially generative AI, can have unpredictable and significant costs. Effective operations require visibility and control over compute, API, and data costs.
+
+**Team Structure & Skills** - Building the organizational capability to operate AI effectively. This includes roles, skills development, and the cultural changes needed to work with non-deterministic systems.
+
+**Integration & Architecture** - AI doesn't exist in isolation. How do your AI capabilities connect with existing enterprise systems, data platforms, and applications? This covers API patterns, orchestration approaches, and avoiding the trap of AI as a silo disconnected from the business.
+
+**Vendor & Tool Strategy** - The AI tooling landscape is overwhelming and changing weekly. How do you evaluate tools, make build vs buy decisions, and manage vendor relationships without getting locked in? This pillar helps you navigate the noise and make pragmatic choices.
+
+**Adoption & Success** - Ultimately, AIOps exists to deliver value. How do you measure AI success beyond pilot metrics? How do you drive adoption across the organisation? This covers change management, proving ROI, and the often-overlooked human factors that determine whether AI initiatives actually stick.
+
+**Scaling** - The jump from successful pilot to enterprise-wide deployment is where most AI initiatives stall. What works for one team with one use case often breaks when you try to replicate it across the organisation. This pillar covers the patterns, platforms, and practices that enable AI to scale without chaos.
+
+## The Journey Begins
+
+This post kicks off what I'm calling "The AIOps Journey", a series drawing from real experience rolling out AI operations. I've made the mistakes. I've learned the lessons. And I'm still learning as this space evolves.
+
+In future posts, we'll dive deep into each pillar. We'll examine real patterns and anti-patterns. We'll look at tooling choices and organizational designs. And we'll try to make sense of a landscape that changes faster than most of us can keep up with.
+
+The goal isn't to provide a definitive framework. The space is moving too fast for that. The goal is to share practical insights that help you navigate your own AIOps journey.
+
+I hope you'll stay tuned.

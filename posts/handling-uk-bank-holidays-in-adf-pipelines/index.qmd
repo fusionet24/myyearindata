@@ -4,7 +4,8 @@ author: "Scott Bell"
 description: "Skip pipeline runs on UK bank holidays using the gov.uk API. A reusable ADF pipeline pattern for validating dates against public holidays."
 date: "2022-10-29"
 draft: false
-categories: 
+ai-label: "No AI"
+categories:
   - azure
   - adf
   - data factory

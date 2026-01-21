@@ -4,6 +4,7 @@ author: "Scott Bell"
 description: "Welcome to MyYearInData - a blog about data engineering, Azure, Databricks, and the evolving world of AI in data."
 date: "2022-09-23"
 draft: false
+ai-label: "No AI"
 categories: [news]
 ---
 

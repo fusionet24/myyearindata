@@ -4,7 +4,8 @@ author: "Scott Bell"
 description: "Dynamically filter out SQL calculated columns in Azure Data Factory using sp_columns metadata. A pattern for flexible, parameter-driven copy pipelines."
 date: "2022-10-24"
 draft: false
-categories: 
+ai-label: "No AI"
+categories:
   - azure
   - adf
   - data factory

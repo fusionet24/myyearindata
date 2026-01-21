@@ -1,0 +1,62 @@
+---
+title: "The AIOps Journey: The Four Threat Quadrants"
+subtitle: "A Framework for Understanding AI Risk"
+author: "Scott Bell"
+description: "Understanding AI risk requires looking at threats from four angles: threats FROM AI, TO AI, from NOT using AI, and USING AI. A comprehensive framework for AI risk management."
+date: "2025-01-17"
+draft: true
+ai-label: "AI Assisted"
+categories:
+  - ai
+  - aiops
+  - security
+  - risk
+  - strategy
+---
+
+*This is part of [The AIOps Journey](../aiops-journey-what-is-it/index.qmd) series, exploring the operational challenges of AI at scale.*
+
+When thinking about AI risk, I find it useful to consider four distinct threat categories. Each requires different mitigation strategies, and together they form a comprehensive view of your AI risk landscape.
+
+<!-- TODO: Add threats quadrant image -->
+
+<!-- ![](images/threats-quadrant.png) -->
+
+## Threats FROM AI Models
+
+These are risks posed by AI capabilities being used against you or others. AI-powered cyberattacks are increasingly sophisticated. Deepfakes can enable social engineering at unprecedented scale. Autonomous agents can be weaponized. The same technologies helping organizations improve efficiency are being co-opted by threat actors.
+
+According to [Checkpoint's AI Security Report 2025](https://blog.checkpoint.com/research/ai-security-report-2025-understanding-threats-and-building-smarter-defenses/), 93% of security leaders are bracing for daily AI-enabled attacks. This isn't a future concern. It's a present reality.
+
+## Threats TO AI Models
+
+Your AI systems themselves are attack surfaces. Data poisoning can corrupt training data and degrade model performance. Adversarial inputs can manipulate model outputs. Model theft exposes your intellectual property. Prompt injection can hijack LLM-based applications.
+
+Frameworks like [MITRE ATLAS](https://atlas.mitre.org/) provide a structured taxonomy of these threats, similar to how MITRE ATT&CK maps traditional cyber threats. If you're familiar with ATT&CK, ATLAS provides a complementary view specifically for AI systems.
+
+## Threats from NOT Using AI Models
+
+There's a risk to inaction. Organizations that fail to adopt AI effectively face competitive disadvantage, operational inefficiency, and missed opportunities. While your competitors use AI to accelerate product development, improve customer experience, and optimize operations, standing still means falling behind.
+
+The McKinsey data on the gap between AI adoption and AI value is telling here. The organizations seeing real returns aren't just experimenting with AI. They're operationalizing it effectively. They're redesigning workflows, not just adding AI as a feature.
+
+## Threats USING AI Models
+
+Finally, there are risks from your own AI adoption. Hallucinations can lead to wrong decisions. Bias in models can create legal and ethical exposure. Compliance violations around data privacy and AI governance are increasingly costly, with the EU AI Act imposing penalties up to 7% of global revenue for serious violations.
+
+This is where operational rigor matters most. Without proper monitoring, testing, and governance, your AI initiatives can create as many problems as they solve.
+
+## Bringing It Together
+
+These four quadrants aren't independent. They interact in complex ways:
+
+-   Defending against threats FROM AI often requires using AI yourself (fighting fire with fire)
+-   Protecting your models (threats TO) while still using them effectively (threats USING) requires careful balance
+-   Moving too slowly to avoid risks USING AI creates risks from NOT using AI
+-   Your defensive AI capabilities can themselves become attack surfaces
+
+Effective AIOps requires visibility across all four quadrants and the ability to make informed trade-offs between them. In future posts, we'll explore specific strategies for each quadrant and how to build an integrated risk management approach.
+
+------------------------------------------------------------------------
+
+*Next in the series: We'll dive deeper into the pillars that enable successful AI rollout and adoption.*

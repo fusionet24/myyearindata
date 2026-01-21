@@ -2,6 +2,7 @@
 title: "Post With Code"
 author: "Harlow Malloc"
 date: "2022-10-04"
+ai-label: "No AI"
 categories: [news, code, analysis]
 image: "image.jpg"
 draft: true

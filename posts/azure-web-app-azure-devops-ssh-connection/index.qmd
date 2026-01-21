@@ -4,6 +4,7 @@ author: "Scott Bell"
 description: "Access your Azure Web App via SSH during pipeline deployments. Move files, run scripts, and debug directly from Azure DevOps."
 date: "2024-10-25"
 draft: false
+ai-label: "No AI"
 categories:
   - azure
   - Azure DevOps
