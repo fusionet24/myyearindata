@@ -111,7 +111,7 @@ Here's where it comes together. AIOps, as I define it:
 
 > AIOps is the holistic operational framework that encompasses MLOps, LLMOps, and GenAIOps while integrating with Data Governance, DevSecOps, and organisational and technological governance practices. It adds the cross-cutting concerns that none of them fully address on their own: strategy alignment, risk management, and enterprise integration.
 
-Think of it this way: MLOps, LLMOps, and GenAIOps each solve specific technical challenges. The governance disciplines provide essential foundations. AIOps asks the bigger questions: How do these capabilities fit into our overall technology strategy? How do we govern them consistently? How do we manage risk across the portfolio? How do we build organizational capability to operate AI at scale?
+Think of it this way: MLOps, LLMOps, and GenAIOps each solve specific challenges. The governance disciplines provide essential foundations. AIOps asks the bigger questions: How do these capabilities fit into our overall technology strategy? How do we govern them consistently? How do we manage risk across the portfolio? How do we build organizational capability to operate AI at scale?
 
 ![](images/AIOPS.png)
 ## Why AIOps is Different
