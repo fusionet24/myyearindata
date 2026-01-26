@@ -1,0 +1,166 @@
+---
+title: "Agentic Decomposition: A Practical Guide to Breaking Down Problems"
+author: "Scott Bell"
+description: "Before you can diagram an agentic system, you need to decompose the problem. Here's a practical framework for identifying when agentic patterns fit and how to break down complex workflows into autonomous agents."
+date: "2025-01-25"
+draft: false
+categories:
+  - ai
+  - agents
+  - architecture
+  - agentic
+  - prompt-design
+---
+
+::: {.callout-note appearance="simple"}
+This post was developed with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd).
+:::
+
+### Preamble
+
+In my previous post on [Agentic Diagramming](../agentic-diagramming/index.qmd), I explored how to visualize multi-agent systems without creating incomprehensible spaghetti. But I skipped a crucial step: how do you actually break down a problem into an agentic workflow in the first place?
+
+This is the thinking that happens *before* the diagramming. It's the difference between drawing boxes because you can and drawing boxes because you've genuinely identified autonomous responsibilities.
+
+## Summary
+
+This post provides a practical framework for decomposing problems into agentic workflows. We'll cover when agentic patterns that make sense (and when they don't), how to identify natural agent boundaries, and a step-by-step approach to breaking down complex workflows. If you've ever stared at a problem and wondered "should this be one agent or five?", this is for you.
+
+## The Temptation to Over-Agent
+
+Let's address the elephant in the room, not everything needs to be agentic.
+
+I've seen teams take a perfectly good API endpoint and wrap it in an "agent" because agentic AI is the hot new thing. Well done, you've now added latency, unnecessary complexity, and a system that's harder to debug.
+
+Before decomposing anything, ask yourself:
+
+1.  **Does this task require autonomous decision-making?** If the logic is deterministic and well-defined, a regular function or service might be better.
+2.  **Will the task benefit from natural language reasoning?** Agents shine when they need to interpret, adapt, or handle ambiguity.
+3.  **Is there genuine complexity in coordination?** Multiple agents add value when different specialized capabilities need to collaborate.
+
+If you answered "no" to all three, you probably don't need agents. And that's okay, it could still be [automated](../why-approximate-something/index.qmd) and even ai augmented in parts.
+
+## The Decomposition Framework
+
+When agentic patterns *do* make sense, here's how I approach breaking down the problem.
+
+### Step 1: Define the Goal State
+
+Start with the end. What does success look like? Be specific.
+
+**Vague goal:** "Help users with their data in business function x" **Specific goal:** "Given a user's natural language question about our sales data, return an accurate answer with supporting visualizations, validated against known business rules"
+
+The specific goal reveals complexity. Now we can see there's interpretation (natural language), execution (querying data), creation (visualizations), and validation (business rules). These are hints at potential agent boundaries.
+
+### Step 2: Map the Decision Points
+
+Walk through the workflow and identify every point where a decision must be made. Not just "if/else" logic—look for:
+
+-   **Interpretation decisions:** What does the user actually mean?
+-   **Routing decisions:** Which path should we take?
+-   **Quality decisions:** Is this output good enough?
+-   **Recovery decisions:** Something failed... what now?
+
+Each significant decision point is a candidate for agent involvement. Agents are strocastic (don't forget that part!)decision makers with context.
+
+### Step 3: Identify Natural Boundaries
+
+Look for these signals that suggest distinct agent responsibilities:
+
+**Different knowledge domains.** If one part of the workflow requires deep SQL expertise and another requires visualization design principles, that's two different knowledge domains. Consider separate agents.
+
+**Different tool access.** An agent that queries databases versus an agent that calls external APIs have different capability profiles. Separation can improve security and help clarity through reduction in Content Bloat.
+
+**Different approval/oversight requirements.** If some actions require human review and others don't, separating them makes governance cleaner.
+
+**Different failure modes.** If one component failing shouldn't block another from providing partial value, separation enables graceful degradation.
+
+### Step 4: Define Agent Responsibilities
+
+For each agent you've identified, write a one-sentence responsibility statement:
+
+> "The **Query Agent** interprets natural language questions and generates appropriate SQL queries against the sales database."
+
+> "The **Validation Agent** checks query results against business rules and flags anomalies before presenting to users."
+
+If you can't write a clear, single-responsibility statement, the agent might be doing too much. Split it further.
+
+### Step 5: Map the Handoffs
+
+Now comes the coordination design. For each transition between agents, define:
+
+-   **What triggers the handoff?** (Completion, error, timeout, threshold reached)
+-   **What context is passed?** (Full conversation, summarized state, specific outputs)
+-   **Who owns the next step?** (Orchestrator, receiving agent, user)
+
+This is where my [layered diagramming approach](../agentic-diagramming/index.qmd) kicks in. Once you've done this decomposition work, creating clear diagrams becomes straightforward.
+
+
+
+## CommonDecomposition Patterns
+
+There are several patterns that have been noted by those (including myself) in the Agentic AI world. Below are the main ones to consider.
+
+::: {.callout-tip collapse="true"}
+## Patterns
+
+### Pattern 1: Specialist Chain
+
+**When to use:** Tasks with clear sequential stages requiring different expertise.
+
+**Structure:** Agent A completes their specialty, hands off to Agent B for theirs, and so on.
+
+**Example:** A code review workflow where a Security Agent scans for vulnerabilities, a Performance Agent analyzes efficiency, and a Style Agent checks conventions. Each is an expert in their domain.
+
+### Pattern 2: Router + Specialists
+
+**When to use:** Requests that could be handled by different specialists based on intent.
+
+**Structure:** A Router Agent classifies the request and delegates to the appropriate Specialist Agent.
+
+**Example:** A customer service system where the Router determines if the query is about billing, technical support, or account management, then routes to the relevant specialist.
+
+### Pattern 3: Generator + Critic
+
+**When to use:** Creative or generative tasks requiring quality control.
+
+**Structure:** A Generator Agent produces output; a Critic Agent evaluates and requests improvements; iteration continues until quality threshold is met.
+
+**Example:** A content creation workflow where a Writing Agent drafts copy, a Brand Voice Agent evaluates tone and messaging, and the Writer revises based on feedback.
+
+### Pattern 4: Parallel Gatherers + Synthesizer
+
+**When to use:** Tasks requiring information from multiple independent sources.
+
+**Structure:** Multiple Gatherer Agents retrieve information in parallel; a Synthesizer Agent combines their findings into a coherent response.
+
+**Example:** A research assistant where separate agents search internal docs, external sources, and databases simultaneously, then a Synthesis Agent produces a unified summary.
+
+
+### Pattern 5: Human-in-the-Loop Checkpoints
+
+**When to use:** High-stakes workflows requiring human judgment at key points.
+
+**Structure:** Agents handle routine work autonomously but pause for human review at defined checkpoints before proceeding.
+
+**Example:** An automated reporting system that generates drafts autonomously but requires analyst approval before sending to executives.
+
+
+:::
+## From Decomposition to Diagram
+
+Once you've completed this decomposition exercise, creating diagrams becomes much more purposeful:
+
+-   Your **Capability Map** flows directly from Step 4 (agent responsibilities)
+-   Your **Orchestration Flow** comes from Step 5 (handoff mapping)
+-   Your **Communication Layer** is informed by Step 2 (decision points and what context is needed)
+
+The decomposition is the thinking. The diagram is the communication. Do the thinking first, and your diagrams will be clearer for it.
+
+## A Mindset, Not Just a Method
+
+Like the diagramming approach I wrote about previously, this decomposition framework is really about a mindset. Be intentional about agent boundaries, clear about responsibilities, and honest about when agentic patterns add value versus complexity.
+
+The best agentic systems I've seen aren't the ones with the most agents. They're the ones where each agent has a clear reason to exist and the coordination between them is thoughtfully designed.
+
+Start with the problem. Decompose with purpose. Then diagram with clarity.
