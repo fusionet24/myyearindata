@@ -2,7 +2,7 @@
 title: "Agentic Decomposition: A Practical Guide to Breaking Down Problems"
 author: "Scott Bell"
 description: "Before you can diagram an agentic system, you need to decompose the problem. Here's a practical framework for identifying when agentic patterns fit and how to break down complex workflows into autonomous agents."
-date: "2025-01-25"
+date: "2026-01-25"
 draft: false
 categories:
   - ai
