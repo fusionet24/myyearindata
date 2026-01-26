@@ -30,4 +30,4 @@ vignettes/*.pdf
 _site
 posts/agentic-diagramming/.DS_Store
 .gitignore
-scripts/node_modules/
+**/node_modules/
