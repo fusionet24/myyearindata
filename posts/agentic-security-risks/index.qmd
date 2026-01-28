@@ -66,11 +66,15 @@ A lot of agents have all three. Clawdbot has all three by design, it's meant to 
 
 Attackers embed malicious instructions in content the LLM processes. A sharepoint document, a word document, a GitHub issue. A log file. A code comment. The agent reads it, follows the instructions, and you never approved anything.
 
-![A prompt injection attack targeting an AI agent's X scraper](images/prompt-injection-example.jpeg)
+![A prompt injection attack targeting ClawdBots agent's X scraper](images/prompt-injection-example.jpeg)
 
 This tweet demonstrates the pattern. Someone posts instructions disguised as a user message. If your agent scrapes X for context, it might just follow them.
 
 We've seen a really good example recently on [github copilot](https://embracethered.com/blog/posts/2025/github-copilot-remote-code-execution-via-prompt-injection/)
+
+![Prompt injection via email gets Clawdbot to order Chinese food](images/buddy-.jpeg)
+
+And this is the "lighter" side of it. Someone embedded a prompt injection in an email that got Clawdbot to order Chinese food and send positive affirmations via Telegram. Funny, until you realise the same technique works for anything the agent has access to.
 
 ### Data Exfiltration via HTML
 
