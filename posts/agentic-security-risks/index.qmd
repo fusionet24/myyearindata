@@ -2,6 +2,7 @@
 title: "Danger In Delegation: Why AI Agents Are Your Newest Attack Surface"
 author: "Scott Bell"
 description: "A summary of agentic AI security risks from my SQLBits 2025 talk, with a timely example from the Clawdbot/Moltbot phenomenon."
+ai-label: "AI Assisted"
 date: "2026-01-27"
 draft: false
 categories:
