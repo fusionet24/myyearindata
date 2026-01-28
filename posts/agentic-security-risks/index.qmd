@@ -61,6 +61,7 @@ The 2025 OWASP list identifies the critical threats facing Large Language Models
 A lot of agents have all three. Clawdbot has all three by design, it's meant to be a capable assistant afterall. That's exactly what makes it risky.
 
 ## Attack Patterns
+A brief look at some of the types of patterns I talked about in my talk.
 
 ### Indirect Prompt Injection
 
