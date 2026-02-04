@@ -1,6 +1,7 @@
 {
   "globalHeaders": {
-    "Content-Security-Policy": "frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://platform.twitter.com https://fusionet24.github.io;"
+    "Content-Security-Policy": "frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://platform.twitter.com https://fusionet24.github.io;",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
   },
   "routes": [
     {
