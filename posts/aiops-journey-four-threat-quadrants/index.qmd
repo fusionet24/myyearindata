@@ -3,7 +3,7 @@ title: "The AIOps Journey: The Four Threat Quadrants"
 subtitle: "A Framework for Understanding AI Risk"
 author: "Scott Bell"
 description: "Understanding AI risk requires looking at threats from four angles: threats FROM AI, TO AI, from NOT using AI, and USING AI. A comprehensive framework for AI risk management."
-date: "2026-10-02"
+date: "2026-02-10"
 draft: false
 ai-label: "AI Assisted"
 categories:
