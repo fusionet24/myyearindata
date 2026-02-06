@@ -3,8 +3,8 @@ title: "The AIOps Journey: The Four Threat Quadrants"
 subtitle: "A Framework for Understanding AI Risk"
 author: "Scott Bell"
 description: "Understanding AI risk requires looking at threats from four angles: threats FROM AI, TO AI, from NOT using AI, and USING AI. A comprehensive framework for AI risk management."
-date: "2025-01-17"
-draft: true
+date: "2025-10-02"
+draft: false
 ai-label: "AI Assisted"
 categories:
   - ai
@@ -16,17 +16,29 @@ categories:
 
 *This is part of [The AIOps Journey](../aiops-journey-what-is-it/index.qmd) series, exploring the operational challenges of AI at scale.*
 
-When thinking about AI risk, I find it useful to consider four distinct threat categories. Each requires different mitigation strategies, and together they form a comprehensive view of your AI risk landscape.
+## Overview
 
-<!-- TODO: Add threats quadrant image -->
+If your AI risk strategy begins and ends with "what could AI do to us," you're only seeing a quarter of the picture.
 
-<!-- ![](images/threats-quadrant.png) -->
+**AI risk** is not a technical footnote for the security team. It is a strategic business concern that belongs in the boardroom alongside market risk, regulatory risk, and operational risk. With the EU AI Act imposing penalties up to 7% of global revenue for serious violations, and [93% of security leaders](https://blog.checkpoint.com/research/ai-security-report-2025-understanding-threats-and-building-smarter-defenses/) bracing for daily AI-enabled attacks, the stakes are no longer hypothetical.
+
+Yet most organizations approach AI risk one-dimensionally. 
+
+They focus on the obvious hallucinations, bias, deepfakes aka the threats that **AI systems pose to us**. That's important, but it's only one quadrant of the picture. What about threats directed **at your AI systems**? What about the **risk of not adopting AI** while competitors race ahead? What about the **liability from your own AI adoption** creates?
+
+These aren't edge cases. They're the other 75% of your risk landscape that goes unmanaged when you treat AI risk as a single category.
+
+The framework I use breaks AI risk into four distinct quadrants, each demanding different mitigation strategies, different stakeholders, and different investment priorities. Together they form a comprehensive view that gives leaders the vocabulary to make informed trade-offs rather than reactive decisions.
+
+![The Four AI Threat Quadrants](images/AiThreats-clean.png)
+
+Let's examine each quadrant in detail.
 
 ## Threats FROM AI Models
 
 These are risks posed by AI capabilities being used against you or others. AI-powered cyberattacks are increasingly sophisticated. Deepfakes can enable social engineering at unprecedented scale. Autonomous agents can be weaponized. The same technologies helping organizations improve efficiency are being co-opted by threat actors.
 
-According to [Checkpoint's AI Security Report 2025](https://blog.checkpoint.com/research/ai-security-report-2025-understanding-threats-and-building-smarter-defenses/), 93% of security leaders are bracing for daily AI-enabled attacks. This isn't a future concern. It's a present reality.
+According to [Checkpoint's AI Security Report 2025](https://blog.checkpoint.com/research/ai-security-report-2025-understanding-threats-and-building-smarter-defenses/), 93% of security leaders are bracing for daily AI-enabled attacks. This isn't a future concern, it's reality.
 
 ## Threats TO AI Models
 
@@ -38,7 +50,7 @@ Frameworks like [MITRE ATLAS](https://atlas.mitre.org/) provide a structured tax
 
 There's a risk to inaction. Organizations that fail to adopt AI effectively face competitive disadvantage, operational inefficiency, and missed opportunities. While your competitors use AI to accelerate product development, improve customer experience, and optimize operations, standing still means falling behind.
 
-The McKinsey data on the gap between AI adoption and AI value is telling here. The organizations seeing real returns aren't just experimenting with AI. They're operationalizing it effectively. They're redesigning workflows, not just adding AI as a feature.
+The McKinsey data on the gap between AI adoption and AI value is telling here. The organiations seeing real returns aren't just experimenting with AI. They're operationalising it effectively. They're redesigning workflows, not just adding AI as a feature.
 
 ## Threats USING AI Models
 
@@ -56,7 +68,3 @@ These four quadrants aren't independent. They interact in complex ways:
 -   Your defensive AI capabilities can themselves become attack surfaces
 
 Effective AIOps requires visibility across all four quadrants and the ability to make informed trade-offs between them. In future posts, we'll explore specific strategies for each quadrant and how to build an integrated risk management approach.
-
-------------------------------------------------------------------------
-
-*Next in the series: We'll dive deeper into the pillars that enable successful AI rollout and adoption.*
