@@ -3,7 +3,7 @@ title: "The AIOps Journey: The Four Threat Quadrants"
 subtitle: "A Framework for Understanding AI Risk"
 author: "Scott Bell"
 description: "Understanding AI risk requires looking at threats from four angles: threats FROM AI, TO AI, from NOT using AI, and USING AI. A comprehensive framework for AI risk management."
-date: "2025-10-02"
+date: "2026-10-02"
 draft: false
 ai-label: "AI Assisted"
 categories:
@@ -22,7 +22,7 @@ If your AI risk strategy begins and ends with "what could AI do to us," you're o
 
 **AI risk** is not a technical footnote for the security team. It is a strategic business concern that belongs in the boardroom alongside market risk, regulatory risk, and operational risk. With the EU AI Act imposing penalties up to 7% of global revenue for serious violations, and [93% of security leaders](https://blog.checkpoint.com/research/ai-security-report-2025-understanding-threats-and-building-smarter-defenses/) bracing for daily AI-enabled attacks, the stakes are no longer hypothetical.
 
-Yet most organizations approach AI risk one-dimensionally. 
+Yet most organizations approach AI risk one-dimensionally.
 
 They focus on the obvious hallucinations, bias, deepfakes aka the threats that **AI systems pose to us**. That's important, but it's only one quadrant of the picture. What about threats directed **at your AI systems**? What about the **risk of not adopting AI** while competitors race ahead? What about the **liability from your own AI adoption** creates?
 
