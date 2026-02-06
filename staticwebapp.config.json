@@ -23,6 +23,11 @@
       "route": "/s/agentic-security-fun",
       "redirect": "/posts/agentic-security-risks/",
       "statusCode": 301
+    },
+    {
+      "route": "/s/AI-Threat-Quadrants",
+      "redirect": "/posts/aiops-journey-four-threat-quadrants/",
+      "statusCode": 301
     }
   ]
 }
