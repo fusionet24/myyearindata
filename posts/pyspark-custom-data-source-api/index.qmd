@@ -1,0 +1,268 @@
+---
+title: "Building a Custom PySpark Data Source with Spark's Python Data Source API"
+author: "Scott Bell"
+description: "Read any API as a Spark DataFrame. An introduction to PySpark's Data Source API using the UK Bank Holidays API as a worked example."
+date: "2026-02-07"
+draft: false
+ai-label: "AI Assisted"
+categories:
+  - databricks
+  - pyspark
+  - spark
+  - api
+  - data engineering
+---
+
+## Introduction
+
+A few years ago I wrote about [handling UK bank holidays in ADF pipelines](/posts/handling-uk-bank-holidays-in-adf-pipelines/). The idea was simple: call the gov.uk bank holidays API and use the result to decide whether a pipeline should run. It worked well in ADF, but what if you're working in Spark and want that same data available as a DataFrame you can query, join, and filter like any other table?
+
+Historically, building custom data source connectors for Spark meant writing Java or Scala and dealing with the DSv2 API. Not exactly a quick job. With **Spark 4.0** (and available from Databricks Runtime 15.4 LTS), there's now a **Python Data Source API** that lets you build custom data sources in pure PySpark. No JVM code required.
+
+## Problem
+
+We want to read the UK bank holidays from the [gov.uk API](https://www.gov.uk/bank-holidays.json) directly into a Spark DataFrame so we can query, filter, and join it with other datasets. We don't want to mess around with downloading files, saving JSON locally, or writing boilerplate HTTP logic every time we need this data.
+
+Ideally, we want something as clean as:
+
+``` python
+spark.read.format("bank_holidays").load().show()
+```
+
+## Solution
+
+### The Python Data Source API
+
+The Python Data Source API gives us three building blocks:
+
+1. **`DataSource`** -- Defines the name of your data source, its schema, and points Spark to your reader (or writer)
+2. **`DataSourceReader`** -- Does the actual work of fetching and yielding rows of data
+3. **`spark.dataSource.register()`** -- Registers your custom source so you can use it with `spark.read.format()`
+
+That's it. Three things to understand.
+
+### Step 1: Define the Data Source
+
+We subclass `DataSource` and implement three methods: `name()` returns a string you'll use in `.format()`, `schema()` defines the shape of the data, and `reader()` returns an instance of our reader class.
+
+``` python
+from pyspark.sql.datasource import DataSource, DataSourceReader
+from pyspark.sql.types import StructType, StructField, StringType, BooleanType
+
+class BankHolidayDataSource(DataSource):
+    """
+    A custom PySpark data source that reads UK Bank Holidays
+    from the gov.uk API.
+    """
+
+    @classmethod
+    def name(cls):
+        return "bank_holidays"
+
+    def schema(self):
+        return StructType([
+            StructField("division", StringType()),
+            StructField("title", StringType()),
+            StructField("date", StringType()),
+            StructField("notes", StringType()),
+            StructField("bunting", BooleanType()),
+        ])
+
+    def reader(self, schema: StructType):
+        return BankHolidayDataSourceReader(self.options)
+```
+
+A couple of things to note. The `self.options` dictionary gives us access to any `.option("key", "value")` calls the user passes in. We'll use this to let users filter by region.
+
+### Step 2: Implement the Reader
+
+The reader is where the real work happens. We implement a single method `read(partition)` that yields tuples, one per row.
+
+``` python
+class BankHolidayDataSourceReader(DataSourceReader):
+
+    def __init__(self, options):
+        self.options = options
+
+    def read(self, partition):
+        import requests  # import inside method for serialisation
+
+        response = requests.get("https://www.gov.uk/bank-holidays.json")
+        response.raise_for_status()
+        data = response.json()
+
+        region = self.options.get("region", None)
+        divisions = [region] if region else data.keys()
+
+        for division in divisions:
+            events = data[division]["events"]
+            for event in events:
+                yield (
+                    division,
+                    event["title"],
+                    event["date"],
+                    event["notes"],
+                    event["bunting"],
+                )
+```
+
+One important detail: the `requests` import is **inside** the `read` method, not at the top of the class. This is because Spark needs to serialise (pickle) the reader and send it to executors. Imports at the class level can break this.
+
+### Step 3: Register and Use It
+
+Now we register it and use it like any built-in data source.
+
+``` python
+spark.dataSource.register(BankHolidayDataSource)
+
+# Read all UK bank holidays across all regions
+df = spark.read.format("bank_holidays").load()
+df.show(5)
+```
+
+```
++------------------+--------------------+----------+---------------+-------+
+|          division|               title|      date|          notes|bunting|
++------------------+--------------------+----------+---------------+-------+
+|england-and-wales |      New Year's Day|2017-01-02| Substitute day|   true|
+|england-and-wales |         Good Friday|2017-04-14|               |  false|
+|england-and-wales |       Easter Monday|2017-04-17|               |   true|
+|england-and-wales |Early May bank ho...|2017-05-01|               |   true|
+|england-and-wales |Spring bank holiday |2017-05-29|               |   true|
++------------------+--------------------+----------+---------------+-------+
+only showing top 5 rows
+```
+
+We can also filter to a specific region using options:
+
+``` python
+# Just Scotland's bank holidays
+df_scotland = (
+    spark.read.format("bank_holidays")
+    .option("region", "scotland")
+    .load()
+)
+df_scotland.show(5)
+```
+
+```
++--------+--------------------+----------+-----+-------+
+|division|               title|      date|notes|bunting|
++--------+--------------------+----------+-----+-------+
+|scotland|         2nd January|2017-01-02|     |   true|
+|scotland|      New Year's Day|2017-01-03|  ...|   true|
+|scotland|         Good Friday|2017-04-14|     |  false|
+|scotland|Early May bank ho...|2017-05-01|     |   true|
+|scotland|Spring bank holiday |2017-05-29|     |   true|
++--------+--------------------+----------+-----+-------+
+only showing top 5 rows
+```
+
+### Querying It Like Any Other Table
+
+Because it's a proper DataFrame, you can do everything you'd normally do. Here's checking whether today is a bank holiday, the same question we answered in the [original ADF post](/posts/handling-uk-bank-holidays-in-adf-pipelines/):
+
+``` python
+from pyspark.sql.functions import col, current_date
+
+is_bank_holiday = (
+    spark.read.format("bank_holidays")
+    .option("region", "england-and-wales")
+    .load()
+    .filter(col("date") == current_date().cast("string"))
+    .count() > 0
+)
+
+print(f"Is today a bank holiday? {is_bank_holiday}")
+```
+
+Or finding all the bank holidays that don't have bunting (serious ones):
+
+``` python
+(
+    spark.read.format("bank_holidays")
+    .load()
+    .filter(col("bunting") == False)
+    .select("division", "title", "date")
+    .show()
+)
+```
+
+## The Full Code
+
+Here's everything in one block you can paste into a Databricks notebook (Runtime 15.4 LTS or later):
+
+``` python
+from pyspark.sql.datasource import DataSource, DataSourceReader
+from pyspark.sql.types import StructType, StructField, StringType, BooleanType
+
+
+class BankHolidayDataSource(DataSource):
+    """Reads UK Bank Holidays from the gov.uk API."""
+
+    @classmethod
+    def name(cls):
+        return "bank_holidays"
+
+    def schema(self):
+        return StructType([
+            StructField("division", StringType()),
+            StructField("title", StringType()),
+            StructField("date", StringType()),
+            StructField("notes", StringType()),
+            StructField("bunting", BooleanType()),
+        ])
+
+    def reader(self, schema: StructType):
+        return BankHolidayDataSourceReader(self.options)
+
+
+class BankHolidayDataSourceReader(DataSourceReader):
+
+    def __init__(self, options):
+        self.options = options
+
+    def read(self, partition):
+        import requests
+
+        response = requests.get("https://www.gov.uk/bank-holidays.json")
+        response.raise_for_status()
+        data = response.json()
+
+        region = self.options.get("region", None)
+        divisions = [region] if region else data.keys()
+
+        for division in divisions:
+            events = data[division]["events"]
+            for event in events:
+                yield (
+                    division,
+                    event["title"],
+                    event["date"],
+                    event["notes"],
+                    event["bunting"],
+                )
+
+
+# Register and use
+spark.dataSource.register(BankHolidayDataSource)
+
+df = spark.read.format("bank_holidays").load()
+df.show()
+```
+
+## Conclusion
+
+The Python Data Source API makes it straightforward to bring any data into Spark as a first-class DataFrame. No Java, no Scala, no complex connector framework. Just a couple of Python classes and you've got a reusable data source.
+
+The API also supports **writers** (for pushing data out), **streaming readers** and **custom partitioning** for parallel reads, but for most cases a simple reader like this is all you need to get started.
+
+::: {.callout-note}
+## Requirements
+This requires **Apache Spark 4.0+** or **Databricks Runtime 15.4 LTS** and above. If you see `UNSUPPORTED_FEATURE.PYTHON_DATA_SOURCE`, your cluster runtime needs upgrading.
+:::
+
+::: {.callout-tip}
+## Want More Databricks Content?
+If you found this useful, I run [DailyDatabricks](https://dailydatabricks.tips) -- a daily tips site covering Databricks features, shortcuts, and patterns. I also publish a regular newsletter at [databricks.news](https://databricks.news) with deeper dives and curated content. Come say hello!
+:::
