@@ -18,6 +18,8 @@ website:
   navbar:
     right:
       - about.qmd
+      - text: AIOps Journey
+        href: aiops-journey.qmd
       - text: DailyDatabricks
         href: https://dailydatabricks.tips
       - talks.qmd
