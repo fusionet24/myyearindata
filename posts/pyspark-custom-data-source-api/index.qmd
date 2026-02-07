@@ -261,3 +261,8 @@ The API also supports **writers** (for pushing data out), **streaming readers** 
 ## Requirements
 This requires **Apache Spark 4.0+** or **Databricks Runtime 15.4 LTS** and above. If you see `UNSUPPORTED_FEATURE.PYTHON_DATA_SOURCE`, your cluster runtime needs upgrading.
 :::
+
+::: {.callout-tip}
+## Want More Databricks Content?
+If you found this useful, I run [DailyDatabricks](https://dailydatabricks.tips) -- a daily tips site covering Databricks features, shortcuts, and patterns. I also publish a regular newsletter at [databricks.news](https://databricks.news) with deeper dives and curated content. Come say hello!
+:::
