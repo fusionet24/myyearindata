@@ -21,7 +21,7 @@ So over the coming months we are going to start talking about these challenges, 
 
 ## The Ops Landscape: Where We Are Today
 
-The AI space is moving at a pace that makes traditional software development look glacial. New tool, models and frameworks emerge monthly. Best practices from six months ago are already outdated. And yet, organizations are being pushed to adopt AI faster than ever.
+The AI space is moving at a pace that makes traditional software development look glacial. New tools, models and frameworks emerge monthly. Best practices from six months ago are already outdated. And yet, organizations are being pushed to adopt AI faster than ever.
 
 According to [McKinsey's State of AI 2025 report](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai), 88% of companies now use AI regularly in at least one function, up from 78% the previous year. That sounds like progress. But dig deeper and a troubling picture emerges: only 39% report meaningful EBIT impact at the enterprise level. Just one-third have begun scaling their AI programs beyond pilot projects.
 
@@ -38,7 +38,7 @@ The gap between AI adoption and AI value is widening. A significant part of that
 The top four points that stand out:
 
 1.  **69% agree the culture of their organisation enables AI adoption** - Culture is foundational. Without leadership buy-in and a willingness to experiment, even the best technology investments stall.
-2.  **66% agree their technology environment enables AI integration** - Having the infrastructure to actually deploy and integrate AI is important. A third of organisations survey'd are still fighting this battle.
+2.  **66% agree their technology environment enables AI integration** - Having the infrastructure to actually deploy and integrate AI is important. A third of organisations surveyed are still fighting this battle.
 3.  **Only 51% have a clearly defined roadmap for AI initiatives** - Without strategic direction, AI becomes a collection of disconnected experiments.
 4.  **Only 51% have formalised Responsible AI processes** - Governance gaps create compliance risk and erode trust.
 
@@ -150,7 +150,7 @@ Over the course of this blog series, we'll explore the foundational pillars that
 
 **Monitoring & Observability** - Understanding what your AI systems are doing in production. Beyond traditional metrics, this includes monitoring for drift, hallucinations, bias, and emergent behaviors.
 
-**Cost Management** - AI Financial Ops (FinOps) is going to be a key theme in 20206 and beyond. AI workloads, especially generative AI, can have unpredictable and significant costs. Effective operations require visibility and control over compute, API, and data costs.
+**Cost Management** - AI Financial Ops (FinOps) is going to be a key theme in 2026 and beyond. AI workloads, especially generative AI, can have unpredictable and significant costs. Effective operations require visibility and control over compute, API, and data costs.
 
 **Team Structure & Skills** - Building the organizational capability to operate AI effectively. This includes roles, skills development, and the cultural changes needed to work with non-deterministic systems.
 

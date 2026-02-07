@@ -195,7 +195,7 @@ Successful attacks against agents follow a consistent pattern:
 
 [Johann Rehberger](https://embracethered.com/blog/) has documented this against Claude Code, GitHub Copilot, Amazon Q, and Gemini. The pattern is reliable because these machines are so unreliable. 
 
-The main defence against these types of attack are Guardrails. And well... Guardrails are effectively a "please don't do this" mechanism which as we know totally will wotk 100% of time when you're working with Stochastic Models...
+The main defence against these types of attack are Guardrails. And well... Guardrails are effectively a "please don't do this" mechanism which as we know totally will work 100% of the time when you're working with Stochastic Models...
 
 
 ## A Timely Example

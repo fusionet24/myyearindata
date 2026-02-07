@@ -61,7 +61,7 @@ Walk through the workflow and identify every point where a decision must be made
 -   **Quality decisions:** Is this output good enough?
 -   **Recovery decisions:** Something failed... what now?
 
-Each significant decision point is a candidate for agent involvement. Agents are strocastic (don't forget that part!)decision makers with context.
+Each significant decision point is a candidate for agent involvement. Agents are stochastic (don't forget that part!) decision makers with context.
 
 ### Step 3: Identify Natural Boundaries
 
@@ -97,7 +97,7 @@ This is where my [layered diagramming approach](../agentic-diagramming/index.qmd
 
 
 
-## CommonDecomposition Patterns
+## Common Decomposition Patterns
 
 There are several patterns that have been noted by those (including myself) in the Agentic AI world. Below are the main ones to consider.
 

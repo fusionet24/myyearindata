@@ -16,9 +16,9 @@ categories:
 
 ## Introduction
 
-In Azure data orchstration, ensuring the efficient transfer of data between systems is crucial. This is where Azure Data Factory (ADF) and Azure Synapse Analytics shine. Recently, I had to perform analysis on a misbehaving copy activity in ADF. I figured I'd provide  my query here as a form of my repeated attemps at D-R-Y 
+In Azure data orchestration, ensuring the efficient transfer of data between systems is crucial. This is where Azure Data Factory (ADF) and Azure Synapse Analytics shine. Recently, I had to perform analysis on a misbehaving copy activity in ADF. I figured I'd provide my query here as a form of my repeated attempts at D-R-Y 
 
-For this example the pipeline is named **Copy My Data**, leverages a self-hosted integration runtime to demostrate addtional filtering in the query
+For this example the pipeline is named **Copy My Data**, leverages a self-hosted integration runtime to demonstrate additional filtering in the query
 
 In this blog post, I'll demonstrate how to monitor and analyze the performance of this ADF pipeline, focusing on the ADF copy activity. We'll utilize the **ADFActivityRun** logs and Kusto Query Language (KQL) to extract meaningful insights and ensure our data processes are running efficiently.
 
@@ -78,7 +78,7 @@ For more granular insights, consider the following additional filters:
   | where sql_query contains "TABLE"
   ```
 
-- **Filter by Intergration Runtime Used in the Copy**:
+- **Filter by Integration Runtime Used in the Copy**:
   ```kql
   | where EffectiveIntegrationRuntime == "MY-Self_hosted-IR"
   ```

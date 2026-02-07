@@ -8,14 +8,14 @@ categories:
   - meta
   - personal 
   - conference 
-  - -sqlbits
+  - sqlbits
 ---
 
 ::: {.callout-note appearance="simple"}
 This was generated with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd)
 :::
 
-So incase you didn't know I attended SQLBITS 2025 last month and presented a talk entitled Danger In Dialogue: The Security Risks of Large Language Models.
+So in case you didn't know I attended SQLBITS 2025 last month and presented a talk entitled Danger In Dialogue: The Security Risks of Large Language Models.
 
 ::: {.callout-tip appearance="simple" collapse="true"}
 ## Danger In Dialogue: The Security Risks of Large Language Models
@@ -40,4 +40,4 @@ You will see a slow drip feed of posts over the next few days. For now I'd like 
 
 [I don't want my career to DIE. The Data Intelligence Engineer or the difference between Vibe Coding and Augmented Coding.](../data-intelligence-engineer/index.qmd)
 
-[Creating a SQLBits trailer with VEO3: Lessons Learnt]()
+[Creating a SQLBits trailer with VEO3: Lessons Learnt](../veo3-sqlbits-trailer/index.qmd)

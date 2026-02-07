@@ -10,7 +10,7 @@ categories:
   - ChatGPT
   - OpenAI
   - HuggingFace
-  - Large Langauge Models
+  - Large Language Models
   - AI
 ---
 
@@ -26,7 +26,7 @@ Here's a nice video on how LLMs work
 
 ## Mastering Prompt Design
 
-A well-designed prompt is essential for getting the most out of your LLM. As you go from beginner to I can make ChatGPT do exactlly what I need in the tone/style/format I require. You will learn that promp design is probably the single most important part of leveraging these LLMs (I've a whole post on this coming soon).
+A well-designed prompt is essential for getting the most out of your LLM. As you go from beginner to I can make ChatGPT do exactly what I need in the tone/style/format I require. You will learn that prompt design is probably the single most important part of leveraging these LLMs (I've a whole post on this coming soon).
 
 Here's the common sense summary of tips:
 
@@ -49,7 +49,7 @@ A pattern I've adopted and have seen others use to get around this is what I'm g
 It's a simple enough pattern, you feed your model some context and you ask it to not respond, try to reason or otherwise. You ask it to respond with just the words read/understand/acknowledge.
 
 ![](acknowledge%20priming%20pattern.png)
-This helps with separating the commands from the context. It however, doesn't guarantee you a better response or answer. It may in fact reduce the generative quality of your response but that is a story for another day (when we start looking at Malicous Prompt Injection and Security of LLMs).
+This helps with separating the commands from the context. It however, doesn't guarantee you a better response or answer. It may in fact reduce the generative quality of your response but that is a story for another day (when we start looking at Malicious Prompt Injection and Security of LLMs).
 
 ### Adopting a Persona
 

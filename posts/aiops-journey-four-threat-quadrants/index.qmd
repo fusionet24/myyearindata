@@ -24,7 +24,7 @@ If your AI risk strategy begins and ends with "what could AI do to us," you're o
 
 Yet most organizations approach AI risk one-dimensionally.
 
-They focus on the obvious hallucinations, bias, deepfakes aka the threats that **AI systems pose to us**. That's important, but it's only one quadrant of the picture. What about threats directed **at your AI systems**? What about the **risk of not adopting AI** while competitors race ahead? What about the **liability from your own AI adoption** creates?
+They focus on the obvious hallucinations, bias, deepfakes aka the threats that **AI systems pose to us**. That's important, but it's only one quadrant of the picture. What about threats directed **at your AI systems**? What about the **risk of not adopting AI** while competitors race ahead? What about the **liability your own AI adoption** creates?
 
 These aren't edge cases. They're the other 75% of your risk landscape that goes unmanaged when you treat AI risk as a single category.
 
@@ -50,7 +50,7 @@ Frameworks like [MITRE ATLAS](https://atlas.mitre.org/) provide a structured tax
 
 There's a risk to inaction. Organizations that fail to adopt AI effectively face competitive disadvantage, operational inefficiency, and missed opportunities. While your competitors use AI to accelerate product development, improve customer experience, and optimize operations, standing still means falling behind.
 
-The McKinsey data on the gap between AI adoption and AI value is telling here. The organiations seeing real returns aren't just experimenting with AI. They're operationalising it effectively. They're redesigning workflows, not just adding AI as a feature.
+The McKinsey data on the gap between AI adoption and AI value is telling here. The organisations seeing real returns aren't just experimenting with AI. They're operationalising it effectively. They're redesigning workflows, not just adding AI as a feature.
 
 ## Threats USING AI Models
 

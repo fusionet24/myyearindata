@@ -17,11 +17,11 @@ categories:
 
 Sometimes you have processes that you don't need to run in certain scenarios. The past year I've been working with market trading data. Trading in exchanges happens every weekday but they don't happen on weekends or national holidays as they're usually closed.
 
-This posses a problem to usual ADF trigger patterns where you can [schedule quite complex trigger](https://learn.microsoft.com/en-us/azure/data-factory/how-to-create-schedule-trigger?tabs=data-factory)scenarios such as the 1st Sunday of every month. However, no concept of national holidays exist, so we need to handle this after the trigger point.
+This poses a problem to usual ADF trigger patterns where you can [schedule quite complex trigger](https://learn.microsoft.com/en-us/azure/data-factory/how-to-create-schedule-trigger?tabs=data-factory)scenarios such as the 1st Sunday of every month. However, no concept of national holidays exist, so we need to handle this after the trigger point.
 
 ## Problem
 
-So lets restate the problem within the context of ADF. We need to trigger our process everyday, then **we must validate whether this date is a UK Bank Holiday** and run the business logic.
+So let's restate the problem within the context of ADF. We need to trigger our process everyday, then **we must validate whether this date is a UK Bank Holiday** and run the business logic.
 
 ## Solution
 

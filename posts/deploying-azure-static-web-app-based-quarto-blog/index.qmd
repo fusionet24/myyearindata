@@ -18,7 +18,7 @@ categories:
 
 [Part 2](https://www.myyearindata.com/posts/building-quarto-on-github/)
 
-Part 3 (Coming Soon)
+[Part 3](https://www.myyearindata.com/posts/deploying-to-azure-static-web-apps/)
 
 :::
 ## The Setup
@@ -31,11 +31,11 @@ I choose [Quarto](https://quarto.org/) to achieve this. I have used RMarkdown (Q
 
 > Quarto^®^ is an open-source scientific and technical publishing system built on [Pandoc](https://pandoc.org/)
 
-It effectively is an extension of Markdown with the ability to embed code, similar to say IPython/Juypter Notebook tools but less of a Kernel and more of a publishing tool. It supports pretty much any language or markdown tool but I’m primarily using the RStudio Visual Editor Experience while writing this blog.
+It effectively is an extension of Markdown with the ability to embed code, similar to say IPython/Jupyter Notebook tools but less of a Kernel and more of a publishing tool. It supports pretty much any language or markdown tool but I’m primarily using the RStudio Visual Editor Experience while writing this blog.
 
 One of the main benefits of using Quarto is that it allows you to create fully reproducible documents. This means that someone else can take your document and re-run the code to get the same results, ensuring the transparency and integrity of your work.
 
-So with this choice selected, I knew I needed to host the static output somewhere. The Quarto page has some good guides on using popular frameworks like Netify or Github Pages but I wanted to use Azure.
+So with this choice selected, I knew I needed to host the static output somewhere. The Quarto page has some good guides on using popular frameworks like Netlify or Github Pages but I wanted to use Azure.
 
 #### Azure Static Web Apps
 
