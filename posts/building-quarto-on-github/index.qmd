@@ -19,7 +19,7 @@ categories:
 
 [Part 2](https://www.myyearindata.com/posts/building-quarto-on-github/)
 
-Part 3 (Coming Soon)
+[Part 3](https://www.myyearindata.com/posts/deploying-to-azure-static-web-apps/)
 :::
 
 ## Introduction
@@ -36,7 +36,7 @@ You will no longer need to store any rendered documents in your repository eithe
 
 ## Installing Quarto via the command line
 
-The official Posit site (whom created) Quarto website discusses [how you can download quarto and install it on Linux using a .deb file.](https://docs.posit.co/resources/install-quarto/) We will use this to install Posit onto our Machine within Github Workflows.
+The official Posit site (who created) Quarto website discusses [how you can download quarto and install it on Linux using a .deb file.](https://docs.posit.co/resources/install-quarto/) We will use this to install Posit onto our Machine within Github Workflows.
 
 1.  First we will need to set up our job. This involves the checking out of the code (so we can use it to render our site).
 
@@ -74,7 +74,7 @@ jobs:
       run: quarto render
 ```
 
-7.  We can now upload our file as an artfact from our github workflow for later consumption in other workflows (e.g upload to web or local file storage etc) or should you wish you can download a full zip manually. Below shows you how to upload a \_site directory for a rendered website, you can adjust as you require.
+7.  We can now upload our file as an artifact from our github workflow for later consumption in other workflows (e.g upload to web or local file storage etc) or should you wish you can download a full zip manually. Below shows you how to upload a \_site directory for a rendered website, you can adjust as you require.
 
 ``` yaml
 

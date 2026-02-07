@@ -2,7 +2,7 @@
 title: "AI Patterns I'm exploring right now"
 subtitle: "From Augmentation to Orchestration (and Why Context Is the Real Battleground)"
 author: "Scott Bell"
-date: "2025-30-12"
+date: "2025-12-30"
 draft: true
 categories: 
   - LLMs
@@ -10,7 +10,7 @@ categories:
   - ChatGPT
   - OpenAI
   - Gemini
-  - Large Langauge Models
+  - Large Language Models
   - AI
   - GENAI
   - ai-augmented-coding
@@ -179,7 +179,9 @@ This is where cost and token efficiency may start to matter:
 -   Often “good enough” for bounded tasks
 
 Yes, sometimes they’re sloppy.\
-But there are ways of engineerign around that. ---
+But there are ways of engineering around that.
+
+---
 
 ## Trend 5: Small Language Models aren’t a step backwards
 
@@ -218,7 +220,7 @@ You can often:
 -   Reduce hallucination
 -   Improve consistency
 -   Make behaviour easier to reason.
--   Make the feedback loop from the LLM's output too testing tools tighter
+-   Make the feedback loop from the LLM's output to testing tools tighter
 
 A former colleague James Randall has been experimenting with constrained generation (GBNF). See his fascinating write-up here https://www.jamesdrandall.com/posts/gbnf-constrained-generation/
 
@@ -235,7 +237,7 @@ Is it useful? Potentially very.
 
 Some people believe:
 
-> The smallest *well-constrained* fine-train model can outperform a much larger one in the right domain.
+> The smallest *well-constrained* fine-tuned model can outperform a much larger one in the right domain.
 
 That idea is still being tested — but it’s not fringe anymore.
 

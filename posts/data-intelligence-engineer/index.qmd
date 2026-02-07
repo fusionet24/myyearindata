@@ -34,7 +34,7 @@ At **SQLBITS 2025**, the contrast between my session and Simon's could not have 
 {{< video https://www.youtube.com/watch?v=tV_hmSp5-g8 >}}
 :::
 
-This isn't just a topic for a conference talk. I have been using ChatGPT since its first day. I've become a very adept [prompt engineer]() and see significant productivity gains in my personal and professional life from these models. AI augmentation of our daily workflows is the future, and its strengths in pattern recognition, code generation, and summarizing information are obvious. The real question is how we integrate it effectively.
+This isn't just a topic for a conference talk. I have been using ChatGPT since its first day. I've become a very adept prompt engineer and see significant productivity gains in my personal and professional life from these models. AI augmentation of our daily workflows is the future, and its strengths in pattern recognition, code generation, and summarizing information are obvious. The real question is how we integrate it effectively.
 
 ## The Engineering Evolution: From Stored Procedures to Accelerators
 
@@ -43,9 +43,9 @@ To understand where we're going, we need to look at where we've been. Many data 
 Then, we moved to cloud data platforms like Databricks. This shift introduced notebooks and encouraged teams to build reusable functions and, eventually proper internal frameworks. It was a certainly an improvement for **most**.
 
 ::: {.callout-warning appearance="simple"}
-## 
+## A Simplified Timeline
 
-There's lot of context I'm missing here I know. The Data Warehouse architecture battles, Vendor Wars, Hadoop, Sqoop, Azure Data Lake Analytics. Early Orchstrators such as SSIS, ADFv1 and more. It doesn't add value to the point I'm making, so I'm simplifying the timeline.
+There's a lot of context I'm missing here I know. The Data Warehouse architecture battles, Vendor Wars, Hadoop, Sqoop, Azure Data Lake Analytics. Early Orchestrators such as SSIS, ADFv1 and more. It doesn't add value to the point I'm making, so I'm simplifying the timeline.
 :::
 
 The more recent trend was building solution or platform accelerators. These tools focus on enabling data engineers and scientists to do their best work by abstracting away boilerplate code. The idea is sound: let engineers focus on the business context and problem-solving, not rewriting the same data-loading script for the hundredth time. This is often achieved through [Configuration-as-Code](https://configu.com/blog/what-is-configuration-as-code-cac-and-5-tips-for-success/) (CaC), where you define your pipelines in a structured format like YAML, JSON or SQL Tables.
@@ -85,7 +85,7 @@ Of course, this transition isn't without friction. As [Birgitta Böckeler, a Dis
 The challenge, then, is to be intentional. We must strive to be augmented coders while managing the technical debt we accrue. The solution to these risks is the same as the solution to the security points I made in my SQLBITS talk. We need a combination of three things:
 
 1.  **Strategy:** Clear guidelines on expectations, accountability and governance.
-2.  **Education:** Training engineers to be augmented coders, not vibe coders. This means teaching them how to prompt effectively, spot bad output, and understand limitations. Also ensuring they still learn via first principals and develop understanding of their field i.e. design patterns or kimball modelling.
+2.  **Education:** Training engineers to be augmented coders, not vibe coders. This means teaching them how to prompt effectively, spot bad output, and understand limitations. Also ensuring they still learn via first principles and develop understanding of their field i.e. design patterns or kimball modelling.
 3.  **Awareness:** A constant conversation about what works, what doesn't, and how to apply these systems responsibly.
 
 These are the tools that will allow us to truly benefit from LLMs. They are what will let us become what Simon calls the "Data Intelligence Engineer." It's a title that captures the shift from just building pipelines to integrating intelligent systems into our work.

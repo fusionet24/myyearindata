@@ -21,9 +21,9 @@ Here's what I actually use in Obsidian, and more importantly, what actually work
 
 I use Obsidian to structure my entire day. Every morning, I create a daily note with time blocks for focused work, meetings, and context switches. It's not magic. It's just having a single place where my schedule lives alongside my notes about what I'm working on.
 
-When I finish a meeting, I write notes directly into obsidian. When I need to remember what I was doing last Tuesday, I open that day's note. Simple, but effective.
+When I finish a meeting, I write notes directly into Obsidian. When I need to remember what I was doing last Tuesday, I open that day's note. Simple, but effective.
 
-This requires discipline and focus. If you know me well enough I kinda suck at focus but obsidian does force my hand. The tool doesn't make you organized. It just gives you a canvas to be organized on.
+This requires discipline and focus. If you know me well enough I kinda suck at focus but Obsidian does force my hand. The tool doesn't make you organized. It just gives you a canvas to be organized on.
 
 ![Daily note with time blocking](images/daily-note-screenshot.png)
 

@@ -27,9 +27,9 @@ This is [part 3 of a 3 part series](https://www.myyearindata.com/#category=quart
 
 So far in our adventure, I've explained how you set up Azure Static Web Apps and the wider set-up of Quarto on Github.
 
-##Creating an Azure Static Web App
+## Creating an Azure Static Web App
 
-First, you're going to need to provision an Azure Static Web App instance. The [Microsoft Docs](https://learn.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript&pivots=github) are really good for this so follow those insrtuctions.
+First, you're going to need to provision an Azure Static Web App instance. The [Microsoft Docs](https://learn.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript&pivots=github) are really good for this so follow those instructions.
 
 ## Prerequisite Step: Render Quarto Markdown Website
 
@@ -37,9 +37,9 @@ First, you're going to need to provision an Azure Static Web App instance. The [
 
 ## Deployment Workflow
 
-To acheive the deployment we are going to use a collection of github actions in a workflow which are explained in this section. Addtionally, we will only use the action to run on the main branch so that we can use feature branching (mentioned in part 1).
+To achieve the deployment we are going to use a collection of github actions in a workflow which are explained in this section. Additionally, we will only use the action to run on the main branch so that we can use feature branching (mentioned in part 1).
 
-The Azure Static Web action is referenced below and it's offical docs are [here](https://github.com/Azure/static-web-apps-deploy)
+The Azure Static Web action is referenced below and its official docs are [here](https://github.com/Azure/static-web-apps-deploy)
 
 ``` json
   deploy_to_azure_static_webapp:

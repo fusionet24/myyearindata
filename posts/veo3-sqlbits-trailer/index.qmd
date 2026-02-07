@@ -15,7 +15,7 @@ categories:
 This was generated with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd)
 :::
 
-So incase you didn't know I attended SQLBITS 2025 earlier this year and presented a talk entitled Danger In Dialogue: The Security Risks of Large Language Models.
+So in case you didn't know I attended SQLBITS 2025 earlier this year and presented a talk entitled Danger In Dialogue: The Security Risks of Large Language Models.
 
 ::: {.callout-tip appearance="simple" collapse="true"}
 ## Danger In Dialogue: The Security Risks of Large Language Models
@@ -33,7 +33,7 @@ So in the run up to SQLBITS I released a trailer for my talk on the danger of LL
 
 
 
-Now as part of this work, I wanted to use the latest in image generation for research. Also as dyposian as it is, it's really kinda cool. Now the world has moved on since then with the rise of OpenAI's SORA. I however wanted to talk about the trial and error prompting that worked for me with VEO3.
+Now as part of this work, I wanted to use the latest in image generation for research. Also as dystopian as it is, it's really kinda cool. Now the world has moved on since then with the rise of OpenAI's SORA. I however wanted to talk about the trial and error prompting that worked for me with VEO3.
 
 
 

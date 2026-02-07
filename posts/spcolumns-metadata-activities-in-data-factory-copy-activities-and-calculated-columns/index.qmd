@@ -24,7 +24,7 @@ Well no, firstly the table definition existed in the target DB, which given that
 
 The first thing that comes to mind is [GET Metadata activity in ADF](https://learn.microsoft.com/en-us/azure/data-factory/connector-azure-sql-database?tabs=data-factory#getmetadata-activity-properties). Sadly that doesn't have sufficient detail about the column definitions.
 
-The next thought was the [stored procedure sp_columns](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-columns-transact-sql?view=sql-server-ver16) which returns metadata about columns and is a tool I'd imagine almost all data engineers use in the their SQL development workflow. So that's what I did, using the (relatively) new [script activity](https://learn.microsoft.com/en-us/azure/data-factory/transform-data-using-script) in ADF.
+The next thought was the [stored procedure sp_columns](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-columns-transact-sql?view=sql-server-ver16) which returns metadata about columns and is a tool I'd imagine almost all data engineers use in their SQL development workflow. So that's what I did, using the (relatively) new [script activity](https://learn.microsoft.com/en-us/azure/data-factory/transform-data-using-script) in ADF.
 
 ## Solution
 
