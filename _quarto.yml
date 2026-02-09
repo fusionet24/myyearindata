@@ -9,8 +9,8 @@ website:
   site-url: "https://www.myyearindata.com"
   description: "Data engineering, architecture, and AI insights from Scott Bell. Exploring governance, security, and the evolving landscape of intelligent systems."
   announcement:
-    content: "Check out [databricks.news](https://databricks.news) — daily Databricks tips and insights"
-    type: success
+    content: "🔥 [databricks.news](https://databricks.news) — Bite-sized Databricks tips, straight to your inbox"
+    type: danger
     position: above-navbar
     dismissable: true
   open-graph:
@@ -23,12 +23,12 @@ website:
   navbar:
     background: light
     right:
-      - text: Definitions
-        href: definitions/index.qmd
       - about.qmd
       - text: DailyDatabricks
         href: https://dailydatabricks.tips
       - talks.qmd
+      - text: Definitions
+        href: definitions/index.qmd
       - icon: github
         href: https://github.com/fusionet24
       - icon: twitter
