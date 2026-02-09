@@ -34,7 +34,6 @@ website:
       - icon: twitter
         href: https://twitter.com/fusionet24
       - icon: bluesky
-        text: Bluesky
         href: https://bsky.app/profile/fusionet24.com
       - icon: rss
         href: index.xml
