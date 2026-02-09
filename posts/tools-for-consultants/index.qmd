@@ -23,7 +23,7 @@ Taking good notes is hard, taking them while you're familiarizing yourself withi
 
 When you're a senior team member, you're often in a lot of meetings about a lot of things with a lot of different stakeholders. That causes problems, namely **context switching** and that comes at a cost. Previously, I've used tools like Microsoft OneNote to take notes, it integrates with Office, it syncs across devices and it's usually protected by your company's data protection policies. It's pretty good but it doesn't quite fit my workflow.
 
-For the last year or so I've been using a tool called [StashPad](https://docs.stashpad.com/) for most of my note taking. It gives you a nice little buckets of information, where you can nest, tag and build a structure around your brain dumps.
+For the last year or so I've been using a tool called [StashPad](https://docs.stashpad.com/) for most of my note taking. It gives you nice little buckets of information, where you can nest, tag and build a structure around your brain dumps.
 
 I leave a meeting, I make sure my notes are committed to a bucket, I enable features like timestamping so I can come back and review that knowledge. Most importantly it supports markdown for custom formatting.
 
