@@ -105,7 +105,7 @@ AI agents built into cloud apps will always be sub-par compared to state of the 
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 ```
 
-*The Creator of Obsidan*
+*The Creator of Obsidian*
 
 ## When AI Agents Tip the Value Equation
 
@@ -159,7 +159,7 @@ The process is asynchronous. I queue up research tasks in the morning, and by af
 
 This is the unglamorous agent. It scans for uncataloged notes (no tags, missing metadata, orphaned from the graph). It suggests tags based on content analysis. It identifies broken links. It flags notes I haven't touched in months that might be stale or outdated.
 
-I run it weekly. It generates a report of vault health issues, fixes most auotmatically and I spend 30 minutes cleaning up anything else. Without this agent, the vault would slowly decay into an unsearchable mess.
+I run it weekly. It generates a report of vault health issues, fixes most automatically and I spend 30 minutes cleaning up anything else. Without this agent, the vault would slowly decay into an unsearchable mess.
 
 ### Agent 3: Goal Alignment Agent
 
@@ -199,11 +199,13 @@ I also use it for content generation. Writing this post, I queried my vault for 
 
 This agent is only as good as the notes you've written. Garbage in, garbage out. If you don't write clear, well-structured notes, the retrieval won't be useful. But if you maintain decent notes, the experience of asking your own knowledge base questions and getting thoughtful answers is remarkable.
 
-As I wrote in my [agentic patterns post](../agentic-patterns-right-now-2025/index.qmd), the shift from retention to retrieval is fundamental. You don't need to remember everything. You need to be able to find and use what you've captured. This agent makes that practical. Personal Knowledge Management as an Agentic Pattern
+As I wrote in my [agentic patterns post](../agentic-patterns-right-now-2025/index.qmd), the shift from retention to retrieval is fundamental. You don't need to remember everything. You need to be able to find and use what you've captured. This agent makes that practical.
+
+## Personal Knowledge Management as an Agentic Pattern
 
 Both knowledge graphs and agentic AI have hype problems. Knowledge graphs were supposed to revolutionize how we think. Agentic AI is supposed to replace knowledge workers. Most of the hype is nonsense.
 
-But both deliver real utility to you **a human** when you actually do the work.
+But both deliver real utility to you, **a human**, when you actually do the work.
 
 **Looking forward:**
 

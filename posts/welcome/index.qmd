@@ -12,4 +12,4 @@ Welcome back to a long overdue blog rebuild. I've attempted to rebuild this blog
 
 A lot has happened in the last few years but first I want to just get on with writing code and analysing data.
 
-If you're not familar yet, I run a (sometimes daily) Databricks Tips, tricks and hacks twitter account. That is followed by quite a few databricks people. I would recommend following it or signing up the even less frequent newsletter :)
+If you're not familiar yet, I run a (sometimes daily) Databricks Tips, tricks and hacks twitter account. That is followed by quite a few databricks people. I would recommend following it or signing up the even less frequent newsletter :)

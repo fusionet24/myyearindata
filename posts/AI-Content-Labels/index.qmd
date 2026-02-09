@@ -10,7 +10,7 @@ categories:
   - ChatGPT
   - OpenAI
   - Gemini
-  - Large Langauge Models
+  - Large Language Models
   - AI
   - GENAI
   - Writing

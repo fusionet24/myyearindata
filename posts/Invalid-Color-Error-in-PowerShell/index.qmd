@@ -41,7 +41,7 @@ Why does this matter? Because Azure DevOps has its own logging and theming comma
 
 ### Use a Valid Foreground Color
 
-The simplest fix is to set the console’s foreground color to a valid value before this the problematic code is called. —**Black**, **DarkBlue**, **DarkGreen**, **DarkCyan**, **DarkRed**, **DarkMagenta**, **DarkYellow**, **Gray**, **DarkGray**, **Blue**, **Green**, **Cyan**, **Red**, **Magenta**, **Yellow**, or **White**. For example, setting it to **White** is a safe bet:
+The simplest fix is to set the console’s foreground color to a valid value before the problematic code is called. —**Black**, **DarkBlue**, **DarkGreen**, **DarkCyan**, **DarkRed**, **DarkMagenta**, **DarkYellow**, **Gray**, **DarkGray**, **Blue**, **Green**, **Cyan**, **Red**, **Magenta**, **Yellow**, or **White**. For example, setting it to **White** is a safe bet:
 
 ```powershell
 [System.Console]::ForegroundColor = "White"

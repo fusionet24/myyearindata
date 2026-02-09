@@ -66,13 +66,13 @@ Every agent is a node. Every possible interaction is an arrow. The diagram is te
 -   What happens when things go wrong?
 
 
-Okay maybe that example is a bit a hyperbolic but you hopefully get the point.
+Okay maybe that example is a bit hyperbolic but you hopefully get the point.
 
 ## Layered Agentic Visualization
 
 Here's my approach (framework?) for creating agentic diagrams.
 
-What we are trying to commuicate is this
+What we are trying to communicate is this
 
 ![](images/Intelligent%20Agent%20Framework.svg)
 
@@ -80,7 +80,7 @@ What we are trying to commuicate is this
 
 Start with a high-level overview that answers: "What agents exist, and what can they do?"
 
-Shout out to [Tori Tompkins](https://toritompkins.co.uk/) who showed a really good example of this too me recently.
+Shout out to [Tori Tompkins](https://toritompkins.co.uk/) who showed a really good example of this to me recently.
 
 ![](images/agentic-capability.png)
 
