@@ -12,3 +12,115 @@
 .quarto-title-banner .quarto-category {
     color: white !important;
 }
+
+/* Content Label Badges */
+.content-label-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.85em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.content-label-badge:hover {
+    opacity: 0.85;
+    text-decoration: none;
+}
+
+/* AI Generated - Red (AI did heavy lifting) */
+.content-label-ai-generated {
+    background-color: #e74c3c;
+    color: white !important;
+}
+
+/* AI Assisted - Orange (Collaborative) */
+.content-label-ai-assisted {
+    background-color: #f39c12;
+    color: white !important;
+}
+
+/* AI Reviewed - Blue (Human wrote, AI proofread) */
+.content-label-ai-reviewed {
+    background-color: #3498db;
+    color: white !important;
+}
+
+/* No AI - Green (Fully human) */
+.content-label-no-ai {
+    background-color: #27ae60;
+    color: white !important;
+}
+
+/* Definition Link Tooltips */
+a.defn-link,
+a.defn-link:link,
+a.defn-link:visited {
+    text-decoration-line: underline !important;
+    text-decoration-style: wavy !important;
+    text-decoration-color: #0aaa50 !important;
+    text-underline-offset: 3px;
+    color: inherit;
+    position: relative;
+    cursor: help;
+}
+
+a.defn-link:hover {
+    color: #0aaa50;
+}
+
+.defn-link::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1a1a2e;
+    color: #e8e8e8;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    line-height: 1.4;
+    white-space: normal;
+    width: max-content;
+    max-width: 320px;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.defn-link:hover::after {
+    opacity: 1;
+}
+
+/* Tooltip arrow */
+.defn-link::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1a1a2e;
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.defn-link:hover::before {
+    opacity: 1;
+}
+
+/* Missing definition warning */
+.defn-missing {
+    text-decoration-line: underline !important;
+    text-decoration-style: wavy !important;
+    text-decoration-color: #e74c3c !important;
+    text-underline-offset: 3px;
+    color: inherit;
+    cursor: help;
+}
