@@ -10,6 +10,7 @@ categories:
   - agents
   - security
   - agentic
+  - talks
 ---
 
 Last year I presented "Danger In Dialogue: The Security Risks of Large Language Models" at SQLBits 2025. The talk covers a security paradigm shift that most teams aren't prepared nearly enough for now that natural language becomes an attack vector.
@@ -33,6 +34,14 @@ I've been meaning to write this post since that talk and it just kept getting de
 
 
 Then [Clawdbot went viral this weekend](https://dev.to/sivarampg/from-clawdbot-to-moltbot-how-a-cd-crypto-scammers-and-10-seconds-of-chaos-took-down-the-4eck) with 60,000+ GitHub stars, root access to your machine, connected to all your messaging apps and my theoretical slides became a live demonstration.
+
+::: {.callout-note appearance="simple" collapse="true"}
+## What is Clawdbot?
+
+Clawdbot (now rebranded to Moltbot after Anthropic's cease and desist) is an open-source macOS application created by Peter Steinberger that gives Claude full control of your computer. It connects to WhatsApp, Telegram, Signal, iMessage, and email through MCP servers, can read and write files, execute terminal commands, browse the web, and interact with your desktop. Think of it as giving an AI agent the keys to everything on your machine.
+
+The hype was extraordinary. In days it accumulated over 60,000 GitHub stars, making it one of the fastest-growing repos ever. Developers were drawn to the promise of a truly capable AI assistant that could actually *do* things rather than just chat. The problem? Every one of those capabilities is also an attack surface. And Peter, as a solo maintainer of a hobby project, suddenly found himself fielding bug bounty demands and security vulnerability reports.
+:::
 
 ## The New Threat Model
 

@@ -8,6 +8,11 @@ website:
   title: "MyYearInData"
   site-url: "https://www.myyearindata.com"
   description: "Data engineering, architecture, and AI insights from Scott Bell. Exploring governance, security, and the evolving landscape of intelligent systems."
+  announcement:
+    content: "Check out [databricks.news](https://databricks.news) — daily Databricks tips and insights"
+    type: success
+    position: above-navbar
+    dismissable: true
   open-graph:
     locale: en_GB
     site-name: MyYearInData
@@ -16,6 +21,7 @@ website:
     creator: "@fusionet24"
     site: "@fusionet24"
   navbar:
+    background: light
     right:
       - text: Definitions
         href: definitions/index.qmd
@@ -27,9 +33,9 @@ website:
         href: https://github.com/fusionet24
       - icon: twitter
         href: https://twitter.com/fusionet24
-      - icon: Mastodon
-        text: Mastodon
-        href: https://techhub.social/@fusionet24
+      - icon: bluesky
+        text: Bluesky
+        href: https://bsky.app/profile/fusionet24.com
       - icon: rss
         href: index.xml
 
@@ -40,6 +46,8 @@ format:
   html:
     theme: cosmo
     css: styles.css
+    include-after-body:
+      - brand-title.js
 
 editor: visual
 

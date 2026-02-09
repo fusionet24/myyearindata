@@ -1,32 +1,15 @@
 ---
 title: "Talks"
-image: presentation.jpg
-about:
-  template: marquee
-  links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com/fusionet24
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com/scottjamesbell
-    - icon: github
-      text: Github
-      href: https://github.com/fusionet24
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  filter-ui: [title, date]
+  include:
+    categories: "talks"
+page-layout: full
+title-block-banner: false
 ---
 
-Scott has talked at several different events and venues during my career. From regular internal knowledge share sessions to talks at the big industry events. Below is an extract of talks that I feel are valuable to share. As with everything, I'm always learning and growing so not ever session is shared here. Only the ones that I feel represent a good overview of current topics.
-
-## Azure & Power Platform
-
-#### COSMOS 101
-
-Learn everything you need to know to get started with Cosmos DB in between 20-45 minutes. - What is Cosmos? - What are the various APIS? - What is partitioning? - What are consitency models?
-
-## Databricks
-
-## R
-
-## Misc
-
-## Databricks
+Scott is a seasoned speaker with experience across industry events, meetups, and internal knowledge shares. His talks cover data engineering, AI security, Databricks, and cloud architecture. Browse sessions below or view his full speaker profile on [Sessionize](https://sessionize.com/scott-bell).

@@ -31,3 +31,5 @@ _site
 posts/agentic-diagramming/.DS_Store
 .gitignore
 **/node_modules/
+
+**/*.quarto_ipynb

@@ -1,7 +1,14 @@
 /* css styles */
-.navbar-dark {
-    background-color: #0aaa50;
+
+/* Green-accented brand title */
+.navbar .navbar-brand .navbar-title {
+    font-weight: 700;
+    font-size: 1.25rem;
 }
+.brand-prefix { color: #2E7D32; }
+.brand-mid { color: #388E3C; }
+.brand-link { color: #43A047; }
+.brand-data { color: #1B5E20; font-weight: 800; }
 .quarto-title-banner {
     background: #0aaa50;
 }
