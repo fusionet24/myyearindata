@@ -1,0 +1,48 @@
+---
+title: "Ralph Wiggum Loop"
+author: "Scott Bell"
+description: "Geoffrey Huntley's autonomous AI development pattern using continuous agent restarts with persistent state on disk."
+date: "2026-02-09"
+categories:
+  - definitions
+  - agents
+  - architecture
+---
+
+## Brief Summary
+
+The Ralph Wiggum Loop is Geoffrey Huntley's autonomous AI development pattern that continuously restarts an LLM agent in a loop, using a persistent implementation plan on disk and fresh context windows per iteration. Named after the Simpsons character, the core mechanism is deceptively simple: `while :; do cat PROMPT.md | claude; done`.
+
+## Discussion
+
+The Ralph Wiggum Loop is one of those ideas that looks absurdly simple on the surface but encodes some genuinely clever thinking about how to work with LLM agents at scale. Geoffrey Huntley's insight is that instead of fighting {{< defn "Context Rot" >}} within a single long-running conversation, you embrace disposability: each iteration of the loop gets a completely fresh context window.
+
+The mechanism works in three phases:
+
+**Phase 1 — Define Requirements.** An LLM conversation establishes Jobs to Be Done and breaks them into specifications. This happens once, upfront.
+
+**Phase 2 — Planning.** The agent performs gap analysis, comparing specs to existing code, and generates a prioritised task list. This gets written to an `IMPLEMENTATION_PLAN.md` file on disk.
+
+**Phase 3 — Building.** The loop kicks in. Each iteration reads the implementation plan, picks the highest-priority unfinished task, does the work, updates the plan, and exits. The bash loop immediately starts a new iteration with a fresh context.
+
+The key design choices are:
+
+**Persistent state on disk, not in context.** The `IMPLEMENTATION_PLAN.md` file is the shared memory between iterations. Each agent instance reads it fresh, does work, writes updates, and terminates. No context window ever needs to hold the full history.
+
+**Fresh context per task.** Each iteration starts clean, meaning the model never accumulates stale instructions or confused state. This directly prevents {{< defn "Context Bloat" >}} and context rot.
+
+**Parallel subagents for reads.** The pattern spawns up to 500 parallel Sonnet subagents for searching and reading code, but limits build/test validation to a single subagent. This creates natural backpressure that forces quality.
+
+**"Don't assume not implemented."** A critical constraint: agents must verify whether functionality exists before implementing it, preventing duplicated effort across iterations.
+
+This stands in contrast to a standard {{< defn "Agentic Loop" >}} where the agent maintains state within a single conversation. The trade-off is explicit: you lose within-conversation continuity but gain protection against the degradation that happens in long-running sessions. For large codebases and multi-hour development tasks, this trade-off tends to pay off.
+
+The name — after Ralph Wiggum from The Simpsons — captures the ethos: each iteration is cheerfully oblivious to what came before, but the system as a whole makes steady progress because the plan on disk accumulates knowledge across iterations.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

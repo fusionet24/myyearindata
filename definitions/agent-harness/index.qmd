@@ -1,0 +1,46 @@
+---
+title: "Agent Harness"
+author: "Scott Bell"
+description: "The orchestration and scaffolding layer that wraps around an AI agent."
+date: "2026-02-09"
+categories:
+  - definitions
+  - agents
+  - architecture
+---
+
+## Brief Summary
+
+An Agent Harness is the orchestration and scaffolding layer that wraps around an AI agent, managing its lifecycle including tool registration, memory, loop control, error recovery, and observability. It is the engineering infrastructure that turns a raw LLM into a production-grade agent.
+
+## Discussion
+
+The LLM is the brain. The harness is everything else. When people talk about "building an AI agent," what they're mostly building is the harness — the code that manages the {{< defn "Agentic Loop" >}}, decides when to stop, handles errors, logs what happened, and provides the tools the model can use.
+
+A well-designed agent harness manages:
+
+**Tool registration and dispatch** — defining what {{< defn "Tool Use" >}} capabilities the agent has, routing the model's tool calls to the correct implementations, and handling responses. This includes schema validation, timeout handling, and retries.
+
+**Memory and context management** — deciding what information persists between iterations, managing context window limits, and implementing strategies to prevent {{< defn "Context Rot" >}} and {{< defn "Context Bloat" >}}. This might mean summarising old messages, maintaining a scratchpad, or using the {{< defn "Ralph Wiggum Loop" >}} approach of persisting state to disk.
+
+**Loop control** — managing the observe-think-act cycle, including maximum iteration limits, token budgets, timeout limits, and termination conditions. Without these, an agent can loop indefinitely burning money and potentially taking increasingly desperate actions.
+
+**Error recovery** — what happens when a tool call fails, the model produces invalid output, or the agent gets stuck in a loop? The harness needs strategies: retry with backoff, try an alternative tool, reduce the task scope, or escalate to a human.
+
+**Observability** — logging every model call, tool invocation, and decision point so you can debug, audit, and improve the system. In production, you need to know not just what the agent did, but why it made each decision.
+
+**{{< defn "Guardrails" >}} integration** — enforcing safety constraints, validating actions before execution, checking outputs against policies. The harness is where guardrails are wired in.
+
+**{{< defn "Agent Sandbox" >}}** — the harness is responsible for constraining the agent's execution environment and enforcing permission boundaries.
+
+Popular agent harness frameworks include LangChain/LangGraph, CrewAI, AutoGen, and the Anthropic Agent SDK. Each makes different trade-offs between flexibility, complexity, and built-in functionality. Many production teams end up building custom harnesses because the specific requirements of their domain don't fit neatly into a general-purpose framework.
+
+The common mistake is over-investing in the model (prompt engineering, fine-tuning) and under-investing in the harness. In practice, the quality of the harness — how it manages errors, controls the loop, and provides observability — has as much impact on agent reliability as the quality of the underlying model.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

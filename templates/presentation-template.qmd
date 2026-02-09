@@ -1,0 +1,402 @@
+---
+title: "Presentation Title"
+subtitle: "Subtitle goes here"
+author: "Scott Bell"
+date: last-modified
+format:
+  myyearindata-slides-revealjs:
+    footer: "myyearindata.com"
+    logo: "../logos/RapiData-White.png"
+---
+
+## Title Slide Example {.title-slide}
+
+This slide has the green header bar automatically applied.
+
+Use this for opening slides or section dividers.
+
+------------------------------------------------------------------------
+
+## Basic Content Slide
+
+Regular content with the dark background and grid pattern.
+
+-   Bullet points have green markers
+-   Second bullet point
+-   Third bullet point
+
+::: text-muted
+This text is muted (50% opacity)
+:::
+
+------------------------------------------------------------------------
+
+## Highlight & Accent Text
+
+Use [highlight]{.highlight} for green accent text.
+
+Or wrap text in a [doodle circle]{.doodle-circle} for emphasis.
+
+Add a [doodle underline]{.doodle-underline} for that hand-drawn look.
+
+::: doodle-text
+This uses the Caveat handwriting font!
+:::
+
+------------------------------------------------------------------------
+
+## Comparison Layout
+
+::: comparison
+::: box
+### BEFORE
+
+Traditional approach
+
+*Old way*
+:::
+
+[→]{.arrow}
+
+::: {.box .active}
+### AFTER
+
+New approach
+
+*Better way*
+:::
+:::
+
+::: {.subtext .doodle-text}
+The difference? One actually works.
+:::
+
+------------------------------------------------------------------------
+
+## Card Grid
+
+::: card-grid
+::: card
+### Card 1
+
+Description of the first item
+:::
+
+::: card
+### Card 2
+
+Description of the second item
+:::
+
+::: card
+### Card 3
+
+Description of the third item
+:::
+
+::: card
+### Card 4
+
+Description of the fourth item
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Icon List
+
+::: icon-list
+-   [🔍]{.icon} **Research Agent** — Deposits findings directly into my vault
+-   [🧹]{.icon} **Linting Agent** — Maintains vault hygiene automatically
+-   [🎯]{.icon} **Goal Agent** — Keeps work aligned with priorities
+-   [🧠]{.icon} **RAG Agent** — Natural language queries across notes
+:::
+
+------------------------------------------------------------------------
+
+## Icons Row
+
+::: icons-row
+::: {.icon-circle .green}
+🧠
+:::
+
+[+]{.plus}
+
+::: icon-circle
+🤖
+:::
+:::
+
+::: subtext
+Brain + AI = Thinking Partner
+:::
+
+------------------------------------------------------------------------
+
+## Code Example
+
+``` python
+def hello_world():
+    """A simple function."""
+    print("Hello, World!")
+    return True
+```
+
+Inline code: `variable_name` or `function()`
+
+------------------------------------------------------------------------
+
+## Quote Slide {.quote-slide}
+
+> The best productivity system is the one you actually use. If you spend more time organizing notes than creating value from them, you're doing it wrong.
+
+<cite>— Wisdom from experience</cite>
+
+------------------------------------------------------------------------
+
+## Section Divider {.section-slide}
+
+# Part Two
+
+The next section begins here
+
+------------------------------------------------------------------------
+
+## Two Column Layout
+
+::: columns
+::: column
+### Left Column
+
+Content on the left side.
+
+-   Point one
+-   Point two
+-   Point three
+:::
+
+::: column
+### Right Column
+
+Content on the right side.
+
+-   Point A
+-   Point B
+-   Point C
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Tabset Layout {.smaller}
+
+::: panel-tabset
+### Overview
+
+This tab shows the high-level overview.
+
+-   Key point one
+-   Key point two
+-   Key point three
+
+### Details
+
+This tab contains detailed information.
+
+``` python
+# Detailed code example
+config = {
+    "setting": "value",
+    "enabled": True
+}
+```
+
+### Resources
+
+Links and resources:
+
+-   [Documentation](https://example.com)
+-   [GitHub Repo](https://github.com)
+-   [Community Forum](https://forum.example.com)
+:::
+
+------------------------------------------------------------------------
+
+## Incremental Reveal {.incremental}
+
+Build your argument step by step:
+
+-   First, identify the problem
+-   Then, analyze the root cause
+-   Next, propose a solution
+-   Finally, measure the results
+
+. . .
+
+::: doodle-text
+Each point appears on click! ✨
+:::
+
+------------------------------------------------------------------------
+
+## Fragment Effects
+
+::: r-stack
+![](https://via.placeholder.com/400x300/1a2027/0aaa50?text=Step+1){.fragment width="400"}
+
+![](https://via.placeholder.com/400x300/1a2027/0dcc60?text=Step+2){.fragment width="400"}
+
+![](https://via.placeholder.com/400x300/0aaa50/ffffff?text=Step+3){.fragment width="400"}
+:::
+
+::: {.text-muted .fragment}
+Images stack and reveal one at a time
+:::
+
+------------------------------------------------------------------------
+
+## Auto-Animate Code {auto-animate="true"}
+
+``` python
+def process_data(data):
+    return data
+```
+
+------------------------------------------------------------------------
+
+## Auto-Animate Code {auto-animate="true"}
+
+``` python
+def process_data(data):
+    # Validate input
+    if not data:
+        raise ValueError("Empty data")
+
+    # Transform
+    result = transform(data)
+
+    return result
+```
+
+::: fragment
+Code grows automatically between slides!
+:::
+
+------------------------------------------------------------------------
+
+## Background Color Slide {background-color="#0aaa50"}
+
+### This slide has a custom background
+
+The entire slide uses brand green as background.
+
+Perfect for:
+
+-   Section breaks
+-   Key announcements
+-   Call-to-action moments
+
+------------------------------------------------------------------------
+
+## Scrollable Content {.scrollable .smaller}
+
+When you have lots of content, make the slide scrollable:
+
+### Section 1: Introduction
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+### Section 2: Background
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+### Section 3: Methodology
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+### Section 4: Results
+
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+### Section 5: Conclusion
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+
+::: text-muted
+Scroll down for more content ↓
+:::
+
+------------------------------------------------------------------------
+
+## Absolute Positioning
+
+::: {.absolute top="10%" left="5%"}
+[✦]{.sparkle} Top Left
+:::
+
+::: {.absolute top="10%" right="5%"}
+Top Right [✦]{.sparkle}
+:::
+
+::: {.absolute bottom="20%" left="50%" style="transform: translateX(-50%);"}
+### Centered Content
+
+Place elements anywhere on the slide
+
+::: doodle-circle
+[Precise Control]{.highlight}
+:::
+:::
+
+::: {.absolute bottom="10%" left="5%"}
+[✦]{.sparkle} Bottom Left
+:::
+
+::: {.absolute bottom="10%" right="5%"}
+Bottom Right [✦]{.sparkle}
+:::
+
+------------------------------------------------------------------------
+
+## Fit Text {.center}
+
+::: r-fit-text
+BIG IDEA
+:::
+
+::: text-muted
+Text automatically scales to fill the slide
+:::
+
+------------------------------------------------------------------------
+
+## CTA Slide
+
+::: v-center
+## It's not just a presentation.
+
+# It's a [THINKING PARTNER]{.doodle-circle .highlight}
+
+::: {.cta-link .primary}
+[📝]{.icon} Read the full breakdown
+:::
+
+::: cta-link
+[💼]{.icon} Follow on LinkedIn
+:::
+
+::: powered-by
+Powered by RapidData.Dev
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Thank You! {.section-slide}
+
+### Questions?
+
+[myyearindata.com]{.highlight}
+
+@fusionet24

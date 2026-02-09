@@ -1,0 +1,41 @@
+---
+title: "Agentic Loop"
+author: "Scott Bell"
+description: "The observe-think-act cycle at the core of AI agent behaviour."
+date: "2026-02-09"
+categories:
+  - definitions
+  - agents
+  - architecture
+---
+
+## Brief Summary
+
+An Agentic Loop is the observe-think-act cycle where an AI agent iteratively perceives its environment, reasons about what to do, takes an action, and evaluates the result before deciding the next step. It is the fundamental execution pattern that distinguishes agents from single-shot LLM calls.
+
+## Discussion
+
+The agentic loop is what makes an AI agent an agent rather than a chatbot. Instead of receiving a prompt and returning a single response, the agent enters a cycle: observe the current state, decide what to do, take an action (often via {{< defn "Tool Use" >}}), observe the result, and repeat until the task is complete or a stopping condition is met.
+
+The basic structure looks like this:
+
+1. **Observe** — gather information about the current state. This might mean reading tool outputs, checking file contents, parsing error messages, or reviewing conversation history.
+2. **Think** — reason about what action to take next, given the goal and the current state. This is the LLM call.
+3. **Act** — execute the chosen action: call a tool, write code, send a message, or produce a final answer.
+4. **Evaluate** — assess the result. Did the action succeed? Is the task complete? Should the approach change?
+
+What makes this powerful is that the agent can adapt. If a tool call fails, it can try a different approach. If the first search doesn't return useful results, it can refine the query. This is fundamentally different from {{< defn "Prompt Chaining" >}}, where the sequence of steps is predetermined.
+
+The danger is also clear: an unbounded loop can run forever, burning tokens and taking increasingly desperate actions. This is why every agentic system needs explicit stopping conditions — maximum iterations, token budgets, timeout limits. Without these, you get infinite loops where the model keeps trying variations of the same failing approach.
+
+The {{< defn "Ralph Wiggum Loop" >}} is an interesting variant where the loop operates at a higher level: instead of looping within a single conversation, each iteration gets a fresh context window and reads its state from disk. This trades within-conversation continuity for protection against {{< defn "Context Rot" >}}.
+
+The {{< defn "Agent Harness" >}} is what manages the loop in production — handling tool registration, error recovery, observability, and the decision of when to stop. Getting the loop right is straightforward; getting the harness right is where the real engineering challenge lives.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

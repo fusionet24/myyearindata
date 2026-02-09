@@ -1,0 +1,40 @@
+---
+title: "Lethal Trifecta"
+author: "Scott Bell"
+description: "The dangerous combination of three AI agent properties that create serious security risk."
+date: "2026-02-09"
+categories:
+  - definitions
+  - security
+  - agents
+---
+
+## Brief Summary
+
+The Lethal Trifecta is Simon Willison's term for the dangerous combination of three AI agent properties: access to private data, the ability to take real-world actions, and exposure to untrusted input. When all three are present simultaneously, the system becomes vulnerable to attacks where untrusted content can manipulate the agent into exfiltrating sensitive data or taking harmful actions.
+
+## Discussion
+
+This is one of the most important mental models in AI security, and it deserves more attention than it gets. The term was coined by Simon Willison and it captures something that many teams building agentic systems fail to appreciate until it's too late.
+
+The three legs are:
+
+1. **Access to private data** — the agent can read emails, documents, databases, or other information that should be restricted.
+2. **Ability to take actions** — the agent can send messages, write files, call APIs, make purchases, or otherwise affect the real world.
+3. **Exposure to untrusted input** — the agent processes content it did not author and cannot fully trust: web pages, emails from strangers, user-uploaded documents, third-party {{< defn "Tool Use" >}} responses.
+
+Any two of these on their own are manageable. An agent that reads private data and processes untrusted input but cannot act is essentially a reader — it might get confused, but it cannot cause harm beyond its own outputs. An agent that acts on private data but never sees untrusted input has no attack surface for {{< defn "Prompt Injection" >}}.
+
+But the moment all three converge, you have created a system where an attacker can craft content that, when processed by the agent, causes it to take actions using private data. The classic example: an AI email assistant that can read your inbox, send replies, and processes incoming emails from anyone. A malicious email containing hidden instructions could tell the agent to forward sensitive messages to the attacker.
+
+In practice, most useful agents require all three legs. The goal is not to eliminate the trifecta but to recognise when you're operating within it and apply appropriate controls: {{< defn "Agent Sandbox" >}} environments, {{< defn "Guardrails" >}} on what actions the agent can take, and careful input sanitisation. The teams that get into trouble are the ones who build all three legs without realising they've created this attack surface.
+
+If you're building an agentic system and you find yourself with all three properties, pause and ask: what's the worst that could happen if someone crafts adversarial input? If the answer makes you uncomfortable, you need more controls before shipping.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

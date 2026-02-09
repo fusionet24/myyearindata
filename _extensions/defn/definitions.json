@@ -1,0 +1,112 @@
+{
+  "context-rot": {
+    "display": "Context Rot",
+    "summary": "The gradual degradation of AI context quality as conversations grow longer, leading to lost instructions, confused priorities, and declining output quality.",
+    "url": "/definitions/context-rot/"
+  },
+  "context-engineering": {
+    "display": "Context Engineering",
+    "summary": "The discipline of designing and managing the information environment that AI models operate within, including prompt structure, retrieval augmentation, and memory systems.",
+    "url": "/definitions/context-engineering/"
+  },
+  "context-bloat": {
+    "display": "Context Bloat",
+    "summary": "The accumulation of unnecessary or redundant information in an AI's context window, reducing the effective space available for relevant content and degrading performance.",
+    "url": "/definitions/context-bloat/"
+  },
+  "lethal-trifecta": {
+    "display": "Lethal Trifecta",
+    "summary": "Simon Willison's term for the dangerous combination of three AI agent properties: access to private data, ability to take real-world actions, and exposure to untrusted input.",
+    "url": "/definitions/lethal-trifecta/"
+  },
+  "positional-bias": {
+    "display": "Positional Bias",
+    "summary": "The tendency of LLMs to pay unequal attention to content based on its position in the context window, with primacy and recency effects distorting how information is weighted.",
+    "url": "/definitions/positional-bias/"
+  },
+  "context-clash": {
+    "display": "Context Clash",
+    "summary": "When different sources of information in an LLM's context window — system prompts, user instructions, retrieved documents, tool outputs — contradict each other, causing confused or inconsistent behaviour.",
+    "url": "/definitions/context-clash/"
+  },
+  "prompt-chaining": {
+    "display": "Prompt Chaining",
+    "summary": "Breaking a complex task into a sequence of LLM calls where each step's output feeds into the next, enabling more reliable and controllable multi-step reasoning.",
+    "url": "/definitions/prompt-chaining/"
+  },
+  "agentic-loop": {
+    "display": "Agentic Loop",
+    "summary": "The observe-think-act cycle where an AI agent iteratively perceives its environment, reasons about what to do, takes an action, and evaluates the result before deciding the next step.",
+    "url": "/definitions/agentic-loop/"
+  },
+  "ralph-wiggum-loop": {
+    "display": "Ralph Wiggum Loop",
+    "summary": "Geoffrey Huntley's autonomous AI development pattern that continuously restarts an LLM agent in a loop, using a persistent implementation plan on disk and fresh context windows per iteration.",
+    "url": "/definitions/ralph-wiggum-loop/"
+  },
+  "tool-use": {
+    "display": "Tool Use / Function Calling",
+    "summary": "The ability of LLMs to generate structured calls to external functions, APIs, or tools rather than producing prose, enabling them to take real-world actions and access live data.",
+    "url": "/definitions/tool-use/"
+  },
+  "grounding": {
+    "display": "Grounding",
+    "summary": "The practice of tethering LLM outputs to verified, authoritative data sources — such as search results, databases, or documents — to reduce hallucination and improve factual accuracy.",
+    "url": "/definitions/grounding/"
+  },
+  "data-drift": {
+    "display": "Data Drift",
+    "summary": "The gradual change in data distributions over time that causes ML models to degrade in performance, as the real world diverges from the data the model was trained or calibrated on.",
+    "url": "/definitions/data-drift/"
+  },
+  "chunking-strategy": {
+    "display": "Chunking Strategy",
+    "summary": "The approach used to split documents into smaller segments for embedding and retrieval in RAG systems, directly affecting retrieval quality and the relevance of context provided to the LLM.",
+    "url": "/definitions/chunking-strategy/"
+  },
+  "hallucination": {
+    "display": "Hallucination",
+    "summary": "When an LLM generates factually incorrect or fabricated information and presents it as fact, producing confident-sounding outputs that have no basis in its training data or provided context.",
+    "url": "/definitions/hallucination/"
+  },
+  "confabulation": {
+    "display": "Confabulation",
+    "summary": "A more precise term borrowed from neuroscience for what LLMs do when they fill gaps in knowledge with plausible-sounding but fabricated details, without any awareness that they are doing so.",
+    "url": "/definitions/confabulation/"
+  },
+  "tool-poisoning": {
+    "display": "Tool Poisoning",
+    "summary": "An attack where malicious tool descriptions trick an AI agent into misusing tools or exfiltrating data, or where compromised tool endpoints return poisoned data or injected instructions.",
+    "url": "/definitions/tool-poisoning/"
+  },
+  "agent-sandbox": {
+    "display": "Agent Sandbox",
+    "summary": "An isolated execution environment that constrains what an AI agent can access and affect, limiting the blast radius of errors, exploits, or unintended actions.",
+    "url": "/definitions/agent-sandbox/"
+  },
+  "guardrails": {
+    "display": "Guardrails",
+    "summary": "Input validation, output filtering, safety checks, and boundary enforcement mechanisms applied to AI systems to prevent harmful, off-topic, or policy-violating behaviour.",
+    "url": "/definitions/guardrails/"
+  },
+  "structured-outputs": {
+    "display": "Structured Outputs",
+    "summary": "Constraining LLM output to conform to a defined schema — such as JSON, XML, or typed function signatures — rather than producing freeform text, enabling reliable downstream parsing and integration.",
+    "url": "/definitions/structured-outputs/"
+  },
+  "agent-harness": {
+    "display": "Agent Harness",
+    "summary": "The orchestration and scaffolding layer that wraps around an AI agent, managing its lifecycle including tool registration, memory, loop control, error recovery, and observability.",
+    "url": "/definitions/agent-harness/"
+  },
+  "latency-budget": {
+    "display": "Latency Budget",
+    "summary": "The total acceptable response time for an operation, allocated across component steps — in AI systems, this means budgeting time across LLM calls, tool executions, retrieval, and reasoning loops.",
+    "url": "/definitions/latency-budget/"
+  },
+  "prompt-injection": {
+    "display": "Prompt Injection",
+    "summary": "An attack that manipulates LLM behaviour by inserting malicious instructions into the model's input, either directly by the user or indirectly via untrusted content the model processes.",
+    "url": "/definitions/prompt-injection/"
+  }
+}

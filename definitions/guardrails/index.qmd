@@ -1,0 +1,44 @@
+---
+title: "Guardrails"
+author: "Scott Bell"
+description: "Input validation, output filtering, safety checks, and boundary enforcement for AI systems."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - safety
+---
+
+## Brief Summary
+
+Guardrails are input validation, output filtering, safety checks, and boundary enforcement mechanisms applied to AI systems to prevent harmful, off-topic, or policy-violating behaviour. They act as programmable constraints that wrap around a model's inputs and outputs.
+
+## Discussion
+
+Every production AI system needs guardrails. The model itself is probabilistic — it can produce harmful, off-topic, or policy-violating outputs regardless of how well it's been fine-tuned. Guardrails are the deterministic safety layer that catches what the model misses.
+
+Guardrails typically operate at two points:
+
+**Input guardrails** — validate and sanitise user input before it reaches the model. This includes detecting {{< defn "Prompt Injection" >}} attempts, filtering toxic or harmful content, checking for PII that shouldn't be processed, and enforcing topic boundaries ("this system only answers questions about our product").
+
+**Output guardrails** — validate the model's response before it reaches the user or triggers an action. This includes checking for {{< defn "Hallucination" >}} indicators, ensuring factual claims are grounded, filtering content that violates safety policies, and verifying that {{< defn "Structured Outputs" >}} conform to the expected schema.
+
+For agentic systems, guardrails extend to action validation: before the agent executes a {{< defn "Tool Use" >}} call, a guardrail checks whether the action is within allowed boundaries. "The agent wants to delete a file — is that permitted?" This is especially important given the {{< defn "Lethal Trifecta" >}} — when agents have access to private data and can take actions, guardrails on those actions are a critical safety layer.
+
+The framework landscape includes:
+
+**NVIDIA NeMo Guardrails** — an open-source toolkit that uses a dialog management approach (Colang) to define conversational rails. Good for complex, multi-turn conversational systems where you need fine-grained control over dialogue flow.
+
+**Guardrails AI** — focused on output validation with a "validators" approach. You define expected schemas and constraints, and the framework validates (and optionally retries) model outputs against them. Integrates well with Python-based pipelines.
+
+**Custom rule engines** — many teams build their own guardrails as simple if/then rules, regex filters, or classifier-based checks. These are often sufficient and have the advantage of being fully transparent and debuggable.
+
+The trade-off is always between safety and latency. Every guardrail check adds time. Input validation, output classification, and action approval each add milliseconds or more — a consideration that feeds directly into {{< defn "Latency Budget" >}} planning. The art is implementing the guardrails that matter most without turning every interaction into a slow, over-checked experience.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

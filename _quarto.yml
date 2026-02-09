@@ -17,6 +17,8 @@ website:
     site: "@fusionet24"
   navbar:
     right:
+      - text: Definitions
+        href: definitions/index.qmd
       - about.qmd
       - text: DailyDatabricks
         href: https://dailydatabricks.tips

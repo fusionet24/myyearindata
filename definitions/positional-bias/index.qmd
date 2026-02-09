@@ -1,0 +1,38 @@
+---
+title: "Positional Bias"
+author: "Scott Bell"
+description: "The tendency of LLMs to pay unequal attention to content based on its position in the context window."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - llm
+---
+
+## Brief Summary
+
+Positional Bias is the tendency of LLMs to pay unequal attention to content based on its position in the context window, with primacy and recency effects distorting how information is weighted. Content at the beginning and end of the context receives disproportionate attention, while information in the middle is more likely to be overlooked or underweighted.
+
+## Discussion
+
+If you've ever noticed that an LLM seems to "forget" instructions you gave it mid-conversation, or that it anchors heavily on either the first thing you said or the most recent message, you've encountered positional bias. It's one of those behaviours that seems like a bug but is actually a structural property of how attention mechanisms work.
+
+The two main effects are:
+
+**Primacy bias** — content that appears early in the context window (system prompts, the first user message) tends to carry outsized influence. This is partly why system prompts work at all: they're positioned where the model pays the most attention.
+
+**Recency bias** — the most recent tokens also receive elevated attention. In a long conversation, the model's behaviour tends to drift toward whatever was said last, even if earlier instructions were more authoritative.
+
+The practical consequence is the "lost in the middle" phenomenon. Research has shown that when you place critical information in the middle of a long context, LLMs are significantly less likely to use it correctly compared to placing the same information at the beginning or end. This has direct implications for {{< defn "Context Engineering" >}} — if you're assembling a context window with retrieved documents, instructions, and conversation history, the order matters far more than most people realise.
+
+This also creates a subtle vulnerability for {{< defn "Context Clash" >}} scenarios. If contradictory instructions appear at different positions, the model doesn't resolve them through logic — it resolves them through attention weights, which means position often wins over intent.
+
+For practitioners, the takeaway is straightforward: put your most important instructions at the beginning and reinforce them at the end. Don't bury critical constraints in the middle of a long prompt. And if you're building RAG systems, consider that the position of retrieved chunks in the context affects how much the model trusts them — it's not just about relevance scores.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

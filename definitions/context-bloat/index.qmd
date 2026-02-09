@@ -1,0 +1,44 @@
+---
+title: "Context Bloat"
+author: "Scott Bell"
+description: "The accumulation of unnecessary or redundant information in an AI's context window."
+date: "2026-02-08"
+categories:
+  - definitions
+  - ai
+  - context-engineering
+---
+
+## Brief Summary
+
+Context Bloat is the accumulation of unnecessary or redundant information in an AI's context window, reducing the effective space available for relevant content and degrading performance. It occurs when conversations, system prompts, or retrieval systems inject more information than the model needs, crowding out the signals that matter.
+
+## Discussion
+
+Context bloat is the silent performance killer in LLM applications. Unlike {{< defn "Context Rot" >}}, which is about degradation over time, context bloat is about unnecessary volume at any given moment — stuffing more into the context window than the model needs, diluting the signal with noise.
+
+The most common causes:
+
+**Over-retrieval in RAG systems.** Retrieving 20 document chunks when 3 would suffice. Each additional chunk adds tokens that compete for the model's attention without adding proportional value. Beyond a certain point, more retrieved context actually hurts quality because it pushes the {{< defn "Chunking Strategy" >}} past the point of diminishing returns.
+
+**Verbose system prompts.** System prompts that try to anticipate every possible scenario, include lengthy examples for edge cases, and repeat instructions in multiple ways. A 3000-token system prompt that could be 500 tokens is burning 2500 tokens of context capacity on every request.
+
+**Uncompressed conversation history.** Keeping the full transcript of a 50-message conversation in context when a summary of the key decisions and current state would be sufficient. This is one of the primary contributors to {{< defn "Context Rot" >}}.
+
+**Kitchen-sink tool descriptions.** Providing the model with descriptions of 50 tools when only 5 are relevant to the current task. Each tool description consumes tokens and adds cognitive load for the model's tool selection process.
+
+**Defensive over-inclusion.** The instinct to include "everything just in case" rather than curating what's relevant. This comes from uncertainty about what the model needs, but the cure is often worse than the disease.
+
+Detection is straightforward: if your LLM costs are higher than expected, your response quality is inconsistent, or your latency is creeping up, context bloat is a likely culprit. Measure your average context window utilisation and audit what's actually in there — you'll almost always find significant waste.
+
+Mitigation is the practice of {{< defn "Context Engineering" >}}: be intentional about every token in the context. Summarise rather than include raw history. Retrieve selectively. Trim system prompts to their essential instructions. Use dynamic context assembly that includes only what's relevant to the current request.
+
+The goal is not the smallest possible context — it's the most efficient context. Every token should earn its place by contributing to output quality. If you can remove something and the output quality doesn't change, it was bloat.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-08**: Initial definition published.

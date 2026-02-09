@@ -1,0 +1,44 @@
+---
+title: "Context Engineering"
+author: "Scott Bell"
+description: "The discipline of designing and managing the information environment that AI models operate within."
+date: "2026-02-08"
+categories:
+  - definitions
+  - ai
+  - context-engineering
+---
+
+## Brief Summary
+
+Context Engineering is the discipline of designing and managing the information environment that AI models operate within, including prompt structure, retrieval augmentation, and memory systems. It encompasses the deliberate curation of what information enters a model's context window and how that information is structured to maximise output quality.
+
+## Discussion
+
+Context engineering is arguably the most important skill for anyone building LLM-based systems, yet it gets far less attention than prompt engineering. The distinction matters: prompt engineering is about crafting individual prompts. Context engineering is about designing the entire information environment the model operates within — what goes in, what stays out, how it's ordered, and how it evolves over time.
+
+The core principle is that the context window is your most precious resource. Every token you put in competes for the model's attention. The question isn't "what can I include?" but "what is the minimum set of information the model needs to produce the best possible output for this specific task?"
+
+Key techniques include:
+
+**Context window architecture.** Deliberately structuring the context with clear sections: system instructions at the top, task-specific context in the middle, the current query at the end. This works with {{< defn "Positional Bias" >}} rather than against it — important instructions go where the model pays the most attention.
+
+**Dynamic context assembly.** Rather than maintaining a static system prompt, assemble the context per-request based on what's relevant. If the user is asking about feature X, inject documentation for feature X — not the entire product manual. This is the principle behind RAG, but it applies more broadly.
+
+**Context hygiene.** Actively pruning, summarising, or compressing old context to prevent {{< defn "Context Rot" >}} and {{< defn "Context Bloat" >}}. In agentic systems, this might mean summarising completed subtasks rather than keeping their full execution history in context.
+
+**Priority hierarchies.** Establishing explicit rules about what takes precedence when different context sources conflict — preventing {{< defn "Context Clash" >}} by making the resolution strategy predictable rather than leaving it to the model's attention patterns.
+
+**{{< defn "Chunking Strategy" >}}** for retrieved content, ensuring that injected documents are appropriately sized and relevant.
+
+**Scratchpads and working memory.** Giving the model a structured place to think and maintain state, separate from the conversation history. This prevents the accumulation of stale reasoning in the main context.
+
+The analogy I find most useful: context engineering is like set design for a play. The actors (the model) will work with whatever's on stage. Your job is to make sure the right props are in the right places, the lighting highlights what matters, and nothing distracting is cluttering the scene. The model doesn't know what's missing from the context — it can only work with what's there.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-08**: Initial definition published.

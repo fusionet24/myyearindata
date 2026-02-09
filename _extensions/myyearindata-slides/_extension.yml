@@ -1,0 +1,14 @@
+title: MyYearInData Slides
+author: Scott Bell
+version: 1.0.0
+contributes:
+  formats:
+    revealjs:
+      theme: theme.scss
+      transition: slide
+      transition-speed: fast
+      slide-number: true
+      hash: true
+      center: true
+      width: 1920
+      height: 1080

@@ -1,0 +1,40 @@
+---
+title: "Data Drift"
+author: "Scott Bell"
+description: "The gradual change in data distributions over time that degrades ML model performance."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - data-engineering
+---
+
+## Brief Summary
+
+Data Drift is the gradual change in data distributions over time that causes ML models to degrade in performance, as the real world diverges from the data the model was trained or calibrated on. It affects everything from classical ML models to RAG systems and data pipelines.
+
+## Discussion
+
+Every model is a snapshot of the world at training time. The moment you deploy it, the world starts moving away from that snapshot. Data drift is the name for this divergence, and it's not a question of whether it happens — it's a question of how fast and how badly it affects you.
+
+In classical ML, data drift typically manifests as:
+
+**Covariate shift** — the distribution of input features changes. A fraud detection model trained on pre-pandemic transaction patterns encounters entirely different spending behaviours during lockdown.
+
+**Concept drift** — the relationship between inputs and outputs changes. What constituted "spam" in 2020 looks different from spam in 2026. The features are the same, but what they mean has changed.
+
+**Prior probability shift** — the base rate of the target variable changes. A model trained when 1% of transactions were fraudulent starts seeing 5% fraud rates.
+
+For LLM-based systems, data drift takes different but equally pernicious forms. A RAG system's knowledge base becomes outdated as source documents are updated or superseded. Embedding models drift as the vocabulary and concepts in your domain evolve — terminology that was relevant six months ago may have been replaced by new jargon. {{< defn "Grounding" >}} against stale sources gives you confidently wrong answers.
+
+In data engineering more broadly, drift is everywhere. Schema evolution breaks downstream pipelines. Upstream systems change their output formats without warning. Business rules shift and the assumptions baked into ETL logic quietly become invalid. A dashboard that was accurate last quarter starts showing numbers that "don't look right" — the classic symptom of drift that hasn't been caught.
+
+The mitigation is monitoring. Track input distributions over time. Set up alerts for statistical divergence. Re-evaluate model performance on recent data regularly. For RAG systems, implement refresh cycles for your knowledge base and re-embed when your source content changes significantly. The worst thing you can do is deploy and forget — data drift is silent and cumulative, and by the time someone notices the outputs are wrong, the drift has usually been happening for months.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

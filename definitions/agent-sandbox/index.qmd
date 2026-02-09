@@ -1,0 +1,44 @@
+---
+title: "Agent Sandbox"
+author: "Scott Bell"
+description: "Isolated execution environments that constrain what an AI agent can access and affect."
+date: "2026-02-09"
+categories:
+  - definitions
+  - security
+  - agents
+---
+
+## Brief Summary
+
+An Agent Sandbox is an isolated execution environment that constrains what an AI agent can access and affect, limiting the blast radius of errors, exploits, or unintended actions. It applies the principle of least privilege to agentic AI systems.
+
+## Discussion
+
+The core problem with AI agents is that they make mistakes — and when they have access to real systems, mistakes have real consequences. An agent with unfettered access to your filesystem, network, and APIs is one bad tool call away from deleting production data, sending embarrassing emails, or exfiltrating sensitive information.
+
+Sandboxing is the mitigation: put the agent in a constrained environment where it can only access what it needs and can't reach anything else. This is the same principle that's been applied to untrusted code execution for decades (Docker containers, browser sandboxes, chroot jails), now applied to AI agents.
+
+Effective agent sandboxing typically involves:
+
+**Filesystem restrictions** — the agent can only read and write within a defined directory tree. No access to `~/.ssh`, `~/.aws/credentials`, or other sensitive locations.
+
+**Network restrictions** — the agent can only reach approved endpoints. No ability to make arbitrary HTTP requests to external servers, which prevents data exfiltration through {{< defn "Tool Poisoning" >}} attacks.
+
+**Permission boundaries** — the agent can read files but not execute arbitrary commands, or can execute commands but not install packages, or can access a staging database but not production.
+
+**Resource limits** — caps on CPU, memory, and execution time prevent runaway processes from consuming resources.
+
+The challenge is that useful agents often need broad access. A coding agent needs to read the codebase, run tests, and install dependencies. A data analysis agent needs database access. The art is finding the minimum set of permissions that lets the agent do its job without creating unnecessary risk — and this minimum is different for every use case.
+
+In the context of the {{< defn "Lethal Trifecta" >}}, sandboxing addresses the "ability to take actions" leg. You can't eliminate the agent's need to act, but you can constrain the scope of those actions. Combined with {{< defn "Guardrails" >}} on the model's outputs and careful handling of untrusted inputs, sandboxing is one of the essential controls for running agents in production.
+
+The worst pattern is the one I see most often: agents running with the developer's full credentials and filesystem access, with no sandboxing at all. This works fine in demos. It's a security incident waiting to happen in production.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

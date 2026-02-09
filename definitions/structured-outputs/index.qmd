@@ -1,0 +1,42 @@
+---
+title: "Structured Outputs"
+author: "Scott Bell"
+description: "Constraining LLM output to conform to a defined schema rather than freeform text."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - llm
+---
+
+## Brief Summary
+
+Structured Outputs is the practice of constraining LLM output to conform to a defined schema — such as JSON, XML, or typed function signatures — rather than producing freeform text, enabling reliable downstream parsing and integration.
+
+## Discussion
+
+The moment you need to do something programmatic with an LLM's output — parse it, store it, pass it to another system — you need structure. Freeform text is great for human consumption but terrible for machines. Structured outputs solve this by making the model's response conform to a predefined schema.
+
+The approaches range from simple to sophisticated:
+
+**Prompt-based structuring** — you ask the model to "respond in JSON format" and hope it does. This works surprisingly often but fails unpredictably, especially with complex schemas or when the model wants to explain its reasoning alongside the structured data.
+
+**JSON mode** — API-level enforcement that guarantees the output is valid JSON. The model can still produce any JSON, but it will always be parseable. Available in most major LLM APIs.
+
+**Schema-constrained generation** — you provide a JSON Schema, and the model's output is guaranteed to conform to it. OpenAI's "Structured Outputs" feature and similar offerings from other providers use constrained decoding to enforce the schema at the token generation level. This is the most reliable approach.
+
+**Function calling / tool use** — related but distinct: the model outputs a structured function call rather than a text response. This is how {{< defn "Tool Use" >}} works under the hood — the model produces structured parameters for a specific function.
+
+Structured outputs are the glue that makes {{< defn "Prompt Chaining" >}} reliable. When step 1 produces JSON that step 2 needs to parse, schema enforcement means you never have to write fragile regex to extract data from prose. They're also essential for {{< defn "Guardrails" >}} — you can validate a structured response against business rules far more reliably than validating freeform text.
+
+The trade-off is flexibility. Schema constraints can sometimes fight with the model's reasoning process. If you force the model into a rigid schema too early, it may produce worse content because it can't "think out loud" before committing to structured fields. A common pattern is to let the model reason freely in a first step, then use a second step with structured outputs to extract the final answer into the required schema.
+
+The practical advice: use the strongest schema enforcement your provider offers, and design your schemas to be as simple as possible. Complex nested schemas with many optional fields give the model too many degrees of freedom to go wrong.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

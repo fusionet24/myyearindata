@@ -1,0 +1,40 @@
+---
+title: "Context Rot"
+author: "Scott Bell"
+description: "The gradual degradation of AI context quality as conversations grow longer."
+date: "2026-02-08"
+categories:
+  - definitions
+  - ai
+  - context-engineering
+---
+
+## Brief Summary
+
+Context Rot is the gradual degradation of AI context quality as conversations grow longer, leading to lost instructions, confused priorities, and declining output quality. As more tokens accumulate in a conversation, earlier instructions and context get diluted, models begin to "forget" constraints, and output quality degrades in subtle ways that compound over time.
+
+## Discussion
+
+If you've ever had a long conversation with an AI assistant and noticed it gradually "forgetting" your earlier instructions, producing increasingly generic responses, or contradicting things it said 20 messages ago — that's context rot in action.
+
+The causes are structural:
+
+**Attention dilution.** As more tokens accumulate in the context window, the model's attention is spread across more content. Earlier instructions compete with an ever-growing body of conversation history for the model's finite attention capacity. This is compounded by {{< defn "Positional Bias" >}} — content in the middle of a long context is the most likely to be underweighted.
+
+**Instruction drift.** Each new message in a conversation implicitly recontextualises everything that came before. The model's interpretation of your original system prompt subtly shifts as the conversation evolves. By message 50, the model may be following a version of your instructions that has drifted significantly from what you originally specified.
+
+**Contradiction accumulation.** In long conversations, it's almost inevitable that some messages will contradict earlier ones — the user changes their mind, corrects themselves, or provides conflicting requirements at different points. The model has no principled way to resolve these contradictions, leading to {{< defn "Context Clash" >}} that compounds over time.
+
+**Noise accumulation.** Not everything in a conversation is equally relevant to the current task. Old exploratory tangents, resolved errors, and abandoned approaches all remain in the context, contributing to {{< defn "Context Bloat" >}} and competing with the information that actually matters now.
+
+The practical implication is that long-running agent sessions degrade in quality over time. This is why the {{< defn "Ralph Wiggum Loop" >}} pattern — restarting with fresh context per iteration, persisting state to disk — can outperform a single long-running session for complex tasks. It's also why {{< defn "Context Engineering" >}} matters: deliberately managing what goes into the context window and how it's structured is the primary defence against rot.
+
+The counterintuitive lesson is that bigger context windows don't solve context rot — they delay it. A 200k token window means you can accumulate more history before things degrade, but the degradation still happens. The solution is not more context; it's better context.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-08**: Initial definition published.

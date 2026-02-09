@@ -1,0 +1,555 @@
+/*-- scss:defaults --*/
+
+// Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Caveat:wght@400;600;700&display=swap');
+
+// Brand Colors
+$brand-green: #0aaa50;
+$brand-green-light: #0dcc60;
+$dark-bg: #0f1419;
+$card-bg: #1a2027;
+
+// RevealJS Color Variables
+$backgroundColor: $dark-bg;
+$mainColor: #ffffff;
+$headingColor: #ffffff;
+$linkColor: $brand-green;
+$linkColorHover: $brand-green-light;
+$selectionBackgroundColor: rgba($brand-green, 0.3);
+$selectionColor: #ffffff;
+
+// Typography
+$mainFont: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$headingFont: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$codeFont: 'JetBrains Mono', 'Fira Code', monospace;
+
+$mainFontSize: 32px;
+$headingFontWeight: 700;
+$heading1Size: 2.5em;
+$heading2Size: 1.8em;
+$heading3Size: 1.4em;
+$heading4Size: 1.1em;
+
+$headingMargin: 0 0 0.5em 0;
+$headingLineHeight: 1.2;
+$headingLetterSpacing: -0.02em;
+$headingTextTransform: none;
+$headingTextShadow: none;
+
+// Spacing
+$blockMargin: 20px;
+$presentationHeadingTextTransform: none;
+
+// Code
+$codeBackground: $card-bg;
+
+/*-- scss:rules --*/
+
+// ============================================
+// SLIDE BACKGROUNDS
+// ============================================
+
+.reveal .slides {
+  text-align: center;
+}
+
+.reveal .slide-background {
+  background-color: $dark-bg;
+
+  // Subtle grid pattern (matches carousel)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba($brand-green, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($brand-green, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+}
+
+// ============================================
+// HEADER BAR (Title Slide)
+// ============================================
+
+.reveal .slides section.title-slide {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: $brand-green;
+    z-index: 1;
+  }
+}
+
+// Header bar for all slides via custom class
+.reveal .slides section.has-header {
+  &::before {
+    content: attr(data-header);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: $brand-green;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 100;
+  }
+}
+
+// ============================================
+// TYPOGRAPHY
+// ============================================
+
+.reveal {
+  font-weight: 400;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: $headingFontWeight;
+    line-height: $headingLineHeight;
+    letter-spacing: $headingLetterSpacing;
+  }
+
+  h1 {
+    font-weight: 900;
+  }
+
+  // Text hierarchy with opacity
+  .text-secondary {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .text-muted {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  // Handwriting font for doodles
+  .doodle-text, .handwriting {
+    font-family: 'Caveat', cursive;
+    color: $brand-green;
+  }
+
+  // Larger subtext style
+  .subtext {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8em;
+    margin-top: 1em;
+  }
+}
+
+// ============================================
+// HIGHLIGHT / ACCENT
+// ============================================
+
+.reveal {
+  .highlight, .accent {
+    color: $brand-green;
+  }
+
+  // Green background highlight
+  .highlight-bg {
+    background: $brand-green;
+    color: white;
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+  }
+}
+
+// ============================================
+// DOODLE ELEMENTS
+// ============================================
+
+.reveal {
+  // Hand-drawn circle around text
+  .doodle-circle {
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -15px;
+      right: -15px;
+      bottom: -10px;
+      border: 4px solid $brand-green;
+      border-radius: 50% 45% 55% 48%;
+      transform: rotate(-2deg);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+  }
+
+  // Hand-drawn underline
+  .doodle-underline {
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: -3px;
+      right: -3px;
+      height: 5px;
+      background: $brand-green;
+      border-radius: 3px;
+      transform: rotate(-1deg);
+    }
+  }
+
+  // Sparkle decoration
+  .sparkle {
+    color: $brand-green;
+    opacity: 0.6;
+    font-size: 1.2em;
+  }
+}
+
+// ============================================
+// CARDS & BOXES
+// ============================================
+
+.reveal {
+  .card, .box {
+    background: $card-bg;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: left;
+  }
+
+  .card.active, .box.active {
+    border-color: $brand-green;
+    background: rgba($brand-green, 0.1);
+  }
+
+  // Comparison boxes side by side
+  .comparison {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+
+    .box {
+      width: 300px;
+      text-align: center;
+    }
+
+    .arrow {
+      font-size: 60px;
+      color: $brand-green;
+    }
+  }
+
+  // Grid of cards
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    &.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+// ============================================
+// LISTS
+// ============================================
+
+.reveal {
+  ul, ol {
+    text-align: left;
+
+    li {
+      margin-bottom: 0.5em;
+
+      &::marker {
+        color: $brand-green;
+      }
+    }
+  }
+
+  // Icon list (no bullets, icons before)
+  .icon-list {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 25px;
+      background: $card-bg;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      margin-bottom: 15px;
+
+      .icon {
+        font-size: 1.5em;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+// ============================================
+// ICONS & DECORATIONS
+// ============================================
+
+.reveal {
+  .icon-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    background: $card-bg;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+
+    &.green, &.accent {
+      border-color: $brand-green;
+      background: rgba($brand-green, 0.15);
+    }
+  }
+
+  .icons-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+
+    .plus {
+      font-size: 2em;
+      color: $brand-green;
+      font-family: 'Caveat', cursive;
+    }
+  }
+}
+
+// ============================================
+// CODE BLOCKS
+// ============================================
+
+.reveal {
+  pre {
+    background: $card-bg;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+
+    code {
+      background: transparent;
+      color: #e6e6e6;
+    }
+  }
+
+  code {
+    background: rgba($brand-green, 0.1);
+    color: $brand-green-light;
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+}
+
+// ============================================
+// IMAGES
+// ============================================
+
+.reveal {
+  img {
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  // Remove shadow for logos/icons
+  img.no-shadow, img.logo {
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
+
+// ============================================
+// COLUMNS / LAYOUT
+// ============================================
+
+.reveal {
+  .columns {
+    display: flex;
+    gap: 40px;
+
+    .column {
+      flex: 1;
+    }
+  }
+
+  // Center content vertically
+  .v-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+}
+
+// ============================================
+// CTA / CALL TO ACTION
+// ============================================
+
+.reveal {
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: $card-bg;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px 35px;
+    margin: 10px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s;
+
+    &:hover {
+      border-color: $brand-green;
+      background: rgba($brand-green, 0.1);
+    }
+
+    &.primary {
+      background: $brand-green;
+      border-color: $brand-green;
+
+      &:hover {
+        background: $brand-green-light;
+      }
+    }
+
+    .icon {
+      font-size: 1.5em;
+    }
+  }
+}
+
+// ============================================
+// SLIDE NUMBER & CONTROLS
+// ============================================
+
+.reveal {
+  .slide-number {
+    background: rgba($brand-green, 0.8);
+    color: white;
+    font-family: $mainFont;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 8px;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .controls {
+    color: $brand-green;
+  }
+
+  .progress {
+    background: rgba(255, 255, 255, 0.1);
+
+    span {
+      background: $brand-green;
+    }
+  }
+}
+
+// ============================================
+// FRAGMENTS / ANIMATIONS
+// ============================================
+
+.reveal {
+  .fragment {
+    transition: all 0.3s ease;
+  }
+
+  .fragment.fade-in-then-out {
+    &.visible:not(.current-fragment) {
+      opacity: 0.3;
+    }
+  }
+}
+
+// ============================================
+// SPECIAL SLIDE TYPES
+// ============================================
+
+// Section divider slide
+.reveal section.section-slide {
+  background: $brand-green;
+
+  h1, h2, h3 {
+    color: white;
+  }
+}
+
+// Quote slide
+.reveal section.quote-slide {
+  blockquote {
+    font-size: 1.3em;
+    font-style: italic;
+    border-left: 4px solid $brand-green;
+    padding-left: 30px;
+    margin: 0;
+    text-align: left;
+
+    cite {
+      display: block;
+      margin-top: 1em;
+      font-size: 0.7em;
+      font-style: normal;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+}
+
+// ============================================
+// FOOTER / BRANDING
+// ============================================
+
+.reveal {
+  .footer {
+    position: absolute;
+    bottom: 20px;
+    left: 40px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .powered-by {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7em;
+
+    span {
+      color: $brand-green;
+      font-weight: 600;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+---
+title: "Latency Budget"
+author: "Scott Bell"
+description: "The total acceptable response time for an operation, allocated across component steps."
+date: "2026-02-09"
+categories:
+  - definitions
+  - agents
+  - architecture
+---
+
+## Brief Summary
+
+A Latency Budget is the total acceptable response time for an operation, allocated across component steps. In AI systems, this means budgeting time across LLM calls, tool executions, retrieval steps, and reasoning loops to deliver results within user expectations.
+
+## Discussion
+
+Latency budgets are a well-established concept in distributed systems engineering: you have N milliseconds to respond, and you need to allocate those milliseconds across every component in the request path. The concept translates directly to AI systems, where the stakes are even higher because individual components (LLM inference, embedding generation, vector search) are often slower than traditional service calls.
+
+Consider an AI-powered customer support agent. The user expects a response within 5 seconds. Your budget:
+
+- **Input guardrails**: 100ms to check for {{< defn "Prompt Injection" >}} and validate input
+- **Context retrieval**: 200ms for vector search + document fetch
+- **LLM inference**: 2-3 seconds for the main model call (the biggest consumer)
+- **Output guardrails**: 100ms to validate the response
+- **Tool execution**: 0-1 second if the agent needs to call external APIs
+- **Overhead**: 100ms for serialisation, network, logging
+
+That's already tight for a single-step response. Now consider an {{< defn "Agentic Loop" >}} where the model might make 3-5 tool calls before producing a final answer. Each iteration adds another LLM call (2-3 seconds) plus tool execution time. A 5-iteration loop easily blows through 15 seconds, which is well beyond what most users will tolerate for a synchronous interaction.
+
+This creates fundamental design constraints:
+
+**Model selection** — faster, smaller models for latency-sensitive steps. Use a fast model for routing and classification, reserve the expensive model for the final response. This is where {{< defn "Prompt Chaining" >}} with mixed models earns its keep.
+
+**Parallelism** — execute independent steps concurrently. Retrieve documents while checking guardrails. Call multiple tools simultaneously rather than sequentially.
+
+**Caching** — cache embedding results, tool responses, and even LLM outputs for common queries. A cache hit at the retrieval layer saves 200ms; a semantic cache hit at the LLM layer saves 2-3 seconds.
+
+**Streaming** — for interactive applications, stream the response token by token rather than waiting for completion. The user perceives faster response even though total latency is unchanged.
+
+**Graceful degradation** — if the budget is almost exhausted, skip optional steps. Return a good-enough answer without the final refinement pass rather than timing out entirely.
+
+The teams that struggle most with latency are the ones building agentic systems without explicit budgets. They add {{< defn "Guardrails" >}}, retrieval steps, and multi-step reasoning without accounting for the cumulative latency impact. The fix is to treat the latency budget as a first-class design constraint from the start, not an afterthought when users complain about slowness.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

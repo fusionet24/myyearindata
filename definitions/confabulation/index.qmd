@@ -1,0 +1,38 @@
+---
+title: "Confabulation"
+author: "Scott Bell"
+description: "The more precise neuroscience-borrowed term for what LLMs do when they fabricate plausible-sounding details."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - llm
+---
+
+## Brief Summary
+
+Confabulation is a more precise term, borrowed from neuroscience, for what LLMs do when they fill gaps in knowledge with plausible-sounding but fabricated details, without any awareness that they are doing so. Unlike {{< defn "Hallucination" >}}, which implies a perceptual experience, confabulation accurately describes the mechanism: generating coherent narratives that happen to be false.
+
+## Discussion
+
+In neuroscience, confabulation describes what happens when patients with certain brain injuries produce false memories or explanations — not as lies (they genuinely believe what they're saying), but as the brain's attempt to fill gaps in memory with coherent narratives. The patients are not aware they're confabulating. There is no intent to deceive.
+
+This is a remarkably precise analogy for what LLMs do. When a model encounters a gap in its knowledge — a question it can't confidently answer from training data — it doesn't flag uncertainty. Instead, it generates the most probable continuation, which may be entirely fabricated. The model has no internal mechanism to distinguish "I know this" from "I'm making this up." It's not lying. It's confabulating.
+
+The case for adopting "confabulation" over "hallucination" is straightforward:
+
+**Accuracy.** Hallucination implies perceiving something that isn't there — a sensory metaphor. LLMs don't perceive anything. Confabulation describes generating false narratives to fill knowledge gaps, which is exactly what's happening.
+
+**Better mental model.** If you think of LLM errors as "hallucinations," you might expect them to look obviously wrong — like seeing pink elephants. But confabulations are designed (by the brain, by the model) to be coherent and plausible. That's what makes them dangerous. The confabulation framing correctly sets the expectation that these errors will be hard to spot.
+
+**No implication of awareness.** "Hallucination" in common usage often implies the person knows they're experiencing something unusual. Confabulation captures the key property that the model has no awareness of its own fabrication.
+
+In practice, both terms describe the same phenomenon. But if you're building systems that depend on LLM accuracy, the confabulation framing leads to better engineering decisions. It reminds you that the model will generate confident, coherent, completely wrong outputs — and that {{< defn "Grounding" >}} and verification are not optional nice-to-haves but essential safeguards.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

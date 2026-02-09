@@ -1,0 +1,42 @@
+---
+title: "Hallucination"
+author: "Scott Bell"
+description: "When an LLM generates factually incorrect or fabricated information and presents it as fact."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - llm
+---
+
+## Brief Summary
+
+Hallucination is when an LLM generates factually incorrect or fabricated information and presents it as fact, producing confident-sounding outputs that have no basis in its training data or provided context. The model has no mechanism to distinguish between what it "knows" and what it's fabricating.
+
+## Discussion
+
+"Hallucination" is the term the AI industry settled on, but it's arguably the wrong metaphor. A hallucination implies perceiving something that isn't there — a sensory experience. LLMs don't perceive anything. What they actually do is closer to {{< defn "Confabulation" >}}: filling gaps in knowledge with plausible-sounding fabrication, without any awareness that they're doing so. The neuroscience term is more precise and more useful for understanding what's actually happening.
+
+That said, the term "hallucination" is so widely established that you need to know it even if you prefer the more accurate alternative.
+
+The mechanism is straightforward: LLMs are next-token prediction machines. They generate the most statistically likely continuation of the text so far. When the "correct" answer isn't strongly represented in the model's training data, the model doesn't stop and say "I don't know" — it generates whatever pattern-matches best, which may be completely fabricated. Crucially, the confidence of the output is not a signal of its accuracy. The model sounds exactly the same whether it's stating a well-established fact or inventing a citation that doesn't exist.
+
+Common hallucination patterns include:
+
+**Fabricated citations** — the model invents papers, authors, URLs, and publication dates that sound plausible but don't exist. This is one of the most well-known and well-documented failure modes.
+
+**Confident nonsense** — the model generates detailed, authoritative-sounding explanations of things that are simply wrong.
+
+**Blended facts** — the model combines real facts from different contexts in ways that produce false statements. Each component might be true, but the combination is not.
+
+The primary mitigation is {{< defn "Grounding" >}} — giving the model access to authoritative sources and instructing it to reference them rather than relying on parametric knowledge. {{< defn "Structured Outputs" >}} with explicit citation requirements also help, as they force the model to connect claims to sources (though the model can still fabricate the citations).
+
+The deeper issue is that "hallucination" isn't a bug — it's a fundamental property of how these models work. You cannot fully eliminate it, only reduce its frequency and impact. Treat every LLM output as a first draft that needs verification, not as a source of truth.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

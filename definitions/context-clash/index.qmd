@@ -1,0 +1,40 @@
+---
+title: "Context Clash"
+author: "Scott Bell"
+description: "When different sources of information in an LLM's context window contradict each other."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - context-engineering
+---
+
+## Brief Summary
+
+Context Clash occurs when different sources of information in an LLM's context window — system prompts, user instructions, retrieved documents, tool outputs — contradict each other, causing confused or inconsistent model behaviour. The model must implicitly resolve conflicts it was never designed to arbitrate.
+
+## Discussion
+
+Every time you assemble a context window for an LLM, you're combining multiple sources of information that were written independently and may not agree with each other. A system prompt says "always respond in formal English." A retrieved document is in French. The user says "be casual." A tool returns data that contradicts what the user just claimed. Welcome to context clash.
+
+The model has no principled way to resolve these conflicts. It doesn't have a hierarchy of trust baked in — it can't intrinsically know that the system prompt should override a retrieved document, or that a user's explicit instruction should take precedence over a few-shot example. Instead, it resolves conflicts through a messy combination of {{< defn "Positional Bias" >}}, training priors, and whatever patterns happen to activate most strongly.
+
+In practice, context clash manifests in several ways:
+
+**Instruction conflicts** — the system prompt says one thing, the user says another. Models typically default to the most recent or most emphatic instruction, which may not be the one you intended to win.
+
+**Factual contradictions** — retrieved documents disagree with each other, or with the user's stated assumptions. The model may blend them into an incoherent answer, or silently pick one without explaining why.
+
+**Behavioural confusion** — the model oscillates between different personas or response styles because different parts of the context push it in different directions.
+
+This is closely related to {{< defn "Context Rot" >}} — as conversations grow longer, the probability of context clash increases simply because there's more content that might contradict itself. It also compounds with {{< defn "Context Bloat" >}}: the more unnecessary information in the window, the more opportunities for contradiction.
+
+The mitigation is careful {{< defn "Context Engineering" >}}. Be intentional about what goes into the context, establish clear priority hierarchies in your system prompt ("if instructions conflict, prefer the most recent user message over retrieved content"), and test with adversarial inputs that deliberately create contradictions. You can't eliminate context clash entirely, but you can make the model's resolution strategy more predictable.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

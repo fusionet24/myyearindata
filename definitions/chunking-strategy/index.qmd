@@ -1,0 +1,46 @@
+---
+title: "Chunking Strategy"
+author: "Scott Bell"
+description: "How documents are split into segments for embedding and retrieval in RAG systems."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - data-engineering
+---
+
+## Brief Summary
+
+Chunking Strategy is the approach used to split documents into smaller segments for embedding and retrieval in RAG systems, directly affecting retrieval quality and the relevance of context provided to the LLM. The choice of chunk size, overlap, and boundary detection determines whether the right information reaches the model.
+
+## Discussion
+
+Chunking is one of those decisions that sounds trivial but has outsized impact on RAG system quality. Get it right and your retrieval returns precisely the context the model needs. Get it wrong and you either return fragments too small to be useful or blocks too large to be relevant.
+
+The main approaches, roughly ordered from simplest to most sophisticated:
+
+**Fixed-size chunking** — split every N tokens with optional overlap. Dead simple, works surprisingly well as a baseline, but cuts through sentences and ideas without regard for meaning. A 512-token chunk might start mid-paragraph and end mid-sentence.
+
+**Recursive character splitting** — try to split on paragraph boundaries, fall back to sentence boundaries, then word boundaries. This is what LangChain's `RecursiveCharacterTextSplitter` does, and it's a reasonable default for most use cases.
+
+**Semantic chunking** — use embeddings to detect where the topic changes within a document, and split at those boundaries. More expensive to compute but produces chunks that are thematically coherent.
+
+**Document-structure-aware chunking** — use the document's own structure (headings, sections, code blocks, tables) as chunk boundaries. This works well for structured content like documentation, legal texts, or technical specifications.
+
+The key trade-offs are:
+
+**Chunk size** — smaller chunks are more precise (higher relevance when they match) but lose context. Larger chunks preserve context but may include irrelevant material that dilutes the signal. Most systems settle somewhere between 256 and 1024 tokens.
+
+**Overlap** — overlapping chunks ensure that information near a boundary isn't lost, at the cost of storing redundant content. 10-20% overlap is common.
+
+**Metadata preservation** — attaching source document metadata (title, section heading, date, author) to each chunk helps the model contextualise the retrieved content and helps with {{< defn "Grounding" >}}.
+
+In practice, the best chunking strategy depends on your content. Highly structured documents (API docs, legal contracts) benefit from structure-aware chunking. Conversational or narrative content works well with recursive splitting. The only universal advice is: don't default to fixed-size chunking without testing alternatives, and always evaluate retrieval quality end-to-end rather than optimising chunks in isolation.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

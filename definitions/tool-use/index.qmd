@@ -1,0 +1,38 @@
+---
+title: "Tool Use / Function Calling"
+author: "Scott Bell"
+description: "The ability of LLMs to generate structured calls to external functions and APIs."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - agents
+---
+
+## Brief Summary
+
+Tool Use (also called Function Calling) is the ability of LLMs to generate structured calls to external functions, APIs, or tools rather than producing prose, enabling them to take real-world actions and access live data. The model outputs a structured request specifying which tool to call and with what parameters, and the calling system executes it.
+
+## Discussion
+
+Tool use is the capability that turns a language model from a text generator into something that can actually do things. Without it, an LLM can only produce words. With it, the model can search the web, query databases, read files, send emails, execute code, and interact with any system that exposes an API.
+
+The mechanism is straightforward: you provide the model with a list of available tools (described as schemas with names, descriptions, and parameter types), and when the model decides it needs to use one, it outputs a structured object — typically JSON — specifying the tool name and arguments. Your code then executes the actual function call and returns the result to the model for further processing.
+
+This is the foundation of the {{< defn "Agentic Loop" >}}. Without tool use, agents would have no way to affect the world or gather information beyond what's in their context window.
+
+The quality of tool descriptions matters enormously. Models choose tools based on natural language descriptions, so a poorly described tool gets used incorrectly or not at all. This is also the attack surface for {{< defn "Tool Poisoning" >}} — if an attacker can influence tool descriptions, they can manipulate which tools the agent calls and with what parameters.
+
+There's an important distinction between tool use as a capability and the protocols that enable it. The MCP (Model Context Protocol) standardises how tools are discovered and invoked across different systems. OpenAI's function calling, Anthropic's tool use, and Google's function declarations are all implementations of the same underlying concept with different API shapes.
+
+In practice, the challenge isn't making tool calls work — that's solved by the API providers. The challenge is designing good tool interfaces: clear descriptions, sensible parameter schemas, appropriate granularity (not too many tools, not too few), and proper error handling. A model with access to 200 poorly described tools performs worse than one with access to 10 well-designed ones.
+
+{{< defn "Structured Outputs" >}} are closely related — they're about constraining the model's text output to a schema, while tool use is about the model requesting that external code be executed. In practice, the two often work together: the model makes a tool call, receives structured data back, and produces structured output as its response.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

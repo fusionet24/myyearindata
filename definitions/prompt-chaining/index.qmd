@@ -1,0 +1,42 @@
+---
+title: "Prompt Chaining"
+author: "Scott Bell"
+description: "Breaking a complex task into sequential LLM calls where each output feeds the next."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - prompt-design
+---
+
+## Brief Summary
+
+Prompt Chaining is the technique of breaking a complex task into a sequence of LLM calls where each step's output feeds into the next as input, enabling more reliable and controllable multi-step reasoning than attempting everything in a single prompt.
+
+## Discussion
+
+The instinct when working with LLMs is to try to do everything in one shot: give it all the context, all the instructions, and hope for the best. Prompt chaining is the recognition that this rarely works well for complex tasks, and that breaking the work into discrete steps produces better, more predictable results.
+
+The simplest chain is two steps: "First, extract the key facts from this document. Then, using only those facts, write a summary." By separating extraction from synthesis, you give the model a cleaner task at each step and you get an intermediate output you can inspect, log, or validate before proceeding.
+
+Chains can be linear (A → B → C) or branching (A → B and A → C, then combine). Common patterns include:
+
+**Extract-then-generate** — pull structured data from unstructured input, then use that data for downstream tasks. This is the backbone of most document processing pipelines.
+
+**Draft-then-refine** — generate a first pass, then use a second call to critique and improve it. This is surprisingly effective and mimics how humans actually write.
+
+**Classify-then-route** — use a cheap, fast model to categorise input, then route to specialised prompts based on the classification.
+
+The key advantage over single-prompt approaches is controllability. Each step in the chain has a defined input and output, making it easier to debug, test, and iterate. If step 3 is producing bad results, you can fix step 3 without touching steps 1 and 2.
+
+Prompt chaining is a building block for more sophisticated patterns. An {{< defn "Agentic Loop" >}} is essentially prompt chaining where the chain is dynamic — the model decides what the next step should be rather than following a predetermined sequence. {{< defn "Structured Outputs" >}} at each step make chains more robust by ensuring the output of one step is parseable as the input to the next.
+
+The main trade-off is latency and cost: each step is a separate API call. This is where {{< defn "Latency Budget" >}} thinking becomes important — you need to decide how many steps you can afford given your response time requirements.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.

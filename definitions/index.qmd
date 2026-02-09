@@ -1,0 +1,11 @@
+---
+title: "Definitions"
+description: "A living glossary of terms and concepts used across MyYearInData, with detailed discussion, annotated references, and updates."
+listing:
+  contents: "*/index.qmd"
+  sort: "title asc"
+  type: default
+  categories: true
+page-layout: full
+title-block-banner: false
+---

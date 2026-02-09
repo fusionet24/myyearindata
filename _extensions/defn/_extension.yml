@@ -1,0 +1,6 @@
+title: Definition Links
+author: Scott Bell
+version: 1.0.0
+contributes:
+  shortcodes:
+    - defn.lua

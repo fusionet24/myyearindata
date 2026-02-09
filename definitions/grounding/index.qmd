@@ -1,0 +1,40 @@
+---
+title: "Grounding"
+author: "Scott Bell"
+description: "Tethering LLM outputs to verified, authoritative data sources to improve factual accuracy."
+date: "2026-02-09"
+categories:
+  - definitions
+  - ai
+  - llm
+---
+
+## Brief Summary
+
+Grounding is the practice of tethering LLM outputs to verified, authoritative data sources — such as search results, databases, or documents — to reduce {{< defn "Hallucination" >}} and improve factual accuracy. Rather than relying solely on the model's parametric knowledge, grounded systems provide external evidence for the model to reference.
+
+## Discussion
+
+An ungrounded LLM is essentially generating text from patterns in its training data. It has no way to distinguish between something it "knows" confidently and something it's pattern-matching from vague associations. Grounding changes this by giving the model access to authoritative external information at inference time.
+
+The most common grounding approach is retrieval-augmented generation (RAG), where relevant documents are retrieved from a knowledge base and injected into the context window alongside the user's query. The model then generates its response with reference to these documents rather than relying purely on parametric memory. This is where {{< defn "Chunking Strategy" >}} becomes critical — the quality of grounding depends directly on the quality and relevance of retrieved chunks.
+
+Other grounding mechanisms include:
+
+**Search grounding** — the model's response is backed by real-time web search results. Google's Gemini and Perplexity both use this approach.
+
+**Database grounding** — the model queries structured data sources to verify claims or retrieve specific facts before responding.
+
+**Tool-based grounding** — using {{< defn "Tool Use" >}} to call verification APIs, calculators, or fact-checking services during generation.
+
+The key insight is that grounding doesn't eliminate {{< defn "Confabulation" >}} entirely — the model can still fabricate details even when provided with source material. What grounding does is dramatically reduce the surface area for fabrication by giving the model something concrete to anchor to. It shifts the failure mode from "making things up from nothing" to "occasionally misinterpreting or misquoting a source," which is a much more tractable problem.
+
+The practical challenge is ensuring your grounding sources are themselves accurate and current. Grounding against a stale knowledge base gives you confident answers that are confidently outdated — a problem closely related to {{< defn "Data Drift" >}}.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-02-09**: Initial definition published.
