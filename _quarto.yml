@@ -8,11 +8,6 @@ website:
   title: "MyYearInData"
   site-url: "https://www.myyearindata.com"
   description: "Data engineering, architecture, and AI insights from Scott Bell. Exploring governance, security, and the evolving landscape of intelligent systems."
-  announcement:
-    content: "🔥 [databricks.news](https://databricks.news) — Bite-sized Databricks tips, straight to your inbox"
-    type: danger
-    position: above-navbar
-    dismissable: true
   open-graph:
     locale: en_GB
     site-name: MyYearInData

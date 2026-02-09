@@ -1,5 +1,66 @@
 /* css styles */
 
+/* Announcement banner */
+#site-banner {
+    background: linear-gradient(135deg, #e63946, #d62839, #e63946);
+    background-size: 200% 200%;
+    animation: banner-shimmer 6s ease infinite;
+    color: white;
+    text-align: center;
+    padding: 10px 40px 10px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1040;
+}
+@keyframes banner-shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+#site-banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.banner-emoji {
+    font-size: 1.1rem;
+}
+.banner-text a {
+    color: white;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s;
+}
+.banner-text a:hover {
+    opacity: 0.85;
+}
+#site-banner-dismiss {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+}
+#site-banner-dismiss:hover {
+    color: white;
+}
+
+/* Hide duplicate page title on listing pages (keep description) */
+.listing-page-title-hidden {
+    display: none;
+}
+
 /* Green-accented brand title */
 .navbar .navbar-brand .navbar-title {
     font-weight: 700;
