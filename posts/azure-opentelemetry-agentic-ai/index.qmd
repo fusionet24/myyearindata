@@ -1,0 +1,230 @@
+---
+title: "Observing the Unobservable: OpenTelemetry's Agentic AI Spec and What It Means for Azure"
+author: "Scott Bell"
+description: "The OpenTelemetry GenAI semantic conventions are being rewritten for multi-agent systems. Here's what changed, why traditional telemetry fails for agentic AI, and how Azure AI Foundry and Application Insights are adopting the new standard."
+ai-label: "AI Assisted"
+date: "2026-02-07"
+draft: false
+categories:
+  - ai
+  - agents
+  - agentic
+  - azure
+  - aiops
+  - architecture
+---
+
+::: {.callout-note appearance="simple"}
+This post was developed with the help of AI based on my research.
+:::
+
+If you've been building agentic AI systems and relying on traditional application monitoring to understand what's happening, you've probably already discovered the hard truth: **your telemetry is lying to you.** Not deliberately. It just wasn't designed for what agents actually do.
+
+Traditional distributed tracing assumes a request flows through a predictable chain of services. A calls B, B calls C, you get a waterfall, you find your bottleneck. Agents don't work like that. They reason, branch, delegate to other agents, call tools speculatively, retry with different strategies, and produce different execution paths for identical inputs. Your existing traces capture the shape of the plumbing but miss the substance of what's actually happening inside the agent's decision-making.
+
+This is the problem that [OpenTelemetry's GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) are trying to solve. And in the last year, the spec has evolved significantly to address multi-agent systems specifically. Microsoft and Cisco's Outshift have been driving much of this work, and Azure AI Foundry is now the first major cloud platform to ship production support for these conventions through Application Insights.
+
+Let's break down what changed, why it matters, and what challenges remain.
+
+## Why Traditional Telemetry Breaks for Agents
+
+Before getting into the spec, it's worth understanding exactly where existing observability falls apart with agentic AI. It's not just "agents are different." The failure modes are specific and instructive.
+
+### Non-Determinism Breaks Root Cause Analysis
+
+A traditional service either works or it doesn't. If it returns a 500 error, you can trace back through the call chain and find the root cause. With agents, the same prompt can succeed once and fail the next time. The model might choose the right tool, then choose the wrong one, then choose the right one but with wrong parameters. Your traces show three different execution paths for the same input. Which one is "correct"? All of them. None of them. It depends.
+
+Traditional monitoring tools surface anomalies by comparing against baselines. When the baseline itself is non-deterministic, your anomaly detection is fighting noise rather than signal.
+
+### Multi-Agent Fan-Out Defies Waterfall Visualisation
+
+When an orchestrator agent delegates to three specialist agents, two of which call tools in parallel, one of which spawns a sub-agent that calls back to the orchestrator for clarification, you end up with a trace that looks less like a waterfall and more like a plate of spaghetti.
+
+Existing APM tools struggle with this. They were built for linear request-response chains with predictable depth. Agent traces are recursive, branching, and variable-depth. The visualisation problem alone is non-trivial, but the deeper issue is semantic: **what do you actually want to see?** The token cost breakdown? The reasoning chain? The tool selection decisions? The inter-agent handoffs? Traditional spans don't capture any of this at the right level of abstraction.
+
+### The Volume Problem
+
+A single agentic interaction can produce hundreds of telemetry signals. Every LLM call generates token counts, latency measurements, and content. Every tool invocation has inputs, outputs, and timing. Every agent handoff carries context. Multiply this by a multi-agent system processing thousands of requests and you've got a telemetry firehose that's expensive to store and difficult to query meaningfully.
+
+The tension between capturing enough detail for debugging and keeping costs manageable is real and unsolved by existing tooling.
+
+### The Standardisation Gap
+
+Before the recent spec work, every framework did observability differently. LangChain had its own tracing format. CrewAI had another. Semantic Kernel had yet another. If your system used multiple frameworks (and many do), correlating traces across them required custom glue code. You were essentially building a bespoke observability layer for every project.
+
+This is the problem standards are meant to solve. And it's exactly what the OpenTelemetry GenAI SIG has been working on.
+
+## The OpenTelemetry GenAI Semantic Conventions
+
+The [GenAI SIG](https://opentelemetry.io/blog/2025/ai-agent-observability/) started in April 2024 under the OpenTelemetry Semantic Conventions working group. Their job is to define the exact attribute names, types, and enum values for LLM calls, agent operations, sessions, tool invocations, and quality metrics. When these conventions stabilise, instrumentations, collectors, and observability platforms can produce consistent dashboards and tooling across vendors.
+
+The work has evolved in two phases.
+
+### Phase 1: Model-Level Conventions
+
+The initial conventions focused on individual LLM calls, the `gen_ai.operation.name` values like `chat`, `text_completion`, and `embeddings`. These gave you visibility into model interactions: which model was called, how many tokens were consumed, what the latency was.
+
+Useful, but limited. Knowing that `gpt-4o` was called with 1,200 input tokens tells you nothing about *why* it was called, *which agent* called it, or *what decision* led to that call.
+
+### Phase 2: Agent and Framework Spans
+
+This is where it gets interesting. The [Semantic Conventions for GenAI Agent and Framework Spans](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/) introduce first-class support for agent operations. The key additions:
+
+**`create_agent`** — Describes agent creation, primarily relevant for remote agent services. The span name follows the pattern `create_agent {gen_ai.agent.name}`. This matters when you're working with hosted agent services like OpenAI's Assistants API or AWS Bedrock Agents, where agent lifecycle management is an explicit operation.
+
+**`invoke_agent`** — Describes agent invocation. Span name: `invoke_agent {gen_ai.agent.name}`. The spec makes an important distinction here: use `CLIENT` span kind for remote agents (OpenAI Assistants, Bedrock Agents) and `INTERNAL` for in-process agents (LangChain, CrewAI). This distinction matters for trace topology, if you're calling a remote agent service, the trace should reflect the network boundary.
+
+**`execute_tool`** — Traces tool execution with a typed classification system:
+
+| Tool Type | Description |
+|-----------|-------------|
+| `extension` | Agent-side tool calling external APIs directly |
+| `function` | Client-side tool where the agent generates parameters and the client executes |
+| `datastore` | Tool for accessing structured/unstructured data (RAG, knowledge bases) |
+
+This typing is significant. Knowing that a tool is a `datastore` type immediately tells you to look for retrieval quality issues. Knowing it's an `extension` tells you an external API was called and you should check for latency and failure rates. The semantics carry operational meaning.
+
+**Agent identity attributes** round out the picture:
+
+- `gen_ai.agent.id` — Unique identifier
+- `gen_ai.agent.name` — Human-readable name
+- `gen_ai.agent.description` — Free-form description
+- `gen_ai.conversation.id` — Session/thread identifier
+- `gen_ai.tool.definitions` — Available tool specifications (opt-in, can be large)
+
+These are currently in **Development** status, not yet stable. Instrumentations should gate them behind the `OTEL_SEMCONV_STABILITY_OPT_IN` environment variable with `gen_ai_latest_experimental`.
+
+## Microsoft and Cisco's Multi-Agent Proposal
+
+The agent spans above handle single-agent scenarios reasonably well. But the real complexity lives in multi-agent systems, and this is where [Microsoft and Cisco's Outshift collaboration](https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/azure-ai-foundry-advancing-opentelemetry-and-delivering-unified-multi-agent-obse/4456039) has pushed the spec further.
+
+As [SDxCentral reported](https://www.sdxcentral.com/analysis/how-microsoft-and-cisco-agentified-azure/), Microsoft's Yina Arenas (CVP of Product for Azure AI Foundry) brought the multi-agent tracing idea to the OpenTelemetry community, where Cisco's Outshift team had been working on similar problems. The collaboration produced several new span types and attributes that have been [merged into the OpenTelemetry spec](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/):
+
+**`execute_task`** — Captures task decomposition and event propagation across agents. This is the missing link for multi-agent observability: you can now see how a complex operation gets broken down and distributed.
+
+**Child spans for agent internals:**
+
+- `agent_planning` — Records the agent's internal reasoning steps
+- `agent_orchestration` — Captures coordination mechanisms between agents
+- `agent.state.management` — Monitors context and memory management
+- `agent_to_agent_interaction` — Traces communication pathways between agents
+
+**Enhanced tool attributes:**
+
+- `tool.call.arguments` — Parameters passed during invocation
+- `tool.call.results` — Execution outputs
+
+**Evaluation events** — A new `Evaluation` event type for structured performance assessment, carrying attributes for name, error type, and outcome labels. This bridges the gap between observability and evaluation, letting you assess agent quality directly from trace data.
+
+The proposal also introduced a broader conceptual model from [Issue #2664](https://github.com/open-telemetry/semantic-conventions/issues/2664) covering **Tasks**, **Actions**, **Teams**, **Artifacts**, and **Memory** as first-class concepts. Tasks define what needs to be done. Actions describe how. Teams capture agent collaboration structures. Artifacts track inputs and outputs. Memory provides persistent context across sessions. This is still evolving but it represents the most comprehensive attempt at standardising multi-agent telemetry to date.
+
+Crucially, the entire proposal builds on **W3C Trace Context** for context propagation. This means multi-agent traces can span process boundaries, network boundaries, and even framework boundaries while maintaining a single correlated trace. An orchestrator agent built with Semantic Kernel can delegate to a specialist agent built with LangGraph, and the trace remains coherent.
+
+## Azure AI Foundry and Application Insights
+
+This is where the spec meets implementation. [Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-setup) stores traces in Azure Application Insights using these OpenTelemetry semantic conventions. The integration is straightforward. Here's the core setup in Python:
+
+```python
+pip install azure-ai-projects azure-identity opentelemetry-sdk azure-core-tracing-opentelemetry
+```
+
+From there, the Azure Monitor OpenTelemetry Distro handles the collection and export. Traces flow into Application Insights where the end-to-end transaction view has been updated to understand agent semantics. Instead of generic spans, you see `invoke_agent`, `execute_tool`, and the underlying LLM calls in context.
+
+What makes this more than a tracing exercise is the **multi-framework support**. Azure AI Foundry provides unified observability across:
+
+- **Microsoft Agent Framework** (native)
+- **Semantic Kernel** (native)
+- **LangChain** and **LangGraph** (via Azure AI packages)
+- **OpenAI Agents SDK** (via Azure AI packages)
+
+This means you can build a system where agents from different frameworks collaborate, and get a single coherent trace across all of them through Application Insights. That's the promise of standards-based observability actually delivering on its promise.
+
+For third-party agents that aren't built on a supported framework, the **Azure AI OpenTelemetry Tracer** provides a way to emit compatible telemetry, and these agents can be registered in Azure AI Foundry for centralised monitoring.
+
+## The Challenges That Remain
+
+The spec work and Azure's implementation are genuine progress. But I'd be doing you a disservice if I suggested this is a solved problem. Several hard challenges remain.
+
+### Content vs. Cost
+
+The most useful debugging information in an agent trace is the actual content: what was the prompt, what did the model return, what arguments were passed to tools, what did the retrieval step find. The spec explicitly notes that instrumentations **should not capture content by default** due to volume and sensitivity concerns.
+
+This creates a tension. In development, you want everything. In production, capturing full message content for every interaction is prohibitively expensive and potentially a compliance risk (PII in prompts, sensitive data in tool responses). The spec recommends either recording content on spans via opt-in attributes (`gen_ai.input.messages`, `gen_ai.output.messages`) or storing content externally with references on spans. Neither approach is seamless.
+
+### Evaluation Integration
+
+The new `Evaluation` event type is a step forward, but the relationship between observability and evaluation in AI systems is fundamentally more complex than in traditional software. You can't just check if the response was a 200 OK. Quality assessment for agent outputs often requires human judgement, domain-specific scoring, or secondary model evaluation.
+
+The spec provides the hooks for recording evaluation results, but the hard problem of *how to evaluate* remains outside its scope. Organisations need to build their own evaluation pipelines and connect them to the telemetry, which is non-trivial.
+
+### Visualisation Is Unsolved
+
+I mentioned earlier that multi-agent traces defy waterfall visualisation. The spec gives you the data model to capture these complex interactions. But no observability tool I've seen adequately visualises a multi-agent trace where agents plan, delegate, run in parallel, merge results, and iterate. Application Insights' simple view is a genuine improvement, showing agent steps in a story-like sequence, but it's still a linearisation of what is fundamentally a non-linear process.
+
+This is as much a UX challenge as a data challenge. The community needs new visualisation paradigms for agent traces that go beyond the waterfall.
+
+### Stability and Adoption
+
+The agent conventions are in **Development** status. They will change. If you instrument against them today, you need to accept that attribute names, types, and semantics may shift before stabilisation. The `OTEL_SEMCONV_STABILITY_OPT_IN` mechanism provides a safety valve, but it also means the ecosystem is fragmented between teams using experimental conventions and those waiting for stability.
+
+For production systems, this creates a pragmatic question: do you adopt now and accept migration costs later, or wait for stability and miss the observability benefits in the meantime? There's no universally right answer. It depends on how critical agent debugging is to your operations versus your tolerance for breaking changes.
+
+### Sensitive Data in Traces
+
+Agent traces can contain sensitive information across multiple attributes: `gen_ai.system_instructions`, `gen_ai.input.messages`, `gen_ai.output.messages`, tool arguments, and tool results. The spec acknowledges this but leaves the responsibility for redaction to implementors.
+
+In practice, this means you need a content filtering pipeline between your agents and your telemetry backend. Azure's guidance recommends redacting PII, secrets, and credentials from prompts, tool arguments, and span attributes before they reach Application Insights. But building reliable content filtering for freeform natural language is itself an unsolved problem, the irony of needing AI to safely observe AI is not lost on me.
+
+## The Instrumentation Decision
+
+The [OTel GenAI SIG blog](https://opentelemetry.io/blog/2025/ai-agent-observability/) outlines two instrumentation strategies for framework developers:
+
+**Baked-in instrumentation** — Frameworks like CrewAI embed OpenTelemetry natively. This simplifies adoption but risks framework bloat and creates a dependency on OTel versions.
+
+**External instrumentation libraries** — Separate packages that wrap framework calls with telemetry. This decouples observability from core framework code but requires users to discover, install, and configure additional packages.
+
+Neither approach is clearly superior. The practical recommendation from the SIG is to provide configuration toggles for enabling/disabling telemetry, register frameworks in the [OpenTelemetry ecosystem registry](https://opentelemetry.io/ecosystem/), and ensure compatibility with popular contrib libraries.
+
+For application developers (as opposed to framework developers), the guidance is simpler: use the Azure Monitor OpenTelemetry Distro if you're on Azure, and manually instrument tool calls that automatic instrumentations don't cover. The `execute_tool` semantic convention is designed to be applied by application code as well as framework code.
+
+## What This Means for Your AIOps Practice
+
+If you're following [this AIOps series](../aiops-journey-what-is-it/index.qmd), agent observability fits squarely into the **Monitoring & Observability** pillar. But it also touches **Security & Risk** (sensitive data in traces), **Cost Management** (telemetry storage costs), and **Governance** (standardised conventions enable auditing).
+
+The practical takeaways:
+
+1. **Start emitting OpenTelemetry from your agents now**, even if the conventions are experimental. The data model is directionally correct and the migration cost when conventions stabilise will be manageable. Having *some* agent telemetry is dramatically better than having none.
+
+2. **Use Azure AI Foundry's multi-framework support** if you're in the Azure ecosystem. The unified observability across Semantic Kernel, LangChain, LangGraph, and OpenAI Agents SDK means you don't have to build your own correlation layer.
+
+3. **Be deliberate about content capture**. Default to off in production. Enable selectively for debugging. Consider an external content store with references rather than embedding full messages in spans.
+
+4. **Build evaluation into your telemetry pipeline**. The `Evaluation` event type gives you the hook. Wire it up to whatever scoring mechanism makes sense for your domain, even if it's manual review initially.
+
+5. **Treat the spec as a living document**. Pin to a specific experimental version via `OTEL_SEMCONV_STABILITY_OPT_IN`, track the [semantic conventions repo](https://github.com/open-telemetry/semantic-conventions), and plan for migration when conventions graduate to stable.
+
+## Conclusion
+
+The OpenTelemetry GenAI semantic conventions represent the most serious attempt to standardise AI agent observability to date. The collaboration between Microsoft, Cisco Outshift, and the broader OTel community has produced a spec that actually reflects the complexity of multi-agent systems, not just single model calls.
+
+Azure AI Foundry's adoption of these conventions through Application Insights makes this actionable today, not just theoretical. You can instrument agents built on different frameworks and get a coherent view of what they're doing, who they're talking to, and where things go wrong.
+
+But let's be clear-eyed: this is early. The conventions are experimental. The visualisation tools are catching up. Content handling is still awkward. And the fundamental challenge of making sense of non-deterministic, multi-agent execution remains as much a human problem as a tooling one.
+
+What's encouraging is that the industry is converging rather than fragmenting. OpenTelemetry as the backbone, W3C Trace Context for propagation, and vendor-specific implementations that stay within the standard. That's the right foundation. The rest will follow.
+
+If you're building agents in production, now is the time to invest in observability. Not because the tooling is perfect, but because debugging agents without telemetry is like debugging distributed systems without logs. Technically possible. Practically miserable.
+
+---
+
+**Further Reading:**
+
+- [OpenTelemetry Semantic Conventions for GenAI](https://opentelemetry.io/docs/specs/semconv/gen-ai/)
+- [GenAI Agent and Framework Spans Spec](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/)
+- [AI Agent Observability: Evolving Standards (OTel Blog)](https://opentelemetry.io/blog/2025/ai-agent-observability/)
+- [Azure AI Foundry: Advancing OpenTelemetry (Microsoft Tech Community)](https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/azure-ai-foundry-advancing-opentelemetry-and-delivering-unified-multi-agent-obse/4456039)
+- [Set Up Tracing for AI Agents in Microsoft Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/observability/how-to/trace-agent-setup)
+- [Monitor AI Agents with Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/agents-view)
+- [Agentic Systems Semantic Conventions Proposal (GitHub Issue #2664)](https://github.com/open-telemetry/semantic-conventions/issues/2664)
+- [How Microsoft and Cisco Agentified Azure (SDxCentral)](https://www.sdxcentral.com/analysis/how-microsoft-and-cisco-agentified-azure/)
+- [Cisco Outshift: AI Observability in Multi-Agent Systems](https://outshift.cisco.com/blog/ai-observability-multi-agent-systems-opentelemetry)
