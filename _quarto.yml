@@ -3,9 +3,11 @@ project:
   resources:
     - robots.txt
     - staticwebapp.config.json
+    - vial-icon.svg
 
 website:
   title: "MyYearInData"
+  favicon: favicon.png
   site-url: "https://www.myyearindata.com"
   description: "Data engineering, architecture, and AI insights from Scott Bell. Exploring governance, security, and the evolving landscape of intelligent systems."
   open-graph:

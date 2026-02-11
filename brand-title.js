@@ -1,9 +1,10 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Green-accented brand title
+  // Green-accented brand title with vial icon
   document.querySelectorAll('.navbar-title').forEach(function(el) {
     if (el.textContent.trim() === 'MyYearInData') {
       el.innerHTML =
+        '<img src="/vial-icon.svg" alt="" class="brand-vial-icon" />' +
         '<span class="brand-prefix">My</span>' +
         '<span class="brand-mid">Year</span>' +
         '<span class="brand-link">In</span>' +

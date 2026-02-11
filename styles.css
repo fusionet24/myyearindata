@@ -65,6 +65,14 @@
 .navbar .navbar-brand .navbar-title {
     font-weight: 700;
     font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.brand-vial-icon {
+    height: 1.4em;
+    width: auto;
+    vertical-align: middle;
 }
 .brand-prefix { color: #2E7D32; }
 .brand-mid { color: #388E3C; }
