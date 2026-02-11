@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel A - The "Hidden" Reality of Opus 4.6 Performance</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Caveat:wght@400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .instructions {
+            color: #888;
+            font-size: 14px;
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        :root {
+            --brand-green: #0aaa50;
+            --brand-green-light: #0dcc60;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2027;
+            --red: #ef4444;
+            --amber: #f59e0b;
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1350px;
+            background: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(10, 170, 80, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 170, 80, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .header-bar {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 80px;
+            background: var(--brand-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .site-name { color: white; font-size: 28px; font-weight: 700; }
+        .slide-number { color: rgba(255,255,255,0.8); font-size: 24px; font-weight: 600; }
+
+        .swipe-indicator {
+            position: absolute;
+            bottom: 50px; right: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.5);
+            font-family: 'Caveat', cursive;
+            font-size: 28px;
+        }
+
+        .swipe-indicator svg {
+            width: 40px; height: 40px;
+            stroke: var(--brand-green);
+            animation: swipe 1.5s ease-in-out infinite;
+        }
+
+        @keyframes swipe {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 920px;
+            margin-top: 40px;
+        }
+
+        h1 { color: #fff; font-size: 68px; font-weight: 900; line-height: 1.15; margin-bottom: 40px; }
+        h2 { color: #fff; font-size: 52px; font-weight: 700; line-height: 1.25; margin-bottom: 30px; }
+        h3 { color: #fff; font-size: 38px; font-weight: 700; margin-bottom: 20px; }
+
+        .highlight { color: var(--brand-green); }
+        .highlight-red { color: var(--red); }
+        .highlight-amber { color: var(--amber); }
+
+        .subtext { color: rgba(255,255,255,0.6); font-size: 32px; font-weight: 400; margin-top: 40px; }
+
+        .doodle-text { font-family: 'Caveat', cursive; color: var(--brand-green); }
+
+        .doodle-circle { position: relative; display: inline-block; }
+        .doodle-circle::after {
+            content: '';
+            position: absolute;
+            top: -15px; left: -20px; right: -20px; bottom: -15px;
+            border: 4px solid var(--brand-green);
+            border-radius: 50% 45% 55% 48%;
+            transform: rotate(-2deg);
+            opacity: 0.9;
+        }
+
+        .doodle-underline { position: relative; display: inline-block; }
+        .doodle-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: -5px; right: -5px;
+            height: 6px;
+            background: var(--brand-green);
+            border-radius: 3px;
+            transform: rotate(-1deg);
+        }
+
+        .doodle-underline-red::after { background: var(--red); }
+        .doodle-underline-amber::after { background: var(--amber); }
+
+        .doodle-data { position: absolute; width: 70px; height: 90px; opacity: 0.55; }
+        .doodle-data svg { width: 100%; height: 100%; }
+
+        .sparkle { position: absolute; color: var(--brand-green); font-size: 45px; opacity: 0.5; }
+
+        .no-swipe .swipe-indicator { display: none; }
+
+        .pricing-cards { display: flex; gap: 30px; margin: 40px 0; }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 35px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .pricing-card.suspect {
+            border-color: var(--amber);
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .pricing-card .label {
+            color: rgba(255,255,255,0.5);
+            font-size: 22px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .pricing-card .price { color: #fff; font-size: 44px; font-weight: 900; }
+        .pricing-card .detail { color: rgba(255,255,255,0.5); font-size: 20px; margin-top: 10px; }
+
+        .benchmark-bars { display: flex; flex-direction: column; gap: 30px; margin: 40px 0; width: 100%; }
+
+        .bar-row { display: flex; align-items: center; gap: 20px; }
+
+        .bar-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 24px; font-weight: 600;
+            width: 200px; text-align: right; flex-shrink: 0;
+        }
+
+        .bar-track {
+            flex: 1; height: 50px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%; border-radius: 12px;
+            display: flex; align-items: center;
+            justify-content: flex-end; padding-right: 15px;
+        }
+
+        .bar-fill.green { background: linear-gradient(90deg, var(--brand-green), var(--brand-green-light)); }
+        .bar-fill.red { background: linear-gradient(90deg, #dc2626, #ef4444); }
+        .bar-fill.amber { background: linear-gradient(90deg, #d97706, #f59e0b); }
+        .bar-fill.blue { background: linear-gradient(90deg, #2563eb, #3b82f6); }
+
+        .bar-value { color: #fff; font-size: 22px; font-weight: 700; }
+
+        .info-cards { display: flex; flex-direction: column; gap: 25px; margin: 40px 0; text-align: left; }
+
+        .info-card {
+            display: flex; align-items: flex-start; gap: 25px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px 35px;
+        }
+
+        .info-card .icon { font-size: 40px; flex-shrink: 0; }
+        .info-card .text { color: rgba(255,255,255,0.8); font-size: 26px; font-weight: 500; line-height: 1.5; }
+        .info-card .text strong { color: #fff; font-weight: 700; }
+
+        .cta-section { margin: 30px 0; }
+
+        .cta-link {
+            display: flex; align-items: center; justify-content: center; gap: 20px;
+            background: var(--card-bg);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px 40px; margin: 20px 0;
+        }
+
+        .cta-link.primary { background: var(--brand-green); border-color: var(--brand-green); }
+        .cta-link .icon { font-size: 36px; }
+        .cta-link .text { color: #fff; font-size: 28px; font-weight: 700; }
+        .cta-link .url { color: rgba(255,255,255,0.7); font-size: 22px; }
+
+        .powered-by {
+            color: rgba(255,255,255,0.4);
+            font-size: 20px; margin-top: 40px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        .question-accent {
+            position: absolute;
+            font-family: 'Caveat', cursive;
+            color: var(--brand-green);
+            font-size: 200px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+    <p class="instructions">Carousel 1: The "Hidden" Reality of Opus 4.6 Performance. Each slide is 1080x1350px. Screenshot each slide individually.</p>
+
+    <!-- SLIDE 1: HOOK -->
+    <div class="slide" id="slide1">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">1/5</span>
+        </div>
+
+        <span class="question-accent" style="top: 120px; right: 60px;">?</span>
+        <span class="sparkle" style="bottom: 250px; left: 120px;">&#10022;</span>
+
+        <div class="content">
+            <h2 style="font-size: 44px; color: rgba(255,255,255,0.6);">What if I told you...</h2>
+            <h1 style="margin: 30px 0;">Opus 4.6 is<br>actually<br><span class="doodle-circle"><span class="highlight-amber">Sonnet 5?</span></span></h1>
+            <p class="subtext" style="font-size: 34px; margin-top: 60px;">The pricing, behavior, and benchmarks<br>tell a story Anthropic isn't sharing.</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Pricing Theory -->
+    <div class="slide" id="slide2">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">2/5</span>
+        </div>
+
+        <div class="doodle-data" style="top: 140px; left: 70px;">
+            <svg viewBox="0 0 50 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 5L18 22L8 55C7 58 9 62 13 62L37 62C41 62 43 58 42 55L32 22L32 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M15 5L35 5" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M12 45C15 43 20 46 25 44C30 42 35 45 38 43" stroke="#0aaa50" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="20" cy="52" r="2" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+                <circle cx="30" cy="50" r="1.5" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="content">
+            <h2>The <span class="doodle-underline"><span class="highlight-amber">Pricing</span></span> Theory</h2>
+
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="label">Standard (&lt;200K)</div>
+                    <div class="price">$15 / $75</div>
+                    <div class="detail">Input / Output per 1M tokens</div>
+                </div>
+                <div class="pricing-card suspect">
+                    <div class="label">Premium (&gt;200K)</div>
+                    <div class="price" style="color: var(--amber);">$30 / $112.50</div>
+                    <div class="detail">2x the cost for "big context"</div>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <span class="icon">&#128176;</span>
+                    <span class="text"><strong>Same base price</strong> as old Opus &mdash; but the 1M context window you actually want? <strong style="color: var(--amber);">Double.</strong></span>
+                </div>
+                <div class="info-card">
+                    <span class="icon">&#129300;</span>
+                    <span class="text">Theory: Anthropic <strong>delays Sonnet 5</strong> to maximize revenue at the Opus price tier</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Context Rot -->
+    <div class="slide" id="slide3">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">3/5</span>
+        </div>
+
+        <span class="sparkle" style="top: 180px; right: 80px;">&#10022;</span>
+
+        <div class="content">
+            <h2>Bigger Context<br><span class="highlight-red">&#8800;</span> Better Intelligence</h2>
+
+            <h3 style="color: rgba(255,255,255,0.5); font-weight: 400; font-size: 30px; margin-bottom: 40px;">The "context rot" nobody talks about</h3>
+
+            <div class="benchmark-bars">
+                <div style="text-align: left; margin-bottom: 10px;">
+                    <span style="color: rgba(255,255,255,0.5); font-size: 22px; text-transform: uppercase; letter-spacing: 2px;">MRCR v2 &mdash; Needle-in-a-Haystack</span>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">Opus 4.6</span>
+                    <div class="bar-track">
+                        <div class="bar-fill green" style="width: 76%;"><span class="bar-value">76%</span></div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label" style="color: var(--red);">Sonnet 4.5</span>
+                    <div class="bar-track">
+                        <div class="bar-fill red" style="width: 18.5%;"></div>
+                    </div>
+                    <span style="color: var(--red); font-size: 24px; font-weight: 700; width: 70px;">18.5%</span>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <span class="icon">&#9888;&#65039;</span>
+                    <span class="text">Anthropic's own research: blindly increasing context size can make models <strong style="color: var(--red);">"dumber"</strong></span>
+                </div>
+                <div class="info-card">
+                    <span class="icon">&#128200;</span>
+                    <span class="text">Performance <strong>degrades</strong> as conversations lengthen &mdash; the model forgets earlier context</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: TOON Benchmark -->
+    <div class="slide" id="slide4">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">4/5</span>
+        </div>
+
+        <div class="doodle-data" style="top: 140px; right: 80px;">
+            <svg viewBox="0 0 50 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 8L20 45C20 52 25 58 32 58C39 58 44 52 44 45L44 8" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M17 8L47 8" stroke="#0aaa50" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M22 38C25 36 30 39 35 37C40 35 42 38 42 38" stroke="#0aaa50" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="28" cy="48" r="2" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+                <circle cx="36" cy="45" r="1.5" stroke="#0aaa50" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="content">
+            <h2>The <span class="doodle-underline"><span class="highlight">TOON Benchmark</span></span><br>Exposes a Weakness</h2>
+
+            <h3 style="color: rgba(255,255,255,0.4); font-weight: 400; font-size: 26px; margin-bottom: 30px;">Retrieval Accuracy &mdash; Token-Oriented Object Notation</h3>
+
+            <div class="benchmark-bars">
+                <div class="bar-row">
+                    <span class="bar-label">GPT-5 Nano</span>
+                    <div class="bar-track">
+                        <div class="bar-fill blue" style="width: 90.9%;"><span class="bar-value">90.9%</span></div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label" style="color: var(--red);">Haiku 4.5</span>
+                    <div class="bar-track">
+                        <div class="bar-fill red" style="width: 59.8%;"><span class="bar-value">59.8%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <span class="icon">&#128561;</span>
+                    <span class="text">Haiku 4.5 performs on par with <strong style="color: var(--red);">"lobotomized" Grok</strong> in retrieval tasks</span>
+                </div>
+                <div class="info-card">
+                    <span class="icon">&#128270;</span>
+                    <span class="text">A <strong>fundamental struggle</strong> in the Anthropic family with retrieving specific data from large structures</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Personality + CTA -->
+    <div class="slide no-swipe" id="slide5">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">5/5</span>
+        </div>
+
+        <span class="sparkle" style="top: 200px; left: 100px;">&#10022;</span>
+
+        <div class="content">
+            <h2>Smarter on benchmarks.</h2>
+            <h1 style="margin: 20px 0; font-size: 56px;"><span class="doodle-underline doodle-underline-amber"><span class="highlight-amber">Slower</span></span> in practice.<br>Less <span class="doodle-circle"><span class="highlight-red">personable</span></span>.</h1>
+
+            <div class="info-cards" style="margin-bottom: 40px;">
+                <div class="info-card">
+                    <span class="icon">&#128034;</span>
+                    <span class="text"><strong>5&ndash;10 min</strong> for tasks that took <strong>1&ndash;2 min</strong> &mdash; "measure twice, cut once" reasoning</span>
+                </div>
+                <div class="info-card">
+                    <span class="icon">&#129302;</span>
+                    <span class="text">Lost prose quality &mdash; reverts to <strong>templated, robotic responses</strong></span>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <div class="cta-link primary">
+                    <span class="icon">&#128221;</span>
+                    <div>
+                        <span class="text">Read the full breakdown</span><br>
+                        <span class="url">myyearindata.com</span>
+                    </div>
+                </div>
+                <div class="cta-link">
+                    <span class="icon">&#128101;</span>
+                    <div>
+                        <span class="text">Follow me on LinkedIn</span><br>
+                        <span class="url">Scott Bell</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 20px; margin-top: 10px;">
+                    <div class="cta-link" style="flex: 1; padding: 18px 20px;">
+                        <img src="https://dailydatabricks.tips/logo.jpg" alt="DailyDatabricks" class="logo" style="height:40px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display: none;">&#9889;</span>
+                        <div><span class="text" style="font-size: 20px;">DailyDatabricks.Tips</span></div>
+                    </div>
+                    <div class="cta-link" style="flex: 1; padding: 18px 20px;">
+                        <img src="https://databricks.news/images/logo-white-icon.png" alt="Databricks News" class="logo" style="height:40px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display: none;">&#128240;</span>
+                        <div><span class="text" style="font-size: 20px;">Databricks.News</span></div>
+                    </div>
+                </div>
+            </div>
+            <p class="powered-by">Powered by <img src="../../logos/RapiData-White.png" alt="RapidData" style="height: 24px; vertical-align: middle; margin-left: 8px;"></p>
+        </div>
+    </div>
+</body>
+</html>
