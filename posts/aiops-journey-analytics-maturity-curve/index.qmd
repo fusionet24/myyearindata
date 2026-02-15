@@ -504,7 +504,7 @@ If you're reading this and wondering where your organisation sits — and what t
 
 **If you're in Stage 5 (Cognitive/GenAI):** You're likely dealing with the operational chaos of LLMs in production. Prompt management, evaluation frameworks, cost governance, and output safety are your priorities. This is where [LLMOps](https://www.advancinganalytics.co.uk/blog/2023/11/27/llmops-with-promptflow) becomes non-negotiable.
 
-**If you're approaching Stage 6 (Agentic):** You need AIOps thinking. Not as a replacement for your existing Ops disciplines, but as the strategic layer that coordinates them. Agent observability, tool-use governance, and the [security considerations of autonomous systems](../danger-in-delegation/index.qmd) become critical. You should also be thinking about the [four threat quadrants](../aiops-journey-four-threat-quadrants/index.qmd) that frame your risk landscape.
+**If you're approaching Stage 6 (Agentic):** You need AIOps thinking. Not as a replacement for your existing Ops disciplines, but as the strategic layer that coordinates them. Agent observability, tool-use governance, and the [security considerations of autonomous systems](../agentic-security-risks/index.qmd) become critical. You should also be thinking about the [four threat quadrants](../aiops-journey-four-threat-quadrants/index.qmd) that frame your risk landscape.
 
 **Wherever you are:** Remember the 10-20-70 rule. Invest 70% in people and processes. The technology is the easy part.
 
