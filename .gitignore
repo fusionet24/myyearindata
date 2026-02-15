@@ -33,3 +33,11 @@ posts/agentic-diagramming/.DS_Store
 **/node_modules/
 
 **/*.quarto_ipynb
+.claude/commands/write-article.md
+.gitignore
+.claude/skills/writing-profiles/profile-manager.js
+CLAUDE.md
+.claude/skills/writing-profiles/install.sh
+.claude/skills/writing-profiles/profiles.json
+.claude/skills/writing-profiles/README.md
+.claude/skills/writing-profiles/skill.md

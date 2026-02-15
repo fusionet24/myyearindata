@@ -1,0 +1,206 @@
+---
+title: "How I Actually Work with AI Now"
+subtitle: "A Year of Evolution: From Curious User to Orchestrated Chaos"
+author: "Scott Bell"
+date: "2026-01-25"
+draft: true
+ai-label: "AI Assisted"
+categories:
+  - ai
+  - agents
+  - agentic
+  - productivity
+  - tools
+  - llm
+  - workflow
+---
+
+::: {.callout-tip appearance="simple"}
+This is my own original work, but I've had an AI model review it for clarity, tone, and grammatical errors. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd)
+:::
+
+## The Boring Reality
+
+A year ago, I used AI occasionally. Now I use it constantly. Not in some sci-fi, everything-is-automated sense. In a boring, practical, this-is-just-how-I-work-now sense.
+
+If you asked me what changed, I'd struggle to point to a single moment. It was gradual. I started using one tool more often. Then another. Then I started noticing when different tools were better at different things. Then I started building systems around those differences.
+
+This post isn't about what's theoretically possible with AI. It's about what I actually do, every day, right now. The tools I reach for. The patterns that have stuck. The things that work and the things that don't.
+
+If you're expecting a unified framework, you'll be disappointed. What I've landed on is something messier: a collection of specialised tools, each doing one thing reasonably well, orchestrated by me making judgment calls about which to use when.
+
+> Building entropy from systems of agentic chaos
+
+That phrase has been rattling around my head for months. It captures something real about how this works. The tools are chaotic. The outputs are unpredictable. But with the right constraints and verification, useful work emerges.
+
+## The Multi-Tool Reality
+
+Here's the uncomfortable truth: no single AI tool does everything well. The moment I accepted that, things got easier.
+
+I pay for multiple subscriptions. This isn't ideal from a cost perspective, but each tool has a specific job where it outperforms the others. Trying to force one tool to do everything is a false economy.
+
+Here's my current stack:
+
+| Tool               | What I Use It For                                           |
+|-------------------|-----------------------------------------------------|
+| **Claude Code**    | Planning mode, code exploration, session portability        |
+| **Gemini**         | Writing support, Excalidraw diagrams (large context window) |
+| **ChatGPT**        | Web research (Deep Research feature)                        |
+| **Napkin.ai**      | Professional architecture diagrams                          |
+| **NotebookLM**     | Study and presentation prep                                 |
+| **GitHub Copilot** | Custom agent modes, async research                          |
+
+The key insight isn't the specific tools. It's the principle: match the tool to the task. Don't fight against a tool's limitations. Find another tool that doesn't have that limitation.
+
+### Why Multiple Tools?
+
+I've tried consolidating. It doesn't work.
+
+ChatGPT's Deep Research is noticeably better than Gemini's equivalent, even on the higher-tier plans. Gemini hits capacity constraints constantly. But Gemini's large context window makes it excellent for generating Excalidraw JSON files from complex specifications.
+
+Claude Code's planning mode is exceptional for thinking through implementation approaches before writing code. The ability to transport sessions from my local machine to the cloud or mobile means I can start a problem on my laptop and continue thinking through it on my phone during a commute.
+
+NotebookLM's audio overview feature (the AI podcasters) is something nothing else replicates well. It's become essential for talk prep.
+
+The tools complement each other. Fighting that reality wastes time.
+
+## Custom Modes and Private Research
+
+This is where things got interesting over the past year.
+
+GitHub Copilot now supports [custom agent modes](https://code.visualstudio.com/docs/copilot/customization/custom-agents). I've built several, each with specific constraints and behaviours. Not one generic assistant. Multiple narrow, opinionated agents that do specific types of work.
+
+Beyond that, I maintain a private research repository on GitHub. This isn't code I ship. It's a workspace where Copilot coding agents research topics asynchronously and produce structured outputs.
+
+The workflow:
+
+1.  I define a research question and an output schema (usually JSON or Markdown with specific sections)
+2.  I kick off the agent with constraints on sources and approach
+3.  I go do other work
+4.  Hours later, I come back to structured reports and code artifacts waiting for review
+
+The key word is *structured*. Unstructured brain dumps from AI are marginally useful. Structured outputs that conform to a schema I've defined? Those integrate into my workflow.
+
+This approach has changed how I learn new technologies. When Databricks released new APIs recently, I didn't spend hours reading documentation. I set agents loose to explore, document, and produce example code. Then I reviewed their work.
+
+## The "Let It Go" Philosophy
+
+The Databricks example illustrates a broader pattern I've adopted: **scale by allowing it to go away**.
+
+Here's the concrete workflow I used when Databricks released new APIs for Genie Spaces:
+
+1.  Feed the AI documentation and API specifications
+2.  Give it access to an existing Genie Space I'd created manually
+3.  Instruction: "Recreate this in a different workspace. Document any differences or gotchas."
+4.  Let it work autonomously in a sandbox
+
+The AI performed GET requests to understand the existing resource, CREATE requests to build a new one, and DELETE requests to clean up. It generated a validation report highlighting where programmatic creation differed from manual creation.
+
+::: callout-tip
+## The Verification Pattern
+
+AI generates in sandbox → I review code and run experiments → Integrate what works
+
+The AI maintains its own branches and context pull requests. It builds a knowledge base I can query later. But nothing goes into production without my review.
+:::
+
+This requires trust, but a specific kind of trust. I trust the AI to explore thoroughly. I don't trust it to be correct. The verification step is non-negotiable.
+
+## Agentic Parallelism: The Christmas Quiz
+
+The most vivid example of how this approach pays off was completely trivial: a Christmas quiz.
+
+Every year, my family does a quiz night. Previous years I'd either spend hours writing questions or pay for a generic quiz tool (about £20/month plus setup time). Neither felt great.
+
+Last Christmas, I tried something different. I co-planned a self-hosted web app with Claude. Simple requirements: host it locally, multiple phones connect to answer, nothing needs to survive past Boxing Day.
+
+But the content generation is where it got interesting.
+
+I defined a strict JSON schema for quiz questions: question text, multiple choice options, correct answer, source for verification. Then I spun up 10 concurrent research agents, one per quiz round. Each had a different topic (general knowledge, music, science, etc.) and the same output constraints.
+
+The agents searched the internet independently. They found questions. They formatted them according to my schema. They ran in parallel. Fifteen minutes later, I had 100 questions across 10 rounds, each with verified sources.
+
+::: callout-note
+## The Swarm Lesson
+
+The agents weren't smart. They were narrow, opinionated, and slightly boring. Each did one thing: research questions for a specific topic and output them in a specific format.
+
+That's what made them useful. Predictable, constrained agents executing in parallel beat one clever agent trying to do everything.
+:::
+
+Was every question perfect? No. I reviewed them, cut a few, adjusted wording on others. But the grunt work of researching and formatting was done. I spent my time on curation, not creation.
+
+## Study and Presentation Prep
+
+NotebookLM has become essential for talk preparation. I use it as a study buddy, not a writer.
+
+The workflow:
+
+1.  Create a workspace for a specific talk or topic
+2.  Add my brief notes and draft concepts
+3.  Expand with research and build out the material
+4.  Use the Audio Overview feature to "replay" the content as a podcast-style conversation
+
+That last step is the killer feature. The AI dialogue between the "podcasters" doesn't just read back what I wrote. It discusses it. And in discussing it, it highlights gaps. "But what about...?" "I'm not sure that's clear..." "How does this connect to...?"
+
+It's like having someone review your talk and point out where the logic doesn't flow. Except it happens in 10 minutes instead of needing to find a human willing to sit through a draft.
+
+This feedback loop has been invaluable for ruthless content cutting. I drafted a 50-minute talk that needed to be 15 minutes. The audio overview made it obvious which parts were fluff and which were essential. What felt important to me wasn't always what the content actually needed.
+
+I keep presentations in Markdown for exactly this reason. Easy to feed to AI tools, easy to iterate, easy to summarise.
+
+## Voice Capture: What Works and What Doesn't
+
+I should be honest about what isn't working.
+
+ChatGPT's voice mode used to be invaluable for brain dumps. Walking somewhere, thinking through a problem, just talking it out. The previous version captured nuance. It kept the raw, unpolished thoughts intact.
+
+Since the update to the newer model, it's become too summarisable. The outputs are polished and compressed in ways that lose exactly the nuance I was trying to capture. When I want a brain dump, I want a brain dump, not a tidy summary of what I might have meant.
+
+I'm actively seeking alternatives. The requirement is specific: high-fidelity raw capture without aggressive summarisation. If you have recommendations, I'm listening.
+
+This is a useful reminder that AI tools change. Features degrade. What worked six months ago might not work now. The multi-tool approach provides resilience. If one tool stops serving a specific purpose, I can look for alternatives without my entire workflow collapsing.
+
+## The On-The-Go Factor
+
+One feature I didn't expect to matter as much as it does: session portability.
+
+Claude Code can transport sessions from my local machine to the cloud or to mobile. This sounds minor. It isn't.
+
+I start exploring a problem on my laptop. I get interrupted, need to leave. Previously, that context would be lost or require tedious notes to preserve. Now I pick up the exact same session on my phone. Continue thinking through it on the train. Come back to my laptop later and the thread is still there.
+
+Context preservation across devices changes how I work with complex problems. I'm no longer tethered to one machine to maintain momentum on a problem. The thinking can happen anywhere, and the context follows.
+
+## The "Pizza Benchmark"
+
+Here's where I'm looking next.
+
+The ultimate test for an autonomous agent, in my mind, is: **can it order a pizza?**
+
+Not answer questions about pizza. Not draft an email to a pizza place. Actually complete the end-to-end task: understand my preferences, find appropriate options, navigate a website or app, complete a transaction.
+
+We're not there yet. Current browser agents are good at summarising broad information. "Find me the top 5 spas" will get you reasonable results. But specifics fail. Getting actual TripAdvisor scores rather than hallucinated ones often requires re-prompting. Completing transactions is unreliable.
+
+I'm actively exploring this space. Browser agents, tool use patterns, multi-step autonomous workflows. The gap between "impressive demo" and "reliable enough to trust with my pizza order" is substantial.
+
+My timeline: this is what I'm researching for talks in 2026. By then, I expect the landscape to look different. But right now, the honest assessment is that autonomous end-to-end task completion remains more aspiration than reality for most use cases.
+
+## Building Entropy from Chaos
+
+None of this is a final state. The tools I use will change. The patterns will evolve. Something I rely on today will stop working or be replaced by something better.
+
+But some principles seem stable:
+
+**Orchestration matters more than raw capability.** The smartest model in the world is less useful than the right model with the right constraints for the right task.
+
+**Verification is non-negotiable.** AI outputs are drafts. They're starting points. Trusting them without review is how things go wrong.
+
+**Structured outputs beat unstructured.** Define the schema. Constrain the format. Make the outputs usable.
+
+**Different tools for different tasks.** Stop fighting tool limitations. Find tools that don't have those limitations.
+
+If you want the more technical version of where I see this heading, the patterns emerging around context management, agentic databases, and sub-agent orchestration, I've written about that separately in [AI Patterns I'm exploring right now](../agentic-workflow/index.qmd).
+
+This post is the prequel. The practical reality of how I work now, before the theory of where it's going.
+
+The chaos is real. But with the right constraints, entropy emerges from chaos. Useful work gets done. And somehow, the quiz questions get written.
