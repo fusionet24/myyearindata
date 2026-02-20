@@ -1,0 +1,519 @@
+---
+title: "The AIOps Journey: The Analytics Maturity Curve, Extended"
+subtitle: "From Dashboards to Autonomous Agents — and the Ops You Need at Every Stage"
+author: "Scott Bell"
+description: "The classical analytics maturity curve needs updating. Here's how GenAI and Agentic AI extend the model, and why each stage demands a different operational discipline."
+date: "2026-02-07"
+draft: false
+ai-label: "AI Assisted"
+categories:
+  - ai
+  - aiops
+  - mlops
+  - llmops
+  - agentic ai
+  - strategy
+  - maturity
+---
+
+*This is part of [The AIOps Journey](/aiops-journey.qmd) series, exploring the operational challenges of AI at scale.*
+
+::: {.callout-warning appearance="simple"}
+This was generated with the help of AI based on my research and input. See my post on [Transparency: AI Content Labels](../AI-Content-Labels/index.qmd)
+:::
+
+## The Curve Everyone Knows (But Hasn't Updated)
+
+If you've spent any time in analytics, data, or BI, you've seen the maturity curve. Gartner popularised it over a decade ago and it's been in every vendor pitch deck and strategy slide since. Four stages. A nice upward sweep. Descriptive, Diagnostic, Predictive, Prescriptive. Difficulty increases left to right. Value increases left to right. Most organisations sit somewhere in the first two stages and aspire to the latter two.
+
+It was a useful model. It still is — for the world it described. But that world has fundamentally changed.
+
+The explosion of Generative AI, large language models, and now agentic systems has created capabilities that the original curve simply doesn't account for. We need to extend it. Not to replace what Gartner laid out — those foundations remain essential — but to map the territory that now exists beyond prescriptive analytics.
+
+And critically, each stage on this extended curve demands a different operational discipline. Get the Ops wrong and it doesn't matter how sophisticated your models are.
+
+## The Classical Curve: Still the Foundation
+
+Let's ground ourselves. The original analytics maturity model describes four stages of increasing sophistication:
+
+**Descriptive Analytics — "What happened?"**
+Reporting on historical data. Dashboards, KPIs, standard reports. This is the bread and butter of most BI teams. SQL queries against a warehouse. Power BI or Tableau dashboards. Monthly board packs. It sounds basic, but as [Graphable AI](https://graphable.ai/blog/analytics-maturity-model/) notes: *"It is extremely important to build core competencies first in descriptive analytics before attempting to advance upward."*
+
+**Diagnostic Analytics — "Why did it happen?"**
+Drill-down analysis, root-cause investigation, data mining. Still retrospective but adds depth. When your sales dashboard shows a dip, diagnostic analytics tells you it was driven by churn in the EMEA mid-market segment, not a pricing issue. This is where analysts earn their keep, asking better questions of the data rather than just presenting it.
+
+**Predictive Analytics — "What will happen?"**
+The shift from reactive to proactive. Statistical models, machine learning, and pattern recognition enter the picture. Demand forecasting. Churn prediction. Fraud detection. This is where traditional ML engineering begins and where most organisations first encounter the gap between a model in a notebook and a model in production. As [SR Analytics](https://sranalytics.io/blog/types-of-analytics/) puts it: *"The analytics maturity model transitions to a forward-looking perspective, moving from a reactive approach to a proactive and predictive business mindset."*
+
+**Prescriptive Analytics — "What should we do?"**
+Optimisation engines, simulation, and decision support systems that recommend specific actions. Think dynamic pricing algorithms, supply chain optimisers, or treatment recommendation engines. The key distinction from what comes next: *prescriptive analytics still requires a human decision-maker to choose an option and take the subsequent action.* A human remains firmly in the loop.
+
+::: {.callout-tip collapse="true"}
+## Nano Banana Prompt: The Classical Analytics Maturity Curve
+
+```
+Create a clean, modern horizontal maturity curve diagram with 4 stages
+progressing left to right. White background, professional style.
+
+Stages (each as a rounded rectangle, connected by directional arrows):
+1. "Descriptive" — subtitle: "What happened?" — icon: bar chart
+2. "Diagnostic" — subtitle: "Why did it happen?" — icon: magnifying glass
+3. "Predictive" — subtitle: "What will happen?" — icon: trend line
+4. "Prescriptive" — subtitle: "What should we do?" — icon: lightbulb
+
+Two gradient arrows along the bottom:
+- Left to right: "Increasing Value" (light green #0aaa50 to dark green)
+- Left to right: "Increasing Complexity" (light grey to dark grey)
+
+A subtle dashed vertical line after "Prescriptive" labeled
+"Where the classical model ends"
+
+Style: Minimal flat design, thin borders, sans-serif font (Inter or
+similar), muted colour palette with green (#0aaa50) as the accent colour.
+No trademarked logos.
+```
+:::
+
+This model served organisations well for nearly fifteen years. But it was designed for a world where the most sophisticated thing you could do with data was optimise a decision for a human to make. We now live in a world where systems can generate, reason, and act.
+
+## Extending the Curve: GenAI, Agentic AI, and Autonomous Systems
+
+The classical curve ends at prescriptive. Here's what comes next:
+
+### Stage 5: Cognitive / Generative AI — "Create, Understand, and Augment"
+
+This is where large language models, generative AI, and cognitive computing sit. These systems don't just analyse structured data to recommend actions. They understand unstructured information, generate new content, translate between modalities, and augment human capability in fundamentally new ways.
+
+Think RAG-powered knowledge assistants that synthesise answers across thousands of documents. Code generation tools that turn natural language into working software. Content systems that draft, translate, and personalise at scale. Multimodal models that understand images, audio, and text simultaneously.
+
+The operational profile is radically different from predictive and prescriptive analytics. You're no longer training bespoke models on your data — you're orchestrating foundation models, managing prompts, building retrieval pipelines, and governing outputs that are non-deterministic by design. As [Chip Huyen](https://huyenchip.com/2025/01/07/agents.html) puts it: *"It's easy to make something cool with LLMs, but very hard to make something production-ready with them."*
+
+This is the stage that caught most organisations off guard. The jump from "we have a churn model in production" to "we have an LLM-powered customer agent" is not incremental. It requires different skills, different infrastructure, different evaluation approaches, and as we'll explore, a different Ops discipline entirely.
+
+### Stage 6: Agentic AI — "Decide, Act, and Iterate"
+
+Here's where it gets genuinely transformative. Agentic AI systems don't wait for prompts. They plan, execute multi-step workflows, use tools, and iterate based on feedback. They maintain context across interactions, break down complex goals into sub-tasks, and coordinate with other systems — or other agents — to achieve outcomes.
+
+Andrew Ng made what has become a landmark observation about this shift:
+
+> *"Today, we mostly use LLMs in zero-shot mode, prompting a model to generate final output token by token without revising its work. This is akin to asking someone to compose an essay from start to finish, typing straight through with no backspacing allowed, and expecting a high-quality result."*
+
+The performance data validates the paradigm shift: GPT-3.5 in zero-shot mode achieves 48.1% on the HumanEval coding benchmark. GPT-4 zero-shot achieves 67.0%. But GPT-3.5 *wrapped in an agentic loop* — with reflection, tool use, and iterative refinement — achieves up to **95.1%**. A weaker model with agentic architecture dramatically outperforms a stronger model used naively.
+
+Anthropic's foundational research on [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) draws a clean architectural distinction:
+
+> **Workflows** are systems where LLMs and tools are orchestrated through *predefined code paths*. **Agents** are systems where LLMs *dynamically direct their own processes* and tool usage.
+
+But they also offer the most pragmatic guidance in the space:
+
+> *"Find the simplest solution possible, and only increase complexity when needed. This might mean not building agentic systems at all."*
+
+This is the stage where human involvement in operational decisions begins to genuinely decrease. Not because humans are removed — but because the system can handle multi-step reasoning and execution loops that would be impractical for a human to micromanage.
+
+### Stage 7: Autonomous / Multi-Agent Systems — "Orchestrate, Learn, and Self-Govern"
+
+The frontier. Multiple AI agents collaborating, negotiating, and self-organising to achieve complex objectives. Agent ecosystems that span organisational boundaries. Systems that not only act autonomously but learn from outcomes and adapt their strategies over time.
+
+The [Datentreiber Analytics & AI Maturity Canvas](https://www.datentreiber.com/analytics-ai-maturity/) defines this level as: *"Intelligent (software) agents make decisions and take actions autonomously, measure and analyse the data, and learn from the results how to achieve their objectives."*
+
+Almost nobody is here yet. As McKinsey's research on [The Agentic Organization](https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era) notes, the length of tasks that AI can reliably complete has been doubling approximately every seven months since 2019, accelerating to every four months since 2024. They project AI systems could potentially complete four days of unsupervised work by 2027. But "potentially" and "reliably in production" are very different things.
+
+[Salesforce's Agentic Maturity Model](https://www.salesforce.com/news/stories/agentic-maturity-model/) maps this frontier across five levels, with Level 4 (Multi-Agent Ecosystems) explicitly noted as something *"no one has achieved yet."*
+
+::: {.callout-tip collapse="true"}
+## Nano Banana Prompt: The Extended Analytics Maturity Curve
+
+```
+Create a clean, modern horizontal maturity curve diagram with 7 stages
+progressing left to right. White background, professional style.
+The curve should have a subtle upward arc suggesting increasing value.
+
+First 4 stages (grouped with a subtle bracket labeled "Classical Curve"):
+1. "Descriptive" — subtitle: "What happened?"
+2. "Diagnostic" — subtitle: "Why did it happen?"
+3. "Predictive" — subtitle: "What will happen?"
+4. "Prescriptive" — subtitle: "What should we do?"
+
+Next 3 stages (grouped with a bracket labeled "The Extended Curve"):
+5. "Cognitive / GenAI" — subtitle: "Create & Augment"
+6. "Agentic AI" — subtitle: "Decide & Act"
+7. "Autonomous" — subtitle: "Orchestrate & Self-Govern"
+
+A dashed vertical line separates stages 4 and 5, labeled
+"The GenAI Inflection Point"
+
+Two gradient arrows along the bottom:
+- "Increasing Value →" (light green #0aaa50 to dark green)
+- "Increasing Complexity →" (light grey to dark grey)
+
+A third gradient arrow along the top:
+- "← Human in the Loop" to "Autonomous →" (green to orange)
+
+Style: Minimal flat design, rounded rectangles for each stage, thin
+connecting arrows, sans-serif font, green (#0aaa50) accent colour.
+Each stage box slightly larger than the previous to suggest growth.
+No trademarked logos.
+```
+:::
+
+## The Ops Discipline Map: Every Stage Needs Its Own Operations
+
+Here's the part that most maturity models miss entirely. Each stage on this curve doesn't just require different technology — it demands a different operational discipline. You can't run an LLM application with MLOps practices any more than you can run a predictive model with just a BI tool.
+
+| Maturity Stage | Dominant Ops Discipline | Core Focus |
+|---|---|---|
+| Descriptive / Diagnostic | **DataOps** | Data quality, pipeline reliability, metadata management |
+| Predictive (Traditional ML) | **MLOps** | Model lifecycle, experiment tracking, drift monitoring |
+| Cognitive / Generative AI | **LLMOps / GenAIOps** | Prompt management, RAG pipelines, token cost governance, output safety |
+| Agentic / Autonomous AI | **AIOps** | Agent observability, tool-use monitoring, multi-agent orchestration, real-time governance |
+
+### DataOps: The Universal Foundation
+
+Every stage depends on DataOps. Clean, well-governed, reliable data pipelines are the foundation on which everything else is built. Agentic AI amplifies both strengths and weaknesses in underlying data practices. If your data is unreliable, a predictive model produces unreliable forecasts. An agentic system acting on unreliable data produces unreliable *actions* — at speed, at scale, and potentially without a human checking first.
+
+### MLOps: The First Production Discipline
+
+When you move from dashboards to models, you need MLOps. Experiment tracking, model versioning, feature stores, CI/CD for models, A/B testing, and drift monitoring. The discipline is relatively mature, with established tooling in MLflow, Kubeflow, and cloud-native platforms.
+
+My colleagues at Advancing Analytics have written extensively about making MLOps practical. Toyosi Babayeju's [Databricks MLOps For Businesses & Techies](https://www.advancinganalytics.co.uk/blog/databricks-mlops-for-businesses-techies-a-case-study) is a strong case study that bridges the gap between MLOps theory and hands-on implementation.
+
+### LLMOps: The New Kid With Different Rules
+
+LLMOps emerged because LLMs break fundamental assumptions that MLOps was built on. The cost structure is inverted: MLOps cost concentrates in training and experimentation; LLMOps cost is overwhelmingly in *inference*. Evaluation is harder: there's no single accuracy metric when outputs are non-deterministic and context-dependent. And the attack surface is different: prompt injection, data exfiltration, and hallucination are threats that traditional ML monitoring was never designed for.
+
+Alexandru Malanca's [LLMOps with PromptFlow](https://www.advancinganalytics.co.uk/blog/2023/11/27/llmops-with-promptflow) on Advancing Analytics provides a practical walkthrough of operationalising LLM workflows, while Tori Tompkins' [5 Essential Evaluation Metrics for LLMOps & FMOps](https://www.advancinganalytics.co.uk/blog/5-essential-evaluation-metrics-for-llmops-fmops-and-how-to-actually-use-them) tackles the measurement problem head-on. Both are worth your time if you're navigating this stage.
+
+As Microsoft's [GenAIOps for MLOps guide](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/genaiops-for-mlops) states: *"To operationalize generative AI workload features, organizations need to extend MLOps investments with GenAIOps."* Extend, not replace.
+
+### AIOps: The Superset
+
+And this brings us to [AIOps — the holistic operational framework](../aiops-journey-what-is-it/index.qmd) that I've been exploring in this series. AIOps isn't a replacement for any of these disciplines. It's the superset that encompasses MLOps, LLMOps, and GenAIOps while integrating with Data Governance, DevSecOps, and organisational and technological governance.
+
+AIOps asks the bigger questions: How do all these capabilities fit into our technology strategy? How do we govern them consistently? How do we manage risk across the portfolio? How do we build organisational capability to operate AI at scale?
+
+The individual Ops disciplines solve specific problems. AIOps provides the strategic and operational umbrella that connects them.
+
+::: {.callout-tip collapse="true"}
+## Nano Banana Prompt: The Ops Discipline Map
+
+```
+Create a layered architecture diagram showing the relationship between
+Ops disciplines, structured as concentric rounded rectangles (like a
+target/onion diagram).
+
+Outermost layer: "AIOps" — dark green (#0aaa50), white text, labeled
+"The Strategic Superset"
+
+Second layer: Split into two sections side by side:
+- Left: "GenAIOps / LLMOps" — medium green
+- Right: "MLOps" — medium green
+
+Third layer (innermost): "DataOps" — light green, labeled
+"The Universal Foundation"
+
+Below the concentric diagram, three horizontal bars spanning the full
+width representing cross-cutting concerns:
+- "Data Governance"
+- "DevSecOps"
+- "Organisational & Technological Governance"
+
+Arrows from the cross-cutting bars pointing up into the concentric
+layers to show integration.
+
+Style: Clean, professional, minimal flat design, sans-serif font,
+green colour palette. No trademarked logos.
+```
+:::
+
+## The Industry Landscape: How Others Frame This
+
+I'm not the only one thinking about this progression. The industry has produced several maturity frameworks that map this territory from different angles. Here's a survey of the most useful ones.
+
+::: {.callout-note collapse="true"}
+## Google DeepMind: Levels of AGI
+
+The seminal paper [Levels of AGI for Operationalizing Progress on the Path to AGI](https://arxiv.org/abs/2311.02462) by Morris et al. provides the most rigorous two-dimensional classification in the field.
+
+**Performance Levels (Depth):**
+
+| Level | Name | Definition |
+|---|---|---|
+| 1 | Emerging | Equal to or somewhat better than an unskilled human |
+| 2 | Competent | At least 50th percentile of skilled adults |
+| 3 | Expert | At least 90th percentile of skilled adults |
+| 4 | Virtuoso | At least 99th percentile of skilled adults |
+| 5 | Superhuman | Outperforms 100% of humans |
+
+**Autonomy Levels (Human-AI Interaction):**
+
+| Level | Paradigm | Description |
+|---|---|---|
+| 0 | No AI | Human does everything |
+| 1 | AI as Tool | Human fully controls the AI |
+| 2 | AI as Consultant | AI takes substantive role but only when invoked by a human |
+| 3 | AI as Collaborator | Co-equal human-AI collaboration |
+| 4 | AI as Expert | AI drives interaction; human provides guidance |
+| 5 | AI as Agent | Fully autonomous; knows when to consult humans |
+
+The critical insight: autonomy levels are *"unlocked, but not determined by, progression through the Levels of AGI."* Even when a system is capable of higher autonomy, it may be safer to deploy at a lower level. Current LLMs sit at roughly Autonomy Level 2-3 (Consultant/Collaborator).
+:::
+
+::: {.callout-note collapse="true"}
+## Salesforce: The Agentic Maturity Model
+
+Salesforce provides the most agent-specific progression:
+
+| Level | Name | Value Created |
+|---|---|---|
+| L0 | Chatbots / Co-Pilots | Task automation, time savings |
+| L1 | Information Retrieval | Faster knowledge access, better recommendations |
+| L2 | Simple Orchestration | Multi-step task automation within a single domain |
+| L3 | Complex Orchestration | Cross-domain workflow optimisation |
+| L4 | Multi-Agent Ecosystems | Ecosystem-wide optimisation and new business models |
+
+Their honest assessment: L4 is explicitly noted as something *no one has achieved yet.* This is refreshing transparency from a vendor.
+:::
+
+::: {.callout-note collapse="true"}
+## Microsoft: Multiple Complementary Frameworks
+
+Microsoft maintains several maturity models that each address a different slice:
+
+- **[AI Strategy Roadmap](https://www.microsoft.com/en-us/microsoft-cloud/blog/2024/04/03/the-ai-strategy-roadmap-navigating-the-stages-of-value-creation/)** — Built from 100+ interviews with business and IT leaders. Key insight: *"The ability to realize value from AI depends as much on strategic, organizational, and cultural factors as it does on technology."*
+
+- **[LLMOps Maturity Model](https://azure.microsoft.com/en-us/blog/achieve-generative-ai-operational-excellence-with-the-llmops-maturity-model/)** — Two dimensions: application maturity (basic prompting → fine-tuning → RAG) and operational maturity (systematic deployment, robust monitoring).
+
+- **[MLOps Maturity Model](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/mlops-maturity-model)** — Clarifies DevOps principles required for ML operations, now extended with GenAIOps capabilities.
+
+- **[Responsible AI Maturity Model](https://www.microsoft.com/en-us/research/publication/responsible-ai-maturity-model/)** — 24 empirically derived dimensions across five levels (Latent through Leading), covering Organisational Foundations, Team Approach, and RAI Practices.
+
+Microsoft's [Enterprise AI Maturity in Five Steps](https://www.microsoft.com/insidetrack/blog/enterprise-ai-maturity-in-five-steps-our-guide-for-it-leaders/) — based on their own internal journey — emphasises preparing for *"agentic AI frameworks and autonomous, interoperable agents"* and empowering domain experts to become "Agent Leaders."
+:::
+
+::: {.callout-note collapse="true"}
+## Databricks: Crawl-Walk-Run
+
+Databricks frames their [AI Transformation Strategy Guide](https://www.databricks.com/blog/ai-transformation-complete-strategy-guide-2025) around progressive adoption:
+
+> *"Begin with lower-risk opportunities offering near-term productivity gains, then expand to complex use cases transforming core business functions. Many companies start with AI-powered content or customer service before moving to sophisticated applications like predictive maintenance."*
+
+On the agentic frontier specifically:
+
+> *"AI agents and agentic AI represent the next frontier — systems handling complex workflows autonomously. However, successfully deploying agentic AI requires mature infrastructure, refined models, and redesigned business processes accounting for human-machine collaboration."*
+
+Their [State of Data + AI Report](https://www.databricks.com/discover/state-of-data-ai) provides hard numbers on the progression: the experimental-to-production model ratio improved from 16:1 in February 2023 to 5:1 by March 2024, and Gen AI usage jumped from 55% to 75% in a single year. The direction is clear, even if the destination remains distant for most.
+:::
+
+::: {.callout-note collapse="true"}
+## Andrew Ng: The Four Agentic Design Patterns
+
+Andrew Ng's framework doesn't describe maturity stages — it describes the architectural building blocks that enable the agentic stage:
+
+1. **Reflection** — The LLM examines its own work to find improvements
+2. **Tool Use** — The LLM uses web search, code execution, or other functions
+3. **Planning** — The LLM creates and executes multi-step plans toward a goal
+4. **Multi-Agent Collaboration** — Multiple AI agents split tasks, discuss, and debate
+
+His enterprise advice: *focus on building applications using agentic workflows rather than solely chasing the most powerful foundational models.* Use the best available model to build something functional first; only optimise costs later.
+
+One year on, the assessment from practitioners is [a qualified yes](https://medium.com/@haileyq/agentic-ai-one-year-after-andrew-ngs-design-patterns-hype-or-reality-part-3-a8b395984a9b): agentic AI has delivered some of what was promised, but the grand vision remains a work in progress.
+:::
+
+::: {.callout-note collapse="true"}
+## MIT CISR: Enterprise AI Maturity
+
+The [MIT CISR study](https://mitsloan.mit.edu/ideas-made-to-matter/whats-your-companys-ai-maturity-level) provides one of the most sobering pictures:
+
+- 28% of organisations in Stage 1 (education and experimentation)
+- Only 7% "AI future-ready" (AI embedded in all decision-making)
+- Organisations in stages 1-2 performed *below* industry financial averages
+- Organisations in stages 3-4 performed *above*
+
+The correlation between maturity and financial performance is real, not theoretical.
+:::
+
+## Where Organisations Actually Are (And It's Not Where They Think)
+
+The research data paints a consistent picture: widespread adoption, shallow maturity.
+
+[McKinsey's Superagency Report](https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work) surveyed US CxOs and found:
+
+- **8%** Nascent (minimal gen AI initiatives)
+- **39%** Emerging (pilot projects starting to show value)
+- **31%** Developing (gen AI changing certain workflows)
+- **22%** Expanding (scaled across departments)
+- **1%** Mature (fundamentally changing how work is done)
+
+One percent. Let that sink in.
+
+[BCG's "Where's the Value in AI?"](https://www.bcg.com/publications/2024/wheres-value-in-ai) surveyed 1,000 CxOs across 59 countries and found **74% of companies have yet to show tangible value from AI.** Only 4% have cutting-edge capabilities generating significant value. And here's the counterintuitive finding: leaders pursue only *half* as many opportunities as less advanced peers but expect **2x the ROI**. They focus. They go deep rather than wide.
+
+[Vellum's State of AI 2025](https://aristeksystems.com/blog/whats-going-on-with-ai-in-2025-and-beyond/) tells the same story from the practitioner side: only 25.1% have deployed an AI application in production. The rest are split between strategising, building proofs of concept, and beta testing.
+
+If the classical curve already had a "chasm" between diagnostic and predictive analytics, the extended curve has a canyon between generative AI experimentation and agentic AI in production. Most organisations have someone playing with ChatGPT. Very few have AI systems that autonomously execute multi-step business workflows in production.
+
+::: {.callout-tip collapse="true"}
+## Nano Banana Prompt: Where Organisations Actually Sit
+
+```
+Create an infographic showing the distribution of organisations across
+the extended analytics maturity curve. White background.
+
+A horizontal bar or curve showing the 7 stages from "Descriptive" to
+"Autonomous". Above each stage, a vertical bar showing the percentage
+of organisations at that stage (like a histogram overlaid on the curve):
+
+- Descriptive/Diagnostic: ~40% (tall bar, labeled "~40%")
+- Predictive (ML): ~25% (medium bar)
+- Prescriptive: ~10% (shorter bar)
+- Cognitive/GenAI: ~15% (medium bar, label: "experimenting, few in production")
+- Agentic AI: ~7% (short bar)
+- Autonomous: ~1% (tiny bar, label: "aspirational")
+
+A large annotation arrow pointing to the gap between Prescriptive and
+Cognitive/GenAI labeled "The Production Chasm"
+
+Another annotation at the Agentic stage: "Only 25% have ANY AI app
+in production — Vellum 2025"
+
+Sources listed small at bottom: "McKinsey 2025, BCG 2024, MIT CISR,
+Vellum 2025"
+
+Style: Clean infographic style, green (#0aaa50) for the bars, grey
+for the curve baseline, sans-serif font. Professional, data-driven.
+No trademarked logos.
+```
+:::
+
+## The "You Can't Skip Stages" Warning
+
+Here's the most important message in this entire post: **you cannot shortcut this curve.**
+
+The allure of agentic AI is enormous. The demos are impressive. The vendor pitches are compelling. But every framework reviewed above — from Databricks' crawl-walk-run to Graphable AI's maturity model to MIT's enterprise study — converges on the same warning: skipping stages leads to failure.
+
+As [Infomineo](https://infomineo.com/blog/how-agentic-ai-is-reshaping-research-and-analytics/) warns: *"Agentic AI is most powerful when anchored in strong data foundations: clean, well-governed data pipelines, clear business definitions, and established analytics assets. Agentic AI amplifies both strengths and weaknesses in underlying data practices."*
+
+If your descriptive analytics are unreliable, your diagnostic insights are built on sand. If your ML models aren't properly validated and monitored, your generative AI applications inherit those same blind spots. And if your LLM applications lack proper governance and safety controls, giving them autonomy to act is not innovation — it's negligence.
+
+BCG quantifies where the real work lives with their **"10-20-70 Rule"**: 10% of resources should go to algorithms, 20% to technology and data, and **70% to people and processes.** Leaders who follow this ratio generate 2x the ROI of their peers. The 74% of organisations showing no tangible AI value aren't failing because of bad models. They're failing because they underinvest in the 70%.
+
+This maps directly to the operational disciplines. DataOps is a prerequisite for MLOps. MLOps practices inform LLMOps. And AIOps only works when the underlying disciplines are mature enough to support it. Each Ops discipline doesn't replace the previous one — it builds on top of it and adds the new capabilities that stage demands.
+
+::: {.callout-tip collapse="true"}
+## Nano Banana Prompt: The "You Can't Skip Stages" Staircase
+
+```
+Create a staircase diagram showing the progressive build of operational
+disciplines. White background, isometric 3D perspective.
+
+Each step is wider and taller than the last, forming a staircase from
+bottom-left to top-right:
+
+Step 1 (bottom, widest): "DataOps" — subtitle: "Data Quality,
+Pipelines, Governance" — colour: light green
+Step 2: "MLOps" — subtitle: "Model Lifecycle, Experiment Tracking,
+Drift Monitoring" — colour: medium green
+Step 3: "LLMOps / GenAIOps" — subtitle: "Prompt Management, RAG,
+Output Safety, Token Cost" — colour: darker green
+Step 4 (top, narrowest): "AIOps" — subtitle: "Strategy, Enterprise
+Integration, Cross-cutting Governance" — colour: dark green (#0aaa50)
+
+Each step visibly rests on the one below it, making it structurally
+clear that removing a lower step would collapse the upper ones.
+
+A small figure standing at the bottom looking up, with a thought
+bubble: "Can I skip to step 4?" and a red X next to it.
+
+Along the right side, a vertical arrow labeled:
+"Each stage builds on the foundations below"
+
+Style: Clean isometric illustration, green palette, sans-serif font,
+professional. No trademarked logos.
+```
+:::
+
+## The Practitioner View: What the People Building This Actually Think
+
+Theory and frameworks are useful. But what do the people actually building these systems say?
+
+**Simon Willison**, who initially called "agents" *"the ultimate in buzzword bingo"* and collected [211 definitions on Twitter](https://simonwillison.net/tags/ai-agents/) to demonstrate the confusion, has since accepted the term — describing it as *"a big piece of personal character development."* His settled definition is clean and practical: **"An LLM agent runs tools in a loop to achieve a goal."**
+
+His key distinction: *"Continual learning human-replacement agents definitely isn't happening in 2025,"* but *"coding agents that are really good at running tools in the loop... are here already"* and represent *"a genuine step change in how useful LLMs can be for producing working code."*
+
+On security, Willison warns of the [**"Lethal Trifecta"**](https://simonw.substack.com/p/the-lethal-trifecta-for-ai-agents): if your agent combines (1) access to private data, (2) exposure to untrusted content, and (3) the ability to communicate externally, an attacker can easily exploit it. This is a theme I explored in [Danger In Delegation](../agentic-security-risks/index.qmd) — it's real, and it gets more acute as you move up the maturity curve.
+
+**Chip Huyen**, whose book *[AI Engineering](https://www.oreilly.com/library/view/ai-engineering/9781098166298/)* has become the most-read title on O'Reilly since launch, describes agents as *"an emerging field with no established theoretical frameworks for defining, developing, and evaluating them."* Her central observation on production readiness echoes what every practitioner discovers: *"It's easy to make something cool with LLMs, but very hard to make something production-ready with them."*
+
+**Anthropic**, in their [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) research, found that the most successful implementations *"weren't using complex frameworks or specialized libraries — instead, they were building with simple, composable patterns."* Their six composable patterns — prompt chaining, parallelisation, routing, evaluator-optimiser, orchestrator-workers, and context augmentation — provide a practical toolkit for navigating the agentic stage.
+
+The practitioner consensus is converging: **agents are real but narrower than the hype.** Coding agents work. Customer service agents work in constrained domains. General-purpose autonomous agents remain aspirational. And operational maturity matters far more than model capability.
+
+## The Value-Complexity Inflection
+
+There's a pattern in the extended curve that's worth calling out explicitly. The relationship between complexity and value follows an S-curve, but the inflection point has shifted.
+
+In the classical model, the biggest jump in value came between diagnostic and predictive analytics — the shift from "here's what happened" to "here's what will happen." That was the inflection point for a decade.
+
+The new inflection point sits between prescriptive and cognitive/generative AI. This is where the nature of the value changes from **optimising known processes** to **augmenting human capability**. It's no longer about doing the same things better. It's about doing fundamentally different things.
+
+The market validates this. The agentic AI market is projected to grow from $5.25 billion in 2024 to $199.05 billion by 2034 — a 38-fold increase. But the gap between investment and realised value remains stark: 79% of enterprises report at least some level of AI agent adoption, but only 34% have successfully implemented agentic systems despite high investment.
+
+::: {.callout-tip collapse="true"}
+## Nano Banana Prompt: The Value-Complexity S-Curve
+
+```
+Create a diagram showing two overlapping S-curves on the same axes.
+White background, professional style.
+
+X-axis (left to right): The 7 maturity stages — "Descriptive",
+"Diagnostic", "Predictive", "Prescriptive", "Cognitive/GenAI",
+"Agentic", "Autonomous"
+
+Y-axis: "Value Delivered"
+
+Curve 1 (solid green #0aaa50 line): "Value" — an S-curve that
+rises gradually through the first 4 stages, then inflects sharply
+upward from "Cognitive/GenAI" onwards
+
+Curve 2 (dashed grey line): "Complexity" — rises more linearly but
+accelerates from "Agentic" onwards
+
+The gap between the two curves is shaded:
+- Green shading where Value > Complexity (net positive)
+- Red/orange shading where Complexity > Value (danger zone, appears
+  briefly in early Agentic stage before value catches up)
+
+Two callout annotations:
+- At the gap between Prescriptive and Cognitive: "The New Inflection
+  Point" with an arrow
+- At the Agentic stage: "Ops Maturity Determines Whether You're in
+  the Green or Red Zone"
+
+Style: Clean line chart style, minimal gridlines, sans-serif font,
+green (#0aaa50) and grey colour palette. No trademarked logos.
+```
+:::
+
+## What This Means for Your Organisation
+
+If you're reading this and wondering where your organisation sits — and what to do about it — here's a practical framework:
+
+**If you're in Stage 1-2 (Descriptive/Diagnostic):** Focus on DataOps. Get your data house in order. Build reliable pipelines, invest in data quality, establish governance. This is not glamorous work, but it's the foundation everything else depends on. Skipping this to chase GenAI is the fastest way to expensive failure.
+
+**If you're in Stage 3-4 (Predictive/Prescriptive):** You should have MLOps practices in place. If you don't, that's your priority. If you do, start exploring LLMOps alongside your existing ML practice. The key word is *alongside* — GenAI doesn't replace your existing ML capabilities, it augments them.
+
+**If you're in Stage 5 (Cognitive/GenAI):** You're likely dealing with the operational chaos of LLMs in production. Prompt management, evaluation frameworks, cost governance, and output safety are your priorities. This is where [LLMOps](https://www.advancinganalytics.co.uk/blog/2023/11/27/llmops-with-promptflow) becomes non-negotiable.
+
+**If you're approaching Stage 6 (Agentic):** You need AIOps thinking. Not as a replacement for your existing Ops disciplines, but as the strategic layer that coordinates them. Agent observability, tool-use governance, and the [security considerations of autonomous systems](../agentic-security-risks/index.qmd) become critical. You should also be thinking about the [four threat quadrants](../aiops-journey-four-threat-quadrants/index.qmd) that frame your risk landscape.
+
+**Wherever you are:** Remember the 10-20-70 rule. Invest 70% in people and processes. The technology is the easy part.
+
+## The Journey Continues
+
+This maturity curve is not a roadmap with a fixed destination. It's a map of the territory as it exists today — and the territory is still forming. New capabilities will emerge. New operational challenges will surface. The frameworks I've surveyed here will evolve.
+
+What won't change is the fundamental insight: **operational maturity is the binding constraint on AI value.** The 74% of organisations that haven't yet shown tangible AI value aren't held back by algorithms. They're held back by the 70% of the challenge that is people and process.
+
+The curve tells you where the value is. The Ops disciplines tell you how to capture it. And AIOps, as the strategic superset, tells you how to coordinate it all.
+
+In future posts in [The AIOps Journey](/aiops-journey.qmd) series, we'll continue to explore the specific operational challenges at each stage. Next up: governance and compliance frameworks that can actually keep pace with AI's rate of change.

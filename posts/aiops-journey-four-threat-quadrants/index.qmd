@@ -14,7 +14,7 @@ categories:
   - strategy
 ---
 
-*This is part of [The AIOps Journey](../aiops-journey-what-is-it/index.qmd) series, exploring the operational challenges of AI at scale.*
+*This is part of [The AIOps Journey](/aiops-journey.qmd) series, exploring the operational challenges of AI at scale.*
 
 ## Overview
 
