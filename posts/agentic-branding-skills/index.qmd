@@ -1,0 +1,194 @@
+---
+title: "Branding Packs Won't Just Have PDFs Anymore: They'll Have Agent Skills"
+subtitle: "Why Brand Governance Is Becoming a Data Engineering Problem"
+author: "Scott Bell"
+description: "As AI saturates every design tool, brand guidelines become data engineering concerns. The branding pack of the future will include Organisational Branding Agent Skills."
+ai-label: "AI Assisted"
+date: "2026-02-29"
+draft: true
+categories:
+  - ai
+  - agents
+  - agentic
+  - architecture
+  - data-engineering
+  - prompt-design
+---
+
+## When Every Tool Has AI, Who's Guarding Your Brand?
+
+Canva has Magic Design. PowerPoint has Copilot. Adobe has Firefly. Word, Google Docs, Figma — pick a tool, any tool — and there's an AI button waiting to generate something for you. The democratisation of content creation is real, and it's accelerating.
+
+Here's the uncomfortable bit: if anyone on your team can generate a "branded" presentation in 30 seconds, what's actually enforcing your brand guidelines? In most organisations, the answer is nothing. Maybe a PDF brand book that nobody's opened since onboarding. Maybe a shared drive of logos that may or may not be the current version. Maybe vibes.
+
+I call this **The Canva Free-for-All** — when every team member has AI-powered design tools but no machine-enforceable guardrails, and the result is content that's *on-brand-ish*. Close enough that nobody flags it immediately, but drifting slowly until your blue is wrong, your tone sounds like it was written by a committee of robots, and your CEO is asking why the investor deck looks different from the sales deck.
+
+This is about to become a very expensive problem. But it's also a solvable one, if we're willing to think about brand governance the way we already think about data governance.
+
+## Brand Governance Was Always a Data Problem: We Just Didn't Call It That
+
+Think about what a brand guidelines pack actually manages. You've got assets (logos, fonts, colour palettes) — those need **lineage**. Where did this version come from? Is it current? You've got quality rules — is this the right shade of blue? Is this font approved for digital use? And you've got **governance** — who signed off on this template? Who's allowed to modify the tone of voice document?
+
+Sound familiar? These are the same concerns data engineers have been wrestling with for years. Lineage, quality, governance — the holy trinity of any well-run data platform. The difference is that brand teams have been managing these concerns with PDFs, Dropbox folders, and strongly-worded emails, while data teams built entire platforms around them.
+
+When I spoke about generative AI governance at SQLBits 2024, this was already emerging as a theme. But it was still largely theoretical. Generative AI was mostly text-based, and the blast radius of ungoverned content was manageable. Agentic AI changes the equation entirely. Multimodal agents don't just write text — they generate presentations, create images, compose social posts, draft documents. They have their claws in every part of the organisation's content surface area. The governance challenge I was describing then has, frankly, become urgent.
+
+As I explored in [The AIOps Journey](../aiops-journey-what-is-it/index.qmd), the GenAIOps space already names "lineage, brand reputation and more" as core challenges. But not many organisations have actually unified their brand asset governance with their data platforms. Agentic AI is forcing that convergence.
+
+## The Branding Pack: Then and Now
+
+Let's be concrete. Here's what a traditional branding pack looks like:
+
+- A PDF brand guidelines document (40+ pages, beautifully designed, rarely read in full)
+- Logo files in a zip — EPS, PNG, SVG in various configurations
+- A colour palette (hex codes in a PDF or spreadsheet)
+- Font files with a vague usage guide
+- A handful of PowerPoint and Word templates
+- Maybe a tone of voice document
+
+This has worked (sort of) for decades. But it was designed for humans reading documents and making judgment calls. It was never designed for machines generating content at scale.
+
+The branding pack of the future will contain all of the above, plus something new: **Organisational Branding Agent Skills** — machine-readable, portable skill definitions that encode your brand's assets, tone, and generation rules into something an AI agent can actually *use*.
+
+I'm calling this the **Skill-First Branding Pack**. Your brand guidelines don't just get read — they get executed. And crucially, these aren't the vanilla "generate a document" skills you get out of the box from any AI platform. They're fine-tuned skills for *your* business's view of the world, with *your* assets and *your* knowledge of what "on-brand" actually means baked in.
+
+## What Is an Agent Skill?
+
+::: {.callout-tip appearance="simple"}
+## Not familiar with Agent Skills?
+Think of them as portable, reusable instruction packs for AI agents. Where a prompt tells an agent what to do *once*, a skill teaches it how to do a *class of work* repeatedly and consistently. A prompt is directions to your house. A skill is a GPS.
+:::
+
+The [Agent Skills specification](https://agentskills.io/specification) is an emerging open standard that defines what these portable skill packages look like. At minimum, a skill is a directory containing a `SKILL.md` file — YAML frontmatter with a name and description, followed by markdown instructions. Optionally, you can include `scripts/` for executable code, `references/` for documentation the agent can read on demand, and `assets/` for static resources like templates, images, or data files.
+
+The spec uses a clever **progressive disclosure** pattern: metadata (name + description) gets loaded at startup for all skills so the agent knows what's available; the full instructions load only when the skill is activated; and supporting files load only when the agent actually needs them. It's efficient — context is precious, and you don't want to burn tokens loading logo files into a conversation about database schema.
+
+The important thing to understand: a branding agent skill is not "ask ChatGPT to make it on-brand." It's a structured, governed capability with your brand's specific assets, tone rules, and generation constraints packaged into something an agent operating within an {{< defn "Agent Harness" >}} can invoke with full context.
+
+## What Does a Branding Agent Skill Actually Look Like?
+
+Let me sketch what I think an organisational branding agent skill would look like in practice. I'm following the conventions from the [Agent Skills specification](https://agentskills.io/specification), extended with the kind of brand-specific directories that a marketing or comms team would need.
+
+```
+acme-corp-branding/
+  SKILL.md                            # Skill definition: name, description, instructions
+  assets/
+    logos/
+      primary-logo.svg
+      icon-only.svg
+      logo-dark-bg.svg
+    colours/
+      palette.json                    # Hex, RGB, CMYK with usage contexts
+    fonts/
+      brand-font-primary.woff2
+      brand-font-secondary.woff2
+      font-usage.md                   # When to use which font, and where
+    tiles/
+      social-tile-template.png
+      presentation-bg-dark.png
+  references/
+    tone/
+      tone.json                       # Brand voice profile (see below)
+      tone-by-audience.json           # Variations: executive, technical, public
+    brand-guidelines-summary.md       # Distilled, machine-readable guidelines
+  scripts/
+    generate-pptx.py                  # PowerPoint generation with brand constraints
+    generate-docx.py                  # Word document generation with brand constraints
+  branding-prompts/
+    pptx-generation.md                # PowerPoint creation prompt context
+    word-doc-generation.md            # Word document creation prompt context
+    social-post.md                    # Social media content prompt
+    executive-summary.md              # Exec-level summary prompt
+  templates/
+    presentation-template.pptx
+    document-template.docx
+```
+
+Let me walk through what matters here:
+
+- **`SKILL.md`** is the entry point. It tells the agent *what this skill does* (generate on-brand documents for Acme Corp) and *when to use it* (whenever the user needs branded content). The progressive disclosure pattern means the agent reads this first and everything else on demand.
+
+- **`assets/`** contains the actual brand artefacts — logos, colours as structured JSON (not a PDF swatch), fonts, and background tiles. These are machine-readable by design. The `palette.json` doesn't just list hex codes; it includes usage contexts ("primary blue is for headers, never for body text").
+
+- **`references/tone/`** is where it gets interesting. The `tone.json` encodes your brand voice as structured data that an agent can actually reason about:
+
+```json
+{
+  "brand": "Acme Corp",
+  "voice_personality": {
+    "traits": [
+      {
+        "trait": "Confident but approachable",
+        "description": "We speak with authority but never talk down to our audience.",
+        "weight": 0.9
+      },
+      {
+        "trait": "Technically precise",
+        "description": "We use correct terminology but always explain it.",
+        "weight": 0.85
+      }
+    ],
+    "forbidden_phrases": ["game-changer", "synergy", "leverage"],
+    "preferred_phrases": ["practical", "proven", "built for"]
+  },
+  "audience_defaults": {
+    "assumed_expertise": "mid-level professional",
+    "formality": 0.7,
+    "humour_tolerance": 0.3
+  }
+}
+```
+
+::: {.callout-note appearance="simple"}
+## Sound familiar?
+I use a similar schema to encode my own writing voice for this blog — a structured profile with traits, confidence weights, forbidden patterns, and audience assumptions. The same approach works for any brand. And unlike a PDF style guide, an agent can actually *use* this to generate content that sounds like you, not like generic AI output.
+:::
+
+- **`branding-prompts/`** contains context-specific prompt instructions. The `pptx-generation.md` doesn't just say "make a PowerPoint" — it says "use the dark background tile for section dividers, place the icon-only logo in the bottom-right corner, use heading font for slide titles and body font for bullet points, keep bullet points to three per slide."
+
+- **`scripts/`** provides the actual generation logic — Python scripts that combine templates, assets, and the agent's generated content into properly formatted documents.
+
+## Why This Matters: Portable, Consistent, Auditable
+
+So why bother with all this structure? Five reasons:
+
+1. **Portable** — Skills travel with your brand. Hand them to an agency, a new hire, a partner. They don't need to "learn" your brand from a PDF; the agent already knows it. Onboarding goes from "please read these 40 pages" to "install this skill."
+
+2. **Consistent** — Every generated asset follows the same rules. No more "that shade of blue doesn't look right" arguments. The palette.json is the single source of truth, and the agent enforces it.
+
+3. **Reusable** — Build once, use across every AI tool that supports the agent skills format. One investment, many outputs. The same skill that generates your internal presentations also governs your social media posts.
+
+4. **Auditable** — Because the skill is structured data, you can version it, diff it, and track what changed. Brand *lineage* becomes possible. "Who changed the tone profile?" is now a `git log` away.
+
+5. **Testable** — Unlike a PDF guideline, you can write automated checks against skill outputs. Did the generated deck use the right font? Is the tone within acceptable parameters? These become CI/CD checks, not subjective reviews.
+
+## The Hard Parts: Versioning, Deployment, and the Skills Gap
+
+I'd be doing you a disservice if I pretended this was all straightforward. There are real challenges.
+
+**Versioning** is the first. Brand guidelines change — new campaigns, refreshed colour palettes, updated tone for a new market. How do you version a skill? Semantic versioning? Git-based tagging? This is directly analogous to data pipeline versioning, and (to be honest) it's equally unsolved for most teams.
+
+**Deployment ownership** is the second. Who owns pushing a brand skill update? Marketing? IT? A cross-functional brand ops team? The organisational question mirrors the "who owns the data platform" debate that most companies are still having.
+
+**The skills gap** is the third, and possibly the hardest. The people who understand branding don't typically write JSON schemas. The engineers who write JSON schemas don't typically understand brand strategy. This is the same bridge problem data engineering has with business analysts — and it needs the same kinds of solutions (shared ownership, collaborative tooling, mutual respect for expertise).
+
+::: {.callout-warning appearance="simple"}
+## Anti-pattern: The Unversioned Skill
+If your branding skill lives in a shared drive with no version history, no review process, and no deployment pipeline — congratulations, you've recreated the exact same problem the PDF brand book had, just with extra steps and more YAML. Treat your skills like code: version them, review changes, deploy deliberately.
+:::
+
+## Internal Skill Marketplaces and Prompt Catalogs: The Bigger Picture
+
+The branding skill is one example of a much broader pattern. Organisations are going to build internal libraries of agent skills — curated, approved, governed collections of capabilities that their teams can discover, install, and compose.
+
+I've been calling these **prompt catalogs** since 2023 — centralised repositories of tested, approved prompts and skills for specific organisational tasks. The idea isn't new, but the infrastructure to support it is finally catching up. Databricks, for example, recently put a [Prompt Registry](https://docs.databricks.com/aws/en/generative-ai/prompt-registry) into their platform via MLflow — a governed store for prompt templates with versioning, access control, and deployment tracking. That's validation that the industry is heading this way.
+
+The vision here is an internal skill marketplace. Your branding skill sits alongside a "data quality check" skill, a "customer communications" skill, a "compliance review" skill. Teams discover what's available, compose skills together, and the whole thing is governed through the same AIOps framework that manages your models and pipelines. Skills become first-class AI assets — with all the lineage, quality, and governance that implies.
+
+## The Brand Book Is Dead. Long Live the Brand Skill.
+
+If you're a data engineer reading this: brand assets are data assets now. The same governance principles you apply to your data pipelines — lineage, versioning, quality checks, access control — apply to brand skills. You already know how to do this. The domain is new; the discipline isn't.
+
+If you're in marketing or PR: start thinking about your brand guidelines as machine-readable artefacts, not just human-readable documents. The organisations that figure this out first won't just have better brand consistency — they'll move faster, onboard partners more easily, and maintain control even as AI-generated content becomes the norm rather than the exception.
+
+The branding pack of the future isn't a PDF and a zip file. It's a skill. And like all good skills, it's portable, versioned, and ready to work.
