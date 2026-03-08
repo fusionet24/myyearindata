@@ -1,0 +1,128 @@
+---
+title: "MyYearInData Blog"
+description: "Data engineering, architecture, security, and AI insights. Practical perspectives on building intelligent data systems."
+page-layout: full
+title-block-banner: false
+css: views.css
+---
+
+<!-- View 5: Minimal Directory / Table of Contents
+     A text-first, no-image directory that prioritises scannability.
+     Posts are grouped by topic area with dotted-line leaders
+     connecting title to date. A compact stats bar at the top
+     communicates volume and authority.
+     Best for: Returning readers who know what they want. Feels
+     like an academic journal index or a well-organised bookshelf. -->
+
+<a class="skip-to-content" href="#main-listing">Skip to article listing</a>
+
+::: {.view-directory role="main" id="main-listing"}
+
+<p class="directory-intro">
+Practical writing on data engineering, AI architecture, and security — from a consultant who builds these systems. Browse by topic below.
+</p>
+
+<div class="directory-stats" role="region" aria-label="Blog statistics">
+  <div class="stat-item">
+    <span class="stat-number">25+</span>
+    <span class="stat-label">Articles</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">7</span>
+    <span class="stat-label">Topics</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">2</span>
+    <span class="stat-label">Years</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">10+</span>
+    <span class="stat-label">Talks</span>
+  </div>
+</div>
+
+::: {.directory-section}
+## AI &amp; Agentic Systems
+
+<ul class="directory-list">
+  <li>
+    <div>
+      <span class="entry-title"><a href="/posts/agentic-branding-skills/">Branding Packs Won't Just Have PDFs: They'll Have Agent Skills</a></span>
+      <div class="entry-subtitle">Why brand governance is becoming a data engineering problem</div>
+    </div>
+    <span class="entry-date">Feb 2026</span>
+  </li>
+  <li>
+    <div>
+      <span class="entry-title"><a href="/posts/agentic-decomposition/">Agentic Decomposition: A Practical Guide</a></span>
+      <div class="entry-subtitle">Breaking down problems into tractable, agent-sized pieces</div>
+    </div>
+    <span class="entry-date">Jan 2026</span>
+  </li>
+  <li>
+    <div>
+      <span class="entry-title"><a href="/posts/obsidian-second-brain-ai-agents/">Obsidian as a Second Brain for AI Agents</a></span>
+      <div class="entry-subtitle">Graph-based knowledge architecture for agent memory</div>
+    </div>
+    <span class="entry-date">Jan 2026</span>
+  </li>
+  <li>
+    <div>
+      <span class="entry-title"><a href="/posts/AI-Content-Labels/">AI Content Labels: Why Transparency Matters</a></span>
+      <div class="entry-subtitle">A labelling system for human-AI content collaboration</div>
+    </div>
+    <span class="entry-date">Nov 2025</span>
+  </li>
+</ul>
+:::
+
+::: {.directory-section}
+## AIOps &amp; Operations
+
+<ul class="directory-list">
+  <li>
+    <div>
+      <span class="entry-title"><a href="/posts/aiops-journey-four-threat-quadrants/">The Four Threat Quadrants</a></span>
+      <div class="entry-subtitle">A framework for AI system security across four dimensions</div>
+    </div>
+    <span class="entry-date">Feb 2026</span>
+  </li>
+  <li>
+    <div>
+      <span class="entry-title"><a href="/posts/aiops-journey-what-is-it/">AIOps Journey: What Is It?</a></span>
+      <div class="entry-subtitle">Defining operational AI maturity beyond the buzzword</div>
+    </div>
+    <span class="entry-date">Jan 2026</span>
+  </li>
+</ul>
+:::
+
+::: {.directory-section}
+## Security
+
+<ul class="directory-list">
+  <li>
+    <div>
+      <span class="entry-title"><a href="/posts/agentic-security-risks/">Agentic Security Risks You Should Know</a></span>
+      <div class="entry-subtitle">Prompt injection, tool abuse, and escalation vectors in agent systems</div>
+    </div>
+    <span class="entry-date">Dec 2025</span>
+  </li>
+</ul>
+:::
+
+::: {.directory-section}
+## Data Engineering &amp; Architecture
+
+<ul class="directory-list">
+  <li>
+    <div>
+      <span class="entry-title"><a href="#">Building Data Pipelines That Last</a></span>
+      <div class="entry-subtitle">Patterns for durable engineering that survives team turnover</div>
+    </div>
+    <span class="entry-date">Nov 2025</span>
+  </li>
+</ul>
+:::
+
+:::

@@ -1,0 +1,93 @@
+---
+title: "MyYearInData Blog"
+description: "Data engineering, architecture, security, and AI insights. Practical perspectives on building intelligent data systems."
+page-layout: full
+title-block-banner: false
+css: views.css
+---
+
+<!-- View 4: Spotlight / Showcase
+     A single featured post dominates the left two-thirds of the
+     viewport with a full excerpt, while the right sidebar shows
+     recent posts and popular topics.
+     Best for: When you have a tentpole piece you want maximum
+     engagement on. The sidebar keeps the rest accessible. -->
+
+<a class="skip-to-content" href="#main-listing">Skip to article listing</a>
+
+::: {.view-spotlight role="main" id="main-listing"}
+
+::: {.spotlight-main}
+<span class="spotlight-label">Latest Deep Dive</span>
+
+## [Agentic Decomposition: A Practical Guide to Breaking Down Problems](/posts/agentic-decomposition/)
+
+<div class="spotlight-meta">
+  <span><strong>Scott Bell</strong></span>
+  <time datetime="2026-01-25">25 January 2026</time>
+  <span>8 min read</span>
+</div>
+
+<blockquote class="spotlight-excerpt">
+Before you can diagram an agentic system, you need to decompose the problem. Most teams jump to tools and frameworks before understanding the shape of what they're building. This guide walks through practical strategies for breaking complexity into tractable, agent-sized pieces — starting from first principles of task analysis, through dependency mapping, to orchestration boundaries.
+</blockquote>
+
+<a href="/posts/agentic-decomposition/" class="read-more">
+  Continue Reading <span aria-hidden="true">&rarr;</span>
+</a>
+:::
+
+::: {.spotlight-sidebar}
+
+::: {.sidebar-section}
+### Recent Posts
+
+<ul class="sidebar-list">
+  <li>
+    <a href="/posts/agentic-branding-skills/">Branding Packs Will Have Agent Skills</a>
+    <div class="sidebar-date">18 Feb 2026</div>
+  </li>
+  <li>
+    <a href="/posts/aiops-journey-four-threat-quadrants/">AIOps: The Four Threat Quadrants</a>
+    <div class="sidebar-date">Feb 2026</div>
+  </li>
+  <li>
+    <a href="/posts/aiops-journey-what-is-it/">AIOps Journey: What Is It?</a>
+    <div class="sidebar-date">Jan 2026</div>
+  </li>
+  <li>
+    <a href="/posts/obsidian-second-brain-ai-agents/">Obsidian as a Second Brain for AI Agents</a>
+    <div class="sidebar-date">Jan 2026</div>
+  </li>
+  <li>
+    <a href="/posts/agentic-security-risks/">Agentic Security Risks</a>
+    <div class="sidebar-date">Dec 2025</div>
+  </li>
+</ul>
+:::
+
+::: {.sidebar-section}
+### Topics
+
+<div class="topic-list">
+  <a href="#" class="topic-tag">AI</a>
+  <a href="#" class="topic-tag">Agents</a>
+  <a href="#" class="topic-tag">Security</a>
+  <a href="#" class="topic-tag">Data Engineering</a>
+  <a href="#" class="topic-tag">Architecture</a>
+  <a href="#" class="topic-tag">Azure</a>
+  <a href="#" class="topic-tag">Databricks</a>
+  <a href="#" class="topic-tag">Prompt Design</a>
+  <a href="#" class="topic-tag">LLM</a>
+</div>
+:::
+
+::: {.sidebar-section}
+### About the Author
+
+Scott Bell is a Principal Consultant specializing in Azure, data engineering, and AI. He writes about the intersection of data systems and intelligent automation at [MyYearInData](/).
+:::
+
+:::
+
+:::

@@ -1,0 +1,145 @@
+---
+title: "Website View Templates"
+description: "Five alternate landing page views for MyYearInData, each with different content-first design philosophies."
+page-layout: article
+title-block-banner: true
+draft: true
+---
+
+## Overview
+
+Five ready-to-use views for the blog landing page. Each emphasises content and authority while using the existing MyYearInData brand palette (greens `#0aaa50` through `#1B5E20`, cosmo theme, Inter typography). All views include accessibility features: semantic HTML, ARIA labels, skip-links, keyboard-navigable focus states, and responsive layouts.
+
+**To switch views**: replace the body of `index.qmd` with the content from any view below, and add `css: views/views.css` to the YAML frontmatter (or merge the relevant CSS into `styles.css`).
+
+---
+
+## View 1: Magazine / Editorial Hero
+
+**File:** [`magazine.qmd`](magazine.qmd)
+
+**When to use it:** When you want your most important post front-and-centre. The hero section gives one piece maximum visual weight, while the grid below keeps the rest browsable.
+
+**Design rationale:**
+
+- Two-column hero with image and text establishes editorial authority
+- "Featured" label above the hero uses brand green as a subtle accent
+- Card grid beneath uses border-left hover effects for tactile interactivity
+- Category labels are uppercase and small — present but not competing with titles
+- Green left border on the hero panel ties to the title-block-banner colour
+
+**Accessibility:** Landmark `role="main"`, skip-link, semantic heading hierarchy.
+
+---
+
+## View 2: Card Grid with Category Chips
+
+**File:** [`cardgrid.qmd`](cardgrid.qmd)
+
+**When to use it:** For a browsing-oriented audience that scans by topic. The category bar at the top creates a mental filter even without JavaScript.
+
+**Design rationale:**
+
+- Category chips use the green spectrum (`#eef6f0` bg, `#2E7D32` text) for passive state, solid `#0aaa50` on hover/active
+- Cards have subtle elevation on hover (translateY + shadow) — modern but restrained
+- Green gradient fallback on card thumbnails means cards look complete even without images
+- Read-time badge in brand green rewards scanners
+- Footer separator within each card creates visual rhythm
+
+**Accessibility:** `aria-current` on active category, `aria-label` on nav, focus-visible outlines.
+
+---
+
+## View 3: Timeline / Chronicle
+
+**File:** [`timeline.qmd`](timeline.qmd)
+
+**When to use it:** To emphasise the narrative arc of your writing over time. Ideal for a thought leader who wants to show sustained, evolving output.
+
+**Design rationale:**
+
+- Vertical green line with dot markers creates a visual journey
+- Year markers are bold green circles that break the timeline into chapters
+- Entry cards are minimal (title, description, tags) — content-dense, not image-heavy
+- Tags use the lightest green (`#f0f7f2`) to stay visible without competing
+- The gradient on the timeline line (green-to-light-green-to-green) adds subtle depth
+
+**Accessibility:** `<time>` elements with `datetime` attributes, landmark labelling, responsive left-padding adjustments for mobile.
+
+---
+
+## View 4: Spotlight / Showcase
+
+**File:** [`spotlight.qmd`](spotlight.qmd)
+
+**When to use it:** When you have a tentpole piece — a deep dive, a series opener, a conference companion post — that deserves maximum real estate.
+
+**Design rationale:**
+
+- 2:1 grid ratio gives the featured piece two-thirds of viewport width
+- The excerpt has a green left-border (matching brand), making it feel like a pull-quote
+- CTA button uses solid brand green with dark green hover state
+- Sticky sidebar stays visible while scrolling through the featured excerpt
+- Sidebar sections (Recent, Topics, About) give the page utility beyond the spotlight
+- Topic tags in the sidebar mirror the card-grid category chips for design consistency
+
+**Accessibility:** Sticky sidebar uses `position: sticky` (respects reduced-motion preferences), semantic `<time>`, descriptive link text.
+
+---
+
+## View 5: Minimal Directory / Table of Contents
+
+**File:** [`directory.qmd`](directory.qmd)
+
+**When to use it:** For returning readers who know what they want. Also effective as a "writings" or "archive" page that complements a different homepage view.
+
+**Design rationale:**
+
+- Zero images — text density is the point
+- Dotted-line separators between entries create a book-index aesthetic
+- Stats bar at the top communicates volume and authority (25+ articles, 10+ talks) without being boastful
+- Entries grouped by topic with dark-green uppercase section headers
+- Subtitles in grey give just enough context without cluttering
+- Tabular-nums on dates for clean right-alignment
+- Green bottom border on the intro paragraph anchors the brand
+
+**Accessibility:** `role="region"` with `aria-label` on stats, semantic lists, tabular number alignment for screen readers.
+
+---
+
+## How to integrate
+
+### Option A: Replace index.qmd entirely
+
+Copy the content of any view file (e.g., `magazine.qmd`) into `index.qmd` and add the CSS reference:
+
+```yaml
+---
+title: "MyYearInData Blog"
+css:
+  - views/views.css
+listing: false
+page-layout: full
+title-block-banner: false
+---
+```
+
+### Option B: Merge CSS into styles.css
+
+Append the contents of `views/views.css` to your existing `styles.css`, then use any view's HTML/Quarto body directly in `index.qmd` without needing an extra CSS reference.
+
+### Option C: Use as separate pages
+
+Keep each view as a standalone page (e.g., link from navbar to `views/magazine.qmd`) and use them alongside Quarto's built-in listing on the main `index.qmd`.
+
+---
+
+## Making views dynamic
+
+The sample content in each view is hardcoded for demonstration. To make posts populate automatically, you can:
+
+1. **Use Quarto listings** alongside custom HTML by adding `listing:` config to the YAML and using `:::{#listing-id}` blocks
+2. **Use a Lua filter** to inject post metadata into the HTML templates at render time
+3. **Use JavaScript** to fetch the RSS feed (`index.xml`) and render cards client-side
+
+The recommended approach is option 1 — Quarto listings — combined with custom CSS to style the listing output. The `type: custom` listing with an EJS template gives you full control over the HTML while keeping content dynamic.

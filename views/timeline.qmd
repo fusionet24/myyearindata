@@ -1,0 +1,144 @@
+---
+title: "MyYearInData Blog"
+description: "A chronological journey through data engineering, architecture, security, and AI insights."
+page-layout: full
+title-block-banner: false
+css: views.css
+---
+
+<!-- View 3: Timeline / Chronicle
+     Posts arranged along a vertical timeline grouped by year.
+     The green line and dot markers create a visual journey
+     through the author's writing history.
+     Best for: Showing evolution of thinking over time.
+     Reinforces authority through visible sustained output. -->
+
+<a class="skip-to-content" href="#main-listing">Skip to article listing</a>
+
+::: {.view-timeline role="main" id="main-listing" aria-label="Blog post timeline"}
+
+::: {.timeline-year}
+<div class="year-marker" aria-hidden="true">2026</div>
+
+## 2026
+:::
+
+::: {.timeline-entry}
+::: {.entry-content}
+<time class="entry-date" datetime="2026-02-18">18 February 2026</time>
+
+### [Branding Packs Won't Just Have PDFs: They'll Have Agent Skills](/posts/agentic-branding-skills/)
+
+<p class="entry-desc">As AI saturates every design tool, brand guidelines become data engineering concerns. Why brand governance is the next frontier for agentic systems.</p>
+
+<div class="entry-tags">
+  <span class="entry-tag">AI</span>
+  <span class="entry-tag">Agents</span>
+  <span class="entry-tag">Architecture</span>
+  <span class="entry-tag">Data Engineering</span>
+</div>
+:::
+:::
+
+::: {.timeline-entry}
+::: {.entry-content}
+<time class="entry-date" datetime="2026-01-25">25 January 2026</time>
+
+### [Agentic Decomposition: A Practical Guide to Breaking Down Problems](/posts/agentic-decomposition/)
+
+<p class="entry-desc">Before you can diagram an agentic system, you need to decompose the problem. Practical strategies for breaking complexity into tractable, agent-sized pieces.</p>
+
+<div class="entry-tags">
+  <span class="entry-tag">AI</span>
+  <span class="entry-tag">Agents</span>
+  <span class="entry-tag">Architecture</span>
+  <span class="entry-tag">Prompt Design</span>
+</div>
+:::
+:::
+
+::: {.timeline-entry}
+::: {.entry-content}
+<time class="entry-date" datetime="2026-01-20">January 2026</time>
+
+### [AIOps Journey: The Four Threat Quadrants](/posts/aiops-journey-four-threat-quadrants/)
+
+<p class="entry-desc">Mapping the threat landscape across data, model, infrastructure, and governance dimensions. A framework for reasoning about AI system security.</p>
+
+<div class="entry-tags">
+  <span class="entry-tag">AI</span>
+  <span class="entry-tag">Security</span>
+  <span class="entry-tag">Architecture</span>
+</div>
+:::
+:::
+
+::: {.timeline-entry}
+::: {.entry-content}
+<time class="entry-date" datetime="2026-01-10">January 2026</time>
+
+### [AIOps Journey: What Is It?](/posts/aiops-journey-what-is-it/)
+
+<p class="entry-desc">Defining AIOps beyond the buzzword. A practitioner's view of what operational AI maturity actually means for engineering teams.</p>
+
+<div class="entry-tags">
+  <span class="entry-tag">AI</span>
+  <span class="entry-tag">Architecture</span>
+</div>
+:::
+:::
+
+::: {.timeline-entry}
+::: {.entry-content}
+<time class="entry-date" datetime="2026-01-05">January 2026</time>
+
+### [Obsidian as a Second Brain for AI Agents](/posts/obsidian-second-brain-ai-agents/)
+
+<p class="entry-desc">Using Obsidian's graph-based knowledge architecture as the foundation for agent memory, retrieval, and reasoning chains.</p>
+
+<div class="entry-tags">
+  <span class="entry-tag">AI</span>
+  <span class="entry-tag">Agents</span>
+  <span class="entry-tag">Architecture</span>
+</div>
+:::
+:::
+
+::: {.timeline-year}
+<div class="year-marker" aria-hidden="true">2025</div>
+
+## 2025
+:::
+
+::: {.timeline-entry}
+::: {.entry-content}
+<time class="entry-date" datetime="2025-12-15">December 2025</time>
+
+### [Agentic Security Risks You Should Know](/posts/agentic-security-risks/)
+
+<p class="entry-desc">The attack surface expands dramatically when agents can act. Understanding prompt injection, tool abuse, privilege escalation, and data exfiltration vectors.</p>
+
+<div class="entry-tags">
+  <span class="entry-tag">Security</span>
+  <span class="entry-tag">Agents</span>
+  <span class="entry-tag">AI</span>
+</div>
+:::
+:::
+
+::: {.timeline-entry}
+::: {.entry-content}
+<time class="entry-date" datetime="2025-11-01">November 2025</time>
+
+### [AI Content Labels: Why Transparency Matters](/posts/AI-Content-Labels/)
+
+<p class="entry-desc">Introducing a labelling system for AI-assisted content. From fully human to fully generated, readers deserve to know how content was produced.</p>
+
+<div class="entry-tags">
+  <span class="entry-tag">AI</span>
+  <span class="entry-tag">Ethics</span>
+</div>
+:::
+:::
+
+:::

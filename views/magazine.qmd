@@ -1,0 +1,76 @@
+---
+title: "MyYearInData Blog"
+description: "Data engineering, architecture, security, and AI insights. Practical perspectives on building intelligent data systems."
+page-layout: full
+title-block-banner: false
+css: views.css
+---
+
+<!-- View 1: Magazine / Editorial Hero Layout
+     A newspaper-inspired layout with a prominent featured article
+     and a supporting grid of recent posts beneath it.
+     Best for: Landing pages where you want to draw readers into
+     your most important or most recent piece first. -->
+
+<a class="skip-to-content" href="#main-listing">Skip to article listing</a>
+
+::: {.view-magazine role="main" id="main-listing"}
+
+::: {.hero-feature}
+::: {.hero-text}
+<span class="hero-label" aria-label="Featured article">Featured</span>
+
+## [Agentic Decomposition: A Practical Guide to Breaking Down Problems](/posts/agentic-decomposition/)
+
+<p class="hero-desc">Before you can diagram an agentic system, you need to decompose the problem. This guide walks through practical strategies for breaking complexity into tractable agent-sized pieces.</p>
+
+<p class="hero-meta"><strong>Scott Bell</strong> &middot; 25 January 2026 &middot; Data Engineering &amp; AI</p>
+:::
+
+::: {.hero-image}
+![Agentic decomposition diagram](/posts/agentic-decomposition/images/agentic-decomposition-napkin.png)
+:::
+
+:::
+
+::: {.editorial-grid}
+
+::: {.editorial-card}
+<p class="card-category">AI Security</p>
+
+### [AIOps Journey: The Four Threat Quadrants](/posts/aiops-journey-four-threat-quadrants/)
+
+<p class="card-desc">Mapping the threat landscape across data, model, infrastructure, and governance dimensions for production AI systems.</p>
+<p class="card-date">February 2026</p>
+:::
+
+::: {.editorial-card}
+<p class="card-category">AI &amp; Agents</p>
+
+### [AIOps Journey: What Is It?](/posts/aiops-journey-what-is-it/)
+
+<p class="card-desc">Defining AIOps beyond the buzzword. A practitioner's view of what operational AI maturity actually looks like.</p>
+<p class="card-date">January 2026</p>
+:::
+
+::: {.editorial-card}
+<p class="card-category">Architecture</p>
+
+### [Obsidian as a Second Brain for AI Agents](/posts/obsidian-second-brain-ai-agents/)
+
+<p class="card-desc">Using Obsidian's graph-based knowledge architecture as the foundation for agent memory and reasoning.</p>
+<p class="card-date">January 2026</p>
+:::
+
+::: {.editorial-card}
+<p class="card-category">Security</p>
+
+### [Agentic Security Risks You Should Know](/posts/agentic-security-risks/)
+
+<p class="card-desc">The attack surface expands when agents can act. Understanding prompt injection, tool abuse, and escalation vectors.</p>
+<p class="card-date">December 2025</p>
+:::
+
+:::
+
+:::

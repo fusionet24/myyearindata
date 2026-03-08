@@ -1,0 +1,165 @@
+---
+title: "MyYearInData Blog"
+description: "Data engineering, architecture, security, and AI insights. Practical perspectives on building intelligent data systems."
+page-layout: full
+title-block-banner: false
+css: views.css
+---
+
+<!-- View 2: Card Grid with Category Chips
+     A filterable card layout where each post is a self-contained
+     card with category badges, excerpt, and metadata.
+     Best for: Browsing-oriented readers who scan by topic. The
+     top category bar lets visitors filter mentally by interest. -->
+
+<a class="skip-to-content" href="#main-listing">Skip to article listing</a>
+
+::: {.view-cardgrid role="main" id="main-listing"}
+
+<nav class="category-bar" aria-label="Filter by category">
+  <a href="#" class="category-chip" aria-current="true">All Posts</a>
+  <a href="#" class="category-chip">AI &amp; Agents</a>
+  <a href="#" class="category-chip">Data Engineering</a>
+  <a href="#" class="category-chip">Architecture</a>
+  <a href="#" class="category-chip">Security</a>
+  <a href="#" class="category-chip">Azure</a>
+  <a href="#" class="category-chip">Databricks</a>
+</nav>
+
+::: {.card-grid}
+
+::: {.post-card}
+::: {.card-thumb}
+![](/posts/agentic-decomposition/images/agentic-decomposition-napkin.png)
+:::
+::: {.card-body}
+<div class="card-chips">
+  <span class="card-chip">AI</span>
+  <span class="card-chip">Agents</span>
+  <span class="card-chip">Architecture</span>
+</div>
+
+### [Agentic Decomposition: A Practical Guide](/posts/agentic-decomposition/)
+
+<p class="card-excerpt">Before you can diagram an agentic system, you need to decompose the problem into tractable, agent-sized pieces.</p>
+
+<div class="card-footer">
+  <span>25 Jan 2026</span>
+  <span class="read-time">8 min read</span>
+</div>
+:::
+:::
+
+::: {.post-card}
+::: {.card-thumb}
+![](/posts/aiops-journey-four-threat-quadrants/images/four-quadrants.png)
+:::
+::: {.card-body}
+<div class="card-chips">
+  <span class="card-chip">AI</span>
+  <span class="card-chip">Security</span>
+</div>
+
+### [AIOps: The Four Threat Quadrants](/posts/aiops-journey-four-threat-quadrants/)
+
+<p class="card-excerpt">Mapping threats across data, model, infrastructure, and governance dimensions for production AI systems.</p>
+
+<div class="card-footer">
+  <span>Feb 2026</span>
+  <span class="read-time">10 min read</span>
+</div>
+:::
+:::
+
+::: {.post-card}
+::: {.card-thumb style="background: linear-gradient(135deg, #0aaa50, #1B5E20);">
+<span aria-hidden="true" style="font-size:1.5rem;">AI</span>
+</div>
+:::
+::: {.card-body}
+<div class="card-chips">
+  <span class="card-chip">AI</span>
+  <span class="card-chip">Architecture</span>
+</div>
+
+### [AIOps Journey: What Is It?](/posts/aiops-journey-what-is-it/)
+
+<p class="card-excerpt">Defining AIOps beyond the buzzword. A practitioner's view of what operational AI maturity looks like in practice.</p>
+
+<div class="card-footer">
+  <span>Jan 2026</span>
+  <span class="read-time">6 min read</span>
+</div>
+:::
+:::
+
+::: {.post-card}
+::: {.card-thumb style="background: linear-gradient(135deg, #388E3C, #0aaa50);">
+<span aria-hidden="true" style="font-size:1.5rem;">KB</span>
+</div>
+:::
+::: {.card-body}
+<div class="card-chips">
+  <span class="card-chip">AI</span>
+  <span class="card-chip">Agents</span>
+  <span class="card-chip">Architecture</span>
+</div>
+
+### [Obsidian as a Second Brain for AI Agents](/posts/obsidian-second-brain-ai-agents/)
+
+<p class="card-excerpt">Using Obsidian's graph-based knowledge architecture as the foundation for agent memory and reasoning.</p>
+
+<div class="card-footer">
+  <span>Jan 2026</span>
+  <span class="read-time">7 min read</span>
+</div>
+:::
+:::
+
+::: {.post-card}
+::: {.card-thumb style="background: linear-gradient(135deg, #e63946, #d62839);">
+<span aria-hidden="true" style="font-size:1.5rem;">SEC</span>
+</div>
+:::
+::: {.card-body}
+<div class="card-chips">
+  <span class="card-chip">Security</span>
+  <span class="card-chip">Agents</span>
+</div>
+
+### [Agentic Security Risks You Should Know](/posts/agentic-security-risks/)
+
+<p class="card-excerpt">The attack surface expands when agents can act autonomously. Understanding prompt injection, tool abuse, and escalation.</p>
+
+<div class="card-footer">
+  <span>Dec 2025</span>
+  <span class="read-time">9 min read</span>
+</div>
+:::
+:::
+
+::: {.post-card}
+::: {.card-thumb style="background: linear-gradient(135deg, #2E7D32, #43A047);">
+<span aria-hidden="true" style="font-size:1.5rem;">DE</span>
+</div>
+:::
+::: {.card-body}
+<div class="card-chips">
+  <span class="card-chip">Data Engineering</span>
+  <span class="card-chip">Databricks</span>
+</div>
+
+### [Building Data Pipelines That Last](/posts/data-pipelines-that-last/)
+
+<p class="card-excerpt">Patterns for durable, maintainable data engineering work that survives team turnover and platform migrations.</p>
+
+<div class="card-footer">
+  <span>Nov 2025</span>
+  <span class="read-time">11 min read</span>
+</div>
+:::
+:::
+
+:::
+
+:::
