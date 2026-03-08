@@ -1,0 +1,117 @@
+---
+title: "Vibing Up a Memory Machine: Spotify + Photos in a Weekend"
+author: "Scott Bell"
+description: "How I built a personal tool that pairs my Spotify listening history with my iCloud Photos to relive days through music and memories — and why we're living through a micro tool software revolution."
+date: "2026-03-08"
+draft: true
+categories:
+  - ai
+  - tools
+  - productivity
+ai-label: "AI Assisted"
+---
+
+## The Micro Tool Revolution is Here
+
+Something has fundamentally changed in the last year about how we build software. Not the big enterprise stuff — the small, personal, *useful* stuff. The tools that scratch a very specific itch that no product team would ever prioritise because the audience is exactly one person: you.
+
+I've been calling this "vibing up" a tool. You get an idea, you sit down with an AI coding assistant, and a few hours later you have something that genuinely works. Not a prototype. Not a hackathon demo. A real, functioning tool that solves your exact problem in your exact way. The barrier between "I wish this existed" and "I built this" has collapsed.
+
+This is the story of one of those tools — a personal memory machine that pairs my Spotify listening history with my iCloud Photos to let me relive any day through its soundtrack and snapshots.
+
+## The Idea
+
+I've always thought that music is one of the strongest memory triggers we have. A song comes on and you're immediately transported — you remember where you were, who you were with, what the weather was like. Photos do the same thing but from the other direction: visual context that brings back the *feeling* of a moment.
+
+So the idea was simple: what if I could pick a day and see both? The photos I took that day and the songs I was listening to. A personal time machine powered by metadata.
+
+The raw ingredients were already sitting there waiting:
+
+- **Spotify** lets you export your entire listening history through the account privacy settings. Not just the "recently played" API scraps — your *full* extended streaming history going back years, as a set of JSON files.
+- **iCloud Photos** stores EXIF metadata on every photo, including timestamps, geolocation, and device info.
+
+All I needed was something to correlate the two by date and surface it in a way that felt good to use.
+
+## Building It: The Two-AI Workflow
+
+Here's where the process gets interesting, because I didn't just use one AI tool — I used two, each playing to its strengths.
+
+### Designing the UI with Google Gemini AI Studio
+
+I started in Google Gemini AI Studio. Not for code — for *design thinking*. I described the experience I wanted: a timeline you could scrub through, photos appearing as a grid or carousel, a tracklist alongside them, the ability to tap a song and hear a preview. I wanted it to feel like flipping through a scrapbook that had a soundtrack.
+
+Gemini was brilliant for this exploratory phase. I could describe a vague feeling — "I want it to feel like a memory, not a dashboard" — and get back wireframe concepts, layout suggestions, and interaction ideas that I could react to. It's a great sparring partner for UI direction when you know what you *don't* want but can't quite articulate what you *do* want.
+
+I went back and forth a few times, refining the layout, the colour palette (warm, slightly faded tones — like looking at old Polaroids), and the information hierarchy. By the end of that session I had a clear picture of what I was building.
+
+### Writing the Code with Claude Code
+
+Then I switched to Claude Code to actually build the thing.
+
+The core technical challenge was metadata correlation. Spotify's extended streaming history export gives you JSON files with entries like this:
+
+```json
+{
+  "ts": "2025-07-14T18:32:05Z",
+  "master_metadata_track_name": "Midnight City",
+  "master_metadata_album_artist_name": "M83",
+  "ms_played": 248000
+}
+```
+
+Each entry has a timestamp, track name, artist, album, and how long you actually listened. Meanwhile, photos carry their own timestamps in EXIF data — the moment the shutter fired.
+
+The correlation logic is straightforward: group everything by date. For any given day, pull all the Spotify listens and all the photos, then present them together. But the details matter — handling timezones correctly, deduplicating tracks you listened to on repeat, ranking songs by total listen time for that day rather than just listing them chronologically, filtering out skips (anything under 30 seconds).
+
+Claude Code handled all of this efficiently. I described the data structures, the correlation logic, and the UI I'd designed with Gemini, and it produced working code that I could iterate on. When something wasn't quite right — the timezone handling was off, or the photo grid wasn't responsive — I described the problem and got a fix. It was a genuine conversation, not prompt-and-pray.
+
+The whole build took an afternoon. Not because the problem was trivial, but because the feedback loop was so tight. Describe what you want, get code, run it, see what's wrong, describe the fix, get updated code. Repeat until it works.
+
+## What It Actually Does
+
+The finished tool lets me:
+
+1. **Pick any date** from my Spotify history and see a "memory card" for that day
+2. **See my photos** from that day arranged in a timeline
+3. **See my soundtrack** — the songs I was listening to, ranked by listen time, with album art
+4. **Relive the day** — scrolling through photos while seeing the music that was scoring my life at that moment
+
+There's something genuinely powerful about seeing a photo from a holiday and realising you were listening to a specific album that entire trip. Or seeing a random Tuesday where you apparently listened to the same song fourteen times — and the single photo you took that day is of your desk, which tells its own story.
+
+## Why This Matters Beyond One Tool
+
+Here's the bigger picture. What I built is not a product. It's not something I'd put on the App Store. The audience is literally just me. And that's exactly the point.
+
+We're entering an era where the economics of software have changed so dramatically that building a tool for an audience of one is not just feasible — it's *easy*. The combination of AI coding assistants, rich data exports from services we already use, and modern web frameworks means that the gap between "idea" and "working tool" has shrunk from weeks to hours.
+
+I think of these as **micro tools** — small, personal, purpose-built software that would never justify a product team, a roadmap, or a business model. They exist because they're useful to the person who built them, and that's enough.
+
+This is a genuine shift. For decades, if you wanted software to do something specific, you had three options:
+
+1. **Find an existing product** that sort of does what you want (and accept its compromises)
+2. **Request a feature** from an existing product and hope they build it
+3. **Build it yourself** — which required enough programming skill and time that most people couldn't
+
+Option 3 has just become accessible to anyone who can clearly describe what they want. That's the revolution. Not AI replacing developers — AI enabling a new class of personal software that was never economically viable before.
+
+## The Vibing Process
+
+I want to be specific about what "vibing up" a tool actually looks like in practice, because I think the process itself is interesting.
+
+It's not waterfall. It's not agile. It's not even prototyping in the traditional sense. It's more like **sculpting** — you start with a rough shape and keep refining until it feels right.
+
+The two-AI workflow I used here — Gemini for design, Claude Code for implementation — felt natural because each tool has different strengths. Gemini is excellent at open-ended creative exploration where you're still figuring out what you want. Claude Code is excellent at taking a clear vision and turning it into working software. Using one for divergent thinking and the other for convergent building meant I never felt stuck.
+
+The key insight is that you don't need to have everything figured out before you start. You don't need a spec. You don't need wireframes approved by a stakeholder. You need an itch, a data source, and the willingness to spend a few hours having a conversation with an AI about what you're trying to build.
+
+That's vibing. And the tools we have now make it genuinely productive.
+
+## What's Next
+
+I'm already thinking about extensions. What if I pulled in calendar data too — so I could see not just the photos and music but what meetings or events I had that day? What about weather data for the location? What about layering in chat messages or notes from Obsidian?
+
+The beautiful thing about micro tools is that there's no product manager telling you to focus on the MVP. There's no user research to validate the feature. If you want it, you build it. If it's useful, you keep it. If it's not, you learned something.
+
+We're living through a moment where the ability to create personal software has been democratised in a way that's genuinely unprecedented. The tools are good enough. The data is available. The only bottleneck left is imagination.
+
+So go vibe something up. You'll be surprised what you can build in an afternoon.
