@@ -1,0 +1,134 @@
+{
+  "templates": [
+    {
+      "id": "flow-horizontal",
+      "name": "Horizontal Flow / Pipeline",
+      "description": "Linear progression of stages left to right with arrows and gradient bars",
+      "use_cases": ["maturity curves", "pipelines", "process flows", "stage progression"],
+      "file": "flow-horizontal.html",
+      "data_shape": {
+        "stages": [{"number": "string", "title": "string", "subtitle": "string"}],
+        "gradient_bars": [{"label": "string", "type": "value|complexity|autonomy"}]
+      }
+    },
+    {
+      "id": "nested-layers",
+      "name": "Nested Layers / Onion Diagram",
+      "description": "Concentric bordered containers showing hierarchy and taxonomy",
+      "use_cases": ["ops discipline maps", "architecture layers", "taxonomy", "hierarchy"],
+      "file": "nested-layers.html",
+      "data_shape": {
+        "layers": [{"tag": "string", "title": "string", "description": "string", "children": [{"title": "string", "items": ["string"]}]}],
+        "cross_cutting_bars": [{"icon": "string", "label": "string"}]
+      }
+    },
+    {
+      "id": "histogram",
+      "name": "Histogram / Bar Chart",
+      "description": "Vertical bar chart with percentage labels and category axis",
+      "use_cases": ["distribution data", "survey results", "adoption rates", "comparisons"],
+      "file": "histogram.html",
+      "data_shape": {
+        "columns": [{"label": "string", "percentage": "number", "highlight": "boolean"}],
+        "y_axis_label": "string",
+        "x_axis_label": "string"
+      }
+    },
+    {
+      "id": "staircase",
+      "name": "Staircase / Building Blocks",
+      "description": "Progressive-height blocks aligned to bottom showing dependency chains",
+      "use_cases": ["dependency chains", "prerequisites", "building blocks", "capability stacking"],
+      "file": "staircase.html",
+      "data_shape": {
+        "steps": [{"number": "string", "title": "string", "description": "string", "height_pct": "number"}]
+      }
+    },
+    {
+      "id": "s-curve",
+      "name": "S-Curve / Value Chart",
+      "description": "SVG line chart with bezier curves, gradient fills, and labeled inflection points",
+      "use_cases": ["value vs complexity", "adoption curves", "trend visualization", "growth curves"],
+      "file": "s-curve.html",
+      "data_shape": {
+        "curve_points": [{"x": "number", "y": "number"}],
+        "annotations": [{"x": "number", "y": "number", "label": "string"}],
+        "dividers": [{"x": "number", "label": "string"}],
+        "x_axis_label": "string",
+        "y_axis_label": "string"
+      }
+    },
+    {
+      "id": "quadrant",
+      "name": "Quadrant / 2x2 Matrix",
+      "description": "2x2 grid with axis labels for categorizing items by two dimensions",
+      "use_cases": ["risk assessment", "priority matrices", "2x2 categorization", "effort-impact analysis"],
+      "file": "quadrant.html",
+      "data_shape": {
+        "axes": {
+          "x": {"low": "string", "high": "string"},
+          "y": {"low": "string", "high": "string"}
+        },
+        "quadrants": [
+          {"position": "q1", "tag": "string", "title": "string", "items": ["string"]},
+          {"position": "q2", "tag": "string", "title": "string", "items": ["string"]},
+          {"position": "q3", "tag": "string", "title": "string", "items": ["string"]},
+          {"position": "q4", "tag": "string", "title": "string", "items": ["string"]}
+        ]
+      }
+    },
+    {
+      "id": "timeline",
+      "name": "Timeline / Milestones",
+      "description": "Horizontal timeline with event nodes, alternating labels, and current/future markers",
+      "use_cases": ["project timelines", "evolution", "history", "roadmaps", "milestones"],
+      "file": "timeline.html",
+      "data_shape": {
+        "events": [
+          {
+            "year": "string",
+            "title": "string",
+            "description": "string",
+            "status": "past|current|future"
+          }
+        ]
+      }
+    },
+    {
+      "id": "table",
+      "name": "Table / Comparison",
+      "description": "Clean data table with green header bar, hover highlights, and optional badges",
+      "use_cases": ["comparisons", "feature matrices", "specs", "reference data"],
+      "file": "table.html",
+      "data_shape": {
+        "columns": ["string"],
+        "rows": [{"label": "string", "values": ["string"]}],
+        "source": "string"
+      }
+    },
+    {
+      "id": "table-striped",
+      "name": "Striped Table / Scorecard",
+      "description": "Alternating-row table with check/cross/partial indicators and legend footer",
+      "use_cases": ["scorecards", "detailed comparisons", "maturity assessments", "dense data tables"],
+      "file": "table-striped.html",
+      "data_shape": {
+        "columns": ["string"],
+        "rows": [{"label": "string", "values": ["check|cross|partial|text"], "highlight": "boolean"}],
+        "legend": [{"symbol": "string", "label": "string"}]
+      }
+    },
+    {
+      "id": "matrix",
+      "name": "Matrix / RACI Grid",
+      "description": "CSS grid matrix with colored dot indicators, row/column headers, and legend",
+      "use_cases": ["RACI charts", "responsibility matrices", "feature coverage", "role mappings", "capability grids"],
+      "file": "matrix.html",
+      "data_shape": {
+        "columns": ["string"],
+        "rows": [{"label": "string", "cells": ["R|A|C|I|empty"]}],
+        "legend": [{"code": "string", "label": "string", "color": "green|blue|orange|grey"}]
+      }
+    }
+  ]
+}

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Toolkit — MyYearInData</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.cjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419; --bg-el: #161b22; --card-bg: #1a2027;
+            --text: #f0f6fc; --text-m: rgba(240,246,252,0.55); --text-s: rgba(240,246,252,0.75);
+            --bdr: rgba(240,246,252,0.08); --bdr-s: rgba(240,246,252,0.15);
+            --green: #0aaa50; --green-lt: #0dcc60;
+            --green-pale: rgba(10,170,80,0.12); --green-glow: rgba(10,170,80,0.06);
+            --red: #ef4444; --orange: #f59e0b; --grey: #6b7280;
+            --tb-bg: #161b22; --tb-bdr: rgba(240,246,252,0.1);
+        }
+        .light-mode {
+            --bg: #ffffff; --bg-el: #f9fafb; --card-bg: #f3f6f5;
+            --text: #111827; --text-m: rgba(17,24,39,0.45); --text-s: rgba(17,24,39,0.65);
+            --bdr: rgba(17,24,39,0.08); --bdr-s: rgba(17,24,39,0.15);
+            --green-pale: rgba(10,170,80,0.08); --green-glow: rgba(10,170,80,0.04);
+            --tb-bg: #ffffff; --tb-bdr: rgba(17,24,39,0.1);
+        }
+
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
+
+        /* ═══ TOOLBAR ═══ */
+        .toolbar {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--tb-bg); border-bottom: 1px solid var(--tb-bdr);
+            padding: 10px 20px; display: flex; align-items: center; gap: 8px;
+            flex-wrap: wrap; backdrop-filter: blur(12px);
+        }
+        .tb-group { display: flex; align-items: center; gap: 4px; }
+        .tb-sep { width: 1px; height: 24px; background: var(--bdr-s); margin: 0 6px; }
+        .tb-btn {
+            padding: 6px 12px; border: 1px solid var(--bdr-s); border-radius: 6px;
+            background: transparent; color: var(--text-s); font-family: inherit;
+            font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s;
+            white-space: nowrap;
+        }
+        .tb-btn:hover { border-color: var(--green); color: var(--text); }
+        .tb-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+        .tb-btn.danger:hover { border-color: var(--red); color: var(--red); }
+        .tb-select {
+            padding: 6px 10px; border: 1px solid var(--bdr-s); border-radius: 6px;
+            background: var(--bg); color: var(--text); font-family: inherit;
+            font-size: 12px; cursor: pointer;
+        }
+        .tb-label { font-size: 10px; font-weight: 600; color: var(--text-m); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
+        .tb-color {
+            width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--bdr-s);
+            cursor: pointer; padding: 0; background: var(--green);
+        }
+
+        /* Annotation tools panel */
+        .anno-tools { display: none; align-items: center; gap: 4px; }
+        .anno-tools.visible { display: flex; }
+
+        /* ═══ CANVAS ═══ */
+        .canvas-area {
+            display: flex; justify-content: center; padding: 40px 20px; min-height: calc(100vh - 60px);
+        }
+        .canvas {
+            position: relative; width: 100%; max-width: 1100px;
+            background: var(--bg); border: 1px solid var(--bdr);
+            border-radius: 16px; padding: 60px; transition: all .3s;
+        }
+        .canvas.show-grid {
+            background-image:
+                linear-gradient(rgba(10,170,80,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10,170,80,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* ═══ ANNOTATION SVG OVERLAY ═══ */
+        .anno-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50;
+        }
+        .anno-overlay.active { pointer-events: all; cursor: crosshair; }
+        .anno-overlay .anno-el { cursor: move; }
+        .anno-overlay .anno-el.selected { filter: drop-shadow(0 0 4px var(--green)); }
+        .anno-text {
+            font-family: 'Inter', sans-serif; font-weight: 600;
+            cursor: move; user-select: none;
+        }
+        .anno-text[contenteditable="true"] { cursor: text; outline: none; }
+
+        /* ═══ SAMPLE DIAGRAM STYLES (flow-horizontal) ═══ */
+        .dtk-sample{--green:#0aaa50;--green-lt:#0dcc60;--green-bg:rgba(10,170,80,0.07);--card:#f5f7f6;--txt:#111827;--txt2:#374151;--txt3:#6b7280;--bdr:#e5e7eb;--bdr2:#d1d5db;font-family:'Inter',sans-serif;padding:32px;border:1px solid var(--bdr);border-radius:12px;margin:0;background:#fff}
+        .dark-diagram .dtk-sample{--card:var(--card-bg);--txt:var(--text);--txt2:var(--text-s);--txt3:var(--text-m);--bdr:rgba(240,246,252,0.08);--bdr2:rgba(240,246,252,0.15);background:var(--bg-el)}
+        .dtk-sample h3{font-size:17px;font-weight:700;color:var(--txt);margin:0 0 4px}
+        .dtk-sample .dsub{font-size:12px;color:var(--txt3);margin:0 0 24px}
+        .dtk-stages{display:flex;align-items:stretch;gap:0;margin-bottom:20px}
+        .dtk-sw{display:flex;align-items:center;flex:1}
+        .dtk-box{flex:1;background:var(--card);border:1.5px solid var(--bdr2);border-radius:8px;padding:14px 10px;text-align:center;transition:border-color .2s}
+        .dtk-box:hover{border-color:var(--green)}
+        .dtk-num{font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px}
+        .dtk-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:2px;line-height:1.2}
+        .dtk-sub{font-size:10px;color:var(--txt3);font-style:italic}
+        .dtk-arr{color:var(--green);font-size:12px;padding:0 5px;opacity:.4}
+        .dtk-gbars{display:flex;flex-direction:column;gap:6px}
+        .dtk-gbar{display:flex;align-items:center;gap:10px}
+        .dtk-gbar-track{flex:1;height:3px;border-radius:2px}
+        .dtk-gbar-lbl{font-size:10px;color:var(--txt3);white-space:nowrap;min-width:110px;text-align:right}
+        .dtk-gval{background:linear-gradient(to right,rgba(10,170,80,.15),#0aaa50)}
+        .dtk-gcplx{background:linear-gradient(to right,rgba(107,114,128,.1),#6b7280)}
+
+        /* ═══ TABLE STYLES ═══ */
+        .dtk-sample table{width:100%;border-collapse:separate;border-spacing:0;border:1.5px solid var(--bdr2);border-radius:10px;overflow:hidden}
+        .dtk-sample thead th{background:var(--green);color:#fff;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:10px 14px;text-align:left;border-bottom:2px solid rgba(0,0,0,.1)}
+        .dtk-sample tbody td{font-size:12px;color:var(--txt);padding:10px 14px;border-bottom:1px solid var(--bdr);vertical-align:top}
+        .dtk-sample tbody tr:last-child td{border-bottom:none}
+        .dtk-sample tbody tr:hover{background:var(--green-bg)}
+        .dtk-sample tbody td:first-child{font-weight:600}
+        .dtk-sample .tbl-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
+        .dtk-sample .tbl-badge-g{background:rgba(10,170,80,.08);color:var(--green);border:1px solid rgba(10,170,80,.2)}
+        .dtk-sample .tbl-badge-o{background:rgba(245,158,11,.08);color:#d97706;border:1px solid rgba(245,158,11,.15)}
+        .dtk-sample .tbl-badge-r{background:rgba(107,114,128,.06);color:var(--txt3);border:1px solid rgba(107,114,128,.12)}
+        .dtk-sample .tbl-check{color:var(--green);font-weight:700}
+        .dtk-sample .tbl-cross{color:#d1d5db}
+        .dtk-sample .tbl-partial{color:#d97706}
+        /* Striped variant */
+        .dtk-sample.dtk-striped thead th{background:var(--card);color:var(--txt);border-bottom:2px solid var(--green)}
+        .dtk-sample.dtk-striped tbody tr:nth-child(odd){background:#fff}
+        .dtk-sample.dtk-striped tbody tr:nth-child(even){background:var(--card)}
+        .dark-diagram .dtk-sample.dtk-striped tbody tr:nth-child(odd){background:var(--bg-el)}
+        .dark-diagram .dtk-sample.dtk-striped tbody tr:nth-child(even){background:var(--card-bg)}
+        .dtk-sample .tbl-highlight td{background:rgba(10,170,80,.06);border-left:3px solid var(--green)}
+        .dtk-sample .tbl-footer{font-size:10px;color:var(--txt3);margin-top:10px;display:flex;justify-content:space-between}
+        .dtk-sample .tbl-legend{display:flex;gap:14px}
+        .dtk-sample .tbl-legend span{display:flex;align-items:center;gap:3px}
+
+        /* ═══ STATUS BAR ═══ */
+        .status-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--tb-bg); border-top: 1px solid var(--tb-bdr);
+            padding: 6px 20px; font-size: 11px; color: var(--text-m);
+            display: flex; justify-content: space-between; z-index: 100;
+        }
+
+        /* ═══ TOAST ═══ */
+        .toast {
+            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);
+            background: var(--green); color: #fff; padding: 10px 24px;
+            border-radius: 8px; font-size: 13px; font-weight: 500;
+            opacity: 0; transition: opacity .3s; z-index: 200; pointer-events: none;
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar" id="toolbar">
+        <span class="tb-label">Template</span>
+        <select class="tb-select" id="templateSelect" onchange="loadTemplate(this.value)">
+            <option value="flow-horizontal">Horizontal Flow</option>
+            <option value="nested-layers">Nested Layers</option>
+            <option value="histogram">Histogram</option>
+            <option value="staircase">Staircase</option>
+            <option value="quadrant">Quadrant</option>
+            <option value="timeline">Timeline</option>
+            <option value="table">Table</option>
+            <option value="table-striped">Striped Table</option>
+            <option value="matrix">Matrix</option>
+        </select>
+
+        <div class="tb-sep"></div>
+
+        <div class="tb-group">
+            <button class="tb-btn active" id="btnDark" onclick="setTheme('dark')">Dark</button>
+            <button class="tb-btn" id="btnLight" onclick="setTheme('light')">Light</button>
+        </div>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn" id="btnGrid" onclick="toggleGrid()">Grid</button>
+        <button class="tb-btn" id="btnRough" onclick="toggleRough()">Rough</button>
+        <button class="tb-btn" id="btnAnimate" onclick="runAnimation()">Animate</button>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn" id="btnAnnotate" onclick="toggleAnnotate()">Annotate</button>
+
+        <div class="anno-tools" id="annoTools">
+            <button class="tb-btn active" data-tool="text" onclick="setAnnoTool('text')">Text</button>
+            <button class="tb-btn" data-tool="arrow" onclick="setAnnoTool('arrow')">Arrow</button>
+            <button class="tb-btn" data-tool="rect" onclick="setAnnoTool('rect')">Rect</button>
+            <button class="tb-btn" data-tool="freehand" onclick="setAnnoTool('freehand')">Draw</button>
+            <input type="color" class="tb-color" id="annoColor" value="#0aaa50" onchange="state.annoColor=this.value">
+            <button class="tb-btn danger" onclick="clearAnnotations()">Clear</button>
+            <button class="tb-btn" onclick="undoAnnotation()">Undo</button>
+        </div>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn" onclick="exportPNG()">PNG</button>
+        <button class="tb-btn" onclick="exportPDF()">PDF</button>
+        <button class="tb-btn" onclick="copyPNG()">Copy</button>
+        <button class="tb-btn" onclick="copyHTML()">HTML</button>
+    </div>
+
+    <!-- CANVAS AREA -->
+    <div class="canvas-area">
+        <div class="canvas" id="canvas">
+            <!-- Diagram content injected here -->
+            <div id="diagramContent"></div>
+
+            <!-- Annotation SVG overlay -->
+            <svg class="anno-overlay" id="annoOverlay" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#0aaa50"/>
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+        <span id="statusLeft">Ready</span>
+        <span id="statusRight">Ctrl+Z undo | Del remove | Drag to move</span>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ═══════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════
+        window.state = {
+            theme: 'dark',
+            gridOn: false,
+            roughOn: false,
+            annotateOn: false,
+            annoTool: 'text',
+            annoColor: '#0aaa50',
+            annotations: [],
+            undoStack: [],
+            selectedAnno: null,
+            dragging: null,
+            dragOffset: { x: 0, y: 0 },
+            arrowStart: null,
+            rectStart: null,
+            freehandPath: null,
+            freehandPoints: [],
+            roughSvgs: []
+        };
+
+        // ═══════════════════════════════════════
+        // TEMPLATES (inline for self-containment)
+        // ═══════════════════════════════════════
+        const templates = {
+            'flow-horizontal': `
+                <div class="dtk-sample"><h3>Data Pipeline Architecture</h3><p class="dsub">Four stages of data processing from ingestion to publication</p>
+                <div class="dtk-stages">
+                <div class="dtk-sw"><div class="dtk-box"><div class="dtk-num">01</div><div class="dtk-title">Ingest</div><div class="dtk-sub">"Collect raw data"</div></div><span class="dtk-arr">&#9654;</span></div>
+                <div class="dtk-sw"><div class="dtk-box"><div class="dtk-num">02</div><div class="dtk-title">Transform</div><div class="dtk-sub">"Clean &amp; enrich"</div></div><span class="dtk-arr">&#9654;</span></div>
+                <div class="dtk-sw"><div class="dtk-box"><div class="dtk-num">03</div><div class="dtk-title">Validate</div><div class="dtk-sub">"Quality checks"</div></div><span class="dtk-arr">&#9654;</span></div>
+                <div class="dtk-sw"><div class="dtk-box"><div class="dtk-num">04</div><div class="dtk-title">Publish</div><div class="dtk-sub">"Serve to consumers"</div></div></div>
+                </div>
+                <div class="dtk-gbars">
+                <div class="dtk-gbar"><span class="dtk-gbar-lbl">Data Quality</span><div class="dtk-gbar-track dtk-gval"></div></div>
+                <div class="dtk-gbar"><span class="dtk-gbar-lbl">Complexity</span><div class="dtk-gbar-track dtk-gcplx"></div></div>
+                </div></div>`,
+
+            'nested-layers': `
+                <div class="dtk-sample"><h3>Platform Architecture</h3><p class="dsub">Layered services building on core infrastructure</p>
+                <div style="border:1.5px solid var(--green);border-radius:12px;padding:20px;background:rgba(10,170,80,0.04)">
+                <div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">Outer</div>
+                <div style="font-size:15px;font-weight:700;color:var(--txt)">Application Layer</div>
+                <div style="font-size:10px;color:var(--txt3);margin-top:2px">User-facing services and APIs</div>
+                <div style="display:flex;gap:12px;margin-top:12px">
+                <div style="flex:1;border:1.5px solid var(--bdr2);border-radius:8px;padding:16px;background:var(--card);text-align:center"><div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase">Compute</div><div style="font-size:15px;font-weight:700;color:var(--txt)">Processing</div><div style="font-size:10px;color:var(--txt3)">Spark, Functions, Containers</div></div>
+                <div style="flex:1;border:1.5px solid var(--bdr2);border-radius:8px;padding:16px;background:var(--card);text-align:center"><div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase">Storage</div><div style="font-size:15px;font-weight:700;color:var(--txt)">Data Lake</div><div style="font-size:10px;color:var(--txt3)">Object store, Delta, Iceberg</div></div>
+                </div>
+                <div style="border:1.5px solid var(--green);border-radius:8px;padding:16px;margin-top:12px;background:rgba(10,170,80,0.07);text-align:center"><div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase">Foundation</div><div style="font-size:15px;font-weight:700;color:var(--txt)">Infrastructure</div><div style="font-size:10px;color:var(--txt3)">Networking, Identity, Monitoring</div></div>
+                </div></div>`,
+
+            'histogram': `
+                <div class="dtk-sample"><h3>Technology Adoption Rates</h3><p class="dsub">Percentage of teams using each technology in production</p>
+                <div style="display:flex;align-items:flex-end;gap:8px;height:200px;margin-bottom:10px">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><span style="font-size:12px;font-weight:700;color:var(--green)">78%</span><div style="width:100%;max-width:80px;height:78%;background:linear-gradient(to top,#0aaa50,#0dcc60);border-radius:4px 4px 1px 1px"></div></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><span style="font-size:12px;font-weight:700;color:var(--green)">62%</span><div style="width:100%;max-width:80px;height:62%;background:linear-gradient(to top,#0aaa50,#0dcc60);border-radius:4px 4px 1px 1px"></div></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><span style="font-size:12px;font-weight:700;color:var(--green)">45%</span><div style="width:100%;max-width:80px;height:45%;background:linear-gradient(to top,#0aaa50,#0dcc60);border-radius:4px 4px 1px 1px"></div></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><span style="font-size:12px;font-weight:700;color:var(--green)">23%</span><div style="width:100%;max-width:80px;height:23%;background:linear-gradient(to top,#0aaa50,#0dcc60);border-radius:4px 4px 1px 1px"></div></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><span style="font-size:12px;font-weight:700;color:var(--green)">8%</span><div style="width:100%;max-width:80px;height:8%;background:linear-gradient(to top,#0aaa50,#0dcc60);border-radius:4px 4px 1px 1px"></div></div>
+                </div>
+                <div style="display:flex;gap:8px"><span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2)">Python</span><span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2)">SQL</span><span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2)">Spark</span><span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2)">dbt</span><span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2)">Rust</span></div>
+                </div>`,
+
+            'staircase': `
+                <div class="dtk-sample"><h3>Skill Progression</h3><p class="dsub">Each level builds on the competencies below</p>
+                <div style="display:flex;align-items:flex-end;gap:0;min-height:240px">
+                <div style="flex:4;min-height:60px;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;border:1.5px solid var(--green);border-radius:8px 8px 0 0;text-align:left;background:rgba(10,170,80,0.07)"><div style="font-size:9px;font-weight:700;color:var(--green)">Level 1</div><div style="font-size:14px;font-weight:700;color:var(--txt)">Fundamentals</div><div style="font-size:9px;color:var(--txt3)">Core concepts, basic tooling</div></div>
+                <div style="flex:3;min-height:120px;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;border:1.5px solid var(--bdr2);border-radius:8px 8px 0 0;text-align:left;background:var(--card)"><div style="font-size:9px;font-weight:700;color:var(--green)">Level 2</div><div style="font-size:14px;font-weight:700;color:var(--txt)">Practitioner</div><div style="font-size:9px;color:var(--txt3)">Applied skills, team contribution</div></div>
+                <div style="flex:2.5;min-height:180px;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;border:1.5px solid var(--bdr2);border-radius:8px 8px 0 0;text-align:left;background:var(--card)"><div style="font-size:9px;font-weight:700;color:var(--green)">Level 3</div><div style="font-size:14px;font-weight:700;color:var(--txt)">Expert</div><div style="font-size:9px;color:var(--txt3)">System design, mentoring</div></div>
+                <div style="flex:2;min-height:240px;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;border:1.5px solid var(--green);border-radius:8px 8px 0 0;text-align:left;background:rgba(10,170,80,0.04)"><div style="font-size:9px;font-weight:700;color:var(--green)">Level 4</div><div style="font-size:14px;font-weight:700;color:var(--txt)">Architect</div><div style="font-size:9px;color:var(--txt3)">Strategy, org-wide impact</div></div>
+                </div></div>`,
+
+            'quadrant': `
+                <div class="dtk-sample"><h3>Technology Investment Matrix</h3><p class="dsub">Prioritise initiatives by effort and impact</p>
+                <div style="position:relative;padding:30px 0 30px 30px">
+                <div style="position:absolute;left:0;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:10px;font-weight:600;color:var(--txt3);white-space:nowrap">Low Impact &nbsp;&rarr;&nbsp; High Impact</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div style="background:rgba(10,170,80,0.1);border:1.5px solid var(--green);border-radius:8px;padding:16px"><div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:6px">Quick Wins</div><div style="font-size:10px;color:var(--txt3);line-height:1.5">Dashboards<br>Basic automation<br>Self-service reports</div></div>
+                <div style="background:var(--card);border:1.5px solid var(--bdr2);border-radius:8px;padding:16px"><div style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:6px">Strategic Bets</div><div style="font-size:10px;color:var(--txt3);line-height:1.5">ML pipeline<br>Data platform<br>Real-time streaming</div></div>
+                <div style="background:var(--card);border:1.5px solid var(--bdr2);border-radius:8px;padding:16px"><div style="font-size:11px;font-weight:700;color:var(--txt3);margin-bottom:6px">Fill-ins</div><div style="font-size:10px;color:var(--txt3);line-height:1.5">Documentation<br>Minor tooling<br>Code cleanup</div></div>
+                <div style="background:rgba(239,68,68,0.06);border:1.5px solid rgba(239,68,68,0.3);border-radius:8px;padding:16px"><div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px">Avoid</div><div style="font-size:10px;color:var(--txt3);line-height:1.5">Over-engineering<br>Premature optimisation<br>Vanity metrics</div></div>
+                </div>
+                <div style="text-align:center;font-size:10px;font-weight:600;color:var(--txt3);margin-top:8px">Low Effort &nbsp;&rarr;&nbsp; High Effort</div>
+                </div></div>`,
+
+            'timeline': `
+                <div class="dtk-sample"><h3>AI Evolution Timeline</h3><p class="dsub">Key milestones in the journey toward agentic AI</p>
+                <div style="position:relative;padding:60px 20px 40px">
+                <div style="position:absolute;top:50%;left:20px;right:20px;height:2px;background:linear-gradient(to right,var(--bdr2),var(--green),var(--bdr2))"></div>
+                <div style="display:flex;justify-content:space-between;position:relative">
+                <div style="text-align:center;flex:1"><div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:2px solid var(--card);margin:0 auto 8px;position:relative;top:-5px"></div><div style="font-size:11px;font-weight:700;color:var(--txt)">2012</div><div style="font-size:10px;font-weight:600;color:var(--green)">Deep Learning</div><div style="font-size:9px;color:var(--txt3)">AlexNet</div></div>
+                <div style="text-align:center;flex:1"><div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:2px solid var(--card);margin:0 auto 8px;position:relative;top:-5px"></div><div style="font-size:11px;font-weight:700;color:var(--txt)">2017</div><div style="font-size:10px;font-weight:600;color:var(--green)">Transformers</div><div style="font-size:9px;color:var(--txt3)">Attention paper</div></div>
+                <div style="text-align:center;flex:1"><div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:2px solid var(--card);margin:0 auto 8px;position:relative;top:-5px"></div><div style="font-size:11px;font-weight:700;color:var(--txt)">2022</div><div style="font-size:10px;font-weight:600;color:var(--green)">ChatGPT</div><div style="font-size:9px;color:var(--txt3)">LLMs mainstream</div></div>
+                <div style="text-align:center;flex:1"><div style="width:16px;height:16px;border-radius:50%;background:var(--green);border:3px solid rgba(10,170,80,0.3);margin:0 auto 8px;position:relative;top:-7px"></div><div style="font-size:11px;font-weight:700;color:var(--green)">2024</div><div style="font-size:10px;font-weight:600;color:var(--green)">Agentic AI</div><div style="font-size:9px;color:var(--txt3)">Agents emerge</div></div>
+                <div style="text-align:center;flex:1"><div style="width:12px;height:12px;border-radius:50%;background:transparent;border:2px dashed var(--txt3);margin:0 auto 8px;position:relative;top:-5px"></div><div style="font-size:11px;font-weight:700;color:var(--txt3)">2027?</div><div style="font-size:10px;font-weight:600;color:var(--txt3)">Autonomous</div><div style="font-size:9px;color:var(--txt3)">Multi-agent</div></div>
+                </div>
+                </div></div>`,
+
+            'table': `
+                <div class="dtk-sample"><h3>Framework Comparison</h3><p class="dsub">Key differences between orchestration approaches</p>
+                <table>
+                <thead><tr><th>Feature</th><th>Approach A</th><th>Approach B</th><th>Approach C</th></tr></thead>
+                <tbody>
+                <tr><td>Complexity</td><td><span class="tbl-badge tbl-badge-g">Low</span></td><td><span class="tbl-badge tbl-badge-o">Medium</span></td><td><span class="tbl-badge tbl-badge-r">High</span></td></tr>
+                <tr><td>Setup Time</td><td>Minutes</td><td>Hours</td><td>Days</td></tr>
+                <tr><td>Scalability</td><td>Single team</td><td>Multiple teams</td><td>Enterprise-wide</td></tr>
+                <tr><td>Learning Curve</td><td><span class="tbl-badge tbl-badge-g">Gentle</span></td><td><span class="tbl-badge tbl-badge-o">Moderate</span></td><td><span class="tbl-badge tbl-badge-r">Steep</span></td></tr>
+                <tr><td>Cost</td><td>Free / OSS</td><td>Freemium</td><td>Enterprise license</td></tr>
+                </tbody>
+                </table>
+                <div style="font-size:10px;color:var(--txt3);margin-top:10px;text-align:right">Based on internal evaluation, 2026</div>
+                </div>`,
+
+            'table-striped': `
+                <div class="dtk-sample dtk-striped"><h3>Maturity Assessment Scorecard</h3><p class="dsub">Capability readiness across operational disciplines</p>
+                <table>
+                <thead><tr><th>Capability</th><th>DataOps</th><th>MLOps</th><th>LLMOps</th><th>AIOps</th></tr></thead>
+                <tbody>
+                <tr><td>Automated Pipelines</td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-partial">&#9679;</span></td><td><span class="tbl-cross">&#10005;</span></td></tr>
+                <tr><td>Version Control</td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-partial">&#9679;</span></td></tr>
+                <tr class="tbl-highlight"><td>Monitoring &amp; Alerting</td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-partial">&#9679;</span></td><td><span class="tbl-cross">&#10005;</span></td><td><span class="tbl-cross">&#10005;</span></td></tr>
+                <tr><td>Cost Governance</td><td><span class="tbl-partial">&#9679;</span></td><td><span class="tbl-cross">&#10005;</span></td><td><span class="tbl-partial">&#9679;</span></td><td><span class="tbl-cross">&#10005;</span></td></tr>
+                <tr><td>Drift Detection</td><td>N/A</td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-partial">&#9679;</span></td><td><span class="tbl-cross">&#10005;</span></td></tr>
+                <tr><td>Access Controls</td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-partial">&#9679;</span></td></tr>
+                <tr><td>Self-Service</td><td><span class="tbl-check">&#10003;</span></td><td><span class="tbl-cross">&#10005;</span></td><td><span class="tbl-cross">&#10005;</span></td><td><span class="tbl-cross">&#10005;</span></td></tr>
+                </tbody>
+                </table>
+                <div class="tbl-footer"><div class="tbl-legend"><span><span class="tbl-check">&#10003;</span> Implemented</span><span><span class="tbl-partial">&#9679;</span> In Progress</span><span><span class="tbl-cross">&#10005;</span> Not Started</span></div><span>Last assessed: Q1 2026</span></div>
+                </div>`,
+
+            'matrix': `
+                <div class="dtk-sample"><h3>RACI Responsibility Matrix</h3><p class="dsub">Who does what across key data platform activities</p>
+                <div style="display:grid;grid-template-columns:160px repeat(4,1fr);border:1.5px solid var(--bdr2);border-radius:10px;overflow:hidden">
+                <div style="background:var(--card);padding:10px 14px;border-bottom:2px solid var(--green);border-right:1.5px solid var(--bdr2)"></div>
+                <div style="background:var(--card);font-size:11px;font-weight:700;color:var(--txt);padding:10px 14px;text-align:center;border-bottom:2px solid var(--green)">Data Eng</div>
+                <div style="background:var(--card);font-size:11px;font-weight:700;color:var(--txt);padding:10px 14px;text-align:center;border-bottom:2px solid var(--green)">ML Team</div>
+                <div style="background:var(--card);font-size:11px;font-weight:700;color:var(--txt);padding:10px 14px;text-align:center;border-bottom:2px solid var(--green)">Platform</div>
+                <div style="background:var(--card);font-size:11px;font-weight:700;color:var(--txt);padding:10px 14px;text-align:center;border-bottom:2px solid var(--green)">Leadership</div>
+                <div style="font-size:12px;font-weight:600;color:var(--txt);padding:10px 14px;border-right:1.5px solid var(--bdr2);border-bottom:1px solid var(--bdr)">Pipeline Dev</div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(10,170,80,.08);color:var(--green);border:1.5px solid rgba(10,170,80,.25)">R</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(245,158,11,.08);color:#d97706;border:1.5px solid rgba(245,158,11,.2)">C</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(37,99,235,.08);color:#2563eb;border:1.5px solid rgba(37,99,235,.2)">A</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(107,114,128,.06);color:var(--txt3);border:1.5px solid rgba(107,114,128,.12)">I</span></div>
+                <div style="font-size:12px;font-weight:600;color:var(--txt);padding:10px 14px;border-right:1.5px solid var(--bdr2);border-bottom:1px solid var(--bdr)">Model Training</div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(245,158,11,.08);color:#d97706;border:1.5px solid rgba(245,158,11,.2)">C</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(10,170,80,.08);color:var(--green);border:1.5px solid rgba(10,170,80,.25)">R</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(107,114,128,.06);color:var(--txt3);border:1.5px solid rgba(107,114,128,.12)">I</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(107,114,128,.06);color:var(--txt3);border:1.5px solid rgba(107,114,128,.12)">I</span></div>
+                <div style="font-size:12px;font-weight:600;color:var(--txt);padding:10px 14px;border-right:1.5px solid var(--bdr2);border-bottom:1px solid var(--bdr)">Infrastructure</div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(245,158,11,.08);color:#d97706;border:1.5px solid rgba(245,158,11,.2)">C</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(107,114,128,.06);color:var(--txt3);border:1.5px solid rgba(107,114,128,.12)">I</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(10,170,80,.08);color:var(--green);border:1.5px solid rgba(10,170,80,.25)">R</span></div>
+                <div style="text-align:center;padding:10px;border-bottom:1px solid var(--bdr)"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(37,99,235,.08);color:#2563eb;border:1.5px solid rgba(37,99,235,.2)">A</span></div>
+                <div style="font-size:12px;font-weight:600;color:var(--txt);padding:10px 14px;border-right:1.5px solid var(--bdr2)">Strategy</div>
+                <div style="text-align:center;padding:10px"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(107,114,128,.06);color:var(--txt3);border:1.5px solid rgba(107,114,128,.12)">I</span></div>
+                <div style="text-align:center;padding:10px"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(245,158,11,.08);color:#d97706;border:1.5px solid rgba(245,158,11,.2)">C</span></div>
+                <div style="text-align:center;padding:10px"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(245,158,11,.08);color:#d97706;border:1.5px solid rgba(245,158,11,.2)">C</span></div>
+                <div style="text-align:center;padding:10px"><span style="display:inline-flex;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(10,170,80,.08);color:var(--green);border:1.5px solid rgba(10,170,80,.25)">R</span></div>
+                </div>
+                <div style="font-size:10px;color:var(--txt3);margin-top:12px;display:flex;gap:16px"><span><span style="color:var(--green);font-weight:700">R</span> Responsible</span><span><span style="color:#2563eb;font-weight:700">A</span> Accountable</span><span><span style="color:#d97706;font-weight:700">C</span> Consulted</span><span><span style="color:var(--txt3);font-weight:700">I</span> Informed</span></div>
+                </div>`
+        };
+
+        // ═══════════════════════════════════════
+        // THEME
+        // ═══════════════════════════════════════
+        window.setTheme = function(theme) {
+            state.theme = theme;
+            document.body.classList.toggle('light-mode', theme === 'light');
+            document.getElementById('btnDark').classList.toggle('active', theme === 'dark');
+            document.getElementById('btnLight').classList.toggle('active', theme === 'light');
+            // Toggle diagram internal theme
+            const canvas = document.getElementById('canvas');
+            canvas.classList.toggle('dark-diagram', theme === 'dark');
+            updateArrowheadColor();
+        };
+
+        function updateArrowheadColor() {
+            document.querySelector('#arrowhead polygon').setAttribute('fill', state.annoColor);
+        }
+
+        // ═══════════════════════════════════════
+        // TEMPLATES
+        // ═══════════════════════════════════════
+        window.loadTemplate = function(id) {
+            const content = document.getElementById('diagramContent');
+            content.innerHTML = templates[id] || '<p style="color:var(--text-m)">Template not found</p>';
+            clearAnnotations();
+            if (state.roughOn) applyRough();
+            setStatus('Loaded: ' + id);
+        };
+
+        // ═══════════════════════════════════════
+        // GRID
+        // ═══════════════════════════════════════
+        window.toggleGrid = function() {
+            state.gridOn = !state.gridOn;
+            document.getElementById('canvas').classList.toggle('show-grid', state.gridOn);
+            document.getElementById('btnGrid').classList.toggle('active', state.gridOn);
+        };
+
+        // ═══════════════════════════════════════
+        // ROUGH.JS
+        // ═══════════════════════════════════════
+        window.toggleRough = function() {
+            state.roughOn = !state.roughOn;
+            document.getElementById('btnRough').classList.toggle('active', state.roughOn);
+            if (state.roughOn) applyRough();
+            else removeRough();
+        };
+
+        function applyRough() {
+            removeRough();
+            const boxes = document.querySelectorAll('.dtk-box, [style*="border-radius:8px"]');
+            boxes.forEach(box => {
+                const rect = box.getBoundingClientRect();
+                const canvas = document.getElementById('canvas');
+                const canvasRect = canvas.getBoundingClientRect();
+                const x = rect.left - canvasRect.left;
+                const y = rect.top - canvasRect.top;
+
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', rect.width);
+                svg.setAttribute('height', rect.height);
+                svg.style.cssText = `position:absolute;left:${x}px;top:${y}px;pointer-events:none;z-index:10;`;
+                svg.classList.add('rough-overlay');
+
+                const rc = rough.svg(svg);
+                const node = rc.rectangle(1, 1, rect.width - 2, rect.height - 2, {
+                    stroke: '#0aaa50', strokeWidth: 1.5, roughness: 1.2,
+                    fill: 'none', bowing: 2
+                });
+                svg.appendChild(node);
+                canvas.appendChild(svg);
+                state.roughSvgs.push(svg);
+
+                box.style.borderColor = 'transparent';
+                box._origBorder = true;
+            });
+        }
+
+        function removeRough() {
+            state.roughSvgs.forEach(svg => svg.remove());
+            state.roughSvgs = [];
+            document.querySelectorAll('[data-orig-border],.dtk-box,[style*="border-radius:8px"]').forEach(el => {
+                if (el._origBorder) {
+                    el.style.borderColor = '';
+                    el._origBorder = false;
+                }
+            });
+        }
+
+        // ═══════════════════════════════════════
+        // ANIMATION
+        // ═══════════════════════════════════════
+        window.runAnimation = function() {
+            const els = document.querySelectorAll('.dtk-box, .dtk-sample > div, [style*="border-radius"]');
+            anime({
+                targets: Array.from(els),
+                opacity: [0, 1],
+                translateY: [20, 0],
+                delay: anime.stagger(80),
+                duration: 500,
+                easing: 'easeOutCubic'
+            });
+        };
+
+        // ═══════════════════════════════════════
+        // ANNOTATIONS
+        // ═══════════════════════════════════════
+        const overlay = document.getElementById('annoOverlay');
+
+        window.toggleAnnotate = function() {
+            state.annotateOn = !state.annotateOn;
+            document.getElementById('btnAnnotate').classList.toggle('active', state.annotateOn);
+            document.getElementById('annoTools').classList.toggle('visible', state.annotateOn);
+            overlay.classList.toggle('active', state.annotateOn);
+            setStatus(state.annotateOn ? 'Annotation mode — click canvas to add' : 'Ready');
+        };
+
+        window.setAnnoTool = function(tool) {
+            state.annoTool = tool;
+            document.querySelectorAll('.anno-tools .tb-btn[data-tool]').forEach(b => {
+                b.classList.toggle('active', b.dataset.tool === tool);
+            });
+            state.arrowStart = null;
+            state.rectStart = null;
+        };
+
+        function getCanvasPos(e) {
+            const rect = overlay.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        overlay.addEventListener('mousedown', function(e) {
+            if (!state.annotateOn) return;
+            const pos = getCanvasPos(e);
+
+            if (state.annoTool === 'text') {
+                createTextAnno(pos);
+            } else if (state.annoTool === 'arrow') {
+                if (!state.arrowStart) {
+                    state.arrowStart = pos;
+                    setStatus('Click end point for arrow');
+                } else {
+                    createArrowAnno(state.arrowStart, pos);
+                    state.arrowStart = null;
+                    setStatus('Arrow created');
+                }
+            } else if (state.annoTool === 'rect') {
+                state.rectStart = pos;
+                state._tempRect = createRectAnno(pos, pos, true);
+            } else if (state.annoTool === 'freehand') {
+                state.freehandPoints = [pos];
+                state.freehandPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                state.freehandPath.setAttribute('fill', 'none');
+                state.freehandPath.setAttribute('stroke', state.annoColor);
+                state.freehandPath.setAttribute('stroke-width', '2');
+                state.freehandPath.setAttribute('stroke-linecap', 'round');
+                state.freehandPath.classList.add('anno-el');
+                overlay.appendChild(state.freehandPath);
+            }
+        });
+
+        overlay.addEventListener('mousemove', function(e) {
+            if (!state.annotateOn) return;
+            const pos = getCanvasPos(e);
+
+            if (state.annoTool === 'rect' && state.rectStart && state._tempRect) {
+                const x = Math.min(state.rectStart.x, pos.x);
+                const y = Math.min(state.rectStart.y, pos.y);
+                const w = Math.abs(pos.x - state.rectStart.x);
+                const h = Math.abs(pos.y - state.rectStart.y);
+                state._tempRect.setAttribute('x', x);
+                state._tempRect.setAttribute('y', y);
+                state._tempRect.setAttribute('width', w);
+                state._tempRect.setAttribute('height', h);
+            }
+
+            if (state.annoTool === 'freehand' && state.freehandPath) {
+                state.freehandPoints.push(pos);
+                // Live preview with raw lines (smooth on mouseup)
+                const d = state.freehandPoints.map((p, i) => (i === 0 ? 'M' : 'L') + p.x + ',' + p.y).join(' ');
+                state.freehandPath.setAttribute('d', d);
+            }
+
+            if (state.dragging) {
+                const el = state.dragging;
+                const newX = pos.x - state.dragOffset.x;
+                const newY = pos.y - state.dragOffset.y;
+                if (el.tagName === 'text' || el.tagName === 'foreignObject') {
+                    el.setAttribute('x', newX);
+                    el.setAttribute('y', newY);
+                } else if (el.tagName === 'line') {
+                    const dx = newX - parseFloat(el.getAttribute('x1'));
+                    const dy = newY - parseFloat(el.getAttribute('y1'));
+                    el.setAttribute('x1', parseFloat(el.getAttribute('x1')) + dx);
+                    el.setAttribute('y1', parseFloat(el.getAttribute('y1')) + dy);
+                    el.setAttribute('x2', parseFloat(el.getAttribute('x2')) + dx);
+                    el.setAttribute('y2', parseFloat(el.getAttribute('y2')) + dy);
+                }
+            }
+        });
+
+        overlay.addEventListener('mouseup', function(e) {
+            if (state.annoTool === 'rect' && state.rectStart && state._tempRect) {
+                state.annotations.push(state._tempRect);
+                state.undoStack.push(state._tempRect);
+                state.rectStart = null;
+                state._tempRect = null;
+                setStatus('Rectangle created');
+            }
+            if (state.annoTool === 'freehand' && state.freehandPath) {
+                // Smooth the raw points into polished cubic bezier curves
+                const smoothed = smoothFreehand(state.freehandPoints);
+                state.freehandPath.setAttribute('d', smoothed);
+                state.freehandPath.setAttribute('stroke-linejoin', 'round');
+                state.annotations.push(state.freehandPath);
+                state.undoStack.push(state.freehandPath);
+                state.freehandPath = null;
+                state.freehandPoints = [];
+                setStatus('Freehand drawn (smoothed)');
+            }
+            state.dragging = null;
+        });
+
+        // Smooth freehand points using Catmull-Rom → cubic bezier conversion
+        // Downsamples dense points, then converts to smooth SVG curves
+        function smoothFreehand(rawPoints) {
+            if (rawPoints.length < 3) {
+                return rawPoints.map((p, i) => (i === 0 ? 'M' : 'L') + p.x + ',' + p.y).join(' ');
+            }
+            // Downsample: keep every Nth point based on density (min distance 4px)
+            const pts = [rawPoints[0]];
+            for (let i = 1; i < rawPoints.length; i++) {
+                const prev = pts[pts.length - 1];
+                const dx = rawPoints[i].x - prev.x;
+                const dy = rawPoints[i].y - prev.y;
+                if (dx * dx + dy * dy > 16) pts.push(rawPoints[i]);
+            }
+            pts.push(rawPoints[rawPoints.length - 1]); // always keep last
+            if (pts.length < 3) {
+                return pts.map((p, i) => (i === 0 ? 'M' : 'L') + p.x + ',' + p.y).join(' ');
+            }
+            // Catmull-Rom spline → cubic bezier control points
+            const tension = 0.3;
+            let d = 'M' + pts[0].x + ',' + pts[0].y;
+            for (let i = 0; i < pts.length - 1; i++) {
+                const p0 = pts[Math.max(i - 1, 0)];
+                const p1 = pts[i];
+                const p2 = pts[Math.min(i + 1, pts.length - 1)];
+                const p3 = pts[Math.min(i + 2, pts.length - 1)];
+                const cp1x = p1.x + (p2.x - p0.x) * tension;
+                const cp1y = p1.y + (p2.y - p0.y) * tension;
+                const cp2x = p2.x - (p3.x - p1.x) * tension;
+                const cp2y = p2.y - (p3.y - p1.y) * tension;
+                d += ' C' + cp1x.toFixed(1) + ',' + cp1y.toFixed(1) +
+                     ' ' + cp2x.toFixed(1) + ',' + cp2y.toFixed(1) +
+                     ' ' + p2.x.toFixed(1) + ',' + p2.y.toFixed(1);
+            }
+            return d;
+        }
+
+        function createTextAnno(pos) {
+            const fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+            fo.setAttribute('x', pos.x); fo.setAttribute('y', pos.y);
+            fo.setAttribute('width', 200); fo.setAttribute('height', 40);
+            fo.classList.add('anno-el');
+
+            const div = document.createElement('div');
+            div.contentEditable = 'true';
+            div.className = 'anno-text';
+            div.style.cssText = `color:${state.annoColor};font-size:14px;padding:4px;background:rgba(0,0,0,0.3);border-radius:4px;min-width:40px;`;
+            div.textContent = 'Label';
+            div.addEventListener('mousedown', function(e) {
+                if (!div.isContentEditable || e.detail > 1) return;
+                e.stopPropagation();
+                state.dragging = fo;
+                const p = getCanvasPos(e);
+                state.dragOffset = { x: p.x - parseFloat(fo.getAttribute('x')), y: p.y - parseFloat(fo.getAttribute('y')) };
+            });
+            fo.appendChild(div);
+            overlay.appendChild(fo);
+            state.annotations.push(fo);
+            state.undoStack.push(fo);
+            div.focus();
+            document.execCommand('selectAll');
+        }
+
+        function createArrowAnno(start, end) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', start.x); line.setAttribute('y1', start.y);
+            line.setAttribute('x2', end.x); line.setAttribute('y2', end.y);
+            line.setAttribute('stroke', state.annoColor);
+            line.setAttribute('stroke-width', '2');
+            line.setAttribute('marker-end', 'url(#arrowhead)');
+            line.classList.add('anno-el');
+            line.addEventListener('mousedown', function(e) {
+                e.stopPropagation();
+                state.dragging = line;
+                const p = getCanvasPos(e);
+                state.dragOffset = { x: p.x - parseFloat(line.getAttribute('x1')), y: p.y - parseFloat(line.getAttribute('y1')) };
+            });
+            overlay.appendChild(line);
+            state.annotations.push(line);
+            state.undoStack.push(line);
+            updateArrowheadColor();
+        }
+
+        function createRectAnno(start, end, temp) {
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', Math.min(start.x, end.x));
+            rect.setAttribute('y', Math.min(start.y, end.y));
+            rect.setAttribute('width', Math.abs(end.x - start.x) || 2);
+            rect.setAttribute('height', Math.abs(end.y - start.y) || 2);
+            rect.setAttribute('fill', state.annoColor);
+            rect.setAttribute('fill-opacity', '0.1');
+            rect.setAttribute('stroke', state.annoColor);
+            rect.setAttribute('stroke-width', '1.5');
+            rect.setAttribute('rx', '4');
+            rect.classList.add('anno-el');
+            overlay.appendChild(rect);
+            return rect;
+        }
+
+        window.clearAnnotations = function() {
+            state.annotations.forEach(el => el.remove());
+            state.annotations = [];
+            state.undoStack = [];
+            state.arrowStart = null;
+        };
+
+        window.undoAnnotation = function() {
+            const last = state.undoStack.pop();
+            if (last) {
+                last.remove();
+                state.annotations = state.annotations.filter(a => a !== last);
+                setStatus('Undone');
+            }
+        };
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                if (state.selectedAnno && !document.activeElement.isContentEditable) {
+                    state.selectedAnno.remove();
+                    state.annotations = state.annotations.filter(a => a !== state.selectedAnno);
+                    state.selectedAnno = null;
+                }
+            }
+            if (e.ctrlKey && e.key === 'z') {
+                e.preventDefault();
+                undoAnnotation();
+            }
+        });
+
+        // ═══════════════════════════════════════
+        // EXPORT
+        // ═══════════════════════════════════════
+        window.exportPNG = async function() {
+            setStatus('Exporting PNG...');
+            try {
+                const canvas = await html2canvas(document.getElementById('canvas'), { scale: 2, backgroundColor: null, useCORS: true });
+                const link = document.createElement('a');
+                link.download = 'diagram.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                toast('PNG downloaded');
+            } catch (err) { setStatus('Export failed: ' + err.message); }
+        };
+
+        window.exportPDF = async function() {
+            setStatus('Exporting PDF...');
+            try {
+                const c = await html2canvas(document.getElementById('canvas'), { scale: 2, backgroundColor: null, useCORS: true });
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: c.width > c.height ? 'landscape' : 'portrait',
+                    unit: 'px', format: [c.width / 2, c.height / 2]
+                });
+                pdf.addImage(c.toDataURL('image/png'), 'PNG', 0, 0, c.width / 2, c.height / 2);
+                pdf.save('diagram.pdf');
+                toast('PDF downloaded');
+            } catch (err) { setStatus('Export failed: ' + err.message); }
+        };
+
+        window.copyPNG = async function() {
+            setStatus('Copying to clipboard...');
+            try {
+                const c = await html2canvas(document.getElementById('canvas'), { scale: 2, backgroundColor: null, useCORS: true });
+                c.toBlob(async blob => {
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                    toast('Copied to clipboard');
+                });
+            } catch (err) { setStatus('Copy failed: ' + err.message); }
+        };
+
+        window.copyHTML = function() {
+            const html = document.getElementById('diagramContent').innerHTML;
+            navigator.clipboard.writeText(html).then(() => toast('HTML copied'));
+        };
+
+        // ═══════════════════════════════════════
+        // UTILS
+        // ═══════════════════════════════════════
+        function setStatus(msg) { document.getElementById('statusLeft').textContent = msg; }
+
+        function toast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2000);
+        }
+
+        // ═══════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════
+        loadTemplate('flow-horizontal');
+        setTheme('dark');
+
+    })();
+    </script>
+</body>
+</html>

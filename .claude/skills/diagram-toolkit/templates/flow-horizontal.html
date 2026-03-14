@@ -1,0 +1,76 @@
+<!-- TEMPLATE: flow-horizontal | pipelines, workflows, sequential processes, maturity stages | ordered list of 3-7 stages with labels and optional descriptions -->
+
+<style>
+.dtk-flow { --green:#0aaa50; --green-lt:#0dcc60; --green-bg:rgba(10,170,80,0.07); --green-glow:rgba(10,170,80,0.06); --card:#f5f7f6; --txt:#111827; --txt2:#374151; --txt3:#6b7280; --bdr:rgba(17,24,39,0.08); --bdr2:rgba(17,24,39,0.15); font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:32px; border:1px solid var(--bdr); border-radius:12px; margin:24px 0; background:#fff; }
+.dtk-flow h3 { font-size:17px; font-weight:700; color:var(--txt); margin:0 0 6px; }
+.dtk-flow .flow-sub { font-size:12px; color:var(--txt3); margin:0 0 28px; }
+.dtk-flow .stages-row { display:flex; align-items:stretch; gap:0; margin-bottom:20px; }
+.dtk-flow .stage-wrapper { display:flex; align-items:center; flex:1; }
+.dtk-flow .stage-box { flex:1; background:var(--card); border:1.5px solid var(--bdr2); border-radius:10px; padding:18px 14px; text-align:center; transition:border-color 0.2s; }
+.dtk-flow .stage-box:hover { border-color:var(--green); }
+.dtk-flow .stage-num { font-size:11px; font-weight:700; color:var(--green); letter-spacing:0.05em; margin-bottom:6px; }
+.dtk-flow .stage-title { font-size:14px; font-weight:700; color:var(--txt); margin-bottom:4px; line-height:1.2; }
+.dtk-flow .stage-sub { font-size:11px; color:var(--txt3); font-style:italic; }
+.dtk-flow .stage-arrow { color:var(--green); font-size:16px; padding:0 6px; flex-shrink:0; opacity:0.5; }
+.dtk-flow .gradient-bars { display:flex; flex-direction:column; gap:8px; }
+.dtk-flow .grad-bar { display:flex; align-items:center; gap:12px; }
+.dtk-flow .grad-bar-track { flex:1; height:4px; border-radius:2px; }
+.dtk-flow .grad-bar-label { font-size:11px; font-weight:500; color:var(--txt3); white-space:nowrap; min-width:140px; }
+.dtk-flow .grad-bar-label.right { text-align:right; }
+.dtk-flow .grad-value { background:linear-gradient(to right, rgba(10,170,80,0.2), var(--green)); }
+.dtk-flow .grad-complexity { background:linear-gradient(to right, rgba(107,114,128,0.15), var(--txt3)); }
+</style>
+
+<div class="dtk-flow">
+  <h3>The Classical Analytics Maturity Curve</h3>
+  <p class="flow-sub">Four stages of increasing analytical sophistication</p>
+
+  <!-- CUSTOMIZE: stages -- add/remove .stage-wrapper + .stage-arrow pairs -->
+  <div class="stages-row">
+    <div class="stage-wrapper">
+      <div class="stage-box">
+        <div class="stage-num">01</div>
+        <div class="stage-title">Descriptive</div>
+        <div class="stage-sub">"What happened?"</div>
+      </div>
+      <span class="stage-arrow">&#9654;</span>
+    </div>
+    <div class="stage-wrapper">
+      <div class="stage-box">
+        <div class="stage-num">02</div>
+        <div class="stage-title">Diagnostic</div>
+        <div class="stage-sub">"Why did it happen?"</div>
+      </div>
+      <span class="stage-arrow">&#9654;</span>
+    </div>
+    <div class="stage-wrapper">
+      <div class="stage-box">
+        <div class="stage-num">03</div>
+        <div class="stage-title">Predictive</div>
+        <div class="stage-sub">"What will happen?"</div>
+      </div>
+      <span class="stage-arrow">&#9654;</span>
+    </div>
+    <div class="stage-wrapper">
+      <div class="stage-box">
+        <div class="stage-num">04</div>
+        <div class="stage-title">Prescriptive</div>
+        <div class="stage-sub">"What should we do?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMIZE: gradient bars -- add/remove .grad-bar elements -->
+  <div class="gradient-bars">
+    <div class="grad-bar">
+      <span class="grad-bar-label right">Increasing Value</span>
+      <div class="grad-bar-track grad-value"></div>
+      <span class="grad-bar-label" style="opacity:0;">&rarr;</span>
+    </div>
+    <div class="grad-bar">
+      <span class="grad-bar-label right">Increasing Complexity</span>
+      <div class="grad-bar-track grad-complexity"></div>
+      <span class="grad-bar-label" style="opacity:0;">&rarr;</span>
+    </div>
+  </div>
+</div>

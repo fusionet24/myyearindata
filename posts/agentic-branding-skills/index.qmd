@@ -4,7 +4,7 @@ subtitle: "Why Brand Governance Is Becoming a Data Engineering Problem"
 author: "Scott Bell"
 description: "As AI saturates every design tool, brand guidelines become data engineering concerns. The branding pack of the future will include Organisational Branding Agent Skills."
 ai-label: "AI Assisted"
-date: "2026-02-18"
+date: "2026-02-29"
 draft: true
 categories:
   - ai
@@ -14,10 +14,6 @@ categories:
   - data-engineering
   - prompt-design
 ---
-
-::: {.callout-note appearance="simple"}
-This post was developed with the help of AI based on my research. See my post on [AI Content Labels](../AI-Content-Labels/index.qmd).
-:::
 
 ## When Every Tool Has AI, Who's Guarding Your Brand?
 

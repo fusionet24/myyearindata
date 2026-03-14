@@ -1,0 +1,16 @@
+---
+title: "The AIOps Journey"
+subtitle: "A Series on the Operational Challenges of AI at Scale"
+listing:
+  contents: posts/aiops-journey-*
+  sort: "date asc"
+  type: default
+  categories: false
+  fields: [title, description, date, categories]
+page-layout: full
+title-block-banner: true
+---
+
+AIOps is the holistic operational framework that encompasses MLOps, LLMOps, and GenAIOps while integrating with Data Governance, DevSecOps, and organisational and technological governance. This series explores the practical challenges, frameworks, and patterns for operating AI at enterprise scale.
+
+Each post draws from real experience rolling out AI operations — the mistakes, the lessons, and the insights that emerge from actually doing this work.

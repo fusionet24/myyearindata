@@ -1,0 +1,86 @@
+<!-- TEMPLATE: matrix | responsibility matrices, RACI charts, feature coverage, role mappings | grid with header row + column and cell indicators -->
+
+<style>
+.dtk-matrix { --green:#0aaa50; --green-lt:#0dcc60; --green-bg:rgba(10,170,80,0.07); --card:#f5f7f6; --txt:#111827; --txt2:#374151; --txt3:#6b7280; --bdr:rgba(17,24,39,0.08); --bdr2:rgba(17,24,39,0.15); --blue:#2563eb; --orange:#d97706; --red:#ef4444; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:32px; border:1px solid var(--bdr); border-radius:12px; margin:24px 0; background:#fff; }
+.dtk-matrix h3 { font-size:17px; font-weight:700; color:var(--txt); margin:0 0 6px; }
+.dtk-matrix .matrix-sub { font-size:12px; color:var(--txt3); margin:0 0 24px; }
+.dtk-matrix .matrix-grid { display:grid; gap:0; border:1.5px solid var(--bdr2); border-radius:10px; overflow:hidden; }
+.dtk-matrix .matrix-hdr { background:var(--card); font-size:11px; font-weight:700; color:var(--txt); padding:12px 14px; text-align:center; border-bottom:2px solid var(--green); }
+.dtk-matrix .matrix-hdr-corner { background:var(--card); border-bottom:2px solid var(--green); border-right:1.5px solid var(--bdr2); }
+.dtk-matrix .matrix-row-hdr { font-size:12px; font-weight:600; color:var(--txt); padding:10px 14px; background:#fff; border-right:1.5px solid var(--bdr2); border-bottom:1px solid var(--bdr); display:flex; align-items:center; }
+.dtk-matrix .matrix-cell { font-size:12px; color:var(--txt2); padding:10px 14px; text-align:center; border-bottom:1px solid var(--bdr); display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
+.dtk-matrix .matrix-cell:hover { background:var(--green-bg); }
+.dtk-matrix .matrix-grid > :nth-last-child(-n+5) { border-bottom:none; }
+.dtk-matrix .matrix-dot { width:28px; height:28px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+.dtk-matrix .matrix-dot-r { background:var(--green-bg); color:var(--green); border:1.5px solid rgba(10,170,80,0.25); }
+.dtk-matrix .matrix-dot-a { background:rgba(37,99,235,0.08); color:var(--blue); border:1.5px solid rgba(37,99,235,0.2); }
+.dtk-matrix .matrix-dot-c { background:rgba(245,158,11,0.08); color:var(--orange); border:1.5px solid rgba(245,158,11,0.2); }
+.dtk-matrix .matrix-dot-i { background:rgba(107,114,128,0.06); color:var(--txt3); border:1.5px solid rgba(107,114,128,0.12); }
+.dtk-matrix .matrix-dot-empty { width:28px; height:28px; border-radius:50%; border:1.5px dashed var(--bdr2); }
+.dtk-matrix .matrix-footer { font-size:10px; color:var(--txt3); margin-top:14px; display:flex; justify-content:space-between; align-items:center; }
+.dtk-matrix .matrix-legend { display:flex; gap:16px; flex-wrap:wrap; }
+.dtk-matrix .matrix-legend-item { display:flex; align-items:center; gap:5px; }
+.dtk-matrix .matrix-legend-dot { width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; }
+</style>
+
+<div class="dtk-matrix">
+  <h3>RACI Responsibility Matrix</h3>
+  <p class="matrix-sub">Who does what across key data platform activities</p>
+
+  <!-- CUSTOMIZE: grid-template-columns should match number of columns (1 row-header + N data cols) -->
+  <div class="matrix-grid" style="grid-template-columns: 180px repeat(4, 1fr);">
+    <!-- Header row -->
+    <div class="matrix-hdr matrix-hdr-corner"></div>
+    <div class="matrix-hdr">Data Eng</div>
+    <div class="matrix-hdr">ML Team</div>
+    <div class="matrix-hdr">Platform</div>
+    <div class="matrix-hdr">Leadership</div>
+
+    <!-- CUSTOMIZE: rows — each row = 1 row-header + N cells -->
+    <!-- Row 1 -->
+    <div class="matrix-row-hdr">Pipeline Development</div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-r">R</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-c">C</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-a">A</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-i">I</span></div>
+
+    <!-- Row 2 -->
+    <div class="matrix-row-hdr">Model Training</div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-c">C</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-r">R</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-i">I</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-i">I</span></div>
+
+    <!-- Row 3 -->
+    <div class="matrix-row-hdr">Infrastructure</div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-c">C</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-i">I</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-r">R</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-a">A</span></div>
+
+    <!-- Row 4 -->
+    <div class="matrix-row-hdr">Data Governance</div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-c">C</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-c">C</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-r">R</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-a">A</span></div>
+
+    <!-- Row 5 -->
+    <div class="matrix-row-hdr">Strategy &amp; Roadmap</div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-i">I</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-c">C</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-c">C</span></div>
+    <div class="matrix-cell"><span class="matrix-dot matrix-dot-r">R</span></div>
+  </div>
+
+  <!-- CUSTOMIZE: legend -->
+  <div class="matrix-footer">
+    <div class="matrix-legend">
+      <div class="matrix-legend-item"><span class="matrix-legend-dot matrix-dot-r">R</span> Responsible</div>
+      <div class="matrix-legend-item"><span class="matrix-legend-dot matrix-dot-a">A</span> Accountable</div>
+      <div class="matrix-legend-item"><span class="matrix-legend-dot matrix-dot-c">C</span> Consulted</div>
+      <div class="matrix-legend-item"><span class="matrix-legend-dot matrix-dot-i">I</span> Informed</div>
+    </div>
+    <span>Updated Q1 2026</span>
+  </div>
+</div>
