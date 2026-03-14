@@ -1,0 +1,99 @@
+<!-- TEMPLATE: quadrant | risk assessment, priority matrices, 2x2 categorization, effort-impact analysis | 2x2 grid with axis labels and categorized items -->
+
+<style>
+.dtk-quad { --green:#0aaa50; --green-lt:#0dcc60; --green-bg:rgba(10,170,80,0.07); --card:#f5f7f6; --txt:#111827; --txt2:#374151; --txt3:#6b7280; --bdr:rgba(17,24,39,0.08); --bdr2:rgba(17,24,39,0.15); --red:#ef4444; --blue:#2563eb; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:32px; border:1px solid var(--bdr); border-radius:12px; margin:24px 0; background:#fff; }
+.dtk-quad h3 { font-size:17px; font-weight:700; color:var(--txt); margin:0 0 4px; text-align:center; }
+.dtk-quad .quad-sub { font-size:12px; color:var(--txt3); text-align:center; margin:0 0 24px; }
+.dtk-quad .quad-wrap { position:relative; padding:0 0 32px 36px; }
+.dtk-quad .quad-yaxis { position:absolute; left:0; top:50%; transform:translateY(-50%) rotate(-90deg); font-size:10px; font-weight:600; color:var(--txt3); letter-spacing:0.06em; text-transform:uppercase; white-space:nowrap; }
+.dtk-quad .quad-axis-lo { color:var(--txt3); opacity:0.6; }
+.dtk-quad .quad-axis-hi { color:var(--green); }
+.dtk-quad .quad-xaxis { display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding:0 4px; }
+.dtk-quad .quad-xaxis-bar { flex:1; height:1px; background:var(--bdr2); margin:0 8px; }
+.dtk-quad .quad-xaxis span { font-size:10px; font-weight:600; color:var(--txt3); letter-spacing:0.06em; text-transform:uppercase; white-space:nowrap; }
+.dtk-quad .quad-grid { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; }
+.dtk-quad .quad-cell { border:1.5px solid var(--bdr); border-radius:8px; padding:16px; background:var(--card); transition:border-color 0.2s; min-height:100px; }
+.dtk-quad .quad-cell:hover { border-color:var(--green); }
+.dtk-quad .quad-q1 { background:var(--green-bg); border-color:rgba(10,170,80,0.2); }
+.dtk-quad .quad-q2 { background:#f9fafb; }
+.dtk-quad .quad-q3 { background:#f9fafb; }
+.dtk-quad .quad-q4 { background:#fef2f2; border-color:rgba(239,68,68,0.15); }
+.dtk-quad .quad-cell-tag { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+.dtk-quad .quad-q1 .quad-cell-tag { color:var(--green); }
+.dtk-quad .quad-q2 .quad-cell-tag { color:var(--blue); }
+.dtk-quad .quad-q3 .quad-cell-tag { color:var(--txt3); }
+.dtk-quad .quad-q4 .quad-cell-tag { color:var(--red); }
+.dtk-quad .quad-cell-title { font-size:14px; font-weight:700; color:var(--txt); margin-bottom:8px; }
+.dtk-quad .quad-cell-items { list-style:none; padding:0; margin:0; }
+.dtk-quad .quad-cell-items li { font-size:11px; color:var(--txt2); padding:3px 0 3px 12px; position:relative; }
+.dtk-quad .quad-cell-items li::before { content:''; position:absolute; left:0; top:10px; width:4px; height:4px; border-radius:50%; background:var(--bdr2); }
+.dtk-quad .quad-q1 .quad-cell-items li::before { background:var(--green); }
+.dtk-quad .quad-q4 .quad-cell-items li::before { background:var(--red); }
+</style>
+
+<div class="dtk-quad">
+  <h3>Technology Investment Matrix</h3>
+  <p class="quad-sub">Prioritizing initiatives by effort and impact</p>
+
+  <div class="quad-wrap">
+    <!-- Y-axis label -->
+    <div class="quad-yaxis">
+      <span class="quad-axis-lo">Low Impact</span>
+      &nbsp;&rarr;&nbsp;
+      <span class="quad-axis-hi">High Impact</span>
+    </div>
+
+    <!-- CUSTOMIZE: 2x2 grid -->
+    <div class="quad-grid">
+      <!-- Q1: Top-Left = High Impact, Low Effort (best) -->
+      <div class="quad-cell quad-q1">
+        <div class="quad-cell-tag">Quick Wins</div>
+        <div class="quad-cell-title">Do First</div>
+        <ul class="quad-cell-items">
+          <li>Executive dashboards</li>
+          <li>Basic alerting &amp; automation</li>
+          <li>Self-service reporting</li>
+        </ul>
+      </div>
+
+      <!-- Q2: Top-Right = High Impact, High Effort -->
+      <div class="quad-cell quad-q2">
+        <div class="quad-cell-tag">Strategic Bets</div>
+        <div class="quad-cell-title">Plan &amp; Invest</div>
+        <ul class="quad-cell-items">
+          <li>ML prediction pipeline</li>
+          <li>Unified data platform</li>
+          <li>Real-time streaming infra</li>
+        </ul>
+      </div>
+
+      <!-- Q3: Bottom-Left = Low Impact, Low Effort -->
+      <div class="quad-cell quad-q3">
+        <div class="quad-cell-tag">Fill-Ins</div>
+        <div class="quad-cell-title">If Time Permits</div>
+        <ul class="quad-cell-items">
+          <li>Documentation updates</li>
+          <li>Minor tooling improvements</li>
+        </ul>
+      </div>
+
+      <!-- Q4: Bottom-Right = Low Impact, High Effort (worst) -->
+      <div class="quad-cell quad-q4">
+        <div class="quad-cell-tag">Avoid</div>
+        <div class="quad-cell-title">Reconsider</div>
+        <ul class="quad-cell-items">
+          <li>Over-engineering solutions</li>
+          <li>Premature optimization</li>
+          <li>Custom-building commodity tools</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- X-axis label -->
+    <div class="quad-xaxis">
+      <span class="quad-axis-lo">Low Effort</span>
+      <div class="quad-xaxis-bar"></div>
+      <span class="quad-axis-hi">High Effort</span>
+    </div>
+  </div>
+</div>

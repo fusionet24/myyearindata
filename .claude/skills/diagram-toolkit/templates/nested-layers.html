@@ -1,0 +1,73 @@
+<!-- TEMPLATE: nested-layers | architecture layers, taxonomy, ops discipline maps, onion diagrams | nested containers with optional cross-cutting bars -->
+
+<style>
+.dtk-nest { --green:#0aaa50; --green-lt:#0dcc60; --green-bg:rgba(10,170,80,0.12); --green-glow:rgba(10,170,80,0.06); --card:#f5f7f6; --txt:#111827; --txt2:#374151; --txt3:#6b7280; --bdr:rgba(17,24,39,0.08); --bdr2:rgba(17,24,39,0.15); font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:32px; border:1px solid var(--bdr); border-radius:12px; margin:24px 0; background:#fff; }
+.dtk-nest h3 { font-size:17px; font-weight:700; color:var(--txt); margin:0 0 6px; }
+.dtk-nest .nest-sub { font-size:12px; color:var(--txt3); margin:0 0 28px; }
+.dtk-nest .ops-nest { display:flex; flex-direction:column; align-items:center; gap:20px; }
+.dtk-nest .nest-layer { border:1.5px solid var(--bdr2); border-radius:14px; padding:24px; width:100%; text-align:center; transition:border-color 0.2s; }
+.dtk-nest .nest-layer-outer { border-color:var(--green); background:var(--green-glow); }
+.dtk-nest .nest-children { display:flex; gap:16px; margin-top:16px; }
+.dtk-nest .nest-child { flex:1; border:1.5px solid var(--bdr2); border-radius:10px; padding:20px; background:var(--card); transition:border-color 0.2s; }
+.dtk-nest .nest-child:hover { border-color:var(--green); }
+.dtk-nest .nest-inner { border:1.5px solid var(--green); border-radius:10px; padding:20px; margin-top:16px; background:var(--green-bg); }
+.dtk-nest .nest-tag { font-size:10px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+.dtk-nest .nest-title { font-size:16px; font-weight:700; color:var(--txt); }
+.dtk-nest .nest-desc { font-size:11px; color:var(--txt3); margin-top:4px; }
+.dtk-nest .cross-bars { display:flex; flex-direction:column; gap:6px; width:100%; margin-top:20px; }
+.dtk-nest .cross-bar { display:flex; align-items:center; gap:10px; padding:10px 16px; background:var(--card); border:1px solid var(--bdr); border-radius:8px; transition:border-color 0.2s; }
+.dtk-nest .cross-bar:hover { border-color:var(--green); }
+.dtk-nest .cross-bar-icon { font-size:14px; color:var(--green); }
+.dtk-nest .cross-bar-text { font-size:12px; font-weight:500; color:var(--txt2); }
+</style>
+
+<div class="dtk-nest">
+  <h3>The Ops Discipline Map</h3>
+  <p class="nest-sub">Nested operational disciplines &mdash; each builds on the layers below</p>
+
+  <div class="ops-nest">
+    <!-- CUSTOMIZE: outer layer -->
+    <div class="nest-layer nest-layer-outer">
+      <div class="nest-tag">Outer Layer</div>
+      <div class="nest-title">AIOps</div>
+      <div class="nest-desc">The Strategic Superset</div>
+
+      <!-- CUSTOMIZE: middle children -->
+      <div class="nest-children">
+        <div class="nest-child">
+          <div class="nest-tag">GenAI Operations</div>
+          <div class="nest-title">GenAIOps / LLMOps</div>
+          <div class="nest-desc">Prompt management, RAG pipelines, output safety</div>
+        </div>
+        <div class="nest-child">
+          <div class="nest-tag">ML Operations</div>
+          <div class="nest-title">MLOps</div>
+          <div class="nest-desc">Model lifecycle, experiment tracking, drift monitoring</div>
+        </div>
+      </div>
+
+      <!-- CUSTOMIZE: inner core -->
+      <div class="nest-inner">
+        <div class="nest-tag">The Universal Foundation</div>
+        <div class="nest-title">DataOps</div>
+        <div class="nest-desc">Data quality, pipeline reliability, metadata management</div>
+      </div>
+    </div>
+
+    <!-- CUSTOMIZE: cross-cutting bars -->
+    <div class="cross-bars">
+      <div class="cross-bar">
+        <span class="cross-bar-icon">&#9670;</span>
+        <span class="cross-bar-text">Data Governance</span>
+      </div>
+      <div class="cross-bar">
+        <span class="cross-bar-icon">&#9670;</span>
+        <span class="cross-bar-text">DevSecOps</span>
+      </div>
+      <div class="cross-bar">
+        <span class="cross-bar-icon">&#9670;</span>
+        <span class="cross-bar-text">Organisational &amp; Technological Governance</span>
+      </div>
+    </div>
+  </div>
+</div>
