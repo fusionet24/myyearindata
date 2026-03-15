@@ -4,7 +4,7 @@ subtitle: "The thoughts on personal branding something I've been terrible at"
 author: "Scott Bell"
 description: "I can pitch a Data & AI transformation to a room. But ask me at a social event what I actually do and I'll ramble for five minutes and leave you more confused than when you asked."
 ai-label: "AI Assisted"
-date: "2026-03-18"
+date: "2026-18-03"
 draft: false
 categories:
   - branding
