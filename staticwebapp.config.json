@@ -28,6 +28,11 @@
       "route": "/s/AI-Threat-Quadrants",
       "redirect": "/posts/aiops-journey-four-threat-quadrants/",
       "statusCode": 301
+    },
+    {
+      "route": "/s/Branding-Skills",
+      "redirect": "/posts/agentic-branding-skills/",
+      "statusCode": 301
     }
   ]
 }

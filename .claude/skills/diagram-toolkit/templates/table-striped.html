@@ -1,0 +1,103 @@
+<!-- TEMPLATE: table-striped | data tables, detailed comparisons, multi-row reference, scorecards | alternating row backgrounds for dense data -->
+
+<style>
+.dtk-tblstr { --green:#0aaa50; --green-lt:#0dcc60; --green-bg:rgba(10,170,80,0.07); --card:#f5f7f6; --txt:#111827; --txt2:#374151; --txt3:#6b7280; --bdr:rgba(17,24,39,0.08); --bdr2:rgba(17,24,39,0.15); font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:32px; border:1px solid var(--bdr); border-radius:12px; margin:24px 0; background:#fff; }
+.dtk-tblstr h3 { font-size:17px; font-weight:700; color:var(--txt); margin:0 0 6px; }
+.dtk-tblstr .tblstr-sub { font-size:12px; color:var(--txt3); margin:0 0 24px; }
+.dtk-tblstr table { width:100%; border-collapse:separate; border-spacing:0; border:1.5px solid var(--bdr2); border-radius:10px; overflow:hidden; }
+.dtk-tblstr thead th { background:var(--card); color:var(--txt); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:10px 16px; text-align:left; border-bottom:2px solid var(--green); }
+.dtk-tblstr thead th:first-child { border-top-left-radius:8px; }
+.dtk-tblstr thead th:last-child { border-top-right-radius:8px; }
+.dtk-tblstr tbody td { font-size:13px; color:var(--txt2); padding:10px 16px; border-bottom:1px solid var(--bdr); vertical-align:top; }
+.dtk-tblstr tbody tr:last-child td { border-bottom:none; }
+.dtk-tblstr tbody tr:nth-child(odd) { background:#fff; }
+.dtk-tblstr tbody tr:nth-child(even) { background:var(--card); }
+.dtk-tblstr tbody tr:hover { background:var(--green-bg); }
+.dtk-tblstr tbody td:first-child { font-weight:600; color:var(--txt); }
+.dtk-tblstr .tblstr-check { color:var(--green); font-weight:700; }
+.dtk-tblstr .tblstr-cross { color:#d1d5db; }
+.dtk-tblstr .tblstr-partial { color:#d97706; }
+.dtk-tblstr .tblstr-highlight td { background:var(--green-bg); border-left:3px solid var(--green); }
+.dtk-tblstr .tblstr-footer { font-size:10px; color:var(--txt3); margin-top:12px; display:flex; justify-content:space-between; }
+.dtk-tblstr .tblstr-legend { display:flex; gap:16px; }
+.dtk-tblstr .tblstr-legend span { display:flex; align-items:center; gap:4px; }
+</style>
+
+<div class="dtk-tblstr">
+  <h3>Maturity Assessment Scorecard</h3>
+  <p class="tblstr-sub">Capability readiness across operational disciplines</p>
+
+  <!-- CUSTOMIZE: columns and rows -->
+  <table>
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>DataOps</th>
+        <th>MLOps</th>
+        <th>LLMOps</th>
+        <th>AIOps</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Automated Pipelines</td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-partial">&#9679;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+      </tr>
+      <tr>
+        <td>Version Control</td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-partial">&#9679;</span></td>
+      </tr>
+      <tr class="tblstr-highlight">
+        <td>Monitoring &amp; Alerting</td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-partial">&#9679;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+      </tr>
+      <tr>
+        <td>Cost Governance</td>
+        <td><span class="tblstr-partial">&#9679;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+        <td><span class="tblstr-partial">&#9679;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+      </tr>
+      <tr>
+        <td>Drift Detection</td>
+        <td>N/A</td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-partial">&#9679;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+      </tr>
+      <tr>
+        <td>Access Controls</td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-partial">&#9679;</span></td>
+      </tr>
+      <tr>
+        <td>Self-Service</td>
+        <td><span class="tblstr-check">&#10003;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+        <td><span class="tblstr-cross">&#10005;</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CUSTOMIZE: footer with legend -->
+  <div class="tblstr-footer">
+    <div class="tblstr-legend">
+      <span><span class="tblstr-check">&#10003;</span> Implemented</span>
+      <span><span class="tblstr-partial">&#9679;</span> In Progress</span>
+      <span><span class="tblstr-cross">&#10005;</span> Not Started</span>
+    </div>
+    <span>Last assessed: Q1 2026</span>
+  </div>
+</div>

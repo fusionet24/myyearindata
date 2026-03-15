@@ -1,0 +1,91 @@
+<!-- TEMPLATE: timeline | project timelines, evolution, history, roadmaps, milestones | events with year, title, description, and status (past|current|future) -->
+
+<style>
+.dtk-time { --green:#0aaa50; --green-lt:#0dcc60; --green-bg:rgba(10,170,80,0.12); --green-glow:rgba(10,170,80,0.06); --card:#f5f7f6; --txt:#111827; --txt2:#374151; --txt3:#6b7280; --bdr:rgba(17,24,39,0.08); --bdr2:rgba(17,24,39,0.15); font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:32px; border:1px solid var(--bdr); border-radius:12px; margin:24px 0; background:#fff; }
+.dtk-time h3 { font-size:17px; font-weight:700; color:var(--txt); margin:0 0 4px; text-align:center; }
+.dtk-time .time-sub { font-size:12px; color:var(--txt3); text-align:center; margin:0 0 32px; }
+.dtk-time .time-track { position:relative; display:flex; justify-content:space-between; align-items:center; padding:60px 24px; min-height:180px; }
+.dtk-time .time-line { position:absolute; left:24px; right:24px; top:50%; height:2px; background:var(--bdr2); z-index:0; }
+.dtk-time .time-event { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; flex:1; max-width:160px; }
+.dtk-time .time-event:nth-child(odd) .time-label { order:-1; margin-bottom:12px; }
+.dtk-time .time-event:nth-child(even) .time-label { order:1; margin-top:12px; }
+.dtk-time .time-node { width:14px; height:14px; border-radius:50%; background:#fff; border:2.5px solid var(--bdr2); position:relative; z-index:2; flex-shrink:0; }
+.dtk-time .time-past .time-node { background:var(--txt2); border-color:var(--txt2); }
+.dtk-time .time-current .time-node { background:var(--green); border-color:var(--green); box-shadow:0 0 0 4px var(--green-bg), 0 0 12px rgba(10,170,80,0.25); width:18px; height:18px; }
+.dtk-time .time-future .time-node { background:#fff; border-color:var(--bdr2); border-style:dashed; }
+.dtk-time .time-label { text-align:center; max-width:140px; }
+.dtk-time .time-year { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:2px; }
+.dtk-time .time-past .time-year { color:var(--txt2); }
+.dtk-time .time-current .time-year { color:var(--green); }
+.dtk-time .time-future .time-year { color:var(--txt3); opacity:0.7; }
+.dtk-time .time-title { font-size:13px; font-weight:700; color:var(--txt); margin-bottom:3px; }
+.dtk-time .time-future .time-title { color:var(--txt3); font-style:italic; }
+.dtk-time .time-desc { font-size:10px; color:var(--txt3); line-height:1.4; }
+.dtk-time .time-badge { display:inline-block; font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; background:var(--green-bg); color:var(--green); padding:2px 6px; border-radius:4px; border:1px solid rgba(10,170,80,0.2); margin-top:4px; }
+.dtk-time .time-line-future { position:absolute; right:24px; top:50%; height:2px; border-top:2px dashed var(--bdr2); background:transparent; z-index:0; }
+</style>
+
+<div class="dtk-time">
+  <h3>AI Evolution Timeline</h3>
+  <p class="time-sub">Key milestones in the rise of artificial intelligence</p>
+
+  <div class="time-track">
+    <!-- Horizontal line -->
+    <div class="time-line"></div>
+    <!-- Future dashed segment -->
+    <div class="time-line-future" style="width:18%"></div>
+
+    <!-- CUSTOMIZE: timeline events -->
+
+    <!-- Event 1: Past -->
+    <div class="time-event time-past">
+      <div class="time-node"></div>
+      <div class="time-label">
+        <div class="time-year">2012</div>
+        <div class="time-title">Deep Learning</div>
+        <div class="time-desc">AlexNet breakthrough in image recognition</div>
+      </div>
+    </div>
+
+    <!-- Event 2: Past -->
+    <div class="time-event time-past">
+      <div class="time-node"></div>
+      <div class="time-label">
+        <div class="time-year">2017</div>
+        <div class="time-title">Transformers</div>
+        <div class="time-desc">Attention Is All You Need paper</div>
+      </div>
+    </div>
+
+    <!-- Event 3: Past -->
+    <div class="time-event time-past">
+      <div class="time-node"></div>
+      <div class="time-label">
+        <div class="time-year">2022</div>
+        <div class="time-title">ChatGPT</div>
+        <div class="time-desc">LLMs go mainstream</div>
+      </div>
+    </div>
+
+    <!-- Event 4: Current (green marker) -->
+    <div class="time-event time-current">
+      <div class="time-node"></div>
+      <div class="time-label">
+        <div class="time-year">2024</div>
+        <div class="time-title">Agentic AI</div>
+        <div class="time-desc">Autonomous agents emerge</div>
+        <span class="time-badge">Current</span>
+      </div>
+    </div>
+
+    <!-- Event 5: Future (dashed) -->
+    <div class="time-event time-future">
+      <div class="time-node"></div>
+      <div class="time-label">
+        <div class="time-year">2027</div>
+        <div class="time-title">Autonomous?</div>
+        <div class="time-desc">Multi-agent systems &amp; self-improving AI</div>
+      </div>
+    </div>
+  </div>
+</div>

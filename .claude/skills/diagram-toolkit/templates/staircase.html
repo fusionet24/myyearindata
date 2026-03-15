@@ -1,0 +1,56 @@
+<!-- TEMPLATE: staircase | dependency chains, prerequisites, building blocks, capability stacking | ordered steps with progressive heights -->
+
+<style>
+.dtk-stair { --green:#0aaa50; --green-lt:#0dcc60; --green-bg:rgba(10,170,80,0.12); --green-glow:rgba(10,170,80,0.06); --card:#f5f7f6; --txt:#111827; --txt2:#374151; --txt3:#6b7280; --bdr:rgba(17,24,39,0.08); --bdr2:rgba(17,24,39,0.15); font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:32px; border:1px solid var(--bdr); border-radius:12px; margin:24px 0; background:#fff; }
+.dtk-stair h3 { font-size:17px; font-weight:700; color:var(--txt); margin:0 0 6px; }
+.dtk-stair .stair-sub { font-size:12px; color:var(--txt3); margin:0 0 28px; }
+.dtk-stair .staircase { display:flex; align-items:flex-end; gap:0; padding:20px 0; min-height:300px; }
+.dtk-stair .stair-step { display:flex; flex-direction:column; justify-content:center; padding:20px 24px; border:1.5px solid var(--bdr2); border-radius:10px 10px 0 0; text-align:left; transition:border-color 0.2s; }
+.dtk-stair .stair-step:hover { border-color:var(--green); }
+.dtk-stair .stair-step-1 { flex:4; min-height:70px; background:var(--green-bg); border-color:var(--green); }
+.dtk-stair .stair-step-2 { flex:3; min-height:140px; background:var(--card); }
+.dtk-stair .stair-step-3 { flex:2.5; min-height:210px; background:var(--card); }
+.dtk-stair .stair-step-4 { flex:2; min-height:280px; background:var(--green-glow); border-color:var(--green); }
+.dtk-stair .stair-num { font-size:10px; font-weight:700; color:var(--green); margin-bottom:4px; }
+.dtk-stair .stair-title { font-size:16px; font-weight:700; color:var(--txt); margin-bottom:4px; }
+.dtk-stair .stair-desc { font-size:10px; color:var(--txt3); line-height:1.4; }
+.dtk-stair .stair-arrow-label { display:flex; align-items:center; gap:8px; margin-top:20px; justify-content:center; }
+.dtk-stair .stair-arrow-label span { font-size:11px; font-weight:500; color:var(--txt3); }
+.dtk-stair .stair-arrow-line { flex:1; height:1px; background:linear-gradient(to right, transparent, var(--green)); }
+</style>
+
+<div class="dtk-stair">
+  <h3>You Can't Skip Stages</h3>
+  <p class="stair-sub">Each discipline builds on the foundations below &mdash; remove a lower step and the upper ones collapse</p>
+
+  <!-- CUSTOMIZE: steps -- adjust min-height for relative sizing -->
+  <div class="staircase">
+    <div class="stair-step stair-step-1">
+      <div class="stair-num">Step 1 &mdash; Foundation</div>
+      <div class="stair-title">DataOps</div>
+      <div class="stair-desc">Data quality, pipelines, governance</div>
+    </div>
+    <div class="stair-step stair-step-2">
+      <div class="stair-num">Step 2</div>
+      <div class="stair-title">MLOps</div>
+      <div class="stair-desc">Model lifecycle, experiment tracking, drift monitoring</div>
+    </div>
+    <div class="stair-step stair-step-3">
+      <div class="stair-num">Step 3</div>
+      <div class="stair-title">LLMOps / GenAIOps</div>
+      <div class="stair-desc">Prompt management, RAG, output safety, token cost</div>
+    </div>
+    <div class="stair-step stair-step-4">
+      <div class="stair-num">Step 4 &mdash; Strategic</div>
+      <div class="stair-title">AIOps</div>
+      <div class="stair-desc">Strategy, enterprise integration, cross-cutting governance</div>
+    </div>
+  </div>
+
+  <!-- CUSTOMIZE: arrow label -->
+  <div class="stair-arrow-label">
+    <span>Each stage builds on the foundations below</span>
+    <div class="stair-arrow-line"></div>
+    <span style="color:var(--green);">&#9650;</span>
+  </div>
+</div>
