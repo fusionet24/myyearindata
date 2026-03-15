@@ -1,0 +1,100 @@
+---
+title: "Why I Can't Explain What I Do (and What I'm Doing About It)"
+subtitle: "The thoughts on personal branding something I've been terrible at"
+author: "Scott Bell"
+description: "I can pitch a Data & AI transformation to a room. But ask me at a social event what I actually do and I'll ramble for five minutes and leave you more confused than when you asked."
+ai-label: "AI Assisted"
+date: "2026-03-18"
+draft: false
+categories:
+  - branding
+  - personal-development
+  - storytelling
+---
+
+## "So... What Do You Actually Do?"
+
+When someone in the industry asks me what I do, I've got a well-rehearsed answer. I wear many hats technical architect, data architect, solution architect, engineer, Databricks SME, general AI lunatic, and I frame it neatly: 
+
+*I help organisations navigate their Data & AI journey, with all the good practices like governance, security, and responsible adoption baked in.* 
+
+It seems to have worked. People nod. Doors open. "Tell me more."
+
+But when someone *outside* the industry asks say at the pub, a neighbour, someone at a kids' party. I freeze. I start saying "data" and "architecture" and "AI" and I can see their eyes glaze over. I end up listing job titles like a LinkedIn profile reading itself aloud. Five minutes later they're nodding politely but I know they've mentally filed me under "something with computers."
+
+That gap between how well I can articulate my value to peers versus how badly I explain it to everyone else has been bothering me for a while.
+
+::: {.callout-tip appearance="simple"}
+## Worth reading
+
+[Isi Turner's recent post on storytelling](https://isiturner.co.uk/blog/storytelling/) makes this case brilliantly, story telling is humanising and valuable. It's worth a read if you haven't already.
+:::
+
+## Twenty Words or Less
+
+I watched [Rebecca Okamoto's TED talk](https://youtu.be/d1yfb93beSI) the other week and it crystallised the whole thing. Her premise is dead simple: stop giving people a data dump about yourself. Give them a sound bite. Twenty words or less. And critically... make it about *them*, not about you.
+
+{{< video https://youtu.be/d1yfb93beSI >}}
+
+She calls it the difference between an "about-me" and an "about-you" introduction. "I'm a hands on Data & AI strategist with 10 years of experience across multiple industries" is about me. Nobody outside the industry cares. But something like:
+
+> *I help organisations make better decisions by getting their data and AI working properly.*
+
+That's about the person listening. It's a door they can walk through. It invites "tell me more" instead of a polite subject change.
+
+<style>
+.dtk-intro{--green:#0aaa50;--red:#ef4444;--card:#f5f7f6;--txt:#111827;--txt2:#374151;--txt3:#6b7280;--bdr:rgba(17,24,39,0.08);--bdr2:rgba(17,24,39,0.15);--red-bg:rgba(239,68,68,0.05);--red-bdr:rgba(239,68,68,0.18);--green-bg:rgba(10,170,80,0.05);--green-bdr:rgba(10,170,80,0.18);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;padding:28px 24px;border:1px solid var(--bdr);border-radius:12px;margin:28px 0;background:#fff;}
+.dtk-intro h3{font-size:17px;font-weight:700;color:var(--txt);margin:0 0 4px;}
+.dtk-intro .dtk-intro-sub{font-size:12px;color:var(--txt3);margin:0 0 24px;}
+.dtk-intro .dtk-intro-path{display:flex;align-items:stretch;gap:0;margin-bottom:16px;}
+.dtk-intro .dtk-intro-path:last-of-type{margin-bottom:0;}
+.dtk-intro .dtk-intro-tag{font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;}
+.dtk-intro .dtk-intro-tag-me{color:var(--red);}
+.dtk-intro .dtk-intro-tag-you{color:var(--green);}
+.dtk-intro .dtk-intro-step{display:flex;align-items:center;flex:1;}
+.dtk-intro .dtk-intro-box{flex:1;border:1.5px solid var(--bdr2);border-radius:10px;padding:14px 12px;text-align:center;transition:border-color 0.2s;}
+.dtk-intro .dtk-intro-box:hover{border-color:var(--green);}
+.dtk-intro .dtk-intro-box-me{background:var(--red-bg);border-color:var(--red-bdr);}
+.dtk-intro .dtk-intro-box-me:hover{border-color:var(--red);}
+.dtk-intro .dtk-intro-box-you{background:var(--green-bg);border-color:var(--green-bdr);}
+.dtk-intro .dtk-intro-title{font-size:13px;font-weight:600;color:var(--txt);line-height:1.3;margin-bottom:4px;}
+.dtk-intro .dtk-intro-desc{font-size:10px;color:var(--txt3);font-style:italic;line-height:1.4;}
+.dtk-intro .dtk-intro-arr{color:var(--txt3);font-size:14px;padding:0 6px;flex-shrink:0;opacity:0.4;}
+.dtk-intro .dtk-intro-arr-me{color:var(--red);opacity:0.4;}
+.dtk-intro .dtk-intro-arr-you{color:var(--green);opacity:0.5;}
+.dtk-intro .dtk-intro-outcome{font-size:12px;font-weight:700;padding:10px 14px;border-radius:10px;text-align:center;display:flex;align-items:center;justify-content:center;min-width:120px;flex-shrink:0;}
+.dtk-intro .dtk-intro-outcome-me{background:rgba(239,68,68,0.08);color:var(--red);border:1.5px solid var(--red-bdr);}
+.dtk-intro .dtk-intro-outcome-you{background:rgba(10,170,80,0.08);color:var(--green);border:1.5px solid var(--green-bdr);}
+@media(max-width:640px){.dtk-intro .dtk-intro-path{flex-direction:column;gap:8px;}.dtk-intro .dtk-intro-arr{transform:rotate(90deg);padding:2px 0;}.dtk-intro .dtk-intro-outcome{min-width:auto;}}
+</style>
+
+<div class="dtk-intro">
+<h3>Two Introductions, Two Outcomes</h3>
+<p class="dtk-intro-sub">Same person. Same skills. Different framing.</p>
+<div class="dtk-intro-path">
+<div class="dtk-intro-step"><div class="dtk-intro-box dtk-intro-box-me"><div class="dtk-intro-tag dtk-intro-tag-me">About Me</div><div class="dtk-intro-title">"I'm a technical architect, data architect, Databricks SME..."</div><div class="dtk-intro-desc">Data dump of job titles</div></div><span class="dtk-intro-arr dtk-intro-arr-me">&#9654;</span></div>
+<div class="dtk-intro-step"><div class="dtk-intro-box dtk-intro-box-me"><div class="dtk-intro-title">Eyes glaze over</div><div class="dtk-intro-desc">Polite nodding begins</div></div><span class="dtk-intro-arr dtk-intro-arr-me">&#9654;</span></div>
+<div class="dtk-intro-outcome dtk-intro-outcome-me">"Something with computers"</div>
+</div>
+<div class="dtk-intro-path">
+<div class="dtk-intro-step"><div class="dtk-intro-box dtk-intro-box-you"><div class="dtk-intro-tag dtk-intro-tag-you">About You</div><div class="dtk-intro-title">"I help organisations make better decisions with their data and AI"</div><div class="dtk-intro-desc">One sentence, about them</div></div><span class="dtk-intro-arr dtk-intro-arr-you">&#9654;</span></div>
+<div class="dtk-intro-step"><div class="dtk-intro-box dtk-intro-box-you"><div class="dtk-intro-title">They lean in</div><div class="dtk-intro-desc">Curiosity, not confusion</div></div><span class="dtk-intro-arr dtk-intro-arr-you">&#9654;</span></div>
+<div class="dtk-intro-outcome dtk-intro-outcome-you">"Tell me more"</div>
+</div>
+</div>
+
+## Why This Matters (and Why I've Been Bad at It)
+
+I'll be honest personal branding has never been my strong suit. I started my first website back in 2008, that is still my username on half of the internet... yet the domain is parked. I have my personal site scottjamesbell.com which was a blog back in the 2010s but now is just a static page with links to my various online places.
+
+I have about 5 different active online projects right now without consistent branding yet. 
+
+I've always leaned on the work speaking for itself, which is a comfortable position when you're in a room of peers who understand the work. But it falls apart the moment you step outside that bubble.
+
+Okamoto's talk reframed something I'd been feeling but hadn't named the problem isn't that people don't see you or hear you. The problem is your *introduction*. And an introduction isn't a CV. It's a story that can be one sentence, told well, that makes someone lean in.
+
+## First in a Series
+
+This is the first in a few posts I'll be writing on branding. Personal branding, technical branding, how AI changes both, it's a thread I want to pull on properly. I'm starting here because I think the most honest place to start is admitting I've not been good at this. And because sometimes the best way to learn something is to write about it in public.
+
+My next step? Actually writing my twenty-word introduction. And trying it on a few people who have no idea what I do for a living. I'll report back on how it goes.

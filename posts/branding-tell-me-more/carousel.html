@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel - Why I Can't Explain What I Do</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Caveat:wght@400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .instructions {
+            color: #888;
+            font-size: 14px;
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        :root {
+            --brand-green: #0aaa50;
+            --brand-green-light: #0dcc60;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2027;
+            --red: #ef4444;
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1350px;
+            background: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(10, 170, 80, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 170, 80, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .header-bar {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 80px;
+            background: var(--brand-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .site-name { color: white; font-size: 28px; font-weight: 700; }
+        .slide-number { color: rgba(255,255,255,0.8); font-size: 24px; font-weight: 600; }
+
+        .swipe-indicator {
+            position: absolute;
+            bottom: 50px; right: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.5);
+            font-family: 'Caveat', cursive;
+            font-size: 28px;
+        }
+
+        .swipe-indicator svg {
+            width: 40px; height: 40px;
+            stroke: var(--brand-green);
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 920px;
+            margin-top: 40px;
+        }
+
+        h1 { color: #fff; font-size: 68px; font-weight: 900; line-height: 1.15; margin-bottom: 40px; }
+        h2 { color: #fff; font-size: 52px; font-weight: 700; line-height: 1.25; margin-bottom: 30px; }
+        .highlight { color: var(--brand-green); }
+        .highlight-red { color: var(--red); }
+        .subtext { color: rgba(255,255,255,0.6); font-size: 32px; font-weight: 400; margin-top: 40px; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 26px; margin-top: 20px; line-height: 1.5; }
+        .doodle-text { font-family: 'Caveat', cursive; color: var(--brand-green); }
+
+        .doodle-underline { position: relative; display: inline-block; }
+        .doodle-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: -5px; right: -5px;
+            height: 6px;
+            background: var(--brand-green);
+            border-radius: 3px;
+            transform: rotate(-1deg);
+        }
+
+        .doodle-circle { position: relative; display: inline-block; }
+        .doodle-circle::after {
+            content: '';
+            position: absolute;
+            top: -15px; left: -20px; right: -20px; bottom: -15px;
+            border: 4px solid var(--brand-green);
+            border-radius: 50% 45% 55% 48%;
+            transform: rotate(-2deg);
+            opacity: 0.9;
+        }
+
+        .sparkle { position: absolute; color: var(--brand-green); font-size: 45px; opacity: 0.5; }
+
+        /* Slide 2: job title tags */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 50px 0;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 18px 28px;
+            color: rgba(255,255,255,0.7);
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        /* Slide 3: comparison paths */
+        .path-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 25px 0;
+            width: 100%;
+        }
+
+        .path-box {
+            flex: 1;
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+        }
+
+        .path-box h3 { color: #fff; font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+        .path-box p { font-size: 22px; line-height: 1.4; }
+
+        .path-bad {
+            background: rgba(239,68,68,0.08);
+            border: 2px solid rgba(239,68,68,0.25);
+        }
+        .path-bad p { color: rgba(239,68,68,0.7); }
+
+        .path-good {
+            background: rgba(10,170,80,0.08);
+            border: 2px solid rgba(10,170,80,0.25);
+        }
+        .path-good p { color: rgba(10,170,80,0.8); }
+
+        .path-arrow {
+            font-size: 50px;
+            flex-shrink: 0;
+        }
+
+        .path-outcome {
+            font-size: 36px;
+            font-weight: 800;
+            padding: 20px 30px;
+            border-radius: 16px;
+            flex-shrink: 0;
+            min-width: 220px;
+        }
+
+        .path-outcome-bad {
+            color: var(--red);
+            background: rgba(239,68,68,0.1);
+            border: 2px solid rgba(239,68,68,0.25);
+        }
+
+        .path-outcome-good {
+            color: var(--brand-green);
+            background: rgba(10,170,80,0.1);
+            border: 2px solid rgba(10,170,80,0.25);
+        }
+
+        /* CTA */
+        .cta-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: var(--card-bg);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 25px 40px;
+            margin: 20px 0;
+        }
+
+        .cta-link.primary { background: var(--brand-green); border-color: var(--brand-green); }
+        .cta-link .icon { font-size: 36px; }
+        .cta-link .text { color: #fff; font-size: 28px; font-weight: 700; }
+        .cta-link .url { color: rgba(255,255,255,0.7); font-size: 22px; }
+
+        .no-swipe .swipe-indicator { display: none; }
+    </style>
+</head>
+<body>
+    <p class="instructions">Each slide is 1080x1350px (LinkedIn 4:5). Use carousel-to-pdf.js to export.</p>
+
+    <!-- SLIDE 1: HOOK -->
+    <div class="slide" id="slide1">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">1/5</span>
+        </div>
+
+        <span class="sparkle" style="top: 200px; right: 100px;">&#10022;</span>
+        <span class="sparkle" style="bottom: 250px; left: 120px;">&#10022;</span>
+
+        <div class="content">
+            <h2 style="font-size: 44px; color: rgba(255,255,255,0.5);">"So what do you do?"</h2>
+            <h1 style="margin-top: 30px;">Why I <span class="doodle-underline"><span class="highlight-red">Can't Explain</span></span><br>What I Do</h1>
+            <p class="subtext doodle-text" style="font-size: 40px;">...and what I'm doing about it</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: THE DATA DUMP -->
+    <div class="slide" id="slide2">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">2/5</span>
+        </div>
+
+        <span class="sparkle" style="top: 180px; left: 90px;">&#10022;</span>
+
+        <div class="content">
+            <h2>When someone asks,<br>I say <span class="highlight-red">all of this</span></h2>
+
+            <div class="tag-cloud">
+                <div class="tag">Technical Architect</div>
+                <div class="tag">Data Architect</div>
+                <div class="tag">Solution Architect</div>
+                <div class="tag">Engineer</div>
+                <div class="tag">Databricks SME</div>
+                <div class="tag">AI Lunatic</div>
+            </div>
+
+            <p class="subtext" style="font-size: 36px;">Five minutes later they've filed me under:</p>
+            <p class="doodle-text" style="font-size: 56px; margin-top: 20px;">"something with computers"</p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: THE FIX -->
+    <div class="slide" id="slide3">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">3/5</span>
+        </div>
+
+        <div class="content">
+            <h2>Rebecca Okamoto's<br><span class="doodle-underline"><span class="highlight">20-word rule</span></span></h2>
+
+            <p class="subtext" style="margin-top: 30px; margin-bottom: 50px; font-size: 34px;">Stop the data dump. Make it about <span class="highlight">them</span>.</p>
+
+            <div class="path-row">
+                <div class="path-box path-bad">
+                    <h3>ABOUT ME</h3>
+                    <p>"I'm a technical architect with 10 years across data platforms..."</p>
+                </div>
+                <span class="path-arrow" style="color: var(--red); opacity: 0.5;">&#9654;</span>
+                <div class="path-outcome path-outcome-bad">"Interesting."</div>
+            </div>
+
+            <div class="path-row">
+                <div class="path-box path-good">
+                    <h3>ABOUT YOU</h3>
+                    <p>"I help organisations make better decisions with their data and AI"</p>
+                </div>
+                <span class="path-arrow" style="color: var(--brand-green); opacity: 0.5;">&#9654;</span>
+                <div class="path-outcome path-outcome-good">"Tell me more"</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: THE INSIGHT -->
+    <div class="slide" id="slide4">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">4/5</span>
+        </div>
+
+        <span class="sparkle" style="top: 200px; right: 90px;">&#10022;</span>
+        <span class="sparkle" style="bottom: 300px; left: 100px;">&#10022;</span>
+
+        <div class="content">
+            <h2 style="color: rgba(255,255,255,0.5); font-size: 40px;">The problem was never that<br>people didn't see me.</h2>
+
+            <h1 style="margin-top: 40px;">The problem was<br>my <span class="doodle-circle"><span class="highlight">introduction</span></span></h1>
+
+            <p class="subtext" style="font-size: 34px; margin-top: 60px;">An introduction isn't a CV.<br>It's a <span class="doodle-text" style="font-size: 46px;">story told in one sentence.</span></p>
+        </div>
+
+        <div class="swipe-indicator">
+            <span>swipe</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: CTA -->
+    <div class="slide no-swipe" id="slide5">
+        <div class="header-bar">
+            <span class="site-name">myyearindata.com</span>
+            <span class="slide-number">5/5</span>
+        </div>
+
+        <div class="content">
+            <h2>First in a series on<br><span class="doodle-underline"><span class="highlight">personal branding</span></span></h2>
+
+            <p class="subtext" style="font-size: 34px; margin-bottom: 50px;">Starting by admitting I've been terrible at it.</p>
+
+            <div class="cta-link primary">
+                <span class="icon">&#128221;</span>
+                <div>
+                    <span class="text">Read the full post</span>
+                    <br><span class="url">myyearindata.com</span>
+                </div>
+            </div>
+
+            <div class="cta-link">
+                <span class="icon">&#128101;</span>
+                <div>
+                    <span class="text">Follow for more</span>
+                    <br><span class="url">Scott Bell on LinkedIn</span>
+                </div>
+            </div>
+
+            <p style="color: rgba(255,255,255,0.3); font-size: 22px; margin-top: 50px;">Inspired by Rebecca Okamoto's TED talk & Isi Turner's storytelling post</p>
+        </div>
+    </div>
+
+</body>
+</html>

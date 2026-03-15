@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Maturity Model — Diagrams</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419;
+            --bg-elevated: #161b22;
+            --card-bg: #1a2027;
+            --text: #f0f6fc;
+            --text-muted: rgba(240, 246, 252, 0.55);
+            --text-secondary: rgba(240, 246, 252, 0.75);
+            --border: rgba(240, 246, 252, 0.08);
+            --border-strong: rgba(240, 246, 252, 0.15);
+            --green: #0aaa50;
+            --green-light: #0dcc60;
+            --green-pale: rgba(10, 170, 80, 0.12);
+            --green-glow: rgba(10, 170, 80, 0.06);
+            --red: #ef4444;
+            --orange: #f59e0b;
+            --grey: #6b7280;
+            --grey-dark: #374151;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --card-bg: #f3f6f5;
+            --text: #111827;
+            --text-muted: rgba(17, 24, 39, 0.45);
+            --text-secondary: rgba(17, 24, 39, 0.65);
+            --border: rgba(17, 24, 39, 0.08);
+            --border-strong: rgba(17, 24, 39, 0.15);
+            --green: #0aaa50;
+            --green-light: #08994a;
+            --green-pale: rgba(10, 170, 80, 0.08);
+            --green-glow: rgba(10, 170, 80, 0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .theme-toggle button {
+            padding: 10px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle button.active {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .diagram {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .diagram-label {
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+        .diagram h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .diagram .diagram-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* Stage boxes */
+        .stages-row { display:flex; align-items:stretch; gap:0; margin-bottom:20px; }
+        .stage-wrapper { display:flex; align-items:center; flex:1; }
+        .stage-box { flex:1; background:var(--card-bg); border:1.5px solid var(--border-strong); border-radius:10px; padding:18px 14px; text-align:center; transition:all 0.3s; }
+        .stage-box:hover { border-color:var(--green); box-shadow:0 0 20px var(--green-glow); }
+        .stage-box-hi { border-color:var(--green); }
+        .stage-box-top { border-color:var(--green); background:var(--green-glow); }
+        .stage-num { font-size:11px; font-weight:700; color:var(--green); letter-spacing:0.05em; margin-bottom:6px; }
+        .stage-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:4px; line-height:1.2; }
+        .stage-sub { font-size:11px; color:var(--text-muted); font-style:italic; }
+        .stage-arrow { color:var(--green); font-size:16px; padding:0 6px; flex-shrink:0; opacity:0.5; }
+
+        /* Groups & dividers */
+        .extended-groups { display:flex; gap:24px; }
+        .extended-group { display:flex; flex-direction:column; }
+        .extended-group .stages-row { margin-bottom:0; }
+        .group-a { flex:2; min-width:220px; }
+        .group-b { flex:4; min-width:380px; }
+        .group-bracket { text-align:center; margin-top:12px; padding-top:10px; border-top:1.5px solid var(--border); }
+        .group-bracket-label { font-size:10px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; }
+        .divider-container { display:flex; align-items:center; flex-shrink:0; position:relative; }
+        .divider-line { width:2px; height:100%; min-height:80px; border-left:2px dashed var(--green); opacity:0.35; }
+        .divider-label { position:absolute; top:-24px; left:50%; transform:translateX(-50%); font-size:9px; font-weight:600; color:var(--green); white-space:nowrap; text-transform:uppercase; letter-spacing:0.06em; }
+
+        /* Gradient bars */
+        .gradient-bars { display:flex; flex-direction:column; gap:8px; margin-top:24px; }
+        .grad-bar { display:flex; align-items:center; gap:12px; }
+        .grad-bar-track { flex:1; height:4px; border-radius:2px; }
+        .grad-bar-label { font-size:11px; font-weight:500; color:var(--text-muted); white-space:nowrap; min-width:160px; }
+        .grad-bar-label.right { text-align:right; }
+        .grad-value { background:linear-gradient(to right, rgba(10,170,80,0.2), var(--green)); }
+        .grad-complexity { background:linear-gradient(to right, rgba(107,114,128,0.15), var(--grey)); }
+        .grad-autonomy { background:linear-gradient(to right, var(--green), var(--orange)); }
+        .grad-governance { background:linear-gradient(to right, rgba(10,170,80,0.1), var(--green)); }
+
+        /* Nested layers */
+        .nest-layer { border:1.5px solid var(--border-strong); border-radius:14px; padding:24px; width:100%; text-align:center; transition:all 0.3s; }
+        .nest-layer-0 { border-color:var(--green); background:var(--green-glow); }
+        .nest-layer-1 { display:flex; gap:16px; margin-top:16px; }
+        .nest-child { flex:1; border:1.5px solid var(--border-strong); border-radius:10px; padding:20px; background:var(--card-bg); transition:all 0.3s; }
+        .nest-child:hover { border-color:var(--green); }
+        .nest-child-hi { border-color:var(--green); background:var(--green-glow); }
+        .nest-inner { border:1.5px solid var(--green); border-radius:10px; padding:20px; margin-top:16px; background:var(--green-pale); }
+        .nest-tag { font-size:10px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+        .nest-title { font-size:16px; font-weight:700; color:var(--text); }
+        .nest-desc { font-size:11px; color:var(--text-muted); margin-top:4px; }
+        .cross-bars { display:flex; flex-direction:column; gap:6px; width:100%; margin-top:20px; }
+        .cross-bar { display:flex; align-items:center; gap:10px; padding:10px 16px; background:var(--card-bg); border:1px solid var(--border); border-radius:8px; transition:all 0.3s; }
+        .cross-bar:hover { border-color:var(--green); }
+        .cross-bar-icon { font-size:14px; color:var(--green); }
+        .cross-bar-text { font-size:12px; font-weight:500; color:var(--text-secondary); }
+        .cross-bar-note { font-size:10px; color:var(--text-muted); margin-left:auto; }
+
+        /* Histogram */
+        .histogram { display:flex; align-items:flex-end; gap:12px; height:280px; padding:0 10px; margin-bottom:16px; position:relative; }
+        .hist-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end; }
+        .hist-pct { font-size:13px; font-weight:700; color:var(--green); }
+        .hist-bar { width:100%; max-width:100px; background:linear-gradient(to top, var(--green), var(--green-light)); border-radius:6px 6px 2px 2px; transition:all 0.3s; position:relative; }
+        .hist-bar:hover { filter:brightness(1.15); }
+        .hist-bar-note { position:absolute; top:8px; left:50%; transform:translateX(-50%); font-size:9px; color:rgba(255,255,255,0.85); text-align:center; width:max-content; max-width:90px; line-height:1.2; }
+        .hist-label-row { display:flex; gap:12px; padding:0 10px; }
+        .hist-label { flex:1; text-align:center; font-size:11px; font-weight:600; color:var(--text-secondary); line-height:1.3; }
+        .chasm-annotation { position:absolute; display:flex; flex-direction:column; align-items:center; }
+        .chasm-line { width:2px; background:var(--red); opacity:0.5; }
+        .chasm-label { font-size:10px; font-weight:700; color:var(--red); white-space:nowrap; letter-spacing:0.04em; text-transform:uppercase; }
+        .hist-source { font-size:10px; color:var(--text-muted); margin-top:16px; text-align:center; }
+
+        /* Staircase */
+        .staircase { display:flex; align-items:flex-end; gap:0; padding:20px 0; min-height:340px; }
+        .stair-step { display:flex; flex-direction:column; justify-content:center; padding:20px 24px; border:1.5px solid var(--border-strong); border-radius:10px 10px 0 0; text-align:left; transition:all 0.3s; }
+        .stair-step:hover { border-color:var(--green); }
+        .stair-step-1 { flex:4; min-height:80px; background:var(--green-pale); border-color:var(--green); }
+        .stair-step-2 { flex:3; min-height:160px; background:var(--card-bg); }
+        .stair-step-3 { flex:2.5; min-height:240px; background:var(--card-bg); }
+        .stair-step-4 { flex:2; min-height:320px; background:var(--green-glow); border-color:var(--green); }
+        .stair-num { font-size:10px; font-weight:700; color:var(--green); margin-bottom:4px; }
+        .stair-title { font-size:16px; font-weight:700; color:var(--text); margin-bottom:4px; }
+        .stair-desc { font-size:10px; color:var(--text-muted); line-height:1.4; }
+        .stair-arrow-label { display:flex; align-items:center; gap:8px; margin-top:20px; justify-content:center; }
+        .stair-arrow-label span { font-size:11px; font-weight:500; color:var(--text-muted); }
+
+        /* Table */
+        .framework-table { width:100%; border-collapse:separate; border-spacing:0; border:1.5px solid var(--border-strong); border-radius:10px; overflow:hidden; }
+        .framework-table thead th { background:var(--card-bg); color:var(--text); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:10px 10px; text-align:center; border-bottom:2px solid var(--green); }
+        .framework-table thead th:first-child { text-align:left; padding-left:16px; }
+        .framework-table tbody td { font-size:12px; color:var(--text-secondary); padding:10px 10px; border-bottom:1px solid var(--border); vertical-align:middle; text-align:center; }
+        .framework-table tbody td:first-child { font-weight:600; color:var(--text); text-align:left; padding-left:16px; }
+        .framework-table tbody tr:last-child td { border-bottom:none; }
+        .framework-table tbody tr:nth-child(odd) { background:transparent; }
+        .framework-table tbody tr:nth-child(even) { background:var(--card-bg); }
+        .framework-table tbody tr:hover { background:var(--green-glow); }
+        .framework-footer { font-size:10px; color:var(--text-muted); margin-top:12px; display:flex; gap:16px; }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle" role="radiogroup" aria-label="Theme selector">
+        <button class="active" id="btn-dark" onclick="setTheme('dark')">Dark</button>
+        <button id="btn-light" onclick="setTheme('light')">Light</button>
+    </div>
+
+    <!-- DIAGRAM 1: L0-L5 Maturity Model -->
+    <section class="diagram" id="diagram-1">
+        <span class="diagram-label">Diagram 1</span>
+        <h2>The Agentic Maturity Model</h2>
+        <p class="diagram-subtitle">Six levels of increasing operational autonomy — each demanding its own governance and engineering disciplines</p>
+
+        <div class="extended-groups">
+            <div class="extended-group group-a">
+                <div class="stages-row">
+                    <div class="stage-wrapper">
+                        <div class="stage-box"><div class="stage-num">L0</div><div class="stage-title">Scripted Automation</div><div class="stage-sub">"If this, then that"</div></div>
+                        <span class="stage-arrow">&#9654;</span>
+                    </div>
+                    <div class="stage-wrapper">
+                        <div class="stage-box"><div class="stage-num">L1</div><div class="stage-title">AI Assistants</div><div class="stage-sub">"Suggest, never decide"</div></div>
+                    </div>
+                </div>
+                <div class="group-bracket"><span class="group-bracket-label">Augmentation</span></div>
+            </div>
+            <div class="divider-container">
+                <div class="divider-line"></div>
+                <span class="divider-label">The Autonomy Boundary</span>
+            </div>
+            <div class="extended-group group-b">
+                <div class="stages-row">
+                    <div class="stage-wrapper">
+                        <div class="stage-box stage-box-hi"><div class="stage-num">L2</div><div class="stage-title">Specialist Agents</div><div class="stage-sub">"Decide &amp; execute"</div></div>
+                        <span class="stage-arrow">&#9654;</span>
+                    </div>
+                    <div class="stage-wrapper">
+                        <div class="stage-box stage-box-hi"><div class="stage-num">L3</div><div class="stage-title">Orchestrated Workflows</div><div class="stage-sub">"Coordinate &amp; converge"</div></div>
+                        <span class="stage-arrow">&#9654;</span>
+                    </div>
+                    <div class="stage-wrapper">
+                        <div class="stage-box stage-box-hi"><div class="stage-num">L4</div><div class="stage-title">Adaptive Teams</div><div class="stage-sub">"Deliberate &amp; self-correct"</div></div>
+                        <span class="stage-arrow">&#9654;</span>
+                    </div>
+                    <div class="stage-wrapper">
+                        <div class="stage-box stage-box-top"><div class="stage-num">L5</div><div class="stage-title">Ecosystem Agents</div><div class="stage-sub">"Negotiate across boundaries"</div></div>
+                    </div>
+                </div>
+                <div class="group-bracket" style="border-color:var(--green)"><span class="group-bracket-label" style="color:var(--green)">Autonomy</span></div>
+            </div>
+        </div>
+
+        <div class="gradient-bars">
+            <div class="grad-bar"><span class="grad-bar-label right">Increasing Autonomy</span><div class="grad-bar-track grad-value"></div></div>
+            <div class="grad-bar"><span class="grad-bar-label right">Governance Required</span><div class="grad-bar-track grad-governance"></div></div>
+            <div class="grad-bar"><span class="grad-bar-label right">Human in the Loop</span><div class="grad-bar-track grad-autonomy"></div><span class="grad-bar-label" style="padding-left:6px">Autonomous &rarr;</span></div>
+        </div>
+    </section>
+
+    <!-- DIAGRAM 2: Readiness Framework -->
+    <section class="diagram" id="diagram-2">
+        <span class="diagram-label">Diagram 2</span>
+        <h2>The Agentic AI Readiness Framework</h2>
+        <p class="diagram-subtitle">Five dimensions that must advance together — pushing autonomy ahead of governance is negligence</p>
+
+        <table class="framework-table">
+            <thead>
+                <tr>
+                    <th>Dimension</th><th>L0</th><th>L1</th><th>L2</th><th>L3</th><th>L4</th><th>L5</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Autonomy</td><td>None</td><td>Suggestions</td>
+                    <td style="background:rgba(10,170,80,0.06)">Domain-bounded</td>
+                    <td style="background:rgba(10,170,80,0.08)">Orchestrated</td>
+                    <td style="background:rgba(10,170,80,0.12)">Self-directing</td>
+                    <td style="background:rgba(10,170,80,0.18);font-weight:600;color:var(--text)">Cross-boundary</td>
+                </tr>
+                <tr>
+                    <td>Impact Scope</td><td>Single task</td><td>Individual</td>
+                    <td>Department</td><td>Cross-dept</td>
+                    <td>Business unit</td><td style="font-weight:600;color:var(--text)">Ecosystem</td>
+                </tr>
+                <tr>
+                    <td>Governance</td><td>Ad hoc</td><td>Prompt guidelines</td>
+                    <td style="background:rgba(10,170,80,0.06)">Harness + guardrails</td>
+                    <td style="background:rgba(10,170,80,0.08)">Workflow governance</td>
+                    <td style="background:rgba(10,170,80,0.12)">Outcome governance</td>
+                    <td style="background:rgba(10,170,80,0.18);font-weight:600;color:var(--text)">Cross-org trust</td>
+                </tr>
+                <tr>
+                    <td>Human Oversight</td><td>Full control</td><td>Review all</td>
+                    <td>Approve exceptions</td><td>Review outcomes</td>
+                    <td>Set objectives</td><td style="font-weight:600;color:var(--text)">Audit only</td>
+                </tr>
+                <tr>
+                    <td>Compliance</td><td>None</td><td>Output monitoring</td>
+                    <td style="background:rgba(10,170,80,0.06)">Action logging</td>
+                    <td style="background:rgba(10,170,80,0.08)">Workflow compliance</td>
+                    <td style="background:rgba(10,170,80,0.12)">Continuous</td>
+                    <td style="background:rgba(10,170,80,0.18);font-weight:600;color:var(--text)">Cross-org regulatory</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="framework-footer">
+            <span>&#9632; Progressive green intensity = increasing maturity required</span>
+            <span style="color:var(--red)">&#9888; Autonomy without matching governance = danger zone</span>
+        </div>
+    </section>
+
+    <!-- DIAGRAM 3: Ops Discipline Map -->
+    <section class="diagram" id="diagram-3">
+        <span class="diagram-label">Diagram 3</span>
+        <h2>The Ops Discipline Map (Evolved)</h2>
+        <p class="diagram-subtitle">Nested operational disciplines — now with harness engineering and context engineering</p>
+
+        <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+            <div class="nest-layer nest-layer-0">
+                <div class="nest-tag">Outer Layer</div>
+                <div class="nest-title">AIOps</div>
+                <div class="nest-desc">The Strategic Superset — L2+ Governance</div>
+                <div class="nest-layer-1">
+                    <div class="nest-child"><div class="nest-tag">GenAI Operations</div><div class="nest-title">GenAIOps / LLMOps</div><div class="nest-desc">Prompt management, RAG pipelines, output safety, token cost</div></div>
+                    <div class="nest-child"><div class="nest-tag">ML Operations</div><div class="nest-title">MLOps</div><div class="nest-desc">Model lifecycle, experiment tracking, drift monitoring</div></div>
+                    <div class="nest-child nest-child-hi"><div class="nest-tag">New Discipline</div><div class="nest-title">Harness Engineering</div><div class="nest-desc">Agent harnesses, architectural constraints, entropy management</div></div>
+                </div>
+                <div class="nest-inner"><div class="nest-tag">The Universal Foundation</div><div class="nest-title">DataOps</div><div class="nest-desc">Data quality, pipeline reliability, metadata management, governance</div></div>
+            </div>
+            <div class="cross-bars">
+                <div class="cross-bar"><span class="cross-bar-icon">&#9670;</span><span class="cross-bar-text">Context Engineering</span><span class="cross-bar-note">System-level context design for L3+ multi-agent workflows</span></div>
+                <div class="cross-bar"><span class="cross-bar-icon">&#9670;</span><span class="cross-bar-text">Data Governance</span></div>
+                <div class="cross-bar"><span class="cross-bar-icon">&#9670;</span><span class="cross-bar-text">DevSecOps</span></div>
+                <div class="cross-bar"><span class="cross-bar-icon">&#9670;</span><span class="cross-bar-text">Organisational &amp; Technological Governance</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIAGRAM 4: Where Organisations Sit -->
+    <section class="diagram" id="diagram-4">
+        <span class="diagram-label">Diagram 4</span>
+        <h2>Where Organisations Actually Sit (L0-L5)</h2>
+        <p class="diagram-subtitle">Widespread adoption, shallow maturity — the Production Chasm sits at the L1/L2 boundary</p>
+
+        <div class="histogram">
+            <div class="hist-col"><span class="hist-pct">~30%</span><div class="hist-bar" style="height:65%"></div></div>
+            <div class="hist-col"><span class="hist-pct">~35%</span><div class="hist-bar" style="height:75%"><span class="hist-bar-note">most orgs sit here</span></div></div>
+            <div class="hist-col"><span class="hist-pct">~20%</span><div class="hist-bar" style="height:43%"></div></div>
+            <div class="hist-col"><span class="hist-pct">~10%</span><div class="hist-bar" style="height:22%"></div></div>
+            <div class="hist-col"><span class="hist-pct">~4%</span><div class="hist-bar" style="height:9%"></div></div>
+            <div class="hist-col"><span class="hist-pct">~1%</span><div class="hist-bar" style="height:3%"></div></div>
+            <div class="chasm-annotation" style="left:33%;bottom:0;top:12%">
+                <span class="chasm-label">The Production Chasm</span>
+                <div class="chasm-line" style="flex:1"></div>
+            </div>
+        </div>
+
+        <div class="hist-label-row">
+            <span class="hist-label">Pre-L0<br>(Classical)</span>
+            <span class="hist-label">L1<br>Assistants</span>
+            <span class="hist-label">L0<br>Scripted</span>
+            <span class="hist-label">L2<br>Specialist</span>
+            <span class="hist-label">L3<br>Orchestrated</span>
+            <span class="hist-label">L4-L5<br>Adaptive</span>
+        </div>
+        <p class="hist-source">Sources: McKinsey 2025, BCG 2024, MIT CISR, Torrance 2025, Vellum 2025</p>
+    </section>
+
+    <!-- DIAGRAM 5: You Can't Skip Levels -->
+    <section class="diagram" id="diagram-5">
+        <span class="diagram-label">Diagram 5</span>
+        <h2>You Can't Skip Levels</h2>
+        <p class="diagram-subtitle">Each operational discipline builds on the foundations below — remove a lower step and the upper ones collapse</p>
+
+        <div class="staircase">
+            <div class="stair-step stair-step-1">
+                <div class="stair-num">Step 1 — Foundation</div>
+                <div class="stair-title">DataOps</div>
+                <div class="stair-desc">Data quality, pipelines, governance</div>
+            </div>
+            <div class="stair-step stair-step-2">
+                <div class="stair-num">Step 2</div>
+                <div class="stair-title">LLMOps / GenAIOps</div>
+                <div class="stair-desc">Prompt management, RAG, output safety, token cost</div>
+            </div>
+            <div class="stair-step stair-step-3">
+                <div class="stair-num">Step 3</div>
+                <div class="stair-title">Harness Engineering</div>
+                <div class="stair-desc">Agent harnesses, context engineering, architectural constraints</div>
+            </div>
+            <div class="stair-step stair-step-4">
+                <div class="stair-num">Step 4 — Strategic</div>
+                <div class="stair-title">AIOps + Governance</div>
+                <div class="stair-desc">Strategy, enterprise integration, outcome governance, compliance</div>
+            </div>
+        </div>
+        <div class="stair-arrow-label">
+            <span>Each level builds on the foundations below</span>
+            <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,var(--green))"></div>
+            <span style="color:var(--green)">&#9650;</span>
+        </div>
+    </section>
+
+    <!-- DIAGRAM 6: Value-Complexity S-Curve -->
+    <section class="diagram" id="diagram-6">
+        <span class="diagram-label">Diagram 6</span>
+        <h2>The Value-Complexity Inflection (L0-L5)</h2>
+        <p class="diagram-subtitle">Value follows an S-curve — the inflection sits at the L1/L2 boundary where systems shift from suggesting to acting</p>
+
+        <div>
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+                <defs>
+                    <linearGradient id="gf6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0aaa50" stop-opacity="0.25"/><stop offset="100%" stop-color="#0aaa50" stop-opacity="0.02"/></linearGradient>
+                    <linearGradient id="rf6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ef4444" stop-opacity="0.15"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0.02"/></linearGradient>
+                </defs>
+                <g opacity="0.08"><line x1="80" y1="50" x2="80" y2="340" stroke="currentColor"/><line x1="80" y1="340" x2="760" y2="340" stroke="currentColor"/><line x1="80" y1="270" x2="760" y2="270" stroke="currentColor" stroke-dasharray="4"/><line x1="80" y1="200" x2="760" y2="200" stroke="currentColor" stroke-dasharray="4"/><line x1="80" y1="130" x2="760" y2="130" stroke="currentColor" stroke-dasharray="4"/></g>
+                <path d="M80,325 C160,322 240,315 320,290 C380,270 420,220 470,150 C530,80 600,55 680,45 C720,40 750,38 760,37 L760,340 L80,340 Z" fill="url(#gf6)"/>
+                <path d="M420,200 C445,160 470,130 500,115 L500,340 L420,340 C415,320 412,290 415,260 C418,235 420,215 420,200 Z" fill="url(#rf6)" opacity="0.5"/>
+                <path d="M80,332 C160,328 240,318 320,290 C390,265 440,225 500,170 C560,115 620,80 680,62 C720,50 750,44 760,40" fill="none" stroke="#6b7280" stroke-width="2.5" stroke-dasharray="8,5" stroke-linecap="round"/>
+                <path d="M80,335 C160,332 240,324 320,300 C380,280 420,245 470,180 C530,110 600,70 680,50 C720,40 750,36 760,34" fill="none" stroke="#0aaa50" stroke-width="3" stroke-linecap="round"/>
+                <line x1="340" y1="55" x2="340" y2="310" stroke="#0aaa50" stroke-width="1" stroke-dasharray="4" opacity="0.3"/>
+                <text x="348" y="70" class="annotation-text" fill="#0aaa50" font-family="Inter,sans-serif" font-size="10" font-weight="600">The L1/L2</text>
+                <text x="348" y="83" class="annotation-text" fill="#0aaa50" font-family="Inter,sans-serif" font-size="10" font-weight="600">Inflection Point</text>
+                <text x="450" y="195" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" opacity="0.65">Ops maturity</text>
+                <text x="450" y="207" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" opacity="0.65">determines zone</text>
+                <text x="30" y="200" fill="currentColor" font-family="Inter,sans-serif" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90,30,200)" opacity="0.55">Value Delivered</text>
+                <text x="120" y="365" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle" opacity="0.75">L0 Scripted</text>
+                <text x="230" y="365" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle" opacity="0.75">L1 Assistants</text>
+                <text x="370" y="365" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle" opacity="0.75">L2 Specialist</text>
+                <text x="510" y="365" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle" opacity="0.75">L3 Orchestrated</text>
+                <text x="630" y="365" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle" opacity="0.75">L4 Adaptive</text>
+                <text x="730" y="365" fill="currentColor" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle" opacity="0.75">L5 Ecosystem</text>
+            </svg>
+        </div>
+        <div style="display:flex;gap:24px;justify-content:center;margin-top:12px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);font-weight:500"><div style="width:24px;height:3px;border-radius:2px;background:var(--green)"></div><span>Value</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);font-weight:500"><div style="width:24px;height:3px;border-radius:2px;background:repeating-linear-gradient(to right,var(--grey) 0 6px,transparent 6px 10px)"></div><span>Complexity</span></div>
+        </div>
+    </section>
+
+    <script>
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+            } else {
+                document.body.classList.remove('light-mode');
+            }
+            document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+            document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+        }
+    </script>
+
+</body>
+</html>

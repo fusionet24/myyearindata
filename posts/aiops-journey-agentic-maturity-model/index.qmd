@@ -1,0 +1,579 @@
+---
+title: "The AIOps Journey: The Agentic Maturity Model"
+subtitle: "From Scripted Automation to Ecosystem Agents — and the Harnesses, Context Engineering, and Governance You Need at Every Level"
+author: "Scott Bell"
+description: "Maturity models for agentic AI are everywhere. Most miss the point. Here's an L0-L5 model that maps not just what agents can do — but what operational disciplines, governance structures, and engineering practices you need to make them work."
+date: "2026-02-21"
+draft: true
+ai-label: "AI Assisted"
+categories:
+  - ai
+  - aiops
+  - llmops
+  - agentic ai
+  - strategy
+  - maturity
+  - context engineering
+  - harness engineering
+---
+
+*This is part of [The AIOps Journey](/aiops-journey.qmd) series, exploring the operational challenges of AI at scale.*
+
+
+## Seventy-Eight Percent Use GenAI. One Percent Call It Mature.
+
+That's [McKinsey's finding](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai), not Torrance's — though [his agentic maturity model](https://www.linkedin.com/pulse/agentic-ai-maturity-model-why-90-companies-stuck-level-simon-torrance-lb5ke/) builds on the same data. McKinsey's 2025 survey found **~90% of vertical AI use cases stuck in pilot mode** and only **1% of CxOs describing their AI strategy as mature.** Deloitte's [2026 enterprise survey](https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html) confirms it: **only 11% have agentic AI in active production; only 21% have mature governance.** BCG's global study of 1,000 CxOs found **74% have yet to show tangible value from AI.** The numbers from every angle converge on the same uncomfortable truth.
+
+This isn't a technology problem. It's a maturity problem. And most of the maturity models we have aren't helping.
+
+A few months ago I published [The Analytics Maturity Curve, Extended](../aiops-journey-analytics-maturity-curve/index.qmd), which bolted three new stages — GenAI, Agentic, Autonomous — onto the classical Gartner model. That framing served its purpose: it helped map the territory beyond prescriptive analytics. But the agentic landscape has moved fast enough that the framing itself needs a rethink.
+
+Three things have changed since that post:
+
+1. **Personal agents went mainstream.** OpenClaw (formerly Clawdbot) hit 400,000 users and 140,000 GitHub stars. Consumers reached autonomous agent capability before most enterprises figured out LLMOps.
+
+2. **Harness engineering emerged as a discipline.** Martin Fowler's team at Thoughtworks articulated what practitioners had been discovering through trial and error: agents don't just need prompts. They need [harnesses](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html) — structured bundles of context, architectural constraints, and entropy management.
+
+3. **Context engineering matured from buzzword to system design practice.** Anthropic published their [context engineering guide](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), Fowler's team explored [context engineering for coding agents](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html), and the industry shifted from "write better prompts" to "design your entire system as context."
+
+The original maturity curve extended the analytics axis — stages of increasing *analytical sophistication*. But the agentic world demands a different axis: **levels of increasing operational autonomy**, each requiring its own governance, engineering practices, and human oversight model. That's what this post maps.
+
+## The Foundation Hasn't Changed (But You Still Can't Skip It)
+
+The [classical analytics maturity curve](../aiops-journey-analytics-maturity-curve/index.qmd) — Descriptive, Diagnostic, Predictive, Prescriptive — remains the prerequisite. I covered it in detail in the original post and won't repeat it here. If your descriptive analytics are unreliable, everything built on top is sand.
+
+The critical thing to understand: the classical curve maps a progression of *what you can learn from data*. The model below maps a progression of *what systems can do with autonomy*. They are different axes. The classical curve is the foundation. The agentic maturity model is the next dimension.
+
+## The Agentic Maturity Model: L0 through L5
+
+The model draws on [Torrance's](https://www.linkedin.com/pulse/agentic-ai-maturity-model-why-90-companies-stuck-level-simon-torrance-lb5ke/) five-level agentic framework, [Salesforce's](https://www.salesforce.com/news/stories/agentic-maturity-model/) agentic maturity model, and [Google DeepMind's Levels of AGI](https://arxiv.org/abs/2311.02462) autonomy dimension — but extends all of them with something they miss: the operational disciplines, engineering practices, and governance structures each level demands.
+
+<style>
+.dtk-amm{--green:#0aaa50;--green-lt:#0dcc60;--green-bg:rgba(10,170,80,0.07);--card:#f5f7f6;--txt:#111827;--txt2:#374151;--txt3:#6b7280;--bdr:rgba(17,24,39,0.08);--bdr2:rgba(17,24,39,0.15);--orange:#f59e0b;--red:#ef4444;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;padding:32px;border:1px solid var(--bdr);border-radius:12px;margin:24px 0;background:#fff}
+.dtk-amm h3{font-size:17px;font-weight:700;color:var(--txt);margin:0 0 6px}
+.dtk-amm .amm-sub{font-size:12px;color:var(--txt3);margin:0 0 28px}
+.dtk-amm .amm-groups{display:flex;gap:20px;flex-wrap:wrap}
+.dtk-amm .amm-group{display:flex;flex-direction:column}
+.dtk-amm .amm-group .amm-stages{margin-bottom:0}
+.dtk-amm .amm-ga{flex:2;min-width:200px}.dtk-amm .amm-gb{flex:4;min-width:340px}
+.dtk-amm .amm-stages{display:flex;align-items:stretch;gap:0;margin-bottom:20px}
+.dtk-amm .amm-sw{display:flex;align-items:center;flex:1}
+.dtk-amm .amm-box{flex:1;background:var(--card);border:1.5px solid var(--bdr2);border-radius:10px;padding:16px 10px;text-align:center;transition:border-color 0.2s}
+.dtk-amm .amm-box:hover{border-color:var(--green)}
+.dtk-amm .amm-box-hi{border-color:var(--green)}
+.dtk-amm .amm-box-top{border-color:var(--green);background:var(--green-bg)}
+.dtk-amm .amm-num{font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.05em;margin-bottom:4px}
+.dtk-amm .amm-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:3px;line-height:1.2}
+.dtk-amm .amm-s{font-size:10px;color:var(--txt3);font-style:italic}
+.dtk-amm .amm-arr{color:var(--green);font-size:14px;padding:0 5px;flex-shrink:0;opacity:0.4}
+.dtk-amm .amm-divider{display:flex;align-items:stretch;flex-shrink:0;position:relative;padding:0 6px}
+.dtk-amm .amm-divider-line{width:2px;border-left:2px dashed var(--green);opacity:0.35;min-height:70px}
+.dtk-amm .amm-divider-lbl{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;color:var(--green);white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em}
+.dtk-amm .amm-bracket{text-align:center;margin-top:10px;padding-top:8px;border-top:1.5px solid var(--bdr)}
+.dtk-amm .amm-bracket-lbl{font-size:9px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:0.06em}
+.dtk-amm .amm-gbars{display:flex;flex-direction:column;gap:8px;margin-top:24px}
+.dtk-amm .amm-gbar{display:flex;align-items:center;gap:12px}
+.dtk-amm .amm-gbar-track{flex:1;height:4px;border-radius:2px}
+.dtk-amm .amm-gbar-lbl{font-size:11px;font-weight:500;color:var(--txt3);white-space:nowrap;min-width:160px;text-align:right}
+.dtk-amm .amm-gval{background:linear-gradient(to right,rgba(10,170,80,0.15),var(--green))}
+.dtk-amm .amm-gcplx{background:linear-gradient(to right,rgba(107,114,128,0.1),var(--txt3))}
+.dtk-amm .amm-gauto{background:linear-gradient(to right,var(--green),var(--orange))}
+.dtk-amm .amm-ggov{background:linear-gradient(to right,rgba(10,170,80,0.1),var(--green))}
+</style>
+
+<div class="dtk-amm">
+<h3>The Agentic Maturity Model</h3>
+<p class="amm-sub">Six levels of increasing operational autonomy &mdash; each demanding its own governance and engineering disciplines</p>
+<div class="amm-groups">
+<div class="amm-group amm-ga">
+<div class="amm-stages">
+<div class="amm-sw"><div class="amm-box"><div class="amm-num">L0</div><div class="amm-title">Scripted Automation</div><div class="amm-s">"If this, then that"</div></div><span class="amm-arr">&#9654;</span></div>
+<div class="amm-sw"><div class="amm-box"><div class="amm-num">L1</div><div class="amm-title">AI Assistants</div><div class="amm-s">"Suggest, never decide"</div></div></div>
+</div>
+<div class="amm-bracket"><span class="amm-bracket-lbl">Augmentation</span></div>
+</div>
+<div class="amm-divider"><div class="amm-divider-line"></div><span class="amm-divider-lbl">The Autonomy Boundary</span></div>
+<div class="amm-group amm-gb">
+<div class="amm-stages">
+<div class="amm-sw"><div class="amm-box amm-box-hi"><div class="amm-num">L2</div><div class="amm-title">Specialist Agents</div><div class="amm-s">"Decide &amp; execute"</div></div><span class="amm-arr">&#9654;</span></div>
+<div class="amm-sw"><div class="amm-box amm-box-hi"><div class="amm-num">L3</div><div class="amm-title">Orchestrated Workflows</div><div class="amm-s">"Coordinate &amp; converge"</div></div><span class="amm-arr">&#9654;</span></div>
+<div class="amm-sw"><div class="amm-box amm-box-hi"><div class="amm-num">L4</div><div class="amm-title">Adaptive Teams</div><div class="amm-s">"Deliberate &amp; self-correct"</div></div><span class="amm-arr">&#9654;</span></div>
+<div class="amm-sw"><div class="amm-box amm-box-top"><div class="amm-num">L5</div><div class="amm-title">Ecosystem Agents</div><div class="amm-s">"Negotiate across boundaries"</div></div></div>
+</div>
+<div class="amm-bracket" style="border-color:var(--green)"><span class="amm-bracket-lbl" style="color:var(--green)">Autonomy</span></div>
+</div>
+</div>
+<div class="amm-gbars">
+<div class="amm-gbar"><span class="amm-gbar-lbl">Increasing Autonomy</span><div class="amm-gbar-track amm-gval"></div></div>
+<div class="amm-gbar"><span class="amm-gbar-lbl">Governance Required</span><div class="amm-gbar-track amm-ggov"></div></div>
+<div class="amm-gbar"><span class="amm-gbar-lbl">Human in the Loop</span><div class="amm-gbar-track amm-gauto"></div><span style="font-size:10px;color:var(--txt3);padding-left:6px">Autonomous &#8594;</span></div>
+</div>
+</div>
+
+### L0: Scripted Automation — "If this, then that"
+
+Let's start by naming something uncomfortable: a significant number of projects that organisations call "AI" are actually L0. Hard-coded RPA workflows. OCR pipelines with business rules. ETL processes with if-then routing. There's nothing wrong with scripted automation — it's valuable, it works, it's predictable. But calling it AI creates a maturity illusion that makes the later jumps harder.
+
+Torrance identifies this as the baseline: *"UiPath bots, OCR systems, and legacy business process management tools follow rigid if-then rules requiring human oversight at every decision point."* No intelligence. No reasoning. Deterministic input-output mappings.
+
+**Why it matters to name L0:** Because many organisations claim L1 or L2 maturity when they're actually running L0 with an LLM API call bolted on top. A chatbot that follows a scripted decision tree and occasionally calls GPT for a summary is still L0. The LLM is a feature, not the architecture.
+
+**Ops discipline required:** DataOps + DevOps. Standard pipeline operations. Nothing AI-specific.
+
+### L1: AI Assistants — "Suggest, never decide"
+
+This is where most organisations actually sit in February 2026. GenAI-powered copilots and assistants that augment human work. They generate, summarise, translate, draft, and recommend — but a human always reviews and acts. The system suggests. The human decides.
+
+GitHub Copilot. ChatGPT Enterprise. Microsoft 365 Copilot. RAG-powered knowledge bases that synthesise answers across your document corpus. These are all L1 systems. Powerful, valuable, genuinely transformative for individual productivity — but fundamentally reactive. They wait for human direction and produce outputs that require human judgement.
+
+Martin Fowler's concept of [agentic email](https://martinfowler.com/bliki/AgenticEmail.html) maps perfectly to the L1 boundary. The *constrained* version — where the agent has read-only email access, no internet connectivity, and outputs drafts to plain text for human review — is L1 done right. It augments without acting. The moment you give that email agent full send capability and calendar management, you've crossed into L2 territory, and the security profile changes entirely.
+
+As [Chip Huyen](https://huyenchip.com/2025/01/07/agents.html) puts it: *"It's easy to make something cool with LLMs, but very hard to make something production-ready with them."* Most of the "production-ready" LLM deployments in the wild are L1: human-in-the-loop assistants where the blast radius of a bad output is limited by the human checking it.
+
+**The L1 trap:** Organisations can stay at L1 indefinitely and still generate real value. The danger is not that L1 is insufficient — it's that teams mistake L1 mastery for readiness to jump to L2. The operational requirements are fundamentally different.
+
+**Ops discipline required:** LLMOps / GenAIOps. Prompt management, RAG pipeline operations, token cost governance, output safety monitoring. This is the domain I covered in [the original maturity curve post](../aiops-journey-analytics-maturity-curve/index.qmd) under "LLMOps: The New Kid With Different Rules."
+
+### L2: Specialist Agents — "Decide and execute, within bounds"
+
+Here's where the paradigm genuinely shifts. L2 agents don't just suggest — they decide AND act. Autonomously. Within a defined domain and with explicit guardrails, but without waiting for a human to approve each action.
+
+The examples from Torrance's research are concrete:
+
+- **JPMorgan Chase's COIN** processes 12,000+ loan contracts per year in seconds, extracting 150+ data points — saving 360,000 hours annually
+- **Mastercard's Decision Intelligence** scores every transaction for fraud in under 50 milliseconds with 20% better detection and 85% fewer false positives
+- **Vodafone's SuperTOBi** improved first-time resolution from 15% to 60% across EU markets
+
+These are not experimental. They're production systems making real decisions at scale. But they operate within strict domain boundaries — they're *specialist* agents, not general-purpose ones.
+
+**This is where harness engineering becomes essential.** When an agent can decide AND act, you can no longer rely on the human as the safety net. The agent needs what Fowler calls a [harness](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html): a structured environment of context, constraints, and guardrails that bounds its behaviour. I'll unpack harness engineering in detail below.
+
+**The personal agents phenomenon sits here too.** OpenClaw runs locally, integrates with Claude, GPT, or DeepSeek via messaging platforms, and autonomously browses the web, summarises PDFs, schedules calendar entries, manages email, and even does agentic shopping. It has persistent memory that adapts to user habits over weeks. It's a genuine L2 agent — for individuals. I covered the security implications extensively in [Danger In Delegation](../agentic-security-risks/index.qmd): 512 vulnerabilities found in audit, 8 critical, fully susceptible to prompt injection. L2 capability with L0 governance.
+
+**Ops discipline required:** AIOps + Harness Engineering. Agent observability, tool-use monitoring, domain-bounded guardrails, and the structured engineering practices that keep autonomous agents within their lanes.
+
+### L3: Orchestrated Workflows — "Coordinate, delegate, converge"
+
+Multiple agents — or multiple agent steps — coordinated through structured workflows. Parallel execution, shared context, handoffs between specialists. The orchestration is still largely human-designed (the workflow *shape* is predefined), but the agents within it operate autonomously.
+
+Anthropic's foundational research on [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) draws the architectural distinction that matters at this level:
+
+> **Workflows** are systems where LLMs and tools are orchestrated through *predefined code paths*. **Agents** are systems where LLMs *dynamically direct their own processes* and tool usage.
+
+L3 lives in the space between these definitions: the *workflow* is predefined, but the *agents within it* are self-directing. Think of a multi-step customer service pipeline where a triage agent classifies the request, routes it to a specialist agent that handles the domain-specific resolution, and a quality agent reviews the output before delivery. Each agent is autonomous; the coordination is designed.
+
+This is also where Andrew Ng's agentic loop insight becomes operationally significant. GPT-3.5 in zero-shot mode achieves 48.1% on HumanEval. GPT-4 zero-shot: 67.0%. But GPT-3.5 in an agentic loop — with reflection, tool use, and iterative refinement — achieves **95.1%.** A weaker model with agentic architecture dramatically outperforms a stronger model used naively. At L3, you're designing these loops as systems, not experiments.
+
+**Context engineering becomes a system design discipline at L3.** You're no longer engineering context for a single agent — you're designing how context flows *between* agents. What gets passed forward. What gets compressed. What gets isolated. As Anthropic's [context engineering guide](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) warns: *every unnecessary word degrades your agent's performance.* At L3, that degradation compounds across agent handoffs.
+
+This is also where the **service template** concept from harness engineering pays dividends. Fowler's team envisions harnesses evolving into next-generation service templates — bundling custom linters, structural tests, documentation, and context providers as starting points that teams customise for specific applications. At L3, you need these templates to ensure consistent agent behaviour across a coordinated workflow.
+
+**Ops discipline required:** AIOps + Context Engineering. System-level context design, workflow governance, inter-agent observability, and the engineering practices that prevent context rot across multi-agent coordination.
+
+### L4: Adaptive Agent Teams — "Deliberate, learn, self-correct"
+
+Small groups of specialised agents that can redefine their own coordination patterns. They conduct retrospectives. They question team structures. They adjust strategies based on outcomes. The key distinction from L3: *the workflow shape itself is adaptive*, not just the agents within it.
+
+Torrance's most striking case study sits here: an insurance implementation where agents *"conduct their own retrospectives, question team structures, and even asked human managers to clarify roles."* The results were dramatic — 70% reduction in required human staff, 2x industry-standard profit margins, 25% higher customer satisfaction scores.
+
+Human oversight at L4 shifts from approving individual actions to setting objectives and reviewing outcomes. You're no longer governing *what the agent does* — you're governing *what it's trying to achieve* and *whether the outcomes are acceptable.*
+
+Almost nobody is reliably here yet. But the experimental implementations in drug discovery (Insilico Medicine brought a drug candidate to Phase I trials in 30 months at $2.6M versus the typical 5-7 year, $800M timeline) and financial modelling suggest the territory is real.
+
+**Ops discipline required:** AIOps + Governance Frameworks. Outcome-based governance rather than action-based oversight. This is the stage where your governance model has to evolve from "approve this action" to "evaluate this outcome against this objective."
+
+### L5: Ecosystem Agents — "Negotiate across boundaries"
+
+The frontier. Autonomous agents that operate across enterprise boundaries — negotiating contracts, coordinating supply chains, managing inter-organisational workflows. This level requires trust frameworks, agent identity standards, and cross-organisational governance that does not yet exist.
+
+[Salesforce's Agentic Maturity Model](https://www.salesforce.com/news/stories/agentic-maturity-model/) places their equivalent level (L4: Multi-Agent Ecosystems) as something *"no one has achieved yet."* Torrance echoes this, describing ecosystem agents as an *"emerging frontier where autonomous agents negotiate and transact across enterprise boundaries, forming real-time digital markets."*
+
+Nobody is here. Not because the technology isn't approaching it, but because the trust, governance, and regulatory frameworks haven't been built. When your agent negotiates with my agent, who is liable? Under which jurisdiction? According to whose compliance framework? These aren't engineering questions. They're institutional ones.
+
+**Ops discipline required:** Cross-organisational governance, agent identity and trust frameworks, regulatory compliance at ecosystem scale. All of it theoretical at this point.
+
+## The Agentic AI Readiness Framework: Five Dimensions That Must Advance Together
+
+Most maturity models describe a single axis: you're at level X, aspire to level Y. But the agentic landscape is multi-dimensional. An organisation can have L2-level autonomy with L0-level governance — and that's not a success story, it's a risk exposure.
+
+This framework maps five dimensions across the six maturity levels. The critical insight: **these dimensions must advance together.** Pushing autonomy ahead of governance is negligence. Governance without autonomy is theatre. The framework helps you see where you're imbalanced.
+
+<div class="dtk-amm">
+<h3>The Agentic AI Readiness Framework</h3>
+<p class="amm-sub">Five dimensions that must advance together &mdash; pushing autonomy ahead of governance is negligence</p>
+<table style="width:100%;border-collapse:separate;border-spacing:0;border:1.5px solid var(--bdr2);border-radius:10px;overflow:hidden;font-size:12px">
+<thead>
+<tr>
+<th style="background:var(--card);color:var(--txt);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:10px 12px;text-align:left;border-bottom:2px solid var(--green);min-width:120px">Dimension</th>
+<th style="background:var(--card);color:var(--txt);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:10px 10px;text-align:center;border-bottom:2px solid var(--green)">L0</th>
+<th style="background:var(--card);color:var(--txt);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:10px 10px;text-align:center;border-bottom:2px solid var(--green)">L1</th>
+<th style="background:var(--card);color:var(--txt);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:10px 10px;text-align:center;border-bottom:2px solid var(--green)">L2</th>
+<th style="background:var(--card);color:var(--txt);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:10px 10px;text-align:center;border-bottom:2px solid var(--green)">L3</th>
+<th style="background:var(--card);color:var(--txt);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:10px 10px;text-align:center;border-bottom:2px solid var(--green)">L4</th>
+<th style="background:var(--card);color:var(--txt);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:10px 10px;text-align:center;border-bottom:2px solid var(--green)">L5</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background:#fff">
+<td style="padding:10px 12px;font-weight:600;color:var(--txt);border-bottom:1px solid var(--bdr)">Autonomy</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt3);border-bottom:1px solid var(--bdr)">None</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Suggestions</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.04)">Domain-bounded</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.06)">Orchestrated</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.08)">Self-directing</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);font-weight:600;border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.12)">Cross-boundary</td>
+</tr>
+<tr style="background:var(--card)">
+<td style="padding:10px 12px;font-weight:600;color:var(--txt);border-bottom:1px solid var(--bdr)">Impact Scope</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt3);border-bottom:1px solid var(--bdr)">Single task</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Individual</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Department</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Cross-dept</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);border-bottom:1px solid var(--bdr)">Business unit</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);font-weight:600;border-bottom:1px solid var(--bdr)">Ecosystem</td>
+</tr>
+<tr style="background:#fff">
+<td style="padding:10px 12px;font-weight:600;color:var(--txt);border-bottom:1px solid var(--bdr)">Governance</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt3);border-bottom:1px solid var(--bdr)">Ad hoc</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Prompt guidelines</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.04)">Harness + guardrails</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.06)">Workflow governance</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.08)">Outcome governance</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);font-weight:600;border-bottom:1px solid var(--bdr);background:rgba(10,170,80,0.12)">Cross-org trust</td>
+</tr>
+<tr style="background:var(--card)">
+<td style="padding:10px 12px;font-weight:600;color:var(--txt);border-bottom:1px solid var(--bdr)">Human Oversight</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt3);border-bottom:1px solid var(--bdr)">Full control</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Review all</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Approve exceptions</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);border-bottom:1px solid var(--bdr)">Review outcomes</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);border-bottom:1px solid var(--bdr)">Set objectives</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);font-weight:600;border-bottom:1px solid var(--bdr)">Audit only</td>
+</tr>
+<tr style="background:#fff">
+<td style="padding:10px 12px;font-weight:600;color:var(--txt)">Compliance</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt3)">None</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2)">Output monitoring</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);background:rgba(10,170,80,0.04)">Action logging</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt2);background:rgba(10,170,80,0.06)">Workflow compliance</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);background:rgba(10,170,80,0.08)">Continuous</td>
+<td style="padding:10px 10px;text-align:center;color:var(--txt);font-weight:600;background:rgba(10,170,80,0.12)">Cross-org regulatory</td>
+</tr>
+</tbody>
+</table>
+<div style="font-size:10px;color:var(--txt3);margin-top:12px;display:flex;gap:16px">
+<span>&#9632; Progressive green intensity = increasing maturity required</span>
+<span style="color:var(--red)">&#9888; Autonomy without matching governance = danger zone</span>
+</div>
+</div>
+
+| Dimension | L0 | L1 | L2 | L3 | L4 | L5 |
+|---|---|---|---|---|---|---|
+| **Autonomy** | None | Suggestions only | Domain-bounded | Orchestrated | Self-directing | Cross-boundary |
+| **Impact Scope** | Single task | Individual productivity | Department process | Cross-department workflow | Business unit strategy | Enterprise ecosystem |
+| **Governance** | Ad hoc | Prompt guidelines | Harness + guardrails | Workflow governance | Outcome governance | Cross-org trust |
+| **Human Oversight** | Full control | Review all outputs | Approve exceptions | Review outcomes | Set objectives | Audit only |
+| **Compliance** | None required | Output monitoring | Action logging + audit | Workflow compliance | Continuous compliance | Cross-org regulatory |
+
+The danger zones are predictable: organisations with high autonomy and low governance, or high impact scope and minimal compliance. The Readiness Framework makes these imbalances visible before they become incidents.
+
+**The OpenClaw case study illustrates this perfectly.** A personal agent at L2 autonomy (decides and acts, within bounds) with L0 governance (ad hoc, no structured guardrails) and L0 compliance (no action logging, no audit trail). The result: [512 vulnerabilities, 8 critical](https://www.crowdstrike.com/en-us/blog/what-security-teams-need-to-know-about-openclaw-ai-super-agent/), and a [security audit](https://www.cnbc.com/2026/02/02/openclaw-open-source-ai-agent-rise-controversy-clawdbot-moltbot-moltbook.html) that read like a penetration test report. Capability without governance. Autonomy without accountability.
+
+## The Ops Discipline Map: Now With Harnesses and Context
+
+In the [original maturity curve post](../aiops-journey-analytics-maturity-curve/index.qmd), I mapped a progression of operational disciplines: DataOps → MLOps → LLMOps → AIOps. That nesting still holds. But two new disciplines have emerged that slot into the stack and change how the upper layers operate.
+
+| Maturity Level | Dominant Ops | Emerging Discipline | Core Focus |
+|---|---|---|---|
+| Foundation (Classical Curve) | **DataOps** | — | Data quality, pipelines, metadata, governance |
+| L0: Scripted Automation | **DataOps + DevOps** | — | Pipeline orchestration, rule management |
+| L1: AI Assistants | **LLMOps / GenAIOps** | Prompt Engineering | Prompt management, RAG, output safety, token cost |
+| L2: Specialist Agents | **AIOps** | **Harness Engineering** | Agent harnesses, guardrails, domain-bounded autonomy |
+| L3: Orchestrated Workflows | **AIOps** | **Context Engineering** | System-level context design, workflow governance |
+| L4-L5: Adaptive/Ecosystem | **AIOps** | **Governance Frameworks** | Outcome governance, cross-org trust, agent identity |
+
+<div class="dtk-amm">
+<h3>The Ops Discipline Map (Evolved)</h3>
+<p class="amm-sub">Nested operational disciplines &mdash; now with harness engineering and context engineering</p>
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+<div style="border:1.5px solid var(--green);border-radius:14px;padding:24px;width:100%;text-align:center;background:var(--green-bg)">
+<div style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Outer Layer</div>
+<div style="font-size:16px;font-weight:700;color:var(--txt)">AIOps</div>
+<div style="font-size:11px;color:var(--txt3);margin-top:2px">The Strategic Superset &mdash; L2+ Governance</div>
+<div style="display:flex;gap:12px;margin-top:14px">
+<div style="flex:1;border:1.5px solid var(--bdr2);border-radius:10px;padding:16px;background:var(--card);transition:border-color 0.2s">
+<div style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">GenAI Operations</div>
+<div style="font-size:14px;font-weight:700;color:var(--txt)">GenAIOps / LLMOps</div>
+<div style="font-size:10px;color:var(--txt3);margin-top:2px">Prompt management, RAG, output safety, token cost</div>
+</div>
+<div style="flex:1;border:1.5px solid var(--bdr2);border-radius:10px;padding:16px;background:var(--card);transition:border-color 0.2s">
+<div style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">ML Operations</div>
+<div style="font-size:14px;font-weight:700;color:var(--txt)">MLOps</div>
+<div style="font-size:10px;color:var(--txt3);margin-top:2px">Model lifecycle, experiment tracking, drift monitoring</div>
+</div>
+<div style="flex:1;border:1.5px solid var(--green);border-radius:10px;padding:16px;background:var(--green-bg);transition:border-color 0.2s">
+<div style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">New Discipline</div>
+<div style="font-size:14px;font-weight:700;color:var(--txt)">Harness Engineering</div>
+<div style="font-size:10px;color:var(--txt3);margin-top:2px">Agent harnesses, architectural constraints, entropy management</div>
+</div>
+</div>
+<div style="border:1.5px solid var(--green);border-radius:10px;padding:16px;margin-top:14px;background:var(--green-bg)">
+<div style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">The Universal Foundation</div>
+<div style="font-size:15px;font-weight:700;color:var(--txt)">DataOps</div>
+<div style="font-size:10px;color:var(--txt3);margin-top:2px">Data quality, pipeline reliability, metadata management, governance</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px;width:100%">
+<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;transition:border-color 0.2s"><span style="font-size:13px;color:var(--green)">&#9670;</span><span style="font-size:12px;font-weight:500;color:var(--txt2)">Context Engineering</span><span style="font-size:10px;color:var(--txt3);margin-left:auto">System-level context design for L3+ multi-agent workflows</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;transition:border-color 0.2s"><span style="font-size:13px;color:var(--green)">&#9670;</span><span style="font-size:12px;font-weight:500;color:var(--txt2)">Data Governance</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;transition:border-color 0.2s"><span style="font-size:13px;color:var(--green)">&#9670;</span><span style="font-size:12px;font-weight:500;color:var(--txt2)">DevSecOps</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;transition:border-color 0.2s"><span style="font-size:13px;color:var(--green)">&#9670;</span><span style="font-size:12px;font-weight:500;color:var(--txt2)">Organisational &amp; Technological Governance</span></div>
+</div>
+</div>
+</div>
+
+::: {.callout-note collapse="true"}
+## Harness Engineering: The New Ops Discipline
+
+The term comes from [Birgitta Böckeler's work at Thoughtworks](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html), and it describes what every team deploying L2+ agents discovers through painful experience: **agents need more than prompts. They need harnesses.**
+
+A harness combines three components:
+
+1. **Context Engineering** — Curated knowledge bases within codebases, plus dynamic context access (observability data, browser navigation, API responses). Not just what the agent *knows* but what it can *reach for*.
+
+2. **Architectural Constraints** — Deterministic guardrails that bound agent behaviour. Custom linters that enforce code patterns. Structural tests that catch violations. The things an agent *cannot do*, enforced by architecture rather than instruction.
+
+3. **Entropy Management** — Periodic agents (or processes) that identify documentation inconsistencies, architectural violations, and drift. The systems that keep the harness itself healthy over time.
+
+The key insight from Böckeler: *"When the agent struggles, we treat it as a signal: identify what is missing — tools, guardrails, documentation — and feed it back into the repository."* Agent failures are engineering feedback, not model problems.
+
+The practical delivery mechanism is the **service template**: a reusable bundle of linters, structural tests, documentation, and context providers that teams customise for their specific application. Just as platform teams provide service templates for microservices (with standard logging, health checks, CI/CD pipelines pre-configured), they'll provide agent harnesses with standard guardrails, context configurations, and observability pre-wired.
+
+This connects directly to the {{< defn "Agent Harness" >}} concept I've been exploring — the structured environment that makes agent autonomy safe rather than reckless.
+:::
+
+::: {.callout-note collapse="true"}
+## Context Engineering: From Prompts to System Design
+
+If harness engineering is the discipline, context engineering is its foundational practice. And the shift it represents is genuinely significant.
+
+Prompt engineering asked: *"How do I write better instructions for the model?"*
+
+Context engineering asks: *"What configuration of context is most likely to generate my model's desired behaviour?"*
+
+[Anthropic's engineering team](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) frames it as the set of strategies for curating and maintaining the optimal set of tokens during LLM inference — including system prompts, tools, examples, message history, and everything else that lands in the context window. Their guidance is deceptively simple: *be thoughtful and keep your context informative, yet tight.*
+
+The practice breaks into four strategies:
+
+- **Writing context** — Saving information outside the context window to help an agent perform a task later. Persistent memory, knowledge bases, documentation.
+- **Selecting context** — Pulling the right information into the window at the right time. RAG, tool selection, skill loading.
+- **Compressing context** — Retaining only the tokens required for the task. Summarisation, pruning, selective history.
+- **Isolating context** — Splitting context to help agents focus. Sub-agent delegation, tool-specific windows, conversation threading.
+
+**Context rot** is the anti-pattern: every unnecessary word, every redundant tool description, every piece of stale data actively degrades agent performance. As [Fowler's team](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html) found: *"An agent's effectiveness goes down when it gets too much context"* — despite large context windows. And here's the insight that connects context engineering to code design: **code itself is context.** An AI-friendly codebase — with clear naming, consistent patterns, self-documenting structure — serves as natural context that reduces explicit configuration needs.
+
+At L3 and above, context engineering stops being a per-agent concern and becomes a system architecture discipline. You're designing how context flows between agents, what gets compressed at handoff points, and how to prevent context rot compounding across multi-agent workflows.
+:::
+
+## The Personal Agents Revolution: Consumers at L2, Enterprises at L1
+
+Here's the observation that makes enterprise strategists uncomfortable: **the consumer market reached L2 before most enterprises reached L1.**
+
+[OpenClaw](https://www.cnbc.com/2026/02/02/openclaw-open-source-ai-agent-rise-controversy-clawdbot-moltbot-moltbook.html) — the open-source autonomous agent formerly known as Clawdbot, then Moltbot (after Anthropic's trademark complaint) — hit 300,000-400,000 users and 140,000 GitHub stars by February 2026. It runs locally, connects to Claude, GPT, or DeepSeek through messaging platforms like Signal, Telegram, and WhatsApp, and autonomously browses the web, summarises documents, manages email, schedules calendars, and even does agentic shopping. Its "persistent memory" recalls interactions over weeks and adapts to user habits.
+
+It is, by any definition, an L2 specialist agent. For individuals.
+
+Fowler's [agentic email](https://martinfowler.com/bliki/AgenticEmail.html) concept maps the same territory. Setting up an LLM to autonomously manage your email — scanning incoming messages, assessing importance, drafting responses, handling calendar logistics — is the canonical personal agent use case. And Fowler identifies precisely why it's dangerous: it simultaneously combines the three elements of Simon Willison's **Lethal Trifecta.**
+
+1. **Untrusted content** (incoming emails from unknown sources)
+2. **Sensitive information** (your account data, personal communications)
+3. **External communication capability** (ability to send messages)
+
+A malicious email could deceive the agent into forwarding credentials, accepting calendar invitations to phishing links, or responding in ways that compromise account security. This isn't theoretical — I documented real-world examples of prompt injection via email getting agents to order food and send messages in [Danger In Delegation](../agentic-security-risks/index.qmd).
+
+The personal agents revolution reveals a structural truth: **agentic AI adoption does not require enterprise governance. It just requires a user with a messaging app.** Peter Steinberger built OpenClaw as a hobby project. [A security audit found 512 vulnerabilities, 8 critical.](https://www.crowdstrike.com/en-us/blog/what-security-teams-need-to-know-about-openclaw-ai-super-agent/) Steinberger joined OpenAI on February 14, 2026, and the project is transitioning to an independent open-source foundation.
+
+This is both exciting and terrifying. It demonstrates that L2 is achievable. It also demonstrates that L2 without governance — autonomy without accountability — is a security incident waiting to happen. The Readiness Framework above exists precisely to make this imbalance visible.
+
+## The Industry Landscape: How Others Frame This
+
+The industry has produced several maturity frameworks that map this territory from different angles. I surveyed six of them in [the original post](../aiops-journey-analytics-maturity-curve/index.qmd) — Google DeepMind's Levels of AGI, Salesforce's Agentic Maturity Model, Microsoft's multiple complementary frameworks, Databricks' Crawl-Walk-Run, Andrew Ng's Four Agentic Design Patterns, and MIT CISR's Enterprise AI Maturity. All remain relevant. Here I'll add two that directly informed this model.
+
+::: {.callout-note collapse="true"}
+## Simon Torrance: The Agentic AI Maturity Model
+
+[Torrance's framework](https://www.linkedin.com/pulse/agentic-ai-maturity-model-why-90-companies-stuck-level-simon-torrance-lb5ke/) provides the most practitioner-grounded progression through agentic capability, with five levels (L0 Scripted Automation through L5 Ecosystem Agents) backed by concrete case studies at each level.
+
+His key contribution is naming the **"gen AI paradox"**: 78% of organisations regularly use generative AI, but just as many report no significant bottom-line impact. More than 80% still report no material contribution to earnings. The adoption is real. The value isn't.
+
+His most striking case study — an insurance implementation at L4 where agents conducted their own retrospectives, questioned team structures, and asked human managers to clarify roles — achieved 70% reduction in human staff, 2x industry-standard profit margins, and 25% higher customer satisfaction.
+
+**The competitive window insight:** "Organizations that master Level 2-4 implementations in 2025 will establish capabilities that competitors will struggle to replicate. By 2027, agentic AI capabilities will likely transition from competitive advantage to competitive necessity."
+
+Where this post's model extends Torrance's: adding harness engineering and context engineering as required operational disciplines at each level, adding the five-dimension readiness framework for balanced assessment, and incorporating the personal agents phenomenon as evidence that consumers are outrunning enterprises on the maturity curve.
+:::
+
+::: {.callout-note collapse="true"}
+## Martin Fowler's Team: Harness Engineering, Context Engineering, and Agentic Patterns
+
+Fowler's "Exploring Gen AI" series at Thoughtworks has produced three pieces that directly shaped this model:
+
+**[Harness Engineering](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html)** — Birgitta Böckeler's articulation of the tooling and practices needed to manage AI agents effectively. The three-component model (context engineering, architectural constraints, entropy management) and the vision of harnesses as next-generation service templates.
+
+**[Context Engineering for Coding Agents](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html)** — The practical exploration of how context configuration drives agent effectiveness, with the critical insight that code design itself is context. Strategic minimalism over context overload.
+
+**[Agentic Email](https://martinfowler.com/bliki/AgenticEmail.html)** — The canonical case study for the L1-to-L2 boundary: the same system operates at L1 (constrained, draft-only) or L2 (full send capability) depending on what permissions you grant — and the security profile changes entirely at the boundary.
+
+The Fowler team's collective insight: agents need engineering disciplines, not just better prompts. The shift from prompt engineering to context engineering to harness engineering is a maturation of the practice, and each level on the maturity model corresponds to a level of engineering rigour required.
+:::
+
+## Where Organisations Actually Are (Mapped to L0-L5)
+
+Let me map the same data from [the original post](../aiops-journey-analytics-maturity-curve/index.qmd) to the L0-L5 model:
+
+<div class="dtk-amm">
+<h3>Where Organisations Actually Sit (L0-L5)</h3>
+<p class="amm-sub">Widespread adoption, shallow maturity &mdash; the Production Chasm sits at the L1/L2 boundary</p>
+<div style="display:flex;align-items:flex-end;gap:10px;height:220px;padding:0 8px;margin-bottom:14px;position:relative">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end"><span style="font-size:13px;font-weight:700;color:var(--green)">~30%</span><div style="width:100%;max-width:90px;height:65%;background:linear-gradient(to top,var(--green),var(--green-lt));border-radius:6px 6px 2px 2px"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end"><span style="font-size:13px;font-weight:700;color:var(--green)">~35%</span><div style="width:100%;max-width:90px;height:75%;background:linear-gradient(to top,var(--green),var(--green-lt));border-radius:6px 6px 2px 2px;position:relative"><span style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:9px;color:rgba(255,255,255,0.85);text-align:center;width:max-content;max-width:85px;line-height:1.2">most orgs sit here</span></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end"><span style="font-size:13px;font-weight:700;color:var(--green)">~20%</span><div style="width:100%;max-width:90px;height:43%;background:linear-gradient(to top,var(--green),var(--green-lt));border-radius:6px 6px 2px 2px"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end"><span style="font-size:13px;font-weight:700;color:var(--green)">~10%</span><div style="width:100%;max-width:90px;height:22%;background:linear-gradient(to top,var(--green),var(--green-lt));border-radius:6px 6px 2px 2px"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end"><span style="font-size:13px;font-weight:700;color:var(--green)">~4%</span><div style="width:100%;max-width:90px;height:9%;background:linear-gradient(to top,var(--green),var(--green-lt));border-radius:6px 6px 2px 2px"></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end"><span style="font-size:13px;font-weight:700;color:var(--green)">~1%</span><div style="width:100%;max-width:90px;height:3%;background:linear-gradient(to top,var(--green),var(--green-lt));border-radius:6px 6px 2px 2px"></div></div>
+<div style="position:absolute;left:33%;bottom:0;top:12%;display:flex;flex-direction:column;align-items:center"><span style="font-size:9px;font-weight:700;color:var(--red);white-space:nowrap;text-transform:uppercase;letter-spacing:0.03em">The Production Chasm</span><div style="width:2px;flex:1;background:var(--red);opacity:0.4"></div></div>
+</div>
+<div style="display:flex;gap:10px;padding:0 8px">
+<span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2);line-height:1.3">Pre-L0<br>(Classical)</span>
+<span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2);line-height:1.3">L1<br>Assistants</span>
+<span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2);line-height:1.3">L0<br>Scripted</span>
+<span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2);line-height:1.3">L2<br>Specialist</span>
+<span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2);line-height:1.3">L3<br>Orchestrated</span>
+<span style="flex:1;text-align:center;font-size:10px;font-weight:600;color:var(--txt2);line-height:1.3">L4-L5<br>Adaptive</span>
+</div>
+<p style="font-size:10px;color:var(--txt3);text-align:center;margin-top:14px">Sources: McKinsey 2025, BCG 2024, MIT CISR, Torrance 2025, Vellum 2025</p>
+</div>
+
+The Production Chasm sits between L1 and L2 — the jump from "assistants that suggest" to "agents that decide and act." This is more precise than the original placement between prescriptive and GenAI. The chasm isn't about technology capability. It's about operational readiness: governance, harness engineering, context engineering, and the institutional willingness to let systems act without human approval on every step.
+
+[McKinsey's Superagency Report](https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work) found 39% of organisations at "Emerging" (pilot projects starting to show value) and 31% "Developing" (GenAI changing certain workflows). Mapped to this model, that's L1 territory — assistants in production, real value being generated, but no autonomous agent capability.
+
+Only 22% are "Expanding" (scaled across departments) — approaching L2 for specific domains. And 1% are "Mature." One percent.
+
+Torrance adds: *"Fewer than 10% of vertical use cases deployed ever make it past pilot stage."* The experimental-to-production chasm is real, and it sits precisely at the L1/L2 boundary.
+
+## You Can't Skip Levels (And OpenClaw Proves Why)
+
+Here's the most important message in this entire post, carried forward from the original: **you cannot shortcut these levels.**
+
+Every framework reviewed — from Databricks' crawl-walk-run to MIT's enterprise study to Torrance's maturity model — converges on the same warning: skipping levels leads to failure. Or worse, to incidents.
+
+<div class="dtk-amm">
+<h3>You Can't Skip Levels</h3>
+<p class="amm-sub">Each operational discipline builds on the foundations below &mdash; remove a lower step and the upper ones collapse</p>
+<div style="display:flex;align-items:flex-end;gap:0;min-height:280px;padding:10px 0">
+<div style="flex:4;min-height:70px;display:flex;flex-direction:column;justify-content:center;padding:18px 20px;border:1.5px solid var(--green);border-radius:10px 10px 0 0;text-align:left;background:var(--green-bg)">
+<div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:3px">Step 1 &mdash; Foundation</div>
+<div style="font-size:15px;font-weight:700;color:var(--txt);margin-bottom:3px">DataOps</div>
+<div style="font-size:10px;color:var(--txt3);line-height:1.3">Data quality, pipelines, governance</div>
+</div>
+<div style="flex:3;min-height:140px;display:flex;flex-direction:column;justify-content:center;padding:18px 20px;border:1.5px solid var(--bdr2);border-radius:10px 10px 0 0;text-align:left;background:var(--card);transition:border-color 0.2s">
+<div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:3px">Step 2</div>
+<div style="font-size:15px;font-weight:700;color:var(--txt);margin-bottom:3px">LLMOps / GenAIOps</div>
+<div style="font-size:10px;color:var(--txt3);line-height:1.3">Prompt management, RAG, output safety, token cost</div>
+</div>
+<div style="flex:2.5;min-height:210px;display:flex;flex-direction:column;justify-content:center;padding:18px 20px;border:1.5px solid var(--bdr2);border-radius:10px 10px 0 0;text-align:left;background:var(--card);transition:border-color 0.2s">
+<div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:3px">Step 3</div>
+<div style="font-size:15px;font-weight:700;color:var(--txt);margin-bottom:3px">Harness Engineering</div>
+<div style="font-size:10px;color:var(--txt3);line-height:1.3">Agent harnesses, context engineering, architectural constraints</div>
+</div>
+<div style="flex:2;min-height:280px;display:flex;flex-direction:column;justify-content:center;padding:18px 20px;border:1.5px solid var(--green);border-radius:10px 10px 0 0;text-align:left;background:var(--green-bg)">
+<div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:3px">Step 4 &mdash; Strategic</div>
+<div style="font-size:15px;font-weight:700;color:var(--txt);margin-bottom:3px">AIOps + Governance</div>
+<div style="font-size:10px;color:var(--txt3);line-height:1.3">Strategy, enterprise integration, outcome governance, compliance</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:14px;justify-content:center">
+<span style="font-size:11px;font-weight:500;color:var(--txt3)">Each level builds on the foundations below</span>
+<div style="flex:1;height:1px;background:linear-gradient(to right,transparent,var(--green))"></div>
+<span style="color:var(--green)">&#9650;</span>
+</div>
+</div>
+
+BCG quantifies where the real work lives with their **"10-20-70 Rule"**: 10% of resources should go to algorithms, 20% to technology and data, and **70% to people and processes.** Leaders who follow this ratio generate 2x the ROI of their peers. The 74% of organisations showing no tangible AI value aren't failing because of bad models. They're failing because they underinvest in the 70%.
+
+**OpenClaw is the cautionary tale.** It demonstrates what happens when you build L2 capability (autonomous agents that decide and act) on an L0 governance foundation (ad hoc, no structured guardrails, no compliance framework). The result: a genuinely useful tool that is also, per CrowdStrike's assessment, a significant security risk. 400,000 users running an agent with root access to their machines, connected to their messaging apps, with 512 known vulnerabilities.
+
+This isn't a criticism of Steinberger or the OpenClaw project. It's an illustration of the maturity model's core thesis: **capability without corresponding governance isn't maturity — it's exposure.** The Readiness Framework exists precisely to make this visible before it becomes an incident.
+
+Harness engineering and context engineering sit in the 70%. They are people-and-process disciplines, not technology choices. They're how you build the operational foundation that makes L2+ autonomy safe rather than reckless.
+
+## The Value-Complexity Inflection (Reframed)
+
+The S-curve pattern from the [original post](../aiops-journey-analytics-maturity-curve/index.qmd) still holds, but the inflection point shifts in the L0-L5 model.
+
+<div class="dtk-amm">
+<h3>The Value-Complexity Inflection (L0-L5)</h3>
+<p class="amm-sub">Value follows an S-curve &mdash; the inflection sits at the L1/L2 boundary where systems shift from suggesting to acting</p>
+<div>
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+<defs>
+<linearGradient id="amm-gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0aaa50" stop-opacity="0.2"/><stop offset="100%" stop-color="#0aaa50" stop-opacity="0.02"/></linearGradient>
+<linearGradient id="amm-rf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ef4444" stop-opacity="0.12"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0.02"/></linearGradient>
+</defs>
+<g opacity="0.08" stroke="#374151"><line x1="80" y1="50" x2="80" y2="340"/><line x1="80" y1="340" x2="760" y2="340"/><line x1="80" y1="270" x2="760" y2="270" stroke-dasharray="4"/><line x1="80" y1="200" x2="760" y2="200" stroke-dasharray="4"/><line x1="80" y1="130" x2="760" y2="130" stroke-dasharray="4"/></g>
+<path d="M80,325 C160,322 240,315 320,290 C380,270 420,220 470,150 C530,80 600,55 680,45 C720,40 750,38 760,37 L760,340 L80,340 Z" fill="url(#amm-gf)"/>
+<path d="M420,200 C445,160 470,130 500,115 L500,340 L420,340 C415,320 412,290 415,260 C418,235 420,215 420,200 Z" fill="url(#amm-rf)" opacity="0.5"/>
+<path d="M80,332 C160,328 240,318 320,290 C390,265 440,225 500,170 C560,115 620,80 680,62 C720,50 750,44 760,40" fill="none" stroke="#6b7280" stroke-width="2.5" stroke-dasharray="8,5" stroke-linecap="round"/>
+<path d="M80,335 C160,332 240,324 320,300 C380,280 420,245 470,180 C530,110 600,70 680,50 C720,40 750,36 760,34" fill="none" stroke="#0aaa50" stroke-width="3" stroke-linecap="round"/>
+<line x1="340" y1="55" x2="340" y2="310" stroke="#0aaa50" stroke-width="1" stroke-dasharray="4" opacity="0.3"/>
+<text x="348" y="70" fill="#0aaa50" font-family="Inter,sans-serif" font-size="10" font-weight="600">The L1/L2</text>
+<text x="348" y="83" fill="#0aaa50" font-family="Inter,sans-serif" font-size="10" font-weight="600">Inflection Point</text>
+<text x="450" y="195" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600">Ops maturity</text>
+<text x="450" y="207" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600">determines zone</text>
+<text x="30" y="200" fill="#6b7280" font-family="Inter,sans-serif" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90,30,200)">Value Delivered</text>
+<text x="120" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">L0 Scripted</text>
+<text x="230" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">L1 Assistants</text>
+<text x="370" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">L2 Specialist</text>
+<text x="510" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">L3 Orchestrated</text>
+<text x="630" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">L4 Adaptive</text>
+<text x="730" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">L5 Ecosystem</text>
+</svg>
+</div>
+<div style="display:flex;gap:24px;justify-content:center;margin-top:10px">
+<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt2);font-weight:500"><div style="width:24px;height:3px;border-radius:2px;background:var(--green)"></div><span>Value</span></div>
+<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt2);font-weight:500"><div style="width:24px;height:3px;border-radius:2px;background:repeating-linear-gradient(to right,#6b7280 0 6px,transparent 6px 10px)"></div><span>Complexity</span></div>
+</div>
+</div>
+
+In the original model, the biggest value inflection sat between prescriptive analytics and GenAI — the shift from optimising known processes to augmenting human capability.
+
+In the L0-L5 model, the inflection sits at the **L1/L2 boundary** — the shift from *systems that suggest* to *systems that act*. This is where the nature of value changes from productivity gains (doing the same things faster) to capability gains (doing things that weren't previously possible). JPMorgan saving 360,000 hours. Mastercard scoring every transaction in 50 milliseconds. These aren't efficiency improvements — they're new capabilities that redefine what the business can do.
+
+But the complexity curve also inflects here. At L1, the complexity is manageable: prompt engineering, RAG pipelines, output monitoring. At L2, you need harness engineering, domain-bounded governance, and agent observability. The operational surface area expands dramatically.
+
+The gap between the value and complexity curves — shaded green where value exceeds complexity, red where complexity exceeds value — is determined by your operational maturity. Harness engineering and context engineering are what keep you in the green zone.
+
+## What This Means for Your Organisation
+
+**If you're pre-L0 (still on the classical curve):** Your priority is DataOps. Get your data foundations solid. Build reliable pipelines, invest in data quality, establish governance. I covered this in detail in [the original post](../aiops-journey-analytics-maturity-curve/index.qmd). This is not glamorous work, but it's the foundation everything else depends on.
+
+**If you're at L0 (scripted automation calling itself AI):** Be honest about where you are. You're doing automation, and that's valuable. But don't claim agentic maturity. The distinction matters because the jump to L1 requires different skills (LLMOps, prompt engineering) and different infrastructure (foundation model access, evaluation frameworks).
+
+**If you're at L1 (AI assistants in production):** This is where most readers of this blog sit. You're generating real value. Your priority now is building the operational foundation for L2: invest in harness engineering fundamentals, establish context engineering practices, and start thinking about governance structures that can handle autonomous action. Don't rush the jump — but don't stay still either. Torrance's window: organisations that master L2-L4 by 2027 will establish capabilities competitors can't replicate.
+
+**If you're approaching L2 (specialist agents):** This is where the Readiness Framework matters most. Check your governance dimension against your autonomy dimension. If there's a gap, close it before expanding agent scope. Build agent harnesses before deploying agents. Read about the [four threat quadrants](../aiops-journey-four-threat-quadrants/index.qmd) that frame your risk landscape. The [security considerations](../agentic-security-risks/index.qmd) are real.
+
+**If you're at L3+ (orchestrated workflows):** You need system-level context engineering, not just per-agent prompts. Service templates become your operational delivery mechanism. Your governance model needs to shift from action-based approval to outcome-based evaluation. You're in territory that few organisations have mapped — which means you're building the map as you go.
+
+**Wherever you are:** Remember the 10-20-70 rule. Harness engineering, context engineering, and governance frameworks are all in the 70%. The technology is the easy part.
+
+## The Journey Continues
+
+This model is a snapshot. The territory is still forming. But the structural insight won't change: **operational maturity — not model capability — is the binding constraint on agentic AI value.**
+
+The L0-L5 levels tell you where the capabilities are. The Readiness Framework tells you whether you're balanced enough to use them safely. The Ops disciplines — now including harness engineering and context engineering — tell you how to build the foundations that make each level work.
+
+The 74% of organisations that haven't shown tangible AI value aren't held back by algorithms. They're held back by the 70% of the challenge that is people, process, and operational discipline.
+
+In future posts in [The AIOps Journey](/aiops-journey.qmd) series, I'll go deeper on harness engineering as a practical discipline, context engineering patterns for multi-agent systems, and governance frameworks that can keep pace with AI's rate of change.
