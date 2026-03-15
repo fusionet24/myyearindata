@@ -20,11 +20,11 @@ categories:
 
 ## The Curve Everyone Knows (But Hasn't Updated)
 
-If you've spent any time in analytics, data, or BI, you've seen the maturity curve. Gartner popularised it over a decade ago and it's been in every vendor pitch deck and strategy slide since. Four stages. A nice upward sweep. Descriptive, Diagnostic, Predictive, Prescriptive. Difficulty increases left to right. Value increases left to right. Most organisations sit somewhere in the first two stages and aspire to the latter two.
+If you've spent any time in analytics, data, or BI, you've seen the maturity curve. Gartner popularised it over a decade ago and it's been in every pitch deck and strategy slide since. Four stages. A nice upward sweep. Descriptive, Diagnostic, Predictive, Prescriptive. Difficulty increases left to right. Value increases left to right. Most organisations sit somewhere in the first two stages and aspire to the latter two.
 
-It was a useful model. It still is — for the world it described. But that world has fundamentally changed.
+It was a useful model and it still is for the world it described. But that world has fundamentally changed.
 
-The explosion of Generative AI, large language models, and now agentic systems has created capabilities that the original curve simply doesn't account for. We need to extend it. Not to replace what Gartner laid out — those foundations remain essential — but to map the territory that now exists beyond prescriptive analytics.
+The explosion of Generative AI, large language models, and now agentic systems has created capabilities that the original curve simply doesn't account for. We need to extend it. Not to replace what Gartner laid out but to map the territory that now exists beyond prescriptive analytics.
 
 And critically, each stage on this extended curve demands a different operational discipline. Get the Ops wrong and it doesn't matter how sophisticated your models are.
 
@@ -33,13 +33,13 @@ And critically, each stage on this extended curve demands a different operationa
 Let's ground ourselves. The original analytics maturity model describes four stages of increasing sophistication:
 
 **Descriptive Analytics — "What happened?"**
-Reporting on historical data. Dashboards, KPIs, standard reports. This is the bread and butter of most BI teams. SQL queries against a warehouse. Power BI or Tableau dashboards. Monthly board packs. It sounds basic, but as [Graphable AI](https://graphable.ai/blog/analytics-maturity-model/) notes: *"It is extremely important to build core competencies first in descriptive analytics before attempting to advance upward."*
+Reporting on historical data. Dashboards, KPIs, standard reports. This is the bread and butter of most BI teams. SQL queries against a warehouse. Power BI or Tableau dashboards. It sounds basic, but it is important to build core competencies.
 
 **Diagnostic Analytics — "Why did it happen?"**
 Drill-down analysis, root-cause investigation, data mining. Still retrospective but adds depth. When your sales dashboard shows a dip, diagnostic analytics tells you it was driven by churn in the EMEA mid-market segment, not a pricing issue. This is where analysts earn their keep, asking better questions of the data rather than just presenting it.
 
 **Predictive Analytics — "What will happen?"**
-The shift from reactive to proactive. Statistical models, machine learning, and pattern recognition enter the picture. Demand forecasting. Churn prediction. Fraud detection. This is where traditional ML engineering begins and where most organisations first encounter the gap between a model in a notebook and a model in production. As [SR Analytics](https://sranalytics.io/blog/types-of-analytics/) puts it: *"The analytics maturity model transitions to a forward-looking perspective, moving from a reactive approach to a proactive and predictive business mindset."*
+The shift from reactive to proactive. Statistical models, machine learning, and pattern recognition enter the picture. Demand forecasting. Churn prediction. Fraud detection. This is where traditional ML engineering begins and where most organisations first encounter the gap between a model in a notebook and a model in production.
 
 **Prescriptive Analytics — "What should we do?"**
 Optimisation engines, simulation, and decision support systems that recommend specific actions. Think dynamic pricing algorithms, supply chain optimisers, or treatment recommendation engines. The key distinction from what comes next: *prescriptive analytics still requires a human decision-maker to choose an option and take the subsequent action.* A human remains firmly in the loop.
@@ -71,11 +71,10 @@ Optimisation engines, simulation, and decision support systems that recommend sp
 </div>
 </div>
 
-This model served organisations well for nearly fifteen years. But it was designed for a world where the most sophisticated thing you could do with data was optimise a decision for a human to make. We now live in a world where systems can generate, reason, and act.
+This model served organisations well for nearly fifteen years. Infact many organisations never got past predictive analytics. But it was designed for a world where the most sophisticated thing you could do with data was optimise a decision for a human to make. We now live in a world where systems can generate, reason, and act.
 
 ## Extending the Curve: GenAI, Agentic AI, and Autonomous Systems
 
-The classical curve ends at prescriptive. Here's what comes next:
 
 ### Stage 5: Cognitive / Generative AI — "Create, Understand, and Augment"
 
@@ -83,7 +82,7 @@ This is where large language models, generative AI, and cognitive computing sit.
 
 Think RAG-powered knowledge assistants that synthesise answers across thousands of documents. Code generation tools that turn natural language into working software. Content systems that draft, translate, and personalise at scale. Multimodal models that understand images, audio, and text simultaneously.
 
-The operational profile is radically different from predictive and prescriptive analytics. You're no longer training bespoke models on your data — you're orchestrating foundation models, managing prompts, building retrieval pipelines, and governing outputs that are non-deterministic by design. As [Chip Huyen](https://huyenchip.com/2025/01/07/agents.html) puts it: *"It's easy to make something cool with LLMs, but very hard to make something production-ready with them."*
+The operational profile is radically different from predictive and prescriptive analytics. You're no longer training bespoke models on your data, you're orchestrating foundation models, managing prompts, building retrieval pipelines, and governing outputs that are non-deterministic by design. 
 
 This is the stage that caught most organisations off guard. The jump from "we have a churn model in production" to "we have an LLM-powered customer agent" is not incremental. It requires different skills, different infrastructure, different evaluation approaches, and as we'll explore, a different Ops discipline entirely.
 
@@ -91,21 +90,17 @@ This is the stage that caught most organisations off guard. The jump from "we ha
 
 Here's where it gets genuinely transformative. Agentic AI systems don't wait for prompts. They plan, execute multi-step workflows, use tools, and iterate based on feedback. They maintain context across interactions, break down complex goals into sub-tasks, and coordinate with other systems — or other agents — to achieve outcomes.
 
-Andrew Ng made what has become a landmark observation about this shift:
-
-> *"Today, we mostly use LLMs in zero-shot mode, prompting a model to generate final output token by token without revising its work. This is akin to asking someone to compose an essay from start to finish, typing straight through with no backspacing allowed, and expecting a high-quality result."*
-
-The performance data validates the paradigm shift: GPT-3.5 in zero-shot mode achieves 48.1% on the HumanEval coding benchmark. GPT-4 zero-shot achieves 67.0%. But GPT-3.5 *wrapped in an agentic loop* — with reflection, tool use, and iterative refinement — achieves up to **95.1%**. A weaker model with agentic architecture dramatically outperforms a stronger model used naively.
-
 Anthropic's foundational research on [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) draws a clean architectural distinction:
 
 > **Workflows** are systems where LLMs and tools are orchestrated through *predefined code paths*. **Agents** are systems where LLMs *dynamically direct their own processes* and tool usage.
 
 But they also offer the most pragmatic guidance in the space:
 
-> *"Find the simplest solution possible, and only increase complexity when needed. This might mean not building agentic systems at all."*
+> *"Find the simplest solution possible, and only increase complexity when needed. This might mean not building agentic systems at all."* 
 
-This is the stage where human involvement in operational decisions begins to genuinely decrease. Not because humans are removed — but because the system can handle multi-step reasoning and execution loops that would be impractical for a human to micromanage.
+More on this soon but I remind you of [this post](../why-approximate-something/index.qmd).
+
+This is the stage where human involvement in operational decisions begins to genuinely decrease. Not because humans are removed but because the system can handle multi-step reasoning and execution loops that would be impractical for a human to micromanage.
 
 ### Stage 7: Autonomous / Multi-Agent Systems — "Orchestrate, Learn, and Self-Govern"
 
@@ -115,7 +110,7 @@ The [Datentreiber Analytics & AI Maturity Canvas](https://www.datentreiber.com/a
 
 Almost nobody is here yet. As McKinsey's research on [The Agentic Organization](https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era) notes, the length of tasks that AI can reliably complete has been doubling approximately every seven months since 2019, accelerating to every four months since 2024. They project AI systems could potentially complete four days of unsupervised work by 2027. But "potentially" and "reliably in production" are very different things.
 
-[Salesforce's Agentic Maturity Model](https://www.salesforce.com/news/stories/agentic-maturity-model/) maps this frontier across five levels, with Level 4 (Multi-Agent Ecosystems) explicitly noted as something *"no one has achieved yet."*
+[Salesforce's Agentic Maturity Model](https://www.salesforce.com/news/stories/agentic-maturity-model/) maps this frontier across four levels, with Level 4 (Multi-Agent Ecosystems) explicitly noted as something *"no one has achieved yet."*
 
 <div class="amc-diagram">
 <h3>The Extended Analytics Maturity Curve</h3>
@@ -285,76 +280,7 @@ On the agentic frontier specifically:
 Their [State of Data + AI Report](https://www.databricks.com/discover/state-of-data-ai) provides hard numbers on the progression: the experimental-to-production model ratio improved from 16:1 in February 2023 to 5:1 by March 2024, and Gen AI usage jumped from 55% to 75% in a single year. The direction is clear, even if the destination remains distant for most.
 :::
 
-::: {.callout-note collapse="true"}
-## Andrew Ng: The Four Agentic Design Patterns
 
-Andrew Ng's framework doesn't describe maturity stages — it describes the architectural building blocks that enable the agentic stage:
-
-1. **Reflection** — The LLM examines its own work to find improvements
-2. **Tool Use** — The LLM uses web search, code execution, or other functions
-3. **Planning** — The LLM creates and executes multi-step plans toward a goal
-4. **Multi-Agent Collaboration** — Multiple AI agents split tasks, discuss, and debate
-
-His enterprise advice: *focus on building applications using agentic workflows rather than solely chasing the most powerful foundational models.* Use the best available model to build something functional first; only optimise costs later.
-
-One year on, the assessment from practitioners is [a qualified yes](https://medium.com/@haileyq/agentic-ai-one-year-after-andrew-ngs-design-patterns-hype-or-reality-part-3-a8b395984a9b): agentic AI has delivered some of what was promised, but the grand vision remains a work in progress.
-:::
-
-::: {.callout-note collapse="true"}
-## MIT CISR: Enterprise AI Maturity
-
-The [MIT CISR study](https://mitsloan.mit.edu/ideas-made-to-matter/whats-your-companys-ai-maturity-level) provides one of the most sobering pictures:
-
-- 28% of organisations in Stage 1 (education and experimentation)
-- Only 7% "AI future-ready" (AI embedded in all decision-making)
-- Organisations in stages 1-2 performed *below* industry financial averages
-- Organisations in stages 3-4 performed *above*
-
-The correlation between maturity and financial performance is real, not theoretical.
-:::
-
-## Where Organisations Actually Are (And It's Not Where They Think)
-
-The research data paints a consistent picture: widespread adoption, shallow maturity.
-
-[McKinsey's Superagency Report](https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work) surveyed US CxOs and found:
-
-- **8%** Nascent (minimal gen AI initiatives)
-- **39%** Emerging (pilot projects starting to show value)
-- **31%** Developing (gen AI changing certain workflows)
-- **22%** Expanding (scaled across departments)
-- **1%** Mature (fundamentally changing how work is done)
-
-One percent. Let that sink in.
-
-[BCG's "Where's the Value in AI?"](https://www.bcg.com/publications/2024/wheres-value-in-ai) surveyed 1,000 CxOs across 59 countries and found **74% of companies have yet to show tangible value from AI.** Only 4% have cutting-edge capabilities generating significant value. And here's the counterintuitive finding: leaders pursue only *half* as many opportunities as less advanced peers but expect **2x the ROI**. They focus. They go deep rather than wide.
-
-[Vellum's State of AI 2025](https://aristeksystems.com/blog/whats-going-on-with-ai-in-2025-and-beyond/) tells the same story from the practitioner side: only 25.1% have deployed an AI application in production. The rest are split between strategising, building proofs of concept, and beta testing.
-
-If the classical curve already had a "chasm" between diagnostic and predictive analytics, the extended curve has a canyon between generative AI experimentation and agentic AI in production. Most organisations have someone playing with ChatGPT. Very few have AI systems that autonomously execute multi-step business workflows in production.
-
-<div class="amc-diagram">
-<h3>Where Organisations Actually Sit</h3>
-<p class="amc-dsub">Widespread adoption, shallow maturity &mdash; most organisations cluster in the first two stages</p>
-<div class="amc-hist">
-<div class="amc-hcol"><span class="amc-hpct">~40%</span><div class="amc-hbar" style="height:80%"></div></div>
-<div class="amc-hcol"><span class="amc-hpct">~25%</span><div class="amc-hbar" style="height:50%"></div></div>
-<div class="amc-hcol"><span class="amc-hpct">~10%</span><div class="amc-hbar" style="height:20%"></div></div>
-<div class="amc-hcol"><span class="amc-hpct">~15%</span><div class="amc-hbar" style="height:30%"><span class="amc-hbar-note">experimenting, few in prod</span></div></div>
-<div class="amc-hcol"><span class="amc-hpct">~7%</span><div class="amc-hbar" style="height:14%"></div></div>
-<div class="amc-hcol"><span class="amc-hpct">~1%</span><div class="amc-hbar" style="height:3%"></div></div>
-<div class="amc-chasm"><span class="amc-chasm-lbl">The Production Chasm</span><div class="amc-chasm-line"></div></div>
-</div>
-<div class="amc-hlabels">
-<span class="amc-hlbl">Descriptive / Diagnostic</span>
-<span class="amc-hlbl">Predictive (ML)</span>
-<span class="amc-hlbl">Prescriptive</span>
-<span class="amc-hlbl">Cognitive / GenAI</span>
-<span class="amc-hlbl">Agentic AI</span>
-<span class="amc-hlbl">Autonomous</span>
-</div>
-<p class="amc-hsrc">Sources: McKinsey 2025, BCG 2024, MIT CISR, Vellum 2025</p>
-</div>
 
 ## The "You Can't Skip Stages" Warning
 
@@ -381,22 +307,6 @@ This maps directly to the operational disciplines. DataOps is a prerequisite for
 </div>
 <div class="amc-sarrow"><span>Each stage builds on the foundations below</span><div class="amc-sarrow-line"></div><span style="color:var(--green)">&#9650;</span></div>
 </div>
-
-## The Practitioner View: What the People Building This Actually Think
-
-Theory and frameworks are useful. But what do the people actually building these systems say?
-
-**Simon Willison**, who initially called "agents" *"the ultimate in buzzword bingo"* and collected [211 definitions on Twitter](https://simonwillison.net/tags/ai-agents/) to demonstrate the confusion, has since accepted the term — describing it as *"a big piece of personal character development."* His settled definition is clean and practical: **"An LLM agent runs tools in a loop to achieve a goal."**
-
-His key distinction: *"Continual learning human-replacement agents definitely isn't happening in 2025,"* but *"coding agents that are really good at running tools in the loop... are here already"* and represent *"a genuine step change in how useful LLMs can be for producing working code."*
-
-On security, Willison warns of the [**"Lethal Trifecta"**](https://simonw.substack.com/p/the-lethal-trifecta-for-ai-agents): if your agent combines (1) access to private data, (2) exposure to untrusted content, and (3) the ability to communicate externally, an attacker can easily exploit it. This is a theme I explored in [Danger In Delegation](../agentic-security-risks/index.qmd) — it's real, and it gets more acute as you move up the maturity curve.
-
-**Chip Huyen**, whose book *[AI Engineering](https://www.oreilly.com/library/view/ai-engineering/9781098166298/)* has become the most-read title on O'Reilly since launch, describes agents as *"an emerging field with no established theoretical frameworks for defining, developing, and evaluating them."* Her central observation on production readiness echoes what every practitioner discovers: *"It's easy to make something cool with LLMs, but very hard to make something production-ready with them."*
-
-**Anthropic**, in their [Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) research, found that the most successful implementations *"weren't using complex frameworks or specialized libraries — instead, they were building with simple, composable patterns."* Their six composable patterns — prompt chaining, parallelisation, routing, evaluator-optimiser, orchestrator-workers, and context augmentation — provide a practical toolkit for navigating the agentic stage.
-
-The practitioner consensus is converging: **agents are real but narrower than the hype.** Coding agents work. Customer service agents work in constrained domains. General-purpose autonomous agents remain aspirational. And operational maturity matters far more than model capability.
 
 ## The Value-Complexity Inflection
 
