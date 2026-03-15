@@ -308,71 +308,12 @@ This maps directly to the operational disciplines. DataOps is a prerequisite for
 <div class="amc-sarrow"><span>Each stage builds on the foundations below</span><div class="amc-sarrow-line"></div><span style="color:var(--green)">&#9650;</span></div>
 </div>
 
-## The Value-Complexity Inflection
 
-There's a pattern in the extended curve that's worth calling out explicitly. The relationship between complexity and value follows an S-curve, but the inflection point has shifted.
-
-In the classical model, the biggest jump in value came between diagnostic and predictive analytics — the shift from "here's what happened" to "here's what will happen." That was the inflection point for a decade.
-
-The new inflection point sits between prescriptive and cognitive/generative AI. This is where the nature of the value changes from **optimising known processes** to **augmenting human capability**. It's no longer about doing the same things better. It's about doing fundamentally different things.
-
-The market validates this. The agentic AI market is projected to grow from $5.25 billion in 2024 to $199.05 billion by 2034 — a 38-fold increase. But the gap between investment and realised value remains stark: 79% of enterprises report at least some level of AI agent adoption, but only 34% have successfully implemented agentic systems despite high investment.
-
-<div class="amc-diagram">
-<h3>The Value-Complexity Inflection</h3>
-<p class="amc-dsub">Value follows an S-curve &mdash; operational maturity determines whether you're in the green or red zone</p>
-<div class="amc-scurve">
-<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0aaa50" stop-opacity="0.2"/><stop offset="100%" stop-color="#0aaa50" stop-opacity="0.02"/></linearGradient>
-<linearGradient id="rf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ef4444" stop-opacity="0.12"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0.02"/></linearGradient>
-</defs>
-<g opacity="0.08" stroke="#374151"><line x1="80" y1="50" x2="80" y2="340"/><line x1="80" y1="340" x2="760" y2="340"/><line x1="80" y1="270" x2="760" y2="270" stroke-dasharray="4"/><line x1="80" y1="200" x2="760" y2="200" stroke-dasharray="4"/><line x1="80" y1="130" x2="760" y2="130" stroke-dasharray="4"/></g>
-<path d="M80,320 C180,318 220,310 310,285 C380,265 420,220 470,150 C520,90 580,60 650,50 C690,44 730,40 760,38 L760,340 L80,340 Z" fill="url(#gf)"/>
-<path d="M500,180 C520,150 540,130 560,120 L560,340 L500,340 C490,330 485,310 490,290 C495,260 498,220 500,180 Z" fill="url(#rf)" opacity="0.5"/>
-<path d="M80,330 C150,328 220,322 310,300 C380,282 430,250 490,200 C540,155 590,120 650,95 C710,72 740,60 760,52" fill="none" stroke="#6b7280" stroke-width="2.5" stroke-dasharray="8,5" stroke-linecap="round"/>
-<path d="M80,335 C150,332 230,325 310,310 C370,298 410,270 460,210 C510,150 560,95 640,65 C700,45 740,38 760,35" fill="none" stroke="#0aaa50" stroke-width="3" stroke-linecap="round"/>
-<line x1="390" y1="60" x2="390" y2="310" stroke="#0aaa50" stroke-width="1" stroke-dasharray="4" opacity="0.3"/>
-<text x="395" y="75" fill="#0aaa50" font-family="Inter,sans-serif" font-size="10" font-weight="600">The New</text>
-<text x="395" y="87" fill="#0aaa50" font-family="Inter,sans-serif" font-size="10" font-weight="600">Inflection Point</text>
-<text x="510" y="200" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600">Ops maturity</text>
-<text x="510" y="212" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600">determines zone</text>
-<text x="30" y="200" fill="#6b7280" font-family="Inter,sans-serif" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90,30,200)">Value Delivered</text>
-<text x="110" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">Descriptive</text>
-<text x="195" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">Diagnostic</text>
-<text x="290" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">Predictive</text>
-<text x="390" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">Prescriptive</text>
-<text x="500" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">GenAI</text>
-<text x="600" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">Agentic</text>
-<text x="710" y="365" fill="#374151" font-family="Inter,sans-serif" font-size="9" font-weight="600" text-anchor="middle">Autonomous</text>
-</svg>
-</div>
-<div class="amc-legend">
-<div class="amc-legend-item"><div class="amc-legend-line" style="background:#0aaa50"></div><span>Value</span></div>
-<div class="amc-legend-item"><div class="amc-legend-line" style="background:repeating-linear-gradient(to right,#6b7280 0 6px,transparent 6px 10px)"></div><span>Complexity</span></div>
-</div>
-</div>
-
-## What This Means for Your Organisation
-
-If you're reading this and wondering where your organisation sits — and what to do about it — here's a practical framework:
-
-**If you're in Stage 1-2 (Descriptive/Diagnostic):** Focus on DataOps. Get your data house in order. Build reliable pipelines, invest in data quality, establish governance. This is not glamorous work, but it's the foundation everything else depends on. Skipping this to chase GenAI is the fastest way to expensive failure.
-
-**If you're in Stage 3-4 (Predictive/Prescriptive):** You should have MLOps practices in place. If you don't, that's your priority. If you do, start exploring LLMOps alongside your existing ML practice. The key word is *alongside* — GenAI doesn't replace your existing ML capabilities, it augments them.
-
-**If you're in Stage 5 (Cognitive/GenAI):** You're likely dealing with the operational chaos of LLMs in production. Prompt management, evaluation frameworks, cost governance, and output safety are your priorities. This is where [LLMOps](https://www.advancinganalytics.co.uk/blog/2023/11/27/llmops-with-promptflow) becomes non-negotiable.
-
-**If you're approaching Stage 6 (Agentic):** You need AIOps thinking. Not as a replacement for your existing Ops disciplines, but as the strategic layer that coordinates them. Agent observability, tool-use governance, and the [security considerations of autonomous systems](../agentic-security-risks/index.qmd) become critical. You should also be thinking about the [four threat quadrants](../aiops-journey-four-threat-quadrants/index.qmd) that frame your risk landscape.
-
-**Wherever you are:** Remember the 10-20-70 rule. Invest 70% in people and processes. The technology is the easy part.
 
 ## The Journey Continues
 
-This maturity curve is not a roadmap with a fixed destination. It's a map of the territory as it exists today — and the territory is still forming. New capabilities will emerge. New operational challenges will surface. The frameworks I've surveyed here will evolve.
-
-What won't change is the fundamental insight: **operational maturity is the binding constraint on AI value.** The 74% of organisations that haven't yet shown tangible AI value aren't held back by algorithms. They're held back by the 70% of the challenge that is people and process.
+This maturity curve is not a roadmap with a fixed destination. It's a map of the territory as it exists today and the territory is still forming.
 
 The curve tells you where the value is. The Ops disciplines tell you how to capture it. And AIOps, as the strategic superset, tells you how to coordinate it all.
 
-In future posts in [The AIOps Journey](/aiops-journey.qmd) series, we'll continue to explore the specific operational challenges at each stage. Next up: governance and compliance frameworks that can actually keep pace with AI's rate of change.
+In future posts in [The AIOps Journey](/aiops-journey.qmd) series, we'll continue to explore the specific operational challenges at each stage. 
