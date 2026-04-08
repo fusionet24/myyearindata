@@ -2,14 +2,15 @@
 title: "I Made My AI Coding Assistant a DJ"
 author: "Scott Bell"
 description: "Using Chrome DevTools MCP and Claude Code hooks to generate lo-fi background music that matches your coding vibe. Because obviously."
-date: "2026-03-27"
-draft: true
+date: "2026-03-29"
+draft: false
 categories:
   - ai
   - agents
   - agentic
   - hooks
   - mcp
+  - tiny-experiments
 ---
 
 I was deep in a coding session, if you know me well it's the kind where you've got five terminal panes open, you're refactoring something that shouldn't need refactoring, and the lo-fi playlist you found on [YouTube ran out forty minutes ago](https://www.youtube.com/watch?v=Nl1_vrmgkqE). And I thought: what if my coding assistant could read the room?
@@ -115,3 +116,9 @@ Did I learn more about MCP, hooks, and agent skills in an hour than I would have
 
 The tiny experiment approach works because it removes the pressure of building something "real."
 The art of the possible doesn't reveal itself through just careful study. It reveals itself when you try something you probably shouldn't.
+
+## Listen for Yourself
+
+If you want to hear what AI-generated vibe coding music actually sounds like, here's a playlist of tracks generated during the experiment:
+
+[Vibe Coding Playlist on Suno](https://suno.com/playlist/987bee66-aaed-4e2b-923b-51d1070c7ecc)
