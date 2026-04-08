@@ -108,5 +108,30 @@
     "display": "Prompt Injection",
     "summary": "An attack that manipulates LLM behaviour by inserting malicious instructions into the model's input, either directly by the user or indirectly via untrusted content the model processes.",
     "url": "/definitions/prompt-injection/"
+  },
+  "agent-skills": {
+    "display": "Agent Skills",
+    "summary": "Modular knowledge packages that extend an AI coding agent's capabilities with domain-specific expertise, activating automatically based on context matching.",
+    "url": "/definitions/agent-skills/"
+  },
+  "model-context-protocol": {
+    "display": "Model Context Protocol (MCP)",
+    "summary": "An open protocol that standardises how AI models connect to external tools, data sources, and services through a universal client-server interface.",
+    "url": "/definitions/model-context-protocol/"
+  },
+  "harness-engineering": {
+    "display": "Harness Engineering",
+    "summary": "The emerging ops discipline of designing, building, and maintaining the orchestration infrastructure around AI agents, encompassing tool integration, loop control, observability, and error recovery.",
+    "url": "/definitions/harness-engineering/"
+  },
+  "hooks": {
+    "display": "Hooks",
+    "summary": "Event-driven callbacks that fire at specific points in an AI agent's lifecycle, enabling behaviour extension without modifying the agent's core logic.",
+    "url": "/definitions/hooks/"
+  },
+  "decorator-pattern": {
+    "display": "Decorator Pattern",
+    "summary": "A design pattern where additional behaviour is wrapped around core functionality without modifying the original, widely applied in agent harness design through hooks, skills, and middleware.",
+    "url": "/definitions/decorator-pattern/"
   }
 }
