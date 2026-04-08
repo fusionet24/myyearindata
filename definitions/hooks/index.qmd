@@ -1,0 +1,42 @@
+---
+title: "Hooks"
+author: "Scott Bell"
+description: "Event-driven callbacks that fire at specific points in an AI agent's lifecycle, enabling behaviour extension without modifying core logic."
+date: "2026-03-27"
+categories:
+  - definitions
+  - agents
+  - architecture
+---
+
+## Brief Summary
+
+Hooks are event-driven callbacks that fire at specific points in an AI agent's lifecycle — before a tool runs, after a tool completes, when the agent stops, or when a user submits input — enabling behaviour extension without modifying the agent's core logic.
+
+## Discussion
+
+Hooks are how you bolt things onto an agent without rewiring it. They're the {{< defn "Decorator Pattern" >}} applied to the {{< defn "Agentic Loop" >}} — you intercept specific lifecycle events and inject additional behaviour at those points.
+
+In Claude Code's implementation, hooks fire at defined lifecycle events:
+
+- **PreToolUse** — fires before any tool executes. Use cases: blocking dangerous commands, validating parameters, logging intent.
+- **PostToolUse** — fires after a tool completes. Use cases: analysing outputs, triggering follow-up actions, updating state based on results.
+- **Stop** — fires when the agent wants to end its turn. Use cases: requiring tests to pass before stopping, enforcing quality gates.
+- **UserPromptSubmit** — fires when the user sends a message. Use cases: input validation, context enrichment.
+- **Notification** — fires on system events. Use cases: alerting, external integrations.
+
+Each hook receives context about the event — what tool was called, what the input/output was, what the current conversation state looks like — and can respond by allowing, blocking, or warning.
+
+The power of hooks is composability. A single agent can have multiple hooks on the same event, each handling a different concern. One PreToolUse hook blocks `rm -rf`. Another warns about `.env` file access. A PostToolUse hook analyses coding patterns and generates background music. They don't know about each other, and they don't need to.
+
+This is a core concept in {{< defn "Harness Engineering" >}} — hooks are one of the primary extension mechanisms for an {{< defn "Agent Harness" >}}. Rather than forking or modifying the harness itself, you attach hooks that layer on additional behaviour. The harness provides the lifecycle events; hooks provide the customisation.
+
+The relationship to {{< defn "Agent Skills" >}} is complementary. Skills provide domain knowledge (what to do), while hooks provide lifecycle integration (when to do it). A skill might know how to generate a Suno song; a hook decides when that skill should activate based on the agent's current activity.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-03-27**: Initial definition published.

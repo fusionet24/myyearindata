@@ -1,0 +1,46 @@
+---
+title: "Agent Skills"
+author: "Scott Bell"
+description: "Modular knowledge packages that extend an AI coding agent's capabilities with domain-specific expertise."
+date: "2026-03-27"
+categories:
+  - definitions
+  - agents
+  - architecture
+  - tiny-experiments
+---
+
+## Brief Summary
+
+Agent Skills are modular knowledge packages — typically markdown files with structured rules — that extend an AI coding agent's capabilities with domain-specific expertise. They activate automatically based on context matching, giving the agent specialised know-how without hardcoding it into the core system.
+
+## Discussion
+
+Think of skills as pluggable expertise. A coding agent knows how to write code, but it doesn't inherently know the best practices for writing Suno AI lyrics or how to structure a Remotion video project. A skill fills that gap by providing focused reference material — prompt templates, workflow steps, anti-patterns — that the agent can load on demand.
+
+In Claude Code's implementation, a skill lives in a `SKILL.md` file with YAML frontmatter:
+
+```yaml
+---
+name: suno-song-generation
+description: Use when generating songs with Suno AI...
+---
+```
+
+The `description` field is critical — it's what the agent matches against to decide whether to activate the skill. This is pattern matching, not explicit invocation. The agent reads the user's intent, scans available skill descriptions, and loads the relevant ones automatically.
+
+Skills can be decomposed into **rule files** — separate documents covering different aspects of the domain. A song generation skill might have `prompt-engineering.md`, `lyrics-writing.md`, and `automation-workflow.md` as distinct rule files. This keeps each piece focused and independently maintainable.
+
+The relationship to the {{< defn "Agent Harness" >}} is that skills operate as a knowledge layer above the harness. The harness manages the {{< defn "Agentic Loop" >}}, tool dispatch, and error recovery. Skills tell the agent *what to do* with those capabilities in a specific domain. They're complementary — the harness is infrastructure, the skill is expertise.
+
+Skills can be scoped globally (available in every session) or per-project (tied to a specific codebase). This mirrors how human expertise works: some knowledge applies everywhere, some is context-specific.
+
+The {{< defn "Decorator Pattern" >}} is relevant here — skills decorate the base agent with additional behaviour without modifying its core loop. You can add, remove, or update skills without touching the agent itself.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-03-27**: Initial definition published.

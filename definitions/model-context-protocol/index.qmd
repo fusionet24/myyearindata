@@ -1,0 +1,37 @@
+---
+title: "Model Context Protocol (MCP)"
+author: "Scott Bell"
+description: "An open protocol that standardises how AI models connect to external tools, data sources, and services."
+date: "2026-03-27"
+categories:
+  - definitions
+  - agents
+  - architecture
+  - protocols
+---
+
+## Brief Summary
+
+The Model Context Protocol (MCP) is an open protocol, developed by Anthropic, that standardises how AI models connect to external tools, data sources, and services. It provides a universal interface so that any MCP-compatible client can use any MCP-compatible server, decoupling the model from its integrations.
+
+## Discussion
+
+Before MCP, every AI tool integration was bespoke. Want your agent to query a database? Write a custom tool function. Want it to control a browser? Different integration. Search the web? Another one. Each integration spoke its own language, handled its own auth, and defined its own schema. It worked, but it didn't scale.
+
+MCP introduces a client-server architecture where the AI application (the client) communicates with external capabilities (servers) through a standardised protocol. An MCP server exposes a set of {{< defn "Tool Use" >}} capabilities — functions with typed parameters and descriptions — that any MCP client can discover, understand, and invoke.
+
+The practical impact is composability. A Chrome DevTools MCP server gives an agent 29 browser automation tools. A Slack MCP server gives it messaging capabilities. A database MCP server gives it query access. The agent doesn't need to know the implementation details of any of these — it just sees tools with descriptions and schemas.
+
+This matters for {{< defn "Harness Engineering" >}} because MCP servers become a standard way to extend an {{< defn "Agent Harness" >}}. Rather than building custom tool integrations, harness engineers can compose MCP servers to give agents the capabilities they need. The server handles the complexity; the harness just routes tool calls.
+
+MCP also enables a cleaner security model. Each server runs in its own process, can enforce its own permissions, and the client can whitelist which tools are available in a given context. This is relevant to the {{< defn "Lethal Trifecta" >}} — MCP gives you a natural boundary for constraining what an agent can do.
+
+The protocol supports resources (data the server exposes for reading), tools (functions the model can call), and prompts (templates the server provides). Most practical usage centres on tools.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-03-27**: Initial definition published.

@@ -1,0 +1,39 @@
+---
+title: "Decorator Pattern"
+author: "Scott Bell"
+description: "A design pattern that wraps additional behaviour around core functionality without modifying the original, widely applied in agent harness design."
+date: "2026-03-27"
+categories:
+  - definitions
+  - agents
+  - architecture
+  - patterns
+---
+
+## Brief Summary
+
+The Decorator Pattern is a design pattern where additional behaviour is wrapped around core functionality without modifying the original code. In AI agent systems, it manifests as {{< defn "Hooks" >}}, {{< defn "Agent Skills" >}}, and middleware that extend the {{< defn "Agentic Loop" >}} while leaving the base agent untouched.
+
+## Discussion
+
+The classic software engineering decorator wraps an object to add responsibilities dynamically. A logging decorator wraps a function to log calls. An auth decorator wraps an endpoint to check permissions. The original function doesn't change — it gains new behaviour from the wrapper.
+
+In AI agent systems, this pattern appears everywhere, often without being named explicitly.
+
+**Hooks as decorators on the lifecycle.** A PreToolUse hook decorates every tool call with additional logic — validation, logging, blocking. A PostToolUse hook decorates the result with analysis or follow-up actions. The tool itself doesn't know it's being decorated. The {{< defn "Agent Harness" >}} fires the hooks around the core action, and the hooks add their behaviour transparently.
+
+**Skills as decorators on knowledge.** An {{< defn "Agent Skills" >}} package decorates the base agent with domain expertise. The agent's core reasoning loop doesn't change — it still observes, thinks, and acts. But with a skill loaded, its "thinks" step has access to specialised knowledge it didn't have before. The skill wraps additional context around the agent's existing capabilities.
+
+**MCP servers as decorators on capability.** Each {{< defn "Model Context Protocol (MCP)" >}} server decorates the agent with new tools. The agent's tool dispatch mechanism doesn't change — it just has more tools available. The MCP server wraps external functionality in a standard interface.
+
+The reason this pattern matters for {{< defn "Harness Engineering" >}} is that it enables composition without coupling. You can add, remove, or modify decorators independently. A team can develop hooks, skills, and MCP servers in isolation, and they compose cleanly because they all follow the same principle: wrap, don't modify.
+
+The anti-pattern is what you might call "deep surgery" — modifying the agent's core loop to add a feature. This creates coupling, makes the feature harder to remove, and increases the risk of breaking existing behaviour. The decorator approach keeps the core stable and pushes customisation to the edges.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-03-27**: Initial definition published.

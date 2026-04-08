@@ -1,0 +1,117 @@
+---
+title: "I Made My AI Coding Assistant a DJ"
+author: "Scott Bell"
+description: "Using Chrome DevTools MCP and Claude Code hooks to generate lo-fi background music that matches your coding vibe. Because obviously."
+date: "2026-03-27"
+draft: true
+categories:
+  - ai
+  - agents
+  - agentic
+  - hooks
+  - mcp
+---
+
+I was deep in a coding session, if you know me well it's the kind where you've got five terminal panes open, you're refactoring something that shouldn't need refactoring, and the lo-fi playlist you found on [YouTube ran out forty minutes ago](https://www.youtube.com/watch?v=Nl1_vrmgkqE). And I thought: what if my coding assistant could read the room?
+
+Not in a useful way. Not in a "predict my next function call" way. In a "detect that I've been debugging the same thing for an hour and put on something appropriately melancholic" way.
+
+So I built that. And I want to talk about why building stupid things is one of the most useful things you can do.
+
+## Grounding Some Terms
+
+Before we get into the absurdity, let me ground a few concepts. I've been writing about these in my [definitions](/definitions/) section, so I'll keep it brief here and link out for the full picture.
+
+**{{< defn "Agent Skills" >}}** — Modular knowledge packages that give a coding agent domain-specific expertise. Think of them as pluggable know-how: prompt templates, workflow steps, best practices. They activate automatically based on what you're doing.
+
+**{{< defn "Model Context Protocol (MCP)" >}}** — An open protocol that standardises how AI models connect to external tools and services. One protocol, many capabilities. The thing that lets a CLI coding agent control a web browser.
+
+**{{< defn "Harness Engineering" >}}** — The discipline of building and maintaining the infrastructure around AI agents. Not the model itself — everything else. Tool registration, loop control, observability, templates, error recovery.
+
+**{{< defn "Hooks" >}}** — Event-driven callbacks that fire at specific points in an agent's lifecycle. Before a tool runs, after it completes, when the agent stops. The mechanism that lets you bolt behaviour onto an agent without rewiring it.
+
+**{{< defn "Decorator Pattern" >}}** — Wrapping additional behaviour around core functionality without modifying the original. In agent land: hooks decorate the loop, skills decorate the knowledge, MCP servers decorate the capabilities. It's decorators all the way down.
+
+## The Starting Point: Test-Driving Chrome DevTools MCP
+
+I wanted to take Chrome DevTools MCP for a proper spin. Not a hello-world. Not a "scrape this page" demo. Something that would actually stress the tool selection, error handling, and state management of browser automation through a CLI agent.
+
+Naturally, I chose song generation.
+
+Chrome DevTools MCP is a {{< defn "Model Context Protocol (MCP)" >}} server that gives your agent 29 browser automation tools — navigate, click, fill, screenshot, evaluate scripts — all through the standard MCP interface. The key insight is the **snapshot-first approach**: instead of hardcoding CSS selectors (which break the moment the UI changes), you take an accessibility tree snapshot and find elements by their accessible name and role.
+
+```
+take_snapshot → find button "Create song" → click(uid)
+```
+
+The UIDs are ephemeral — they change on every page mutation — so you re-snapshot before every interaction. It works like a screen reader navigating by meaning rather than DOM structure. This turns out to be genuinely more resilient than traditional browser automation, and I would not have internalised that from reading the docs alone.
+
+## Building the Suno Agent Skill
+
+The target was [Suno](https://suno.com) — an AI music generation platform. The plan: take a text prompt like "upbeat 80s synthwave about coding," generate optimised style prompts and lyrics, fill in the Suno web UI via browser automation, click Create, wait for generation, and save the results.
+
+I built this as a hybrid: a global {{< defn "Agent Skills" >}} package with domain knowledge, plus a project-scoped slash command for orchestration.
+
+The skill lives at `~/.claude/skills/suno-song-generation/` with three rule files:
+
+- **prompt-engineering.md** — How to write Suno style prompts. Genre tags, mood, tempo, instrumentation. Keep it under 200 characters. Don't put story content in the style field.
+- **lyrics-writing.md** — Suno's metatag system (`[Verse 1]`, `[Chorus]`, `[Bridge]`), genre-specific song structures, section lengths, rhyme schemes.
+- **automation-workflow.md** — The Chrome DevTools MCP step-by-step: navigate, snapshot, discover elements, fill fields, handle React controlled inputs, wait for generation.
+
+The slash command (`/suno`) ties it together — it parses arguments, loads the skill's rule files at runtime, generates the creative content, then executes the browser automation sequence.
+
+### UI Discovery
+
+Suno v5 has two completely different modes (Simple and Advanced). Advanced mode has separate fields for lyrics, styles, and title. There's no instrumental toggle, you just leave lyrics blank. The button says "Create song," not "Create." And it generates two clips per creation, not one.
+
+This is why browser automation without a discovery step is a recipe for brittle scripts.
+
+## From Skill to Hook: The Decorator Moment
+
+Here's where it gets properly stupid.
+
+I had a working `/suno` slash command. I could type `/suno "ambient lo-fi beats for late night refactoring"` and two minutes later, a custom song existed. Useful? Very debatable.
+
+But it was manual. I had to decide when to generate music and what mood to request. What if the agent could figure that out itself?
+
+Enter {{< defn "Hooks" >}}.
+
+I wrapped the Suno skill into a PostToolUse hook — a callback that fires after every tool the agent executes. The hook analyses recent activity: what tools have been called, what the conversation tone looks like, what's happening in the git log. From that context, it infers a vibe and generates a matching music prompt.
+
+The mapping is roughly:
+
+| Coding Activity | Detected Vibe | Music Prompt |
+|---|---|---|
+| Fixing failing tests | Frustrated debugging | Minor key, slow tempo, melancholic piano |
+| Shipping a feature, clean commits | Productive flow | Upbeat synthwave, driving beat |
+| Refactoring, renaming, cleanup | Meditative focus | Ambient lo-fi, gentle pads |
+| Writing docs or comments | Reflective calm | Acoustic folk, fingerpicked guitar |
+| Force-pushing to main at 2am | Chaotic energy | Aggressive trap, heavy 808s |
+
+This is the {{< defn "Decorator Pattern" >}} in action. The core {{< defn "Agentic Loop" >}} didn't change. The agent still reads, thinks, acts. But now, transparently, a hook decorates certain tool completions with a music generation side-effect. The agent doesn't know it's being decorated. It just codes. And the music follows.
+
+Is this a good idea? No. Is it a clean demonstration of how hooks, skills, and MCP compose together? Actually, yes.
+
+## Why This Matters (No, Really)
+
+I know. I built a system that analyses outputs and git commits to generate lo-fi background music. I am fully aware of how that sounds.
+
+But this is core to philopshy I have always had when it comes to learning. The best way to understand something is find a way to push it somewhere it wasn't supposed to go. To try and break or trivally apply it in short bursts. 
+
+Worst case you end up with a good talk about it see [Making Power BI do things it probably shouldn’t!](https://www.youtube.com/watch?v=XNWakQz8F_k) from 2019 and best case you end up with a deeper understanding of the tools you're working with. 
+
+In this case, I now have a much more intuitive grasp of Chrome DevTools MCP, agent hooks, and skill composition than I would have gotten from reading documentation without having to build a serious demo.
+
+So what did I learn?
+
+**Chrome DevTools MCP is a genuine browser bridge.** It turns a CLI coding agent into a browser automation tool without Playwright, Selenium, or any testing framework dependencies. The accessibility tree approach is more resilient than selector-based automation. That's a real capability with real applications form filling, testing, data extraction, workflow automation.
+
+
+## Conclusion
+
+Is this useful? Absolutely not.
+
+Did I learn more about MCP, hooks, and agent skills in an hour than I would have from reading the docs? Absolutely yes.
+
+The tiny experiment approach works because it removes the pressure of building something "real."
+The art of the possible doesn't reveal itself through just careful study. It reveals itself when you try something you probably shouldn't.

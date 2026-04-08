@@ -1,0 +1,41 @@
+---
+title: "Harness Engineering"
+author: "Scott Bell"
+description: "The emerging ops discipline of designing, building, and maintaining the orchestration infrastructure around AI agents."
+date: "2026-03-27"
+categories:
+  - definitions
+  - agents
+  - architecture
+  - operations
+---
+
+## Brief Summary
+
+Harness Engineering is the emerging ops discipline of designing, building, and maintaining the orchestration infrastructure — the {{< defn "Agent Harness" >}} — that wraps around AI agents, encompassing tool integration, loop control, observability, error recovery, and the operational practices that keep agents reliable in production.
+
+## Discussion
+
+If the {{< defn "Agent Harness" >}} is the thing, Harness Engineering is the practice of building and operating that thing well. It's the recognition that agent infrastructure isn't just a coding exercise — it's an ongoing operational discipline, closer to platform engineering than to prompt engineering.
+
+A harness engineer thinks about questions like: How do we version and deploy {{< defn "Agent Skills" >}}? What happens when an MCP server goes down mid-tool-call? How do we observe the {{< defn "Agentic Loop" >}} in production? What's our {{< defn "Latency Budget" >}} for a multi-tool chain? How do we test {{< defn "Hooks" >}} without triggering real side effects?
+
+Martin Fowler has written about this emerging discipline, positioning it alongside the broader shift from "AI as a feature" to "AI as an operational system." The parallel to site reliability engineering (SRE) is deliberate — just as SRE emerged when we realised that running distributed systems needed its own discipline beyond just writing the code, harness engineering is emerging because running AI agents in production needs more than just a good prompt.
+
+The scope includes:
+
+- **Tool management** — registering, versioning, and monitoring {{< defn "Tool Use" >}} capabilities, including {{< defn "Model Context Protocol (MCP)" >}} servers
+- **Loop tuning** — configuring iteration limits, token budgets, and termination conditions for the {{< defn "Agentic Loop" >}}
+- **Safety infrastructure** — implementing {{< defn "Guardrails" >}}, {{< defn "Agent Sandbox" >}} boundaries, and permission models
+- **Observability** — logging, tracing, and monitoring agent decisions and outcomes
+- **Lifecycle hooks** — designing and maintaining the {{< defn "Hooks" >}} that extend agent behaviour at key lifecycle points
+
+The common mistake is treating the harness as a one-time build. In practice, harness engineering is continuous — the harness evolves as the agent's capabilities, tools, and operational requirements change.
+
+## Annotated References
+
+*TODO: Add annotated references.*
+
+## Updates and Amendments
+
+- **2026-03-27**: Initial definition published.
