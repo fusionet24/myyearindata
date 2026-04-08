@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The ReAct Loop — Agent Engineering in BI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419;
+            --bg-elevated: #161b22;
+            --card-bg: #1a2027;
+            --text: #f0f6fc;
+            --text-muted: rgba(240, 246, 252, 0.55);
+            --text-secondary: rgba(240, 246, 252, 0.75);
+            --border: rgba(240, 246, 252, 0.08);
+            --border-strong: rgba(240, 246, 252, 0.15);
+            --green: #0aaa50;
+            --green-light: #0dcc60;
+            --green-pale: rgba(10, 170, 80, 0.12);
+            --green-glow: rgba(10, 170, 80, 0.06);
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --card-bg: #f3f6f5;
+            --text: #111827;
+            --text-muted: rgba(17, 24, 39, 0.45);
+            --text-secondary: rgba(17, 24, 39, 0.65);
+            --border: rgba(17, 24, 39, 0.08);
+            --border-strong: rgba(17, 24, 39, 0.15);
+            --green: #0aaa50;
+            --green-light: #08994a;
+            --green-pale: rgba(10, 170, 80, 0.08);
+            --green-glow: rgba(10, 170, 80, 0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .theme-toggle button {
+            padding: 10px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle button.active {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .diagram {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .diagram-label {
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+        .diagram h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .diagram .diagram-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* ═══════════════════════════════════════════
+           Flow — The ReAct Loop
+           ═══════════════════════════════════════════ */
+        .react-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-bottom: 24px;
+        }
+        .react-step {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .react-box {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-strong);
+            border-radius: 12px;
+            padding: 24px 18px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .react-box:hover {
+            border-color: var(--green);
+        }
+        .react-box.hl {
+            border-color: var(--green);
+            background: var(--green-glow);
+        }
+        .react-num {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .react-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .react-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .react-arrow {
+            color: var(--green);
+            font-size: 18px;
+            padding: 0 10px;
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+        .react-loop-label {
+            text-align: center;
+            padding: 16px 24px;
+            background: var(--green-glow);
+            border: 1.5px solid var(--green);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .react-loop-label .loop-icon {
+            font-size: 20px;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+        .react-loop-label .loop-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green);
+        }
+        .react-loop-label .loop-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* BI Example section */
+        .bi-example {
+            margin-top: 10px;
+        }
+        .bi-example h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        .bi-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .bi-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: border-color 0.2s;
+        }
+        .bi-step:hover {
+            border-color: var(--green);
+        }
+        .bi-step-phase {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            min-width: 70px;
+        }
+        .bi-step-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle">
+        <button class="active" onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('light')">Light</button>
+    </div>
+
+    <section class="diagram">
+        <div class="diagram-label">ReAct Pattern</div>
+        <h2>The ReAct Loop</h2>
+        <p class="diagram-subtitle">Think. Critique. Act. Observe. Repeat until the task is complete.</p>
+
+        <div class="react-flow">
+            <div class="react-step">
+                <div class="react-box hl">
+                    <div class="react-num">01</div>
+                    <div class="react-title">Think</div>
+                    <div class="react-desc">Reason about the task. Break it down. Plan the approach.</div>
+                </div>
+                <span class="react-arrow">&#9654;</span>
+            </div>
+            <div class="react-step">
+                <div class="react-box">
+                    <div class="react-num">02</div>
+                    <div class="react-title">Self-Critique</div>
+                    <div class="react-desc">Check assumptions. Am I sure? Do I need more info first?</div>
+                </div>
+                <span class="react-arrow">&#9654;</span>
+            </div>
+            <div class="react-step">
+                <div class="react-box">
+                    <div class="react-num">03</div>
+                    <div class="react-title">Act</div>
+                    <div class="react-desc">Call a tool. Run a query. Make a request. Do something concrete.</div>
+                </div>
+                <span class="react-arrow">&#9654;</span>
+            </div>
+            <div class="react-step">
+                <div class="react-box hl">
+                    <div class="react-num">04</div>
+                    <div class="react-title">Observe</div>
+                    <div class="react-desc">Read the result. Did it work? What did we learn? What's next?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="react-loop-label">
+            <div class="loop-icon">&#8634;</div>
+            <div class="loop-text">Loop until the task is complete — or the agent decides to ask for help</div>
+            <div class="loop-desc">The critical decision: act now with partial info, or ask a clarifying question first?</div>
+        </div>
+
+        <div class="bi-example">
+            <h3>BI Example: "Show me revenue by region"</h3>
+            <div class="bi-steps">
+                <div class="bi-step">
+                    <span class="bi-step-phase">Think</span>
+                    <span class="bi-step-text">"I need the sales fact table and the region dimension."</span>
+                </div>
+                <div class="bi-step">
+                    <span class="bi-step-phase">Critique</span>
+                    <span class="bi-step-text">"Wait — billing region or shipping region? The schema has both."</span>
+                </div>
+                <div class="bi-step">
+                    <span class="bi-step-phase">Act</span>
+                    <span class="bi-step-text">Ask the user: "Do you mean billing region or shipping region?"</span>
+                </div>
+                <div class="bi-step">
+                    <span class="bi-step-phase">Observe</span>
+                    <span class="bi-step-text">User says "billing region." Now I have what I need.</span>
+                </div>
+                <div class="bi-step">
+                    <span class="bi-step-phase">Act</span>
+                    <span class="bi-step-text">Execute: SELECT region, SUM(revenue) FROM sales JOIN regions ON billing_region_id...</span>
+                </div>
+                <div class="bi-step">
+                    <span class="bi-step-phase">Observe</span>
+                    <span class="bi-step-text">Results returned. 5 regions, totals look reasonable. Task complete.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function setTheme(theme) {
+            document.body.classList.toggle('light-mode', theme === 'light');
+            document.querySelectorAll('.theme-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === theme);
+            });
+        }
+    </script>
+
+</body>
+</html>

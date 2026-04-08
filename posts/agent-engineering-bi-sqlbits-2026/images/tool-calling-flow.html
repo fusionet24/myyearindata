@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool Calling Flow — Agent Engineering in BI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419;
+            --bg-elevated: #161b22;
+            --card-bg: #1a2027;
+            --text: #f0f6fc;
+            --text-muted: rgba(240, 246, 252, 0.55);
+            --text-secondary: rgba(240, 246, 252, 0.75);
+            --border: rgba(240, 246, 252, 0.08);
+            --border-strong: rgba(240, 246, 252, 0.15);
+            --green: #0aaa50;
+            --green-light: #0dcc60;
+            --green-pale: rgba(10, 170, 80, 0.12);
+            --green-glow: rgba(10, 170, 80, 0.06);
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --card-bg: #f3f6f5;
+            --text: #111827;
+            --text-muted: rgba(17, 24, 39, 0.45);
+            --text-secondary: rgba(17, 24, 39, 0.65);
+            --border: rgba(17, 24, 39, 0.08);
+            --border-strong: rgba(17, 24, 39, 0.15);
+            --green: #0aaa50;
+            --green-light: #08994a;
+            --green-pale: rgba(10, 170, 80, 0.08);
+            --green-glow: rgba(10, 170, 80, 0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .theme-toggle button {
+            padding: 10px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle button.active {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .diagram {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .diagram-label {
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+        .diagram h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .diagram .diagram-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* ═══════════════════════════════════════════
+           Flow — Tool Calling Pipeline
+           ═══════════════════════════════════════════ */
+        .tool-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-bottom: 32px;
+        }
+        .tool-step {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .tool-box {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-strong);
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .tool-box:hover {
+            border-color: var(--green);
+        }
+        .tool-num {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .tool-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .tool-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .tool-arrow {
+            color: var(--green);
+            font-size: 18px;
+            padding: 0 10px;
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+
+        /* Schema example */
+        .schema-section {
+            margin-bottom: 32px;
+        }
+        .schema-section h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        .schema-code {
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 10px;
+            padding: 20px 24px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            overflow-x: auto;
+        }
+        .schema-code .key { color: var(--green); }
+        .schema-code .str { color: var(--green-light); }
+        .schema-code .comment { color: var(--text-muted); font-style: italic; }
+
+        /* BI Tools grid */
+        .bi-tools {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .bi-tools h3 {
+            grid-column: 1 / -1;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .bi-tool-card {
+            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .bi-tool-card:hover {
+            border-color: var(--green);
+        }
+        .bi-tool-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .bi-tool-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .bi-tool-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle">
+        <button class="active" onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('light')">Light</button>
+    </div>
+
+    <section class="diagram">
+        <div class="diagram-label">Tool Calling</div>
+        <h2>How Agents Use Tools</h2>
+        <p class="diagram-subtitle">The LLM reads tool schemas from context, selects the right tool, fills in parameters, and validates results</p>
+
+        <div class="tool-flow">
+            <div class="tool-step">
+                <div class="tool-box">
+                    <div class="tool-num">01</div>
+                    <div class="tool-title">Discover</div>
+                    <div class="tool-desc">Read available tool schemas from the context window</div>
+                </div>
+                <span class="tool-arrow">&#9654;</span>
+            </div>
+            <div class="tool-step">
+                <div class="tool-box">
+                    <div class="tool-num">02</div>
+                    <div class="tool-title">Select</div>
+                    <div class="tool-desc">Pick the right tool for this step of the task</div>
+                </div>
+                <span class="tool-arrow">&#9654;</span>
+            </div>
+            <div class="tool-step">
+                <div class="tool-box">
+                    <div class="tool-num">03</div>
+                    <div class="tool-title">Parameterise</div>
+                    <div class="tool-desc">Fill in required arguments from conversation context</div>
+                </div>
+                <span class="tool-arrow">&#9654;</span>
+            </div>
+            <div class="tool-step">
+                <div class="tool-box">
+                    <div class="tool-num">04</div>
+                    <div class="tool-title">Invoke</div>
+                    <div class="tool-desc">Execute the tool call and wait for results</div>
+                </div>
+                <span class="tool-arrow">&#9654;</span>
+            </div>
+            <div class="tool-step">
+                <div class="tool-box">
+                    <div class="tool-num">05</div>
+                    <div class="tool-title">Validate</div>
+                    <div class="tool-desc">Check the result — retry or proceed to next step</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="schema-section">
+            <h3>A Tool Schema Is a Contract</h3>
+            <pre class="schema-code">{
+  <span class="key">"name"</span>: <span class="str">"query_semantic_model"</span>,
+  <span class="key">"description"</span>: <span class="str">"Execute a DAX query against the Power BI semantic model"</span>,
+  <span class="key">"parameters"</span>: {
+    <span class="key">"model_name"</span>: { <span class="key">"type"</span>: <span class="str">"string"</span>, <span class="key">"description"</span>: <span class="str">"Name of the semantic model"</span> },
+    <span class="key">"dax_query"</span>:   { <span class="key">"type"</span>: <span class="str">"string"</span>, <span class="key">"description"</span>: <span class="str">"Valid DAX query to execute"</span> },
+    <span class="key">"max_rows"</span>:    { <span class="key">"type"</span>: <span class="str">"integer"</span>, <span class="key">"description"</span>: <span class="str">"Maximum rows to return (default 1000)"</span> }
+  }
+}
+<span class="comment">// Better descriptions = better tool selection = better results. This is context engineering again.</span></pre>
+        </div>
+
+        <div class="bi-tools">
+            <h3>BI-Specific Agent Tools</h3>
+            <div class="bi-tool-card">
+                <div class="bi-tool-icon">&#128269;</div>
+                <div class="bi-tool-name">Query Engine</div>
+                <div class="bi-tool-desc">Execute DAX / SQL against semantic models and warehouses</div>
+            </div>
+            <div class="bi-tool-card">
+                <div class="bi-tool-icon">&#128450;</div>
+                <div class="bi-tool-name">Schema Explorer</div>
+                <div class="bi-tool-desc">Browse tables, columns, relationships, and measures</div>
+            </div>
+            <div class="bi-tool-card">
+                <div class="bi-tool-icon">&#128202;</div>
+                <div class="bi-tool-name">Dashboard API</div>
+                <div class="bi-tool-desc">Read visuals, get filter states, trigger refreshes</div>
+            </div>
+            <div class="bi-tool-card">
+                <div class="bi-tool-icon">&#128200;</div>
+                <div class="bi-tool-name">Data Profiler</div>
+                <div class="bi-tool-desc">Sample data, check distributions, spot anomalies</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function setTheme(theme) {
+            document.body.classList.toggle('light-mode', theme === 'light');
+            document.querySelectorAll('.theme-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === theme);
+            });
+        }
+    </script>
+
+</body>
+</html>
