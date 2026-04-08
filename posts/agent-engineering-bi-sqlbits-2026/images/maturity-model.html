@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Maturity Model — Agent Engineering in BI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419;
+            --bg-elevated: #161b22;
+            --card-bg: #1a2027;
+            --text: #f0f6fc;
+            --text-muted: rgba(240, 246, 252, 0.55);
+            --text-secondary: rgba(240, 246, 252, 0.75);
+            --border: rgba(240, 246, 252, 0.08);
+            --border-strong: rgba(240, 246, 252, 0.15);
+            --green: #0aaa50;
+            --green-light: #0dcc60;
+            --green-pale: rgba(10, 170, 80, 0.12);
+            --green-glow: rgba(10, 170, 80, 0.06);
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --card-bg: #f3f6f5;
+            --text: #111827;
+            --text-muted: rgba(17, 24, 39, 0.45);
+            --text-secondary: rgba(17, 24, 39, 0.65);
+            --border: rgba(17, 24, 39, 0.08);
+            --border-strong: rgba(17, 24, 39, 0.15);
+            --green: #0aaa50;
+            --green-light: #08994a;
+            --green-pale: rgba(10, 170, 80, 0.08);
+            --green-glow: rgba(10, 170, 80, 0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .theme-toggle button {
+            padding: 10px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle button.active {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .diagram {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .diagram-label {
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+        .diagram h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .diagram .diagram-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* ═══════════════════════════════════════════
+           Staircase — Agent Maturity Model
+           ═══════════════════════════════════════════ */
+        .staircase {
+            display: flex;
+            align-items: flex-end;
+            gap: 0;
+            min-height: 360px;
+            margin-bottom: 24px;
+        }
+        .stair-step {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 24px 28px;
+            border: 1.5px solid var(--border-strong);
+            border-radius: 12px 12px 0 0;
+            text-align: left;
+            transition: border-color 0.2s;
+        }
+        .stair-step:hover {
+            border-color: var(--green);
+        }
+        .stair-s1 {
+            flex: 4;
+            min-height: 100px;
+            background: var(--green-pale);
+            border-color: var(--green);
+        }
+        .stair-s2 {
+            flex: 3;
+            min-height: 220px;
+            background: var(--card-bg);
+        }
+        .stair-s3 {
+            flex: 2.5;
+            min-height: 340px;
+            background: var(--green-glow);
+            border-color: var(--green);
+        }
+        .stair-num {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+        .stair-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        .stair-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .stair-examples {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .stair-examples li {
+            font-size: 10px;
+            color: var(--text-secondary);
+            padding: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stair-examples li::before {
+            content: '›';
+            color: var(--green);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Arrow label */
+        .arrow-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        .arrow-label span {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .arrow-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--green));
+        }
+
+        /* Gradient bars */
+        .grad-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .grad-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .grad-bar-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+            min-width: 140px;
+            text-align: right;
+        }
+        .grad-bar-track {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+        }
+        .grad-value {
+            background: linear-gradient(to right, rgba(10,170,80,0.2), var(--green));
+        }
+        .grad-complexity {
+            background: linear-gradient(to right, rgba(107,114,128,0.15), var(--text-muted));
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle">
+        <button class="active" onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('light')">Light</button>
+    </div>
+
+    <section class="diagram">
+        <div class="diagram-label">Maturity Model</div>
+        <h2>The Agent Maturity Model</h2>
+        <p class="diagram-subtitle">Three levels of agent capability — most organisations should master Level 1 before chasing Level 3</p>
+
+        <div class="staircase">
+            <div class="stair-step stair-s1">
+                <div class="stair-num">Level 1 — Foundation</div>
+                <div class="stair-title">Single Agent Workflows</div>
+                <div class="stair-desc">One agent, one task, deterministic flow. The essential starting point.</div>
+                <ul class="stair-examples">
+                    <li>Chat-with-your-data assistants</li>
+                    <li>SQL generation copilots</li>
+                    <li>Data quality checks</li>
+                    <li>Report Q&amp;A bots</li>
+                </ul>
+            </div>
+            <div class="stair-step stair-s2">
+                <div class="stair-num">Level 2 — Orchestration</div>
+                <div class="stair-title">Sub-Agent Patterns</div>
+                <div class="stair-desc">Specialised agents handling decomposed tasks. A supervisor delegates to workers.</div>
+                <ul class="stair-examples">
+                    <li>Supervisor decomposes analysis tasks</li>
+                    <li>Specialist agents for data, trends, quality</li>
+                    <li>Result synthesis into executive summaries</li>
+                    <li>Multi-step pipeline orchestration</li>
+                </ul>
+            </div>
+            <div class="stair-step stair-s3">
+                <div class="stair-num">Level 3 — Autonomy</div>
+                <div class="stair-title">Agent Swarms</div>
+                <div class="stair-desc">Agent-to-agent communication. Self-directed task allocation. Collaborative capability building.</div>
+                <ul class="stair-examples">
+                    <li>Monitoring swarms watching every pipeline</li>
+                    <li>Proactive insight surfacing</li>
+                    <li>Self-healing data quality</li>
+                    <li>Autonomous report generation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="arrow-label">
+            <span>Increasing autonomy, complexity, and value</span>
+            <div class="arrow-line"></div>
+            <span style="color:var(--green);">&#9650;</span>
+        </div>
+
+        <div class="grad-bars">
+            <div class="grad-bar">
+                <span class="grad-bar-label">Increasing Value</span>
+                <div class="grad-bar-track grad-value"></div>
+            </div>
+            <div class="grad-bar">
+                <span class="grad-bar-label">Increasing Complexity</span>
+                <div class="grad-bar-track grad-complexity"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function setTheme(theme) {
+            document.body.classList.toggle('light-mode', theme === 'light');
+            document.querySelectorAll('.theme-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === theme);
+            });
+        }
+    </script>
+
+</body>
+</html>
