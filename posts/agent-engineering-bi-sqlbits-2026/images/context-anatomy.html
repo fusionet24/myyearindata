@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Anatomy of Context — Agent Engineering in BI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419;
+            --bg-elevated: #161b22;
+            --card-bg: #1a2027;
+            --text: #f0f6fc;
+            --text-muted: rgba(240, 246, 252, 0.55);
+            --text-secondary: rgba(240, 246, 252, 0.75);
+            --border: rgba(240, 246, 252, 0.08);
+            --border-strong: rgba(240, 246, 252, 0.15);
+            --green: #0aaa50;
+            --green-light: #0dcc60;
+            --green-pale: rgba(10, 170, 80, 0.12);
+            --green-glow: rgba(10, 170, 80, 0.06);
+            --red: #ef4444;
+            --orange: #f59e0b;
+            --grey: #6b7280;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --card-bg: #f3f6f5;
+            --text: #111827;
+            --text-muted: rgba(17, 24, 39, 0.45);
+            --text-secondary: rgba(17, 24, 39, 0.65);
+            --border: rgba(17, 24, 39, 0.08);
+            --border-strong: rgba(17, 24, 39, 0.15);
+            --green: #0aaa50;
+            --green-light: #08994a;
+            --green-pale: rgba(10, 170, 80, 0.08);
+            --green-glow: rgba(10, 170, 80, 0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .theme-toggle button {
+            padding: 10px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle button.active {
+            background: var(--green);
+            color: #fff;
+        }
+
+        /* Diagram container */
+        .diagram {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .diagram-label {
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+        .diagram h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .diagram .diagram-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* ═══════════════════════════════════════════
+           Nested Layers — Context Anatomy
+           ═══════════════════════════════════════════ */
+        .ctx-nest {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .ctx-layer {
+            border: 1.5px solid var(--border-strong);
+            border-radius: 14px;
+            padding: 24px;
+            width: 100%;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .ctx-layer-outer {
+            border-color: var(--green);
+            background: var(--green-glow);
+        }
+        .ctx-children {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .ctx-child {
+            flex: 1;
+            border: 1.5px solid var(--border-strong);
+            border-radius: 10px;
+            padding: 20px;
+            background: var(--card-bg);
+            transition: border-color 0.2s;
+        }
+        .ctx-child:hover {
+            border-color: var(--green);
+        }
+        .ctx-inner {
+            border: 1.5px solid var(--green);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 16px;
+            background: var(--green-pale);
+        }
+        .ctx-tag {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+        .ctx-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .ctx-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Cross-cutting bars */
+        .cross-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+            margin-top: 24px;
+        }
+        .cross-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: border-color 0.2s;
+        }
+        .cross-bar:hover {
+            border-color: var(--green);
+        }
+        .cross-bar-icon {
+            font-size: 14px;
+            color: var(--green);
+        }
+        .cross-bar-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle">
+        <button class="active" onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('light')">Light</button>
+    </div>
+
+    <section class="diagram">
+        <div class="diagram-label">Context Engineering</div>
+        <h2>The Anatomy of Context</h2>
+        <p class="diagram-subtitle">What the LLM actually sees — your message is just the tip of the iceberg</p>
+
+        <div class="ctx-nest">
+            <div class="ctx-layer ctx-layer-outer">
+                <div class="ctx-tag">The Full Context Window</div>
+                <div class="ctx-title">Everything the LLM Actually Sees</div>
+                <div class="ctx-desc">This is the real "prompt" — not just what you typed</div>
+
+                <!-- Row 1: Three children -->
+                <div class="ctx-children">
+                    <div class="ctx-child">
+                        <div class="ctx-tag">Layer 1</div>
+                        <div class="ctx-title">System Instructions</div>
+                        <div class="ctx-desc">Persona, rules, constraints, output format, guardrails</div>
+                    </div>
+                    <div class="ctx-child">
+                        <div class="ctx-tag">Layer 2</div>
+                        <div class="ctx-title">Tool Schemas</div>
+                        <div class="ctx-desc">Available tools, parameter types, descriptions, return shapes</div>
+                    </div>
+                    <div class="ctx-child">
+                        <div class="ctx-tag">Layer 3</div>
+                        <div class="ctx-title">Memory &amp; State</div>
+                        <div class="ctx-desc">Prior sessions, user preferences, persistent facts</div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Two children -->
+                <div class="ctx-children">
+                    <div class="ctx-child">
+                        <div class="ctx-tag">Layer 4</div>
+                        <div class="ctx-title">Conversation History</div>
+                        <div class="ctx-desc">Every prior turn in the current session — grows over time</div>
+                    </div>
+                    <div class="ctx-child">
+                        <div class="ctx-tag">Layer 5</div>
+                        <div class="ctx-title">Retrieved Context</div>
+                        <div class="ctx-desc">RAG results, file contents, search results, API responses</div>
+                    </div>
+                </div>
+
+                <!-- Inner core -->
+                <div class="ctx-inner">
+                    <div class="ctx-tag">What you actually typed</div>
+                    <div class="ctx-title">Your User Message</div>
+                    <div class="ctx-desc">"Show me last quarter's revenue by region"</div>
+                </div>
+            </div>
+
+            <!-- Cross-cutting concerns -->
+            <div class="cross-bars">
+                <div class="cross-bar">
+                    <span class="cross-bar-icon">&#9670;</span>
+                    <span class="cross-bar-text">Token Budget Management — the context window has hard limits (128K / 200K / 1M tokens)</span>
+                </div>
+                <div class="cross-bar">
+                    <span class="cross-bar-icon">&#9670;</span>
+                    <span class="cross-bar-text">Progressive Compaction — summarise old turns to keep the window from overflowing</span>
+                </div>
+                <div class="cross-bar">
+                    <span class="cross-bar-icon">&#9670;</span>
+                    <span class="cross-bar-text">Context Priority Ranking — system instructions and recent turns get highest priority</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function setTheme(theme) {
+            document.body.classList.toggle('light-mode', theme === 'light');
+            document.querySelectorAll('.theme-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === theme);
+            });
+        }
+    </script>
+
+</body>
+</html>

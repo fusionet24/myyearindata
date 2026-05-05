@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Harness Architecture — Agent Engineering in BI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419;
+            --bg-elevated: #161b22;
+            --card-bg: #1a2027;
+            --text: #f0f6fc;
+            --text-muted: rgba(240, 246, 252, 0.55);
+            --text-secondary: rgba(240, 246, 252, 0.75);
+            --border: rgba(240, 246, 252, 0.08);
+            --border-strong: rgba(240, 246, 252, 0.15);
+            --green: #0aaa50;
+            --green-light: #0dcc60;
+            --green-pale: rgba(10, 170, 80, 0.12);
+            --green-glow: rgba(10, 170, 80, 0.06);
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --card-bg: #f3f6f5;
+            --text: #111827;
+            --text-muted: rgba(17, 24, 39, 0.45);
+            --text-secondary: rgba(17, 24, 39, 0.65);
+            --border: rgba(17, 24, 39, 0.08);
+            --border-strong: rgba(17, 24, 39, 0.15);
+            --green: #0aaa50;
+            --green-light: #08994a;
+            --green-pale: rgba(10, 170, 80, 0.08);
+            --green-glow: rgba(10, 170, 80, 0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .theme-toggle button {
+            padding: 10px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle button.active {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .diagram {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .diagram-label {
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+        .diagram h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .diagram .diagram-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* ═══════════════════════════════════════════
+           Nested Layers — Harness Architecture
+           ═══════════════════════════════════════════ */
+        .h-nest {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .h-layer {
+            border: 1.5px solid var(--border-strong);
+            border-radius: 14px;
+            padding: 24px;
+            width: 100%;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .h-layer-outer {
+            border-color: var(--green);
+            background: var(--green-glow);
+        }
+        .h-children {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .h-child {
+            flex: 1;
+            border: 1.5px solid var(--border-strong);
+            border-radius: 10px;
+            padding: 20px;
+            background: var(--card-bg);
+            transition: border-color 0.2s;
+        }
+        .h-child:hover {
+            border-color: var(--green);
+        }
+        .h-inner {
+            border: 1.5px solid var(--green);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 16px;
+            background: var(--green-pale);
+        }
+        .h-tag {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+        .h-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .h-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Cross-cutting bars */
+        .h-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+            margin-top: 24px;
+        }
+        .h-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: border-color 0.2s;
+        }
+        .h-bar:hover {
+            border-color: var(--green);
+        }
+        .h-bar-icon {
+            font-size: 14px;
+            color: var(--green);
+        }
+        .h-bar-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle">
+        <button class="active" onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('light')">Light</button>
+    </div>
+
+    <section class="diagram">
+        <div class="diagram-label">Agent Architecture</div>
+        <h2>The Agent Harness</h2>
+        <p class="diagram-subtitle">The scaffolding around the LLM that manages tool execution, context, state, and safety</p>
+
+        <div class="h-nest">
+            <div class="h-layer h-layer-outer">
+                <div class="h-tag">The Agent Harness</div>
+                <div class="h-title">Orchestration &amp; Safety Layer</div>
+                <div class="h-desc">Everything that wraps around the LLM to make it usable and safe</div>
+
+                <div class="h-children">
+                    <div class="h-child">
+                        <div class="h-tag">Context Management</div>
+                        <div class="h-title">Message History</div>
+                        <div class="h-desc">Conversation tracking, progressive compaction, token budgets</div>
+                    </div>
+                    <div class="h-child">
+                        <div class="h-tag">Execution Engine</div>
+                        <div class="h-title">Tool Runtime</div>
+                        <div class="h-desc">Dispatches tool calls, handles errors, retries, timeouts</div>
+                    </div>
+                    <div class="h-child">
+                        <div class="h-tag">Safety Controls</div>
+                        <div class="h-title">Guardrails</div>
+                        <div class="h-desc">Approval gates, iteration caps, doom loop detection, sandboxing</div>
+                    </div>
+                </div>
+
+                <div class="h-children">
+                    <div class="h-child">
+                        <div class="h-tag">Skills Layer</div>
+                        <div class="h-title">Domain Knowledge</div>
+                        <div class="h-desc">Bundled tools + instructions for specific tasks</div>
+                    </div>
+                    <div class="h-child">
+                        <div class="h-tag">State Management</div>
+                        <div class="h-title">Session &amp; Memory</div>
+                        <div class="h-desc">Persistent state, user preferences, session recovery</div>
+                    </div>
+                </div>
+
+                <div class="h-inner">
+                    <div class="h-tag">The Core</div>
+                    <div class="h-title">LLM (Claude / GPT / Gemini)</div>
+                    <div class="h-desc">The model itself — powerful, but just one piece of the puzzle</div>
+                </div>
+            </div>
+
+            <div class="h-bars">
+                <div class="h-bar">
+                    <span class="h-bar-icon">&#9670;</span>
+                    <span class="h-bar-text">Hooks Layer — pre-call and post-call interception for policy enforcement</span>
+                </div>
+                <div class="h-bar">
+                    <span class="h-bar-icon">&#9670;</span>
+                    <span class="h-bar-text">Observability — structured logging, distributed tracing, cost tracking per session</span>
+                </div>
+                <div class="h-bar">
+                    <span class="h-bar-icon">&#9670;</span>
+                    <span class="h-bar-text">Authentication &amp; Authorisation — user identity, row-level security, permission scoping</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function setTheme(theme) {
+            document.body.classList.toggle('light-mode', theme === 'light');
+            document.querySelectorAll('.theme-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === theme);
+            });
+        }
+    </script>
+
+</body>
+</html>

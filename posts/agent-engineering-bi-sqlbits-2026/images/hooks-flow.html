@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hooks &amp; Security — Agent Engineering in BI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0f1419;
+            --bg-elevated: #161b22;
+            --card-bg: #1a2027;
+            --text: #f0f6fc;
+            --text-muted: rgba(240, 246, 252, 0.55);
+            --text-secondary: rgba(240, 246, 252, 0.75);
+            --border: rgba(240, 246, 252, 0.08);
+            --border-strong: rgba(240, 246, 252, 0.15);
+            --green: #0aaa50;
+            --green-light: #0dcc60;
+            --green-pale: rgba(10, 170, 80, 0.12);
+            --green-glow: rgba(10, 170, 80, 0.06);
+            --red: #ef4444;
+            --orange: #f59e0b;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .light-mode {
+            --bg: #ffffff;
+            --bg-elevated: #f9fafb;
+            --card-bg: #f3f6f5;
+            --text: #111827;
+            --text-muted: rgba(17, 24, 39, 0.45);
+            --text-secondary: rgba(17, 24, 39, 0.65);
+            --border: rgba(17, 24, 39, 0.08);
+            --border-strong: rgba(17, 24, 39, 0.15);
+            --green: #0aaa50;
+            --green-light: #08994a;
+            --green-pale: rgba(10, 170, 80, 0.08);
+            --green-glow: rgba(10, 170, 80, 0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .theme-toggle button {
+            padding: 10px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-toggle button.active {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .diagram {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 60px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .diagram-label {
+            position: absolute;
+            top: -12px;
+            left: 30px;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+        .diagram h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .diagram .diagram-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* ═══════════════════════════════════════════
+           Hooks Flow Diagram
+           ═══════════════════════════════════════════ */
+        .hook-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-bottom: 32px;
+        }
+        .hook-step {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .hook-box {
+            flex: 1;
+            border: 1.5px solid var(--border-strong);
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: border-color 0.2s;
+            background: var(--card-bg);
+        }
+        .hook-box:hover {
+            border-color: var(--green);
+        }
+        .hook-box.pre {
+            border-color: var(--orange);
+            background: rgba(245, 158, 11, 0.06);
+        }
+        .hook-box.post {
+            border-color: var(--green);
+            background: var(--green-glow);
+        }
+        .hook-box.core {
+            flex: 1.2;
+        }
+        .hook-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .hook-tag.pre { color: var(--orange); }
+        .hook-tag.post { color: var(--green); }
+        .hook-tag.core { color: var(--text-muted); }
+        .hook-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .hook-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .hook-arrow {
+            color: var(--green);
+            font-size: 18px;
+            padding: 0 12px;
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+
+        /* Pattern cards */
+        .patterns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .patterns h3 {
+            grid-column: 1 / -1;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .pattern-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: border-color 0.2s;
+        }
+        .pattern-card:hover {
+            border-color: var(--green);
+        }
+        .pattern-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .pattern-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+        .pattern-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle">
+        <button class="active" onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('light')">Light</button>
+    </div>
+
+    <section class="diagram">
+        <div class="diagram-label">Security</div>
+        <h2>Pre-call &amp; Post-call Hooks</h2>
+        <p class="diagram-subtitle">Intercept agent actions before and after execution — policy enforcement outside the model's control</p>
+
+        <div class="hook-flow">
+            <div class="hook-step">
+                <div class="hook-box pre">
+                    <div class="hook-tag pre">Pre-Call Hook</div>
+                    <div class="hook-title">Intercept &amp; Validate</div>
+                    <div class="hook-desc">Block PII in queries. Validate parameters. Enforce read-only access. Check user permissions.</div>
+                </div>
+                <span class="hook-arrow">&#9654;</span>
+            </div>
+            <div class="hook-step">
+                <div class="hook-box core">
+                    <div class="hook-tag core">Tool Execution</div>
+                    <div class="hook-title">Agent Calls Tool</div>
+                    <div class="hook-desc">query_semantic_model("SELECT customer_name, revenue FROM sales WHERE region = 'EMEA'")</div>
+                </div>
+                <span class="hook-arrow">&#9654;</span>
+            </div>
+            <div class="hook-step">
+                <div class="hook-box post">
+                    <div class="hook-tag post">Post-Call Hook</div>
+                    <div class="hook-title">Sanitise &amp; Log</div>
+                    <div class="hook-desc">Mask sensitive fields in output. Validate result shape. Log call + result for audit trail.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="patterns">
+            <h3>Real-World Hook Patterns</h3>
+            <div class="pattern-card">
+                <span class="pattern-icon">&#128683;</span>
+                <div>
+                    <div class="pattern-title">PII Blocking</div>
+                    <div class="pattern-desc">Pre-hook scans DAX/SQL for customer names, emails, or personal identifiers and blocks execution</div>
+                </div>
+            </div>
+            <div class="pattern-card">
+                <span class="pattern-icon">&#128274;</span>
+                <div>
+                    <div class="pattern-title">Read-Only Enforcement</div>
+                    <div class="pattern-desc">Pre-hook rejects any query containing INSERT, UPDATE, DELETE, or DROP statements</div>
+                </div>
+            </div>
+            <div class="pattern-card">
+                <span class="pattern-icon">&#128101;</span>
+                <div>
+                    <div class="pattern-title">Row-Level Security</div>
+                    <div class="pattern-desc">Pre-hook injects WHERE clauses based on the authenticated user's security context</div>
+                </div>
+            </div>
+            <div class="pattern-card">
+                <span class="pattern-icon">&#128203;</span>
+                <div>
+                    <div class="pattern-title">Audit Logging</div>
+                    <div class="pattern-desc">Post-hook records every tool call — parameters, results, who triggered it, and when</div>
+                </div>
+            </div>
+            <div class="pattern-card">
+                <span class="pattern-icon">&#9888;</span>
+                <div>
+                    <div class="pattern-title">Output Sanitisation</div>
+                    <div class="pattern-desc">Post-hook masks credit card numbers, national IDs, and sensitive data in results</div>
+                </div>
+            </div>
+            <div class="pattern-card">
+                <span class="pattern-icon">&#128736;</span>
+                <div>
+                    <div class="pattern-title">Cost Controls</div>
+                    <div class="pattern-desc">Pre-hook enforces query complexity limits and token budgets per session</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function setTheme(theme) {
+            document.body.classList.toggle('light-mode', theme === 'light');
+            document.querySelectorAll('.theme-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === theme);
+            });
+        }
+    </script>
+
+</body>
+</html>

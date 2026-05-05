@@ -33,6 +33,11 @@
       "route": "/s/Branding-Skills",
       "redirect": "/posts/agentic-branding-skills/",
       "statusCode": 301
+    },
+    {
+      "route": "/s/SQLBits2026",
+      "redirect": "/posts/sqlbits-2026-recap/",
+      "statusCode": 301
     }
   ]
 }
