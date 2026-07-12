@@ -9,6 +9,8 @@ on:
     types: [closed]
     branches:
       - main
+  schedule:
+    - cron: '0 19 * * 0'
 
 jobs:
   render_site:
@@ -38,7 +40,7 @@ jobs:
   
   deploy_to_azure_static_webapp:
     needs: render_site
-    if: success() && github.event.ref == 'refs/heads/main'
+    if: success() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     name: Deploy to Azure App Service
     steps:
